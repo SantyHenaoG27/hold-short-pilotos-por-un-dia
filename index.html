@@ -43,6 +43,8 @@ html,body{margin:0;padding:0;background:#0A0A0A}
 @keyframes hs-fadeup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes hs-xfade{0%{opacity:0}4%{opacity:1}22%{opacity:1}26%{opacity:0}100%{opacity:0}}
 @keyframes hs-scan{0%{transform:translateY(-100%)}100%{transform:translateY(2400%)}}
+@keyframes hs-tapHint{0%,100%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(2px,-6px) rotate(-12deg)}}
+@keyframes hs-force{0%,100%{opacity:.45;transform:scale(.94)}50%{opacity:1;transform:scale(1.08)}}
 [data-rev]{opacity:0;transform:translateY(34px);transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1)}
 [data-rev="in"]{opacity:1;transform:none}
 [data-anim="cl-a"]{animation:hs-centerline 3.4s linear infinite}
@@ -68,6 +70,11 @@ html,body{margin:0;padding:0;background:#0A0A0A}
 [data-anim="stream"]{animation:hs-stream 2.2s linear infinite}
 [data-anim="stream2"]{animation:hs-stream 1.4s linear infinite}
 [data-anim="ticket"]{animation:hs-ticket .7s cubic-bezier(.2,.8,.2,1) both}
+[data-anim="tapHint"]{animation:hs-tapHint 1.1s ease-in-out infinite}
+[data-anim="force0"]{animation:hs-force 2.6s ease-in-out infinite}
+[data-anim="force1"]{animation:hs-force 2.6s ease-in-out -0.65s infinite}
+[data-anim="force2"]{animation:hs-force 2.6s ease-in-out -1.3s infinite}
+[data-anim="force3"]{animation:hs-force 2.6s ease-in-out -1.95s infinite}
 [data-i="asi"]{transform-origin:60px 60px;animation:hs-asi 7s ease-in-out infinite}
 [data-i="vsi"]{transform-origin:60px 60px;animation:hs-vsi 5.5s ease-in-out infinite}
 [data-i="altB"]{transform-origin:60px 60px;animation:hs-altBig 6s linear infinite}
@@ -97,13 +104,17 @@ html,body{margin:0;padding:0;background:#0A0A0A}
     </a>
     <div style="display:flex;align-items:center;gap:28px">
       <div style="display:none;align-items:center;gap:26px" data-desk="1">
-        <a href="#que-es" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">Experiencia</a>
-        <a href="#fases" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">Qué aprenderás</a>
-        <a href="#vuelo" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">Tu vuelo</a>
-        <a href="#paquetes" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">Paquetes</a>
-        <a href="#reservar" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">Reservar</a>
+        <a href="#que-es" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.experiencia }}</a>
+        <a href="#fases" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.queAprenderas }}</a>
+        <a href="#vuelo" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.tuVuelo }}</a>
+        <a href="#paquetes" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.paquetes }}</a>
+        <a href="#reservar" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.reservar }}</a>
       </div>
-      <a href="{{ waGeneral }}" target="_blank" style="display:none;align-items:center;gap:7px;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:13px;padding:10px 18px;border-radius:3px;letter-spacing:.02em" data-desk="1" style-hover="background:#FFD740;transform:translateY(-1px)">Quiero volar →</a>
+      <div style="display:flex;align-items:center" aria-label="Language toggle">
+        <button onClick="{{ setLangEs }}" style="{{ langEsStyle }}">ES</button>
+        <button onClick="{{ setLangEn }}" style="{{ langEnStyle }}">EN</button>
+      </div>
+      <a href="{{ waGeneral }}" target="_blank" style="display:none;align-items:center;gap:7px;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:13px;padding:10px 18px;border-radius:3px;letter-spacing:.02em" data-desk="1" style-hover="background:#FFD740;transform:translateY(-1px)">{{ t.nav.quieroVolar }}</a>
       <button onClick="{{ toggleMenu }}" aria-label="Menú" style="display:flex;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:6px" data-mob="1">
         <span style="display:block;width:24px;height:2px;background:#F5C400"></span>
         <span style="display:block;width:24px;height:2px;background:#F5C400"></span>
@@ -115,11 +126,11 @@ html,body{margin:0;padding:0;background:#0A0A0A}
   <div style="{{ mobilePanelStyle }}">
     <div style="display:flex;flex-direction:column;gap:4px;padding:90px 28px 28px">
       <div style="font-family:'JetBrains Mono',monospace;color:#8A9BB5;font-size:10px;letter-spacing:.18em;margin-bottom:14px">// INSTRUMENT PANEL</div>
-      <a href="#que-es" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">Experiencia</a>
-      <a href="#fases" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">Qué aprenderás</a>
-      <a href="#vuelo" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">Tu vuelo</a>
-      <a href="#paquetes" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">Paquetes</a>
-      <a href="{{ waGeneral }}" target="_blank" onClick="{{ closeMenu }}" style="margin-top:18px;text-align:center;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:16px;padding:15px;border-radius:3px">Quiero volar →</a>
+      <a href="#que-es" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.experiencia }}</a>
+      <a href="#fases" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.queAprenderas }}</a>
+      <a href="#vuelo" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.tuVuelo }}</a>
+      <a href="#paquetes" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.paquetes }}</a>
+      <a href="{{ waGeneral }}" target="_blank" onClick="{{ closeMenu }}" style="margin-top:18px;text-align:center;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:16px;padding:15px;border-radius:3px">{{ t.nav.quieroVolar }}</a>
     </div>
   </div>
 
@@ -146,25 +157,25 @@ html,body{margin:0;padding:0;background:#0A0A0A}
         <div style="height:5px;width:min(440px,72vw);margin-top:6px;background:repeating-linear-gradient(90deg,#F5C400 0 22px,transparent 22px 44px);opacity:.7" data-anim="runway"></div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:#8A9BB5;margin-top:16px;min-height:16px"><span ref="{{ taglineRef }}"></span><span style="color:#F5C400" data-anim="caret">_</span></div>
 
-        <h1 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(30px,5.4vw,62px);line-height:1.06;margin:30px 0 0;letter-spacing:-.01em;text-wrap:balance">¿Y si hoy fuera el día en que descubres<br/>que <span style="color:#F5C400">naciste para volar</span>?</h1>
-        <p style="font-size:clamp(15px,2vw,18px);color:#C8CDD6;max-width:560px;margin:20px auto 0;line-height:1.6">No necesitas experiencia. No necesitas licencia. Solo necesitas atreverte a sentarte en la cabina.</p>
+        <h1 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(30px,5.4vw,62px);line-height:1.06;margin:30px 0 0;letter-spacing:-.01em;text-wrap:balance">{{ t.hero.titlePre }}<br/>{{ t.hero.titleMid }}<span style="color:#F5C400">{{ t.hero.titleHighlight }}</span>{{ t.hero.titleEnd }}</h1>
+        <p style="font-size:clamp(15px,2vw,18px);color:#C8CDD6;max-width:560px;margin:20px auto 0;line-height:1.6">{{ t.hero.subtitle }}</p>
 
-        <a href="{{ waGeneral }}" target="_blank" style="margin-top:36px;display:inline-flex;align-items:center;gap:9px;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:clamp(15px,2vw,18px);padding:16px 30px;border-radius:4px;letter-spacing:.01em" data-anim="cta" style-hover="background:#FFD740">Quiero ser piloto hoy →</a>
-        <a href="#que-es" style="margin-top:22px;color:#8A9BB5;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em">conocer la experiencia ↓</a>
+        <a href="{{ waGeneral }}" target="_blank" style="margin-top:36px;display:inline-flex;align-items:center;gap:9px;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:clamp(15px,2vw,18px);padding:16px 30px;border-radius:4px;letter-spacing:.01em" data-anim="cta" style-hover="background:#FFD740">{{ t.hero.cta }}</a>
+        <a href="#que-es" style="margin-top:22px;color:#8A9BB5;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em">{{ t.hero.conocer }}</a>
       </div>
     </section>
 
     <section id="que-es" style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);border-top:1px solid rgba(255,255,255,.05)">
       <div style="max-width:1080px;margin:0 auto">
         <div data-rev="y" style="max-width:680px">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">// Bienvenido a bordo</span>
-          <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0;letter-spacing:-.01em">Primero, bienvenido a Hold Short.</h2>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.queEs.badge }}</span>
+          <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0;letter-spacing:-.01em">{{ t.queEs.h2 }}</h2>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(28px,5vw,64px);align-items:center;margin-top:40px">
           <div data-rev="y" style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#C8CDD6">
-            <p style="margin:0 0 18px">En aviación, <strong style="color:#F0F0F0">“Hold Short”</strong> es la instrucción que recibe un piloto antes de cruzar la pista activa. El momento de máxima preparación antes de la acción.</p>
-            <p style="margin:0 0 18px">Eso somos nosotros: el lugar donde los pilotos se fortalecen antes de volar la línea. Aquí entrenamos toma de decisiones bajo presión, manejo del estrés en cabina, comunicación efectiva y trabajo en equipo.</p>
-            <p style="margin:0;color:#F5C400;font-weight:600">Hoy tú vas a empezar a desarrollarlas también.</p>
+            <p style="margin:0 0 18px">{{ t.queEs.p1Pre }}<strong style="color:#F0F0F0">“Hold Short”</strong>{{ t.queEs.p1Post }}</p>
+            <p style="margin:0 0 18px">{{ t.queEs.p2 }}</p>
+            <p style="margin:0;color:#F5C400;font-weight:600">{{ t.queEs.p3 }}</p>
           </div>
           <div data-rev="y" style="position:relative;background:linear-gradient(160deg,#16160f,#0a0a08);border:1px solid rgba(245,196,0,.16);border-radius:8px;padding:clamp(26px,4vw,42px) 26px 30px;overflow:hidden">
             <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(125deg,rgba(255,255,255,.02) 0 2px,transparent 2px 9px)"></div>
@@ -190,13 +201,13 @@ html,body{margin:0;padding:0;background:#0A0A0A}
     <section style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);background:#070707;border-top:1px solid rgba(255,255,255,.05)">
       <div style="max-width:1080px;margin:0 auto">
         <div data-rev="y" style="max-width:680px;margin-bottom:38px">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">// Paseo por los simuladores</span>
-          <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0 0 18px;letter-spacing:-.01em">Antes de volar, conoce tu cabina.</h2>
-          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#C8CDD6;margin:0">Cuando llegas, lo primero es recorrer nuestros simuladores. Verás las cabinas del <strong style="color:#F0F0F0">A320</strong> y el <strong style="color:#F0F0F0">King Air B200</strong> — los mismos equipos de los pilotos profesionales. Sentirás el cockpit, los instrumentos encendidos. Entenderás por primera vez por qué esta profesión engancha para siempre.</p>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.sims.badge }}</span>
+          <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0 0 18px;letter-spacing:-.01em">{{ t.sims.h2 }}</h2>
+          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#C8CDD6;margin:0">{{ t.sims.pPre }}<strong style="color:#F0F0F0">A320</strong>{{ t.sims.pMid }}<strong style="color:#F0F0F0">King Air B200</strong>{{ t.sims.pPost }}</p>
         </div>
 
         <div data-rev="y" style="position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;border:1px solid rgba(245,196,0,.2);box-shadow:0 30px 80px rgba(0,0,0,.6)">
-          <image-slot id="sim-main" src="assets/sim-b200.jpg" shape="rect" fit="cover" placeholder="Arrastra una foto del simulador" style="position:absolute;inset:0;width:100%;height:100%;background:#0c0c0c"></image-slot>
+          <image-slot id="sim-main" src="assets/sim-b200.jpg" shape="rect" fit="cover" placeholder="{{ t.sims.placeholderMain }}" style="position:absolute;inset:0;width:100%;height:100%;background:#0c0c0c"></image-slot>
           <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(80% 70% at 50% 40%,transparent 55%,rgba(0,0,0,.55) 100%)"></div>
           <div style="position:absolute;left:18px;top:16px;width:26px;height:26px;border-left:2px solid rgba(245,196,0,.7);border-top:2px solid rgba(245,196,0,.7)"></div>
           <div style="position:absolute;right:18px;top:16px;width:26px;height:26px;border-right:2px solid rgba(245,196,0,.7);border-top:2px solid rgba(245,196,0,.7)"></div>
@@ -209,21 +220,21 @@ html,body{margin:0;padding:0;background:#0A0A0A}
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:16px">
-          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-1" shape="rect" placeholder="Cabina A320" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(255,255,255,.06)"></image-slot></div>
-          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-2" shape="rect" placeholder="Instrumentos encendidos" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(255,255,255,.06)"></image-slot></div>
-          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-3" shape="rect" placeholder="Instructor en cabina" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(255,255,255,.06)"></image-slot></div>
-          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-4" shape="rect" placeholder="Ambiente de vuelo" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(255,255,255,.06)"></image-slot></div>
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-1" shape="rect" placeholder="{{ t.sims.slotCabin }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(255,255,255,.06)"></image-slot></div>
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-2" shape="rect" placeholder="{{ t.sims.slotInstruments }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(255,255,255,.06)"></image-slot></div>
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-3" shape="rect" placeholder="{{ t.sims.slotInstructor }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(255,255,255,.06)"></image-slot></div>
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-4" shape="rect" placeholder="{{ t.sims.slotAmbiente }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(255,255,255,.06)"></image-slot></div>
         </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#5a6373;margin-top:14px">// arrastra tus fotos de @holdshortpei sobre cada recuadro para reemplazarlas</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#5a6373;margin-top:14px">{{ t.sims.dragNote }}</div>
       </div>
     </section>
 
     <section id="fases" style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);border-top:1px solid rgba(255,255,255,.05)">
       <div style="max-width:980px;margin:0 auto">
         <div data-rev="y" style="max-width:680px;margin-bottom:46px">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">// Experiencia paso a paso</span>
-          <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0 0 16px;letter-spacing:-.01em">Tu vuelo, fase por fase.</h2>
-          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#C8CDD6;margin:0">Recórrelo de arriba abajo. Cada estación es una parada en tu preparación — todo a la vista, sin prisa.</p>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.fases.badge }}</span>
+          <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0 0 16px;letter-spacing:-.01em">{{ t.fases.h2 }}</h2>
+          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#C8CDD6;margin:0">{{ t.fases.p }}</p>
         </div>
 
         <div data-rev="y" style="display:flex;gap:clamp(14px,3vw,28px)">
@@ -234,19 +245,19 @@ html,body{margin:0;padding:0;background:#0A0A0A}
           <div style="flex:1;padding-bottom:34px;min-width:0">
             <button onClick="{{ tp1 }}" style="width:100%;text-align:left;background:none;border:0;cursor:default;padding:6px 0;display:flex;align-items:flex-start;gap:14px;justify-content:space-between">
               <span style="min-width:0">
-                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">FASE 01 · FACTOR HUMANO</span>
-                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">“Lo más importante no está en los instrumentos. Está entre los dos pilotos.”</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">{{ t.fases.f1.tag }}</span>
+                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">{{ t.fases.f1.quote }}</span>
               </span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="{{ chev1 }}" data-anim-x><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div style="{{ panel1 }}">
               <div style="padding-top:16px;max-width:760px">
-                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 22px">El error humano no discrimina. Sin importar cuánto sabes — eres humano. Aquí aprendes qué es el <strong style="color:#F0F0F0">CRM</strong>: el arte de operar en equipo. Pasa el cursor sobre cada asiento.</p>
+                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 22px">{{ t.fases.f1.pPre }}<strong style="color:#F0F0F0">CRM</strong>{{ t.fases.f1.pPost }}</p>
                 <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:12px">
                   <div style="background:#101012;border:1px solid rgba(138,155,181,.22);border-radius:8px;padding:20px;transition:all .3s" style-hover="border-color:#F5C400;background:rgba(245,196,0,.06);box-shadow:0 0 30px rgba(245,196,0,.12)">
                     <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#F5C400">PF</div>
                     <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;margin:4px 0 8px">Pilot Flying</div>
-                    <p style="font-size:13px;line-height:1.6;color:#8A9BB5;margin:0">Quien vuela el avión. Manos en los controles, ejecuta la maniobra.</p>
+                    <p style="font-size:13px;line-height:1.6;color:#8A9BB5;margin:0">{{ t.fases.f1.pfDesc }}</p>
                   </div>
                   <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;color:#F5C400;font-size:24px;font-weight:700;gap:4px">
                     <span data-anim="blink-a">↔</span>
@@ -255,10 +266,10 @@ html,body{margin:0;padding:0;background:#0A0A0A}
                   <div style="background:#101012;border:1px solid rgba(138,155,181,.22);border-radius:8px;padding:20px;transition:all .3s" style-hover="border-color:#F5C400;background:rgba(245,196,0,.06);box-shadow:0 0 30px rgba(245,196,0,.12)">
                     <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#F5C400">PM</div>
                     <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;margin:4px 0 8px">Pilot Monitoring</div>
-                    <p style="font-size:13px;line-height:1.6;color:#8A9BB5;margin:0">Quien verifica y respalda. Vigila instrumentos, detecta el error antes de que crezca.</p>
+                    <p style="font-size:13px;line-height:1.6;color:#8A9BB5;margin:0">{{ t.fases.f1.pmDesc }}</p>
                   </div>
                 </div>
-                <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5C400;margin-top:18px;text-align:center;letter-spacing:.08em">Dos personas. Un sistema. Cero margen para el ego.</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5C400;margin-top:18px;text-align:center;letter-spacing:.08em">{{ t.fases.f1.crmLine }}</div>
               </div>
             </div>
           </div>
@@ -272,56 +283,89 @@ html,body{margin:0;padding:0;background:#0A0A0A}
           <div style="flex:1;padding-bottom:34px;min-width:0">
             <button onClick="{{ tp2 }}" style="width:100%;text-align:left;background:none;border:0;cursor:default;padding:6px 0;display:flex;align-items:flex-start;gap:14px;justify-content:space-between">
               <span style="min-width:0">
-                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">FASE 02 · AERODINÁMICA</span>
-                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">“El avión no vuela por magia. Vuela por física. Y hoy vas a entenderla.”</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">{{ t.fases.f2.tag }}</span>
+                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">{{ t.fases.f2.quote }}</span>
               </span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="{{ chev2 }}"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div style="{{ panel2 }}">
               <div style="padding-top:16px">
-                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 20px;max-width:760px">No es el motor el que levanta 80 toneladas — es el ala. El aire que pasa por encima viaja más rápido que el de abajo, y esa diferencia de presión crea la <strong style="color:#F0F0F0">sustentación</strong> que te mantiene en el cielo.</p>
-                <div style="position:relative;background:radial-gradient(130% 150% at 28% 0%,#0d1118,#070708);border:1px solid rgba(245,196,0,.18);border-radius:10px;overflow:hidden;margin-bottom:26px">
-                  <div style="position:absolute;left:14px;top:12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A9BB5;z-index:2">PERFIL ALAR · FLUJO LAMINAR</div>
-                  <svg viewBox="0 0 440 210" style="width:100%;height:auto;display:block">
-                    <g fill="none" stroke="#F5C400" stroke-width="1.5" opacity="0.55" stroke-linecap="round" stroke-dasharray="7 15">
-                      <path d="M5,40 C120,40 190,26 250,28 C320,30 380,40 435,42" data-anim="stream2"></path>
-                      <path d="M5,60 C120,58 185,40 250,44 C325,48 384,60 435,62" data-anim="stream2"></path>
-                      <path d="M5,82 C110,80 170,56 250,60 C335,64 392,82 435,84" data-anim="stream2"></path>
-                    </g>
-                    <g fill="none" stroke="#5a6373" stroke-width="1.4" opacity="0.5" stroke-linecap="round" stroke-dasharray="7 17">
-                      <path d="M5,150 C120,150 185,158 250,156 C330,154 384,150 435,150" data-anim="stream"></path>
-                      <path d="M5,172 C120,172 250,176 435,172" data-anim="stream"></path>
-                      <path d="M5,194 C120,194 250,196 435,194" data-anim="stream"></path>
-                    </g>
-                    <path d="M95,118 C140,84 230,76 360,120 C250,125 150,128 95,118 Z" fill="#16160f" stroke="#F5C400" stroke-width="2"></path>
-                    <path d="M95,118 C140,84 230,76 360,120" fill="none" stroke="#FFD740" stroke-width="2.4"></path>
-                    <g stroke="#F5C400" fill="#F5C400">
-                      <line x1="224" y1="68" x2="224" y2="40" stroke-width="2"></line>
-                      <polygon points="224,30 219,42 229,42"></polygon>
-                    </g>
-                    <text x="236" y="46" fill="#F5C400" font-family="'JetBrains Mono',monospace" font-size="11" letter-spacing="1">SUSTENTACIÓN</text>
-                    <text x="20" y="120" fill="#8A9BB5" font-family="'JetBrains Mono',monospace" font-size="10">VIENTO →</text>
-                  </svg>
-                </div>
-                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 24px;max-width:760px">Luego vienen los rumbos: la rosa de los vientos, 360 grados, puntos cardinales. <strong style="color:#F0F0F0">Arrastra la rosa</strong> para girarla, o toca un punto cardinal.</p>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:30px;align-items:center">
-                  <div style="display:flex;justify-content:center">
-                    <div style="position:relative;width:230px;height:230px">
-                      <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:14px solid #F5C400;z-index:3"></div>
-                      <div onPointerDown="{{ compassDown }}" onPointerMove="{{ compassMove }}" onPointerUp="{{ compassUp }}" style="{{ compassStyle }}">
-                        <div style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(245,196,0,.16) 0 1deg,transparent 1deg 30deg,rgba(245,196,0,.16) 30deg 31deg,transparent 31deg 60deg,rgba(245,196,0,.16) 60deg 61deg,transparent 61deg 90deg,rgba(245,196,0,.16) 90deg 91deg,transparent 91deg 120deg,rgba(245,196,0,.16) 120deg 121deg,transparent 121deg 150deg,rgba(245,196,0,.16) 150deg 151deg,transparent 151deg 180deg,rgba(245,196,0,.16) 180deg 181deg,transparent 181deg 210deg,rgba(245,196,0,.16) 210deg 211deg,transparent 211deg 240deg,rgba(245,196,0,.16) 240deg 241deg,transparent 241deg 270deg,rgba(245,196,0,.16) 270deg 271deg,transparent 271deg 300deg,rgba(245,196,0,.16) 300deg 301deg,transparent 301deg 330deg,rgba(245,196,0,.16) 330deg 331deg,transparent 331deg 360deg);-webkit-mask:radial-gradient(circle,transparent 78px,#000 79px);mask:radial-gradient(circle,transparent 78px,#000 79px)"></div>
-                        <span style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#F5C400">N</span>
-                        <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:#F0F0F0">E</span>
-                        <span style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:#F0F0F0">S</span>
-                        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:#F0F0F0">W</span>
-                        <div style="position:absolute;top:50%;left:50%;width:8px;height:8px;border-radius:50%;background:#F5C400;transform:translate(-50%,-50%)"></div>
-                      </div>
+                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 20px;max-width:760px">{{ t.fases.f2.p1Pre }}<strong style="color:#F0F0F0">{{ t.fases.f2.liftWord }}</strong>{{ t.fases.f2.p1Post }}</p>
+                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 24px;max-width:760px">{{ t.fases.f2.p2Pre }}<strong style="color:#F0F0F0">{{ t.fases.f2.dragRoseWord }}</strong>{{ t.fases.f2.p2Post }}</p>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;align-items:center">
+                  <div style="position:relative;background:radial-gradient(130% 150% at 28% 0%,#0d1118,#070708);border:1px solid rgba(245,196,0,.18);border-radius:10px;overflow:hidden;height:100%">
+                    <div style="position:absolute;left:14px;top:12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A9BB5;z-index:2">{{ t.fases.f2.wingLabel }}</div>
+                    <svg viewBox="0 0 440 210" style="width:100%;height:auto;display:block">
+                      <g fill="none" stroke="#F5C400" stroke-width="1.5" opacity="0.55" stroke-linecap="round" stroke-dasharray="7 15">
+                        <path d="M5,40 C120,40 190,26 250,28 C320,30 380,40 435,42" data-anim="stream2"></path>
+                        <path d="M5,60 C120,58 185,40 250,44 C325,48 384,60 435,62" data-anim="stream2"></path>
+                        <path d="M5,82 C110,80 170,56 250,60 C335,64 392,82 435,84" data-anim="stream2"></path>
+                      </g>
+                      <g fill="none" stroke="#5a6373" stroke-width="1.4" opacity="0.5" stroke-linecap="round" stroke-dasharray="7 17">
+                        <path d="M5,150 C120,150 185,158 250,156 C330,154 384,150 435,150" data-anim="stream"></path>
+                        <path d="M5,172 C120,172 250,176 435,172" data-anim="stream"></path>
+                        <path d="M5,194 C120,194 250,196 435,194" data-anim="stream"></path>
+                      </g>
+                      <path d="M95,118 C140,84 230,76 360,120 C250,125 150,128 95,118 Z" fill="#16160f" stroke="#F5C400" stroke-width="2"></path>
+                      <path d="M95,118 C140,84 230,76 360,120" fill="none" stroke="#FFD740" stroke-width="2.4"></path>
+                      <g stroke="#F5C400" fill="#F5C400">
+                        <line x1="224" y1="68" x2="224" y2="40" stroke-width="2"></line>
+                        <polygon points="224,30 219,42 229,42"></polygon>
+                      </g>
+                      <text x="236" y="46" fill="#F5C400" font-family="'JetBrains Mono',monospace" font-size="11" letter-spacing="1">{{ t.fases.f2.liftLabel }}</text>
+                      <text x="20" y="120" fill="#8A9BB5" font-family="'JetBrains Mono',monospace" font-size="10">{{ t.fases.f2.windLabel }}</text>
+                    </svg>
+                    <div style="position:relative;border-top:1px solid rgba(245,196,0,.12)">
+                      <div style="position:absolute;left:14px;top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A9BB5;z-index:2">{{ t.fases.f2.forcesLabel }}</div>
+                      <svg viewBox="0 0 440 240" style="width:100%;height:auto;display:block">
+                        <ellipse cx="220" cy="120" rx="62" ry="11" fill="#16160f" stroke="#8A9BB5" stroke-width="1.4"></ellipse>
+                        <path d="M278,112 L300,120 L278,128 Z" fill="#8A9BB5"></path>
+                        <path d="M165,109 L178,109 L160,86 Z" fill="#8A9BB5" opacity="0.8"></path>
+                        <path d="M205,130 L240,130 L262,152 L195,152 Z" fill="#8A9BB5" opacity="0.55"></path>
+                        <g data-anim="force0" style="transform-origin:220px 103px">
+                          <line x1="220" y1="103" x2="220" y2="48" stroke="#F5C400" stroke-width="2.5"></line>
+                          <polygon points="220,38 213,52 227,52" fill="#F5C400"></polygon>
+                          <text x="230" y="68" fill="#F5C400" font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="1">{{ t.fases.f2.liftLabel }}</text>
+                        </g>
+                        <g data-anim="force1" style="transform-origin:220px 137px">
+                          <line x1="220" y1="137" x2="220" y2="192" stroke="#8A9BB5" stroke-width="2.5"></line>
+                          <polygon points="220,202 213,188 227,188" fill="#8A9BB5"></polygon>
+                          <text x="230" y="218" fill="#8A9BB5" font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="1">{{ t.fases.f2.weightLabel }}</text>
+                        </g>
+                        <g data-anim="force2" style="transform-origin:302px 120px">
+                          <line x1="302" y1="120" x2="384" y2="120" stroke="#F5C400" stroke-width="2.5"></line>
+                          <polygon points="394,120 380,113 380,127" fill="#F5C400"></polygon>
+                          <text x="312" y="108" fill="#F5C400" font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="1">{{ t.fases.f2.thrustLabel }}</text>
+                        </g>
+                        <g data-anim="force3" style="transform-origin:153px 120px">
+                          <line x1="153" y1="120" x2="60" y2="120" stroke="#8A9BB5" stroke-width="2.5"></line>
+                          <polygon points="50,120 64,113 64,127" fill="#8A9BB5"></polygon>
+                          <text x="35" y="108" fill="#8A9BB5" font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="1">{{ t.fases.f2.dragLabel }}</text>
+                        </g>
+                      </svg>
                     </div>
                   </div>
                   <div>
+                    <div style="display:flex;justify-content:center;margin-bottom:14px">
+                      <div style="position:relative;width:230px;height:230px">
+                        <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:14px solid #F5C400;z-index:3"></div>
+                        <div onPointerDown="{{ compassDown }}" onPointerMove="{{ compassMove }}" onPointerUp="{{ compassUp }}" style="{{ compassStyle }}">
+                          <div style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(245,196,0,.16) 0 1deg,transparent 1deg 30deg,rgba(245,196,0,.16) 30deg 31deg,transparent 31deg 60deg,rgba(245,196,0,.16) 60deg 61deg,transparent 61deg 90deg,rgba(245,196,0,.16) 90deg 91deg,transparent 91deg 120deg,rgba(245,196,0,.16) 120deg 121deg,transparent 121deg 150deg,rgba(245,196,0,.16) 150deg 151deg,transparent 151deg 180deg,rgba(245,196,0,.16) 180deg 181deg,transparent 181deg 210deg,rgba(245,196,0,.16) 210deg 211deg,transparent 211deg 240deg,rgba(245,196,0,.16) 240deg 241deg,transparent 241deg 270deg,rgba(245,196,0,.16) 270deg 271deg,transparent 271deg 300deg,rgba(245,196,0,.16) 300deg 301deg,transparent 301deg 330deg,rgba(245,196,0,.16) 330deg 331deg,transparent 331deg 360deg);-webkit-mask:radial-gradient(circle,transparent 78px,#000 79px);mask:radial-gradient(circle,transparent 78px,#000 79px)"></div>
+                          <span style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#F5C400">N</span>
+                          <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:#F0F0F0">E</span>
+                          <span style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:#F0F0F0">S</span>
+                          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:#F0F0F0">W</span>
+                          <div style="position:absolute;top:50%;left:50%;width:8px;height:8px;border-radius:50%;background:#F5C400;transform:translate(-50%,-50%)"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px">
+                      <span style="font-size:18px;display:inline-block" data-anim="tapHint">👆</span>
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f2.tapCardinal }}</span>
+                    </div>
                     <div style="display:flex;gap:8px;margin-bottom:16px">
                       <sc-for list="{{ cardinals }}" as="c" hint-placeholder-count="4">
-                        <button onClick="{{ c.onSel }}" style="{{ c.btnStyle }}">{{ c.k }}</button>
+                        <button onClick="{{ c.onSel }}" style="{{ c.btnStyle }}" data-anim="cta">{{ c.k }}</button>
                       </sc-for>
                     </div>
                     <div style="background:#101012;border:1px solid rgba(245,196,0,.2);border-radius:8px;padding:18px 20px;min-height:120px">
@@ -343,14 +387,14 @@ html,body{margin:0;padding:0;background:#0A0A0A}
           <div style="flex:1;padding-bottom:34px;min-width:0">
             <button onClick="{{ tp3 }}" style="width:100%;text-align:left;background:none;border:0;cursor:default;padding:6px 0;display:flex;align-items:flex-start;gap:14px;justify-content:space-between">
               <span style="min-width:0">
-                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">FASE 03 · EL SIX PACK</span>
-                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">“Seis instrumentos. Toda la información que necesitas para volar.”</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">{{ t.fases.f3.tag }}</span>
+                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">{{ t.fases.f3.quote }}</span>
               </span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="{{ chev3 }}"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div style="{{ panel3 }}">
               <div style="padding-top:16px">
-                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 22px;max-width:760px">Cada instrumento está vivo. Tócalo para girarlo y descubrir qué te dice en pleno vuelo.</p>
+                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 16px;max-width:760px">{{ t.fases.f3.p }}</p>
                 <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
 
                   <div onClick="{{ i0Flip }}" style="perspective:1000px;height:212px;cursor:pointer">
@@ -363,13 +407,13 @@ html,body{margin:0;padding:0;background:#0A0A0A}
                           <g data-i="asi"><polygon points="60,17 56.5,62 63.5,62" fill="#F5C400"></polygon></g>
                           <circle cx="60" cy="60" r="5" fill="#F5C400"></circle>
                         </svg>
-                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">Velocímetro</div>
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:#5a6373">TAP ↻</div>
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">{{ t.fases.f3.i0.name }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#5a6373;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:0s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
                       <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,196,0,.4);border-radius:10px;background:linear-gradient(160deg,#16160f,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">ASI · VELOCÍMETRO</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">Mide tu velocidad respecto al aire, no al suelo.</div>
-                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">Demasiado lento y el ala deja de sostenerte: eso es un stall.</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f3.i0.code }}</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">{{ t.fases.f3.i0.fn }}</div>
+                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">{{ t.fases.f3.i0.fact }}</div>
                       </div>
                     </div>
                   </div>
@@ -391,13 +435,13 @@ html,body{margin:0;padding:0;background:#0A0A0A}
                           <polygon points="60,11 56,19 64,19" fill="#F5C400"></polygon>
                           <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(245,196,0,.45)" stroke-width="2"></circle>
                         </svg>
-                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">Horizonte Artificial</div>
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:#5a6373">TAP ↻</div>
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">{{ t.fases.f3.i1.name }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#5a6373;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.15s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
                       <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,196,0,.4);border-radius:10px;background:linear-gradient(160deg,#16160f,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">ADI · HORIZONTE</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">Muestra si subes, bajas o te inclinas cuando no ves afuera.</div>
-                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">Dentro de una nube, es tu único horizonte real.</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f3.i1.code }}</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">{{ t.fases.f3.i1.fn }}</div>
+                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">{{ t.fases.f3.i1.fact }}</div>
                       </div>
                     </div>
                   </div>
@@ -412,13 +456,13 @@ html,body{margin:0;padding:0;background:#0A0A0A}
                           <g data-i="altB"><polygon points="60,20 57,60 63,60" fill="#F5C400"></polygon></g>
                           <circle cx="60" cy="60" r="5" fill="#F5C400"></circle>
                         </svg>
-                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">Altímetro</div>
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:#5a6373">TAP ↻</div>
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">{{ t.fases.f3.i2.name }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#5a6373;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.3s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
                       <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,196,0,.4);border-radius:10px;background:linear-gradient(160deg,#16160f,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">ALT · ALTÍMETRO</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">Tu altura sobre el mar, leída de la presión del aire.</div>
-                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">Se calibra con la presión local. Un error aquí cuesta vidas.</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f3.i2.code }}</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">{{ t.fases.f3.i2.fn }}</div>
+                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">{{ t.fases.f3.i2.fact }}</div>
                       </div>
                     </div>
                   </div>
@@ -438,13 +482,13 @@ html,body{margin:0;padding:0;background:#0A0A0A}
                           <rect x="40" y="86" width="40" height="11" rx="5.5" fill="#0b0b0e" stroke="#8A9BB5" stroke-width="1.3" opacity="0.8"></rect>
                           <g data-i="ball"><circle cx="60" cy="91.5" r="4.2" fill="#F5C400"></circle></g>
                         </svg>
-                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">Coordinador de Viraje</div>
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:#5a6373">TAP ↻</div>
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">{{ t.fases.f3.i3.name }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#5a6373;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.45s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
                       <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,196,0,.4);border-radius:10px;background:linear-gradient(160deg,#16160f,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">TC · VIRAJE</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">Confirma que el viraje sea coordinado, sin derrapar.</div>
-                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">La bolita centrada: el secreto de un viraje cómodo y limpio.</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f3.i3.code }}</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">{{ t.fases.f3.i3.fn }}</div>
+                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">{{ t.fases.f3.i3.fact }}</div>
                       </div>
                     </div>
                   </div>
@@ -464,13 +508,13 @@ html,body{margin:0;padding:0;background:#0A0A0A}
                           <polygon points="60,9 56,17 64,17" fill="#F5C400"></polygon>
                           <g stroke="#F5C400" stroke-width="2" fill="none"><line x1="60" y1="47" x2="60" y2="73"></line><line x1="49" y1="59" x2="71" y2="59"></line><line x1="55" y1="71" x2="65" y2="71"></line></g>
                         </svg>
-                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">Girodireccional</div>
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:#5a6373">TAP ↻</div>
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">{{ t.fases.f3.i4.name }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#5a6373;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.6s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
                       <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,196,0,.4);border-radius:10px;background:linear-gradient(160deg,#16160f,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">HDG · RUMBO</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">Hacia qué punto cardinal apunta la nariz del avión.</div>
-                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">Más estable que la brújula durante los virajes.</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f3.i4.code }}</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">{{ t.fases.f3.i4.fn }}</div>
+                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">{{ t.fases.f3.i4.fact }}</div>
                       </div>
                     </div>
                   </div>
@@ -487,13 +531,13 @@ html,body{margin:0;padding:0;background:#0A0A0A}
                           <g data-i="vsi"><polygon points="19,60 60,57 60,63" fill="#F5C400"></polygon></g>
                           <circle cx="60" cy="60" r="5" fill="#F5C400"></circle>
                         </svg>
-                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">Velocidad Vertical</div>
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:#5a6373">TAP ↻</div>
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">{{ t.fases.f3.i5.name }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#5a6373;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.75s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
                       <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,196,0,.4);border-radius:10px;background:linear-gradient(160deg,#16160f,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">VSI · ASCENSO</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">Cuántos pies por minuto subes o bajas.</div>
-                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">Un buen piloto desciende suave: el pasajero ni lo siente.</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f3.i5.code }}</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">{{ t.fases.f3.i5.fn }}</div>
+                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">{{ t.fases.f3.i5.fact }}</div>
                       </div>
                     </div>
                   </div>
@@ -512,18 +556,18 @@ html,body{margin:0;padding:0;background:#0A0A0A}
           <div style="flex:1;padding-bottom:34px;min-width:0">
             <button onClick="{{ tp4 }}" style="width:100%;text-align:left;background:none;border:0;cursor:default;padding:6px 0;display:flex;align-items:flex-start;gap:14px;justify-content:space-between">
               <span style="min-width:0">
-                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">FASE 04 · PREGUNTAS ABIERTAS</span>
-                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">“No hay preguntas estúpidas en cabina.”</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">{{ t.fases.f4.tag }}</span>
+                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">{{ t.fases.f4.quote }}</span>
               </span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="{{ chev4 }}"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div style="{{ panel4 }}">
               <div style="padding-top:16px;max-width:600px">
-                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 20px">El espacio es tuyo antes de subir. El instructor responde todo.</p>
+                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 20px">{{ t.fases.f4.p }}</p>
                 <div style="background:#0c0c10;border:1px solid rgba(138,155,181,.2);border-radius:12px;overflow:hidden">
                   <div style="display:flex;align-items:center;gap:8px;padding:11px 16px;background:rgba(245,196,0,.07);border-bottom:1px solid rgba(245,196,0,.14)">
                     <span style="width:8px;height:8px;border-radius:50%;background:#F5C400" data-anim="blink-a"></span>
-                    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A9BB5">BRIEFING · PREGUNTAS DEL ALUMNO</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A9BB5">{{ t.fases.f4.briefing }}</span>
                   </div>
                   <div ref="{{ chatRef }}" style="display:flex;flex-direction:column;gap:10px;padding:18px;min-height:210px"></div>
                 </div>
@@ -539,19 +583,19 @@ html,body{margin:0;padding:0;background:#0A0A0A}
           <div style="flex:1;min-width:0">
             <button onClick="{{ tp5 }}" style="width:100%;text-align:left;background:none;border:0;cursor:default;padding:6px 0;display:flex;align-items:flex-start;gap:14px;justify-content:space-between">
               <span style="min-width:0">
-                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">FASE 05 · LA PRÁCTICA EN SIMULADOR</span>
-                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">“Ahora sí. Tu turno de volar.”</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">{{ t.fases.f5.tag }}</span>
+                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">{{ t.fases.f5.quote }}</span>
               </span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="{{ chev5 }}"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div style="{{ panel5 }}">
               <div id="vuelo" style="padding-top:16px">
-                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 20px;max-width:760px">Subes al simulador. Los instrumentos se encienden. El instructor está a tu lado. Potencia, flaps, aviónica — paso a paso, a tu ritmo. Y el destino lo eliges tú.</p>
+                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 20px;max-width:760px">{{ t.fases.f5.p }}</p>
                 <div style="display:flex;flex-wrap:wrap;align-items:center;gap:24px;background:radial-gradient(120% 150% at 18% 0%,#0d1320,#070708);border:1px solid rgba(245,196,0,.2);border-radius:10px;padding:20px 22px;overflow:hidden">
                   <div style="flex:1;min-width:220px">
-                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#F5C400;margin-bottom:8px">DESTINO LIBRE</div>
-                    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,26px);color:#F0F0F0;line-height:1.1;margin-bottom:8px">Tú eliges a dónde volar.</div>
-                    <p style="font-size:13.5px;line-height:1.65;color:#C8CDD6;margin:0">Operamos cualquier ruta de Colombia: desde un circuito local sobre tu ciudad hasta una travesía entre destinos. Lo definimos juntos antes de despegar.</p>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#F5C400;margin-bottom:8px">{{ t.fases.f5.destinoLibre }}</div>
+                    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,26px);color:#F0F0F0;line-height:1.1;margin-bottom:8px">{{ t.fases.f5.eligesTitulo }}</div>
+                    <p style="font-size:13.5px;line-height:1.65;color:#C8CDD6;margin:0">{{ t.fases.f5.eligesP }}</p>
                   </div>
                   <div style="flex:1;min-width:230px;max-width:340px">
                     <svg viewBox="0 0 340 130" style="width:100%;height:auto;display:block">
@@ -562,7 +606,7 @@ html,body{margin:0;padding:0;background:#0A0A0A}
                       <text x="166" y="34" fill="#F5C400" font-size="20" text-anchor="middle" transform="rotate(22 166 30)">✈</text>
                       <circle cx="308" cy="68" r="10" fill="none" stroke="#F5C400" stroke-width="1.6" data-anim="blink-a"></circle>
                       <circle cx="308" cy="68" r="3.6" fill="#F5C400"></circle>
-                      <text x="308" y="96" fill="#F0F0F0" font-family="'JetBrains Mono',monospace" font-size="9" text-anchor="middle">TU DESTINO</text>
+                      <text x="308" y="96" fill="#F0F0F0" font-family="'JetBrains Mono',monospace" font-size="9" text-anchor="middle">{{ t.fases.f5.tuDestino }}</text>
                     </svg>
                   </div>
                 </div>
@@ -577,9 +621,9 @@ html,body{margin:0;padding:0;background:#0A0A0A}
     <section id="paquetes" style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);background:#070707;border-top:1px solid rgba(255,255,255,.05)">
       <div style="max-width:1040px;margin:0 auto">
         <div data-rev="y" style="max-width:680px;margin-bottom:36px">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">// Reserva tu vuelo</span>
-          <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0 0 16px;letter-spacing:-.01em">Aparta tu fecha. Genera tu ticket.</h2>
-          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#C8CDD6;margin:0">Elige tu experiencia, escoge un día en el calendario y déjanos tus datos. En segundos tendrás tu pase de abordar listo.</p>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.pkgs.badge }}</span>
+          <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0 0 16px;letter-spacing:-.01em">{{ t.pkgs.h2 }}</h2>
+          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#C8CDD6;margin:0">{{ t.pkgs.p }}</p>
         </div>
 
         <div data-rev="y" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;margin-bottom:24px">
@@ -588,9 +632,9 @@ html,body{margin:0;padding:0;background:#0A0A0A}
               <div style="display:flex;align-items:center;gap:11px"><span style="{{ pkgADot }}"></span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#8A9BB5">CLASS · DISCOVERY</span></div>
             </div>
             <div style="padding:20px 20px 24px">
-              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;color:#F0F0F0;line-height:1;letter-spacing:.01em">ESPÍRITU AVENTURERO</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;color:#F0F0F0;line-height:1;letter-spacing:.01em">{{ pkgA.name }}</div>
               <div style="display:flex;align-items:baseline;gap:10px;margin:14px 0 4px"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:32px;color:#F5C400">$100</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A9BB5">USD</span></div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#C8CDD6;margin-bottom:16px">$400.000 COP · ~2 h de experiencia</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#C8CDD6;margin-bottom:16px">{{ pkgA.priceLine }}</div>
               <div style="display:flex;flex-direction:column;gap:9px">
                 <sc-for list="{{ pkgA.perks }}" as="perk" hint-placeholder-count="4">
                   <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#C8CDD6;line-height:1.5"><span style="color:#F5C400;flex-shrink:0">✓</span> {{ perk }}</div>
@@ -600,14 +644,14 @@ html,body{margin:0;padding:0;background:#0A0A0A}
           </div>
 
           <div onClick="{{ selComandante }}" style="{{ pkgCStyle }}">
-            <div style="position:absolute;top:14px;right:-34px;transform:rotate(45deg);background:#F5C400;color:#0A0A0A;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:10px;letter-spacing:.12em;padding:5px 40px;z-index:1">FAVORITO</div>
+            <div style="position:absolute;top:14px;right:-34px;transform:rotate(45deg);background:#F5C400;color:#0A0A0A;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:10px;letter-spacing:.12em;padding:5px 40px;z-index:1">{{ t.pkgs.favorito }}</div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px dashed rgba(245,196,0,.4)">
               <div style="display:flex;align-items:center;gap:11px"><span style="{{ pkgCDot }}"></span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#F5C400">CLASS · CAPTAIN</span></div>
             </div>
             <div style="padding:20px 20px 24px">
-              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;color:#F5C400;line-height:1;letter-spacing:.01em">COMANDANTE POR UN DÍA</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;color:#F5C400;line-height:1;letter-spacing:.01em">{{ pkgC.name }}</div>
               <div style="display:flex;align-items:baseline;gap:10px;margin:14px 0 4px"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:32px;color:#F5C400">$190</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A9BB5">USD</span></div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#C8CDD6;margin-bottom:16px">$760.000 COP · ~4–5 h de experiencia</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#C8CDD6;margin-bottom:16px">{{ pkgC.priceLine }}</div>
               <div style="display:flex;flex-direction:column;gap:9px">
                 <sc-for list="{{ pkgC.perks }}" as="perk" hint-placeholder-count="5">
                   <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#F0F0F0;line-height:1.5"><span style="color:#F5C400;flex-shrink:0">✓</span> {{ perk }}</div>
@@ -616,7 +660,7 @@ html,body{margin:0;padding:0;background:#0A0A0A}
             </div>
           </div>
         </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:#5a6373;margin:0 0 24px">// precios de referencia · confirmamos valor final y disponibilidad por WhatsApp</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:#5a6373;margin:0 0 24px">{{ t.pkgs.refNote }}</div>
 
         <div data-rev="y" style="background:linear-gradient(160deg,#0e0e12,#090909);border:1px solid rgba(245,196,0,.2);border-radius:16px;overflow:hidden">
           <sc-if value="{{ notBooked }}" hint-placeholder-val="{{ true }}">
@@ -637,29 +681,29 @@ html,body{margin:0;padding:0;background:#0A0A0A}
                     <div onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.day }}</div>
                   </sc-for>
                 </div>
-                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5a6373;margin-top:14px;display:flex;align-items:center;gap:7px"><span style="width:9px;height:9px;border-radius:2px;background:#F5C400;display:inline-block"></span> fecha seleccionada</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5a6373;margin-top:14px;display:flex;align-items:center;gap:7px"><span style="width:9px;height:9px;border-radius:2px;background:#F5C400;display:inline-block"></span> {{ t.pkgs.booking.fechaSeleccionadaLegend }}</div>
               </div>
 
               <div style="padding:26px 24px;display:flex;flex-direction:column;gap:14px">
-                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#F5C400">PASE DE ABORDAR · DATOS</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#F5C400">{{ t.pkgs.booking.boardingData }}</div>
                 <div style="background:#0b0b0e;border:1px solid rgba(245,196,0,.18);border-radius:8px;padding:13px 15px">
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:4px">FECHA ELEGIDA</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:4px">{{ t.pkgs.booking.fechaElegida }}</div>
                   <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:18px;color:#F0F0F0">{{ selDateLong }}</div>
                 </div>
                 <div style="background:#0b0b0e;border:1px solid rgba(245,196,0,.18);border-radius:8px;padding:13px 15px">
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:4px">PAQUETE</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:4px">{{ t.pkgs.booking.paqueteLabel }}</div>
                   <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:18px;color:#F5C400;line-height:1.1">{{ formPkgName }}</div>
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A9BB5;margin-top:2px">{{ formPkgPrice }} · toca una tarjeta arriba para cambiar</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A9BB5;margin-top:2px">{{ formPkgPrice }} · {{ t.pkgs.booking.tocaCambiar }}</div>
                 </div>
                 <div>
-                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:6px">NOMBRE COMPLETO</label>
-                  <input type="text" value="{{ bName }}" onChange="{{ setName }}" placeholder="Tu nombre" style="width:100%;background:#0b0b0e;border:1px solid rgba(138,155,181,.3);border-radius:7px;padding:12px 14px;color:#F0F0F0;font-size:14px;font-family:Inter,sans-serif;outline:none" style-focus="border-color:#F5C400" />
+                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:6px">{{ t.pkgs.booking.nombreCompleto }}</label>
+                  <input type="text" value="{{ bName }}" onChange="{{ setName }}" placeholder="{{ t.pkgs.booking.nombrePlaceholder }}" style="width:100%;background:#0b0b0e;border:1px solid rgba(138,155,181,.3);border-radius:7px;padding:12px 14px;color:#F0F0F0;font-size:14px;font-family:Inter,sans-serif;outline:none" style-focus="border-color:#F5C400" />
                 </div>
                 <div>
-                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:6px">WHATSAPP / CONTACTO</label>
+                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:6px">{{ t.pkgs.booking.whatsappContacto }}</label>
                   <input type="tel" value="{{ bPhone }}" onChange="{{ setPhone }}" placeholder="+57 300 000 0000" style="width:100%;background:#0b0b0e;border:1px solid rgba(138,155,181,.3);border-radius:7px;padding:12px 14px;color:#F0F0F0;font-size:14px;font-family:Inter,sans-serif;outline:none" style-focus="border-color:#F5C400" />
                 </div>
-                <button onClick="{{ submitBooking }}" style="{{ submitStyle }}">Generar mi ticket de vuelo ✈</button>
+                <button onClick="{{ submitBooking }}" style="{{ submitStyle }}">{{ t.pkgs.booking.generarTicket }}</button>
               </div>
             </div>
           </sc-if>
@@ -673,26 +717,26 @@ html,body{margin:0;padding:0;background:#0A0A0A}
                     <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#F5C400">HOLD SHORT · BOARDING PASS</div>
                     <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#8A9BB5">{{ ticket.flight }}</div>
                   </div>
-                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(22px,3.4vw,30px);color:#F5C400;line-height:1.02;margin-bottom:20px">PREPÁRATE PARA TU<br/>PRÓXIMA AVENTURA</div>
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(22px,3.4vw,30px);color:#F5C400;line-height:1.02;margin-bottom:20px">{{ t.pkgs.ticket.prepara1 }}<br/>{{ t.pkgs.ticket.prepara2 }}</div>
                   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 18px">
-                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:3px">PASAJERO</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#F0F0F0;line-height:1.05">{{ ticket.name }}</div></div>
-                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:3px">PAQUETE</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#F0F0F0;line-height:1.05">{{ ticket.pkg.name }}</div></div>
-                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:3px">FECHA</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#F0F0F0;line-height:1.05">{{ ticket.date }}</div></div>
-                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:3px">CONTACTO</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#F0F0F0;line-height:1.05">{{ ticket.phone }}</div></div>
+                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:3px">{{ t.pkgs.ticket.pasajero }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#F0F0F0;line-height:1.05">{{ ticket.name }}</div></div>
+                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:3px">{{ t.pkgs.booking.paqueteLabel }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#F0F0F0;line-height:1.05">{{ ticket.pkg.name }}</div></div>
+                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:3px">{{ t.pkgs.ticket.fecha }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#F0F0F0;line-height:1.05">{{ ticket.date }}</div></div>
+                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:3px">{{ t.pkgs.ticket.contacto }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#F0F0F0;line-height:1.05">{{ ticket.phone }}</div></div>
                   </div>
                 </div>
                 <div style="position:relative;width:1px;background:transparent;border-left:2px dashed rgba(245,196,0,.5);margin:14px 0"></div>
                 <div style="position:relative;width:160px;min-width:160px;padding:24px 20px;display:flex;flex-direction:column;justify-content:space-between;background:rgba(245,196,0,.05)">
-                  <div style="display:flex;justify-content:space-between"><div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#8A9BB5">PUERTA</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#F5C400">{{ ticket.gate }}</div></div><div style="text-align:right"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#8A9BB5">ASIENTO</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#F5C400">{{ ticket.seat }}</div></div></div>
+                  <div style="display:flex;justify-content:space-between"><div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#8A9BB5">{{ t.pkgs.ticket.puerta }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#F5C400">{{ ticket.gate }}</div></div><div style="text-align:right"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#8A9BB5">{{ t.pkgs.ticket.asiento }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#F5C400">{{ ticket.seat }}</div></div></div>
                   <div style="height:46px;margin:14px 0;background:repeating-linear-gradient(90deg,#F0F0F0 0 2px,transparent 2px 4px,#F0F0F0 4px 5px,transparent 5px 9px);opacity:.85"></div>
                   <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#8A9BB5;text-align:center">{{ ticket.flight }} · SKPE</div>
                 </div>
               </div>
               <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;align-items:center">
-                <a href="{{ waConfirm }}" target="_blank" style="flex:1;min-width:240px;text-align:center;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:15px;padding:15px 22px;border-radius:6px;letter-spacing:.01em" style-hover="background:#FFD740">Confirmar mi vuelo por WhatsApp →</a>
-                <button onClick="{{ resetBooking }}" style="background:none;border:1px solid rgba(138,155,181,.35);color:#C8CDD6;border-radius:6px;padding:15px 22px;font-size:14px;cursor:pointer;font-family:Inter,sans-serif" style-hover="border-color:#F5C400;color:#F5C400">Nueva reserva</button>
+                <a href="{{ waConfirm }}" target="_blank" style="flex:1;min-width:240px;text-align:center;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:15px;padding:15px 22px;border-radius:6px;letter-spacing:.01em" style-hover="background:#FFD740">{{ t.pkgs.ticket.confirmar }}</a>
+                <button onClick="{{ resetBooking }}" style="background:none;border:1px solid rgba(138,155,181,.35);color:#C8CDD6;border-radius:6px;padding:15px 22px;font-size:14px;cursor:pointer;font-family:Inter,sans-serif" style-hover="border-color:#F5C400;color:#F5C400">{{ t.pkgs.ticket.nuevaReserva }}</button>
               </div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:#8A9BB5;margin-top:14px">// tu cupo queda apartado al confirmar por WhatsApp. ¡Nos vemos en la cabina!</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:#8A9BB5;margin-top:14px">{{ t.pkgs.ticket.note }}</div>
             </div>
           </sc-if>
         </div>
@@ -702,8 +746,8 @@ html,body{margin:0;padding:0;background:#0A0A0A}
     <section id="faq" style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);border-top:1px solid rgba(255,255,255,.05)">
       <div style="max-width:760px;margin:0 auto">
         <div data-rev="y" style="margin-bottom:38px">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">// Torre de control</span>
-          <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0;letter-spacing:-.01em">Antes de despegar, resolvemos tus dudas.</h2>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.faq.badge }}</span>
+          <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0;letter-spacing:-.01em">{{ t.faq.h2 }}</h2>
         </div>
         <div data-rev="y" style="display:flex;flex-direction:column;gap:10px">
           <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="7">
@@ -727,9 +771,9 @@ html,body{margin:0;padding:0;background:#0A0A0A}
       <div style="position:absolute;left:50%;top:0;bottom:0;width:5px;transform:translateX(-50%);background:repeating-linear-gradient(to bottom,#F5C400 0 56px,transparent 56px 120px);opacity:.14" data-anim="cl-a"></div>
       <div data-rev="y" style="position:relative;max-width:760px;margin:0 auto;text-align:center">
         <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;margin-bottom:22px">CLEARED FOR TAKEOFF</div>
-        <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(32px,6vw,68px);line-height:1.02;margin:0;letter-spacing:-.01em">El cielo lleva esperándote<br/>toda la vida.</h2>
-        <p style="font-size:clamp(16px,2vw,19px);color:#C8CDD6;max-width:520px;margin:22px auto 0;line-height:1.6">Hoy puede ser el día en que dejes de mirar los aviones desde abajo. Escríbenos y reserva tu cabina.</p>
-        <a href="{{ waGeneral }}" target="_blank" style="margin-top:38px;display:inline-flex;align-items:center;gap:10px;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:clamp(16px,2vw,19px);padding:18px 36px;border-radius:5px;letter-spacing:.01em" data-anim="cta" style-hover="background:#FFD740">Hablar por WhatsApp ahora →</a>
+        <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(32px,6vw,68px);line-height:1.02;margin:0;letter-spacing:-.01em">{{ t.reserva.h2Pre }}<br/>{{ t.reserva.h2Post }}</h2>
+        <p style="font-size:clamp(16px,2vw,19px);color:#C8CDD6;max-width:520px;margin:22px auto 0;line-height:1.6">{{ t.reserva.p }}</p>
+        <a href="{{ waGeneral }}" target="_blank" style="margin-top:38px;display:inline-flex;align-items:center;gap:10px;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:clamp(16px,2vw,19px);padding:18px 36px;border-radius:5px;letter-spacing:.01em" data-anim="cta" style-hover="background:#FFD740">{{ t.reserva.cta }}</a>
         <div style="margin-top:24px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;color:#8A9BB5">+57 316 724 9139 · @holdshortpei · Pereira, Colombia</div>
         <div style="margin-top:40px;font-family:'Barlow Condensed',sans-serif;font-style:italic;font-weight:600;font-size:clamp(18px,2.4vw,24px);color:#F5C400;letter-spacing:.02em">BE: AIRLINE MINDED</div>
       </div>
@@ -741,12 +785,11 @@ html,body{margin:0;padding:0;background:#0A0A0A}
     <div style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;align-items:flex-start">
       <div style="max-width:360px">
         <img src="assets/logo-lockup.jpg" alt="Hold Short Aviation" style="height:42px;width:auto;display:block;margin-bottom:18px"/>
-        <p style="font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:#8A9BB5;margin:0">Operamos en nuestro centro de entrenamiento en la ciudad de Pereira, Colombia, y extendemos nuestra operación al escenario virtual.</p>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:#8A9BB5;margin:0">{{ t.footer.about }}</p>
       </div>
       <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1;color:#C8CDD6;display:grid;gap:16px">
         <a href="{{ waGeneral }}" target="_blank" style="color:#C8CDD6;text-decoration:none;display:flex;gap:14px" style-hover="color:#F5C400"><span style="color:#8A9BB5;width:84px;display:inline-block">WhatsApp</span> +57 316 724 9139</a>
         <a href="https://www.instagram.com/holdshortpei/" target="_blank" style="color:#C8CDD6;text-decoration:none;display:flex;gap:14px" style-hover="color:#F5C400"><span style="color:#8A9BB5;width:84px;display:inline-block">Instagram</span> @holdshortpei</a>
-        <div style="display:flex;gap:14px"><span style="color:#8A9BB5;width:84px;display:inline-block">Base</span> Pereira · Colombia · SKPE/PEI</div>
       </div>
     </div>
     <div style="max-width:1100px;margin:40px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.06);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#5a6373;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between">
@@ -757,17 +800,170 @@ html,body{margin:0;padding:0;background:#0A0A0A}
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+const I18N = {
+  es: {
+    nav: { experiencia:'Experiencia', queAprenderas:'Qué aprenderás', tuVuelo:'Tu vuelo', paquetes:'Paquetes', reservar:'Reservar', quieroVolar:'Quiero volar →' },
+    hero: { titlePre:'¿Y si hoy fuera el día en que descubres', titleMid:'que ', titleHighlight:'naciste para volar', titleEnd:'?',
+      subtitle:'No necesitas experiencia. No necesitas licencia. Solo necesitas atreverte a sentarte en la cabina.',
+      cta:'Quiero ser piloto hoy →', conocer:'conocer la experiencia ↓' },
+    queEs: { badge:'// Bienvenido a bordo', h2:'Primero, bienvenido a Hold Short.',
+      p1Pre:'En aviación, ', p1Post:' es la instrucción que recibe un piloto antes de cruzar la pista activa. El momento de máxima preparación antes de la acción.',
+      p2:'Eso somos nosotros: el lugar donde los pilotos se fortalecen antes de volar la línea. Aquí entrenamos toma de decisiones bajo presión, manejo del estrés en cabina, comunicación efectiva y trabajo en equipo.',
+      p3:'Hoy tú vas a empezar a desarrollarlas también.' },
+    sims: { badge:'// Paseo por los simuladores', h2:'Antes de volar, conoce tu cabina.',
+      pPre:'Cuando llegas, lo primero es recorrer nuestros simuladores. Verás las cabinas del ', pMid:' y el ', pPost:' — los mismos equipos de los pilotos profesionales. Sentirás el cockpit, los instrumentos encendidos. Entenderás por primera vez por qué esta profesión engancha para siempre.',
+      placeholderMain:'Arrastra una foto del simulador', slotCabin:'Cabina A320', slotInstruments:'Instrumentos encendidos', slotInstructor:'Instructor en cabina', slotAmbiente:'Ambiente de vuelo',
+      dragNote:'// arrastra tus fotos de @holdshortpei sobre cada recuadro para reemplazarlas' },
+    fases: {
+      badge:'// Experiencia paso a paso', h2:'Tu vuelo, fase por fase.', p:'Recórrelo de arriba abajo. Cada estación es una parada en tu preparación — todo a la vista, sin prisa.',
+      f1:{ tag:'FASE 01 · FACTOR HUMANO', quote:'“Lo más importante no está en los instrumentos. Está entre los dos pilotos.”',
+        pPre:'El error humano no discrimina. Sin importar cuánto sabes — eres humano. Aquí aprendes qué es el ', pPost:': el arte de operar en equipo. Pasa el cursor sobre cada asiento.',
+        pfDesc:'Quien vuela el avión. Manos en los controles, ejecuta la maniobra.',
+        pmDesc:'Quien verifica y respalda. Vigila instrumentos, detecta el error antes de que crezca.',
+        crmLine:'Dos personas. Un sistema. Cero margen para el ego.' },
+      f2:{ tag:'FASE 02 · AERODINÁMICA', quote:'“El avión no vuela por magia. Vuela por física. Y hoy vas a entenderla.”',
+        p1Pre:'No es el motor el que levanta 80 toneladas — es el ala. El aire que pasa por encima viaja más rápido que el de abajo, y esa diferencia de presión crea la ', liftWord:'sustentación', p1Post:' que te mantiene en el cielo.',
+        p2Pre:'Luego vienen los rumbos: la rosa de los vientos, 360 grados, puntos cardinales. ', dragRoseWord:'Arrastra la rosa', p2Post:' para girarla, o toca un punto cardinal.',
+        wingLabel:'PERFIL ALAR · FLUJO LAMINAR', liftLabel:'SUSTENTACIÓN', windLabel:'VIENTO →',
+        forcesLabel:'EQUILIBRIO · 4 FUERZAS DEL VUELO', weightLabel:'PESO', thrustLabel:'EMPUJE →', dragLabel:'← RESISTENCIA',
+        tapCardinal:'TOCA UN PUNTO CARDINAL',
+        cardinals:{ N:{label:'NORTE · 360°', txt:'El cero de la brújula. Toda navegación empieza preguntándote: ¿hacia dónde es el norte?'},
+                     E:{label:'ESTE · 090°', txt:'Por donde sale el sol. Nemotecnia clásica: girar a la derecha desde el norte.'},
+                     S:{label:'SUR · 180°', txt:'Exactamente opuesto al norte. La mitad del círculo: fácil de recordar.'},
+                     W:{label:'OESTE · 270°', txt:'Por donde se oculta el sol. Cierra la rosa de los vientos.'} } },
+      f3:{ tag:'FASE 03 · EL SIX PACK', quote:'“Seis instrumentos. Toda la información que necesitas para volar.”',
+        p:'Cada instrumento está vivo. Tócalo para girarlo y descubrir qué te dice en pleno vuelo.',
+        tapCard:'Toca el instrumento',
+        i0:{ name:'Velocímetro', code:'ASI · VELOCÍMETRO', fn:'Mide tu velocidad respecto al aire, no al suelo.', fact:'Demasiado lento y el ala deja de sostenerte: eso es un stall.' },
+        i1:{ name:'Horizonte Artificial', code:'ADI · HORIZONTE', fn:'Muestra si subes, bajas o te inclinas cuando no ves afuera.', fact:'Dentro de una nube, es tu único horizonte real.' },
+        i2:{ name:'Altímetro', code:'ALT · ALTÍMETRO', fn:'Tu altura sobre el mar, leída de la presión del aire.', fact:'Se calibra con la presión local. Un error aquí cuesta vidas.' },
+        i3:{ name:'Coordinador de Viraje', code:'TC · VIRAJE', fn:'Confirma que el viraje sea coordinado, sin derrapar.', fact:'La bolita centrada: el secreto de un viraje cómodo y limpio.' },
+        i4:{ name:'Girodireccional', code:'HDG · RUMBO', fn:'Hacia qué punto cardinal apunta la nariz del avión.', fact:'Más estable que la brújula durante los virajes.' },
+        i5:{ name:'Velocidad Vertical', code:'VSI · ASCENSO', fn:'Cuántos pies por minuto subes o bajas.', fact:'Un buen piloto desciende suave: el pasajero ni lo siente.' } },
+      f4:{ tag:'FASE 04 · PREGUNTAS ABIERTAS', quote:'“No hay preguntas estúpidas en cabina.”',
+        p:'El espacio es tuyo antes de subir. El instructor responde todo.', briefing:'BRIEFING · PREGUNTAS DEL ALUMNO',
+        chat:[ {who:'q',text:'¿Cómo sabe el piloto dónde está si hay nubes?'}, {who:'q',text:'¿Qué pasa si se apaga un motor?'}, {who:'q',text:'¿Es difícil aprender a volar?'}, {who:'a',text:'Hoy lo vas a descubrir.'} ] },
+      f5:{ tag:'FASE 05 · LA PRÁCTICA EN SIMULADOR', quote:'“Ahora sí. Tu turno de volar.”',
+        p:'Subes al simulador. Los instrumentos se encienden. El instructor está a tu lado. Potencia, flaps, aviónica — paso a paso, a tu ritmo. Y el destino lo eliges tú.',
+        destinoLibre:'DESTINO LIBRE', eligesTitulo:'Tú eliges a dónde volar.',
+        eligesP:'Operamos cualquier ruta de Colombia: desde un circuito local sobre tu ciudad hasta una travesía entre destinos. Lo definimos juntos antes de despegar.',
+        tuDestino:'TU DESTINO' }
+    },
+    pkgs: {
+      badge:'// Reserva tu vuelo', h2:'Aparta tu fecha. Genera tu ticket.',
+      p:'Elige tu experiencia, escoge un día en el calendario y déjanos tus datos. En segundos tendrás tu pase de abordar listo.',
+      favorito:'FAVORITO', refNote:'// precios de referencia · confirmamos valor final y disponibilidad por WhatsApp',
+      aventurero:{ name:'ESPÍRITU AVENTURERO', priceLine:'$400.000 COP · ~2 h de experiencia',
+        perks:['Recorrido por los simuladores A320 y B200','Briefing de factor humano e instrumentos','Vuelo guiado: virajes, ascenso y descenso','Certificado “Piloto por un Día”'] },
+      comandante:{ name:'COMANDANTE POR UN DÍA', priceLine:'$760.000 COP · ~4–5 h de experiencia',
+        perks:['Todo lo del Espíritu Aventurero, sin prisa','Ruta extendida a tu destino elegido','Despegue y aterrizaje guiados por instructor','Circuitos de tránsito y maniobras avanzadas','Sesión de fotos en cabina + certificado'] },
+      booking:{ fechaSeleccionadaLegend:'fecha seleccionada', boardingData:'PASE DE ABORDAR · DATOS', fechaElegida:'FECHA ELEGIDA', elegirFecha:'Elige una fecha en el calendario',
+        paqueteLabel:'PAQUETE', tocaCambiar:'toca una tarjeta arriba para cambiar', nombreCompleto:'NOMBRE COMPLETO', nombrePlaceholder:'Tu nombre',
+        whatsappContacto:'WHATSAPP / CONTACTO', generarTicket:'Generar mi ticket de vuelo ✈',
+        weekdays:['Lu','Ma','Mi','Ju','Vi','Sa','Do'], months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'], days3:['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'] },
+      ticket:{ prepara1:'PREPÁRATE PARA TU', prepara2:'PRÓXIMA AVENTURA', pasajero:'PASAJERO', fecha:'FECHA', contacto:'CONTACTO', puerta:'PUERTA', asiento:'ASIENTO',
+        confirmar:'Confirmar mi vuelo por WhatsApp →', nuevaReserva:'Nueva reserva', note:'// tu cupo queda apartado al confirmar por WhatsApp. ¡Nos vemos en la cabina!' }
+    },
+    faq: { badge:'// Torre de control', h2:'Antes de despegar, resolvemos tus dudas.',
+      items:[ {q:'¿Necesito saber de aviación?', a:'Absolutamente nada. Eso es exactamente el punto.'},
+              {q:'¿Es para niños?', a:'Sí. Hemos tenido futuros pilotos desde los 8 años.'},
+              {q:'¿Voy solo al simulador?', a:'El instructor siempre está a tu lado. Tú mandas, él cuida.'},
+              {q:'¿Y si me da miedo?', a:'El simulador es 100% seguro. Superar el miedo es parte de la experiencia.'},
+              {q:'¿Cuánto dura?', a:'Express: ~2 horas. Completo: ~4–5 horas.'},
+              {q:'¿Cómo reservo?', a:'Por WhatsApp. Sin formularios. Sin complicaciones.'},
+              {q:'¿Para qué edades es?', a:'Para todas. Desde niños curiosos hasta adultos que siempre soñaron con volar.'} ] },
+    reserva:{ h2Pre:'El cielo lleva esperándote', h2Post:'toda la vida.',
+      p:'Hoy puede ser el día en que dejes de mirar los aviones desde abajo. Escríbenos y reserva tu cabina.', cta:'Hablar por WhatsApp ahora →' },
+    footer:{ about:'Operamos en nuestro centro de entrenamiento en la ciudad de Pereira, Colombia, y extendemos nuestra operación al escenario virtual.' },
+    wa:{ general:'Hola, quiero ser piloto por un día ✈', confirmDefault:'Hola, quiero reservar mi vuelo',
+      ticket:{ title:'✈ HOLD SHORT · Mi reserva', name:'Nombre', pkg:'Paquete', date:'Fecha', flight:'Vuelo', gate:'Puerta', seat:'Asiento', contact:'Contacto', closing:'¡Quiero confirmar mi aventura! 🛩' } }
+  },
+  en: {
+    nav: { experiencia:'Experience', queAprenderas:'What you’ll learn', tuVuelo:'Your flight', paquetes:'Packages', reservar:'Book now', quieroVolar:'I want to fly →' },
+    hero: { titlePre:'What if today is the day you discover', titleMid:'you ', titleHighlight:'were born to fly', titleEnd:'?',
+      subtitle:'No experience needed. No license needed. You just need the courage to sit in the cockpit.',
+      cta:'I want to be a pilot today →', conocer:'discover the experience ↓' },
+    queEs: { badge:'// Welcome aboard', h2:'First, welcome to Hold Short.',
+      p1Pre:'In aviation, ', p1Post:' is the instruction a pilot receives before crossing an active runway. The moment of maximum readiness before the action.',
+      p2:'That’s us: the place where pilots sharpen their edge before flying the line. Here we train decision-making under pressure, cockpit stress management, effective communication and teamwork.',
+      p3:'Today, you’re going to start developing them too.' },
+    sims: { badge:'// A walk through our simulators', h2:'Before you fly, meet your cockpit.',
+      pPre:'When you arrive, the first thing we do is walk through our simulators. You’ll see the cockpits of the ', pMid:' and the ', pPost:' — the same equipment professional pilots use. You’ll feel the cockpit, the instruments powered on. You’ll understand for the first time why this profession hooks you for life.',
+      placeholderMain:'Drag a simulator photo here', slotCabin:'A320 cockpit', slotInstruments:'Instruments powered on', slotInstructor:'Instructor in cockpit', slotAmbiente:'Flight atmosphere',
+      dragNote:'// drag your photos from @holdshortpei onto each box to replace them' },
+    fases: {
+      badge:'// Step-by-step experience', h2:'Your flight, phase by phase.', p:'Go through it from top to bottom. Each station is a stop in your preparation — everything in view, no rush.',
+      f1:{ tag:'PHASE 01 · HUMAN FACTOR', quote:'“The most important thing isn’t in the instruments. It’s between the two pilots.”',
+        pPre:'Human error doesn’t discriminate. No matter how much you know — you’re human. Here you’ll learn what ', pPost:' is: the art of operating as a team. Hover over each seat.',
+        pfDesc:'The one flying the aircraft. Hands on the controls, executing the maneuver.',
+        pmDesc:'The one verifying and backing up. Monitors instruments, catches the error before it grows.',
+        crmLine:'Two people. One system. Zero room for ego.' },
+      f2:{ tag:'PHASE 02 · AERODYNAMICS', quote:'“The aircraft doesn’t fly by magic. It flies by physics. And today you’re going to understand it.”',
+        p1Pre:'It’s not the engine that lifts 80 tons — it’s the wing. The air flowing over the top travels faster than the air below, and that pressure difference creates the ', liftWord:'lift', p1Post:' that keeps you in the sky.',
+        p2Pre:'Next come headings: the compass rose, 360 degrees, cardinal points. ', dragRoseWord:'Drag the rose', p2Post:' to spin it, or tap a cardinal point.',
+        wingLabel:'WING PROFILE · LAMINAR FLOW', liftLabel:'LIFT', windLabel:'WIND →',
+        forcesLabel:'BALANCE · 4 FORCES OF FLIGHT', weightLabel:'WEIGHT', thrustLabel:'THRUST →', dragLabel:'← DRAG',
+        tapCardinal:'TAP A CARDINAL POINT',
+        cardinals:{ N:{label:'NORTH · 360°', txt:'The zero point of the compass. All navigation starts by asking: which way is north?'},
+                     E:{label:'EAST · 090°', txt:'Where the sun rises. Classic mnemonic: turn right from north.'},
+                     S:{label:'SOUTH · 180°', txt:'Exactly opposite north. Half the circle: easy to remember.'},
+                     W:{label:'WEST · 270°', txt:'Where the sun sets. Closes the compass rose.'} } },
+      f3:{ tag:'PHASE 03 · THE SIX PACK', quote:'“Six instruments. All the information you need to fly.”',
+        p:'Each instrument is alive. Tap it to flip it and discover what it tells you mid-flight.',
+        tapCard:'Tap the instrument',
+        i0:{ name:'Airspeed Indicator', code:'ASI · AIRSPEED', fn:'Measures your speed relative to the air, not the ground.', fact:'Too slow and the wing stops holding you up: that’s a stall.' },
+        i1:{ name:'Attitude Indicator', code:'ADI · ATTITUDE', fn:'Shows whether you’re climbing, descending or banking when you can’t see outside.', fact:'Inside a cloud, it’s your only real horizon.' },
+        i2:{ name:'Altimeter', code:'ALT · ALTIMETER', fn:'Your height above sea level, read from air pressure.', fact:'Calibrated to local pressure before flight. A mistake here costs lives.' },
+        i3:{ name:'Turn Coordinator', code:'TC · TURN', fn:'Confirms the turn is coordinated, without skidding.', fact:'The ball centered: the secret to a smooth, clean turn.' },
+        i4:{ name:'Heading Indicator', code:'HDG · HEADING', fn:'Which cardinal direction the aircraft’s nose is pointing.', fact:'More stable than the compass during turns.' },
+        i5:{ name:'Vertical Speed Indicator', code:'VSI · CLIMB', fn:'How many feet per minute you’re climbing or descending.', fact:'A good pilot descends smoothly: the passenger doesn’t even notice.' } },
+      f4:{ tag:'PHASE 04 · OPEN QUESTIONS', quote:'“There are no stupid questions in the cockpit.”',
+        p:'This space is yours before boarding. The instructor answers everything.', briefing:'BRIEFING · STUDENT QUESTIONS',
+        chat:[ {who:'q',text:'How does the pilot know where they are when it’s cloudy?'}, {who:'q',text:'What happens if an engine shuts down?'}, {who:'q',text:'Is it hard to learn to fly?'}, {who:'a',text:'Today you’ll find out.'} ] },
+      f5:{ tag:'PHASE 05 · SIMULATOR PRACTICE', quote:'“Now it’s your turn to fly.”',
+        p:'You board the simulator. The instruments power up. The instructor is by your side. Power, flaps, avionics — step by step, at your pace. And you choose the destination.',
+        destinoLibre:'FREE DESTINATION', eligesTitulo:'You choose where to fly.',
+        eligesP:'We operate any route across Colombia: from a local circuit over your city to a journey between destinations. We’ll plan it together before takeoff.',
+        tuDestino:'YOUR DESTINATION' }
+    },
+    pkgs: {
+      badge:'// Book your flight', h2:'Reserve your date. Generate your ticket.',
+      p:'Choose your experience, pick a day on the calendar and leave us your details. In seconds you’ll have your boarding pass ready.',
+      favorito:'MOST POPULAR', refNote:'// reference prices · we confirm final price and availability via WhatsApp',
+      aventurero:{ name:'ADVENTUROUS SPIRIT', priceLine:'$400,000 COP · ~2 hr experience',
+        perks:['Tour of the A320 and B200 simulators','Human factor and instruments briefing','Guided flight: turns, climbs and descents','“Pilot for a Day” certificate'] },
+      comandante:{ name:'CAPTAIN FOR A DAY', priceLine:'$760,000 COP · ~4–5 hr experience',
+        perks:['Everything in Adventurous Spirit, without rushing','Extended route to your chosen destination','Instructor-guided takeoff and landing','Traffic circuits and advanced maneuvers','Cockpit photo session + certificate'] },
+      booking:{ fechaSeleccionadaLegend:'selected date', boardingData:'BOARDING PASS · DETAILS', fechaElegida:'CHOSEN DATE', elegirFecha:'Choose a date on the calendar',
+        paqueteLabel:'PACKAGE', tocaCambiar:'tap a card above to change', nombreCompleto:'FULL NAME', nombrePlaceholder:'Your name',
+        whatsappContacto:'WHATSAPP / CONTACT', generarTicket:'Generate my flight ticket ✈',
+        weekdays:['Mo','Tu','We','Th','Fr','Sa','Su'], months:['January','February','March','April','May','June','July','August','September','October','November','December'], days3:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] },
+      ticket:{ prepara1:'GET READY FOR YOUR', prepara2:'NEXT ADVENTURE', pasajero:'PASSENGER', fecha:'DATE', contacto:'CONTACT', puerta:'GATE', asiento:'SEAT',
+        confirmar:'Confirm my flight via WhatsApp →', nuevaReserva:'New booking', note:'// your spot is reserved once you confirm via WhatsApp. See you in the cockpit!' }
+    },
+    faq: { badge:'// Control tower', h2:'Before takeoff, we answer your questions.',
+      items:[ {q:'Do I need to know about aviation?', a:'Absolutely nothing. That’s exactly the point.'},
+              {q:'Is it for kids?', a:'Yes. We’ve had future pilots as young as 8 years old.'},
+              {q:'Do I go into the simulator alone?', a:'The instructor is always by your side. You’re in command, they keep watch.'},
+              {q:'What if I get scared?', a:'The simulator is 100% safe. Overcoming fear is part of the experience.'},
+              {q:'How long does it last?', a:'Express: ~2 hours. Complete: ~4–5 hours.'},
+              {q:'How do I book?', a:'Via WhatsApp. No forms. No hassle.'},
+              {q:'What ages is it for?', a:'For all ages. From curious kids to adults who’ve always dreamed of flying.'} ] },
+    reserva:{ h2Pre:'The sky has been waiting for you', h2Post:'your whole life.',
+      p:'Today could be the day you stop watching planes from below. Message us and reserve your cockpit.', cta:'Talk on WhatsApp now →' },
+    footer:{ about:'We operate from our training center in Pereira, Colombia, and extend our operation to the virtual scenario.' },
+    wa:{ general:'Hi, I want to be a pilot for a day ✈', confirmDefault:'Hi, I want to book my flight',
+      ticket:{ title:'✈ HOLD SHORT · My booking', name:'Name', pkg:'Package', date:'Date', flight:'Flight', gate:'Gate', seat:'Seat', contact:'Contact', closing:'I want to confirm my adventure! 🛩' } }
+  }
+};
 class Component extends DCLogic {
   state = { menu:false, openPhase:1, route:'express', openFaq:0, flip:{}, compass:0, cSel:'N', chatLines:[], heroTagline:'',
-            calY:0, calM:0, selDate:null, bName:'', bPhone:'', bPkg:'aventurero', booked:false, ticket:null };
+            calY:0, calM:0, selDate:null, bName:'', bPhone:'', bPkg:'aventurero', booked:false, ticket:null,
+            lang:(typeof localStorage!=='undefined' && localStorage.getItem('hs_lang')==='en')?'en':'es' };
 
   PKGS = {
-    aventurero:{ key:'aventurero', name:'ESPÍRITU AVENTURERO', tag:'DISCOVERY', usd:100, cop:'400.000', dur:'~2 h',
-      blurb:'Tu primer despegue. La dosis perfecta de adrenalina para sentir por qué volar engancha.',
-      perks:['Recorrido por los simuladores A320 y B200','Briefing de factor humano e instrumentos','Vuelo guiado: virajes, ascenso y descenso','Certificado “Piloto por un Día”'] },
-    comandante:{ key:'comandante', name:'COMANDANTE POR UN DÍA', tag:'CAPTAIN', usd:190, cop:'760.000', dur:'~4–5 h',
-      blurb:'La travesía completa. Tú al mando de principio a fin, despegue y aterrizaje incluidos.',
-      perks:['Todo lo del Espíritu Aventurero, sin prisa','Ruta extendida a tu destino elegido','Despegue y aterrizaje guiados por instructor','Circuitos de tránsito y maniobras avanzadas','Sesión de fotos en cabina + certificado'] }
+    aventurero:{ key:'aventurero', tag:'DISCOVERY', usd:100, cop:'400.000', dur:'~2 h' },
+    comandante:{ key:'comandante', tag:'CAPTAIN', usd:190, cop:'760.000', dur:'~4–5 h' }
   };
   MES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   MES3=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
@@ -798,6 +994,15 @@ class Component extends DCLogic {
     clearTimeout(this._ct); clearTimeout(this._tt);
   }
 
+  setLang(lang){
+    if(lang===this.state.lang) return;
+    try{ localStorage.setItem('hs_lang', lang); }catch(_){}
+    this.setState({lang});
+    clearTimeout(this._ct);
+    this.ci=0; this.cc=0;
+    this.startChat();
+  }
+
   typeTagline(){
     const full='SYSTEM ONLINE · SKPE/PEI · BE: AIRLINE MINDED';
     const set=t=>{ if(this.taglineEl) this.taglineEl.textContent=t; };
@@ -808,12 +1013,7 @@ class Component extends DCLogic {
   }
 
   startChat(){
-    this.chatMsgs=[
-      {who:'q',text:'¿Cómo sabe el piloto dónde está si hay nubes?'},
-      {who:'q',text:'¿Qué pasa si se apaga un motor?'},
-      {who:'q',text:'¿Es difícil aprender a volar?'},
-      {who:'a',text:'Hoy lo vas a descubrir.'},
-    ];
+    this.chatMsgs=I18N[this.state.lang].fases.f4.chat;
     if(!this.chatEl){ this._ct=setTimeout(()=>this.startChat(), 400); return; }
     if(this.reduced){ this.renderChat(this.chatMsgs); return; }
     this.ci=0; this.cc=0; this.tickChat();
@@ -861,24 +1061,17 @@ class Component extends DCLogic {
     return base.map((it,i)=>({...it, i, flipped:!!this.state.flip[i], innerStyle:{transform:this.state.flip[i]?'rotateY(180deg)':'rotateY(0deg)', transition:'transform .55s cubic-bezier(.2,.8,.2,1)', transformStyle:'preserve-3d', position:'relative', width:'100%', height:'100%'}, onFlip:()=>this.setState(x=>({flip:{...x.flip,[i]:!x.flip[i]}}))}));
   }
   cardinals(){
+    const c=I18N[this.state.lang].fases.f2.cardinals;
     const data=[
-      {k:'N',deg:0,label:'NORTE · 360°',txt:'El cero de la brújula. Toda navegación empieza preguntándote: ¿hacia dónde es el norte?'},
-      {k:'E',deg:90,label:'ESTE · 090°',txt:'Por donde sale el sol. Nemotecnia clásica: girar a la derecha desde el norte.'},
-      {k:'S',deg:180,label:'SUR · 180°',txt:'Exactamente opuesto al norte. La mitad del círculo: fácil de recordar.'},
-      {k:'W',deg:270,label:'OESTE · 270°',txt:'Por donde se oculta el sol. Cierra la rosa de los vientos.'},
+      {k:'N',deg:0,label:c.N.label,txt:c.N.txt},
+      {k:'E',deg:90,label:c.E.label,txt:c.E.txt},
+      {k:'S',deg:180,label:c.S.label,txt:c.S.txt},
+      {k:'W',deg:270,label:c.W.label,txt:c.W.txt},
     ];
     return data.map(d=>{ const sel=this.state.cSel===d.k; return {...d, sel, onSel:()=>this.setState({cSel:d.k, compass:-d.deg}), btnStyle:{flex:1,padding:'9px 0',borderRadius:'4px',fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:'17px',cursor:'pointer',border:'1px solid '+(sel?'#F5C400':'rgba(138,155,181,.3)'),background:sel?'#F5C400':'transparent',color:sel?'#0A0A0A':'#8A9BB5',transition:'all .2s'}}; });
   }
   faqs(){
-    const data=[
-      {q:'¿Necesito saber de aviación?',a:'Absolutamente nada. Eso es exactamente el punto.'},
-      {q:'¿Es para niños?',a:'Sí. Hemos tenido futuros pilotos desde los 8 años.'},
-      {q:'¿Voy solo al simulador?',a:'El instructor siempre está a tu lado. Tú mandas, él cuida.'},
-      {q:'¿Y si me da miedo?',a:'El simulador es 100% seguro. Superar el miedo es parte de la experiencia.'},
-      {q:'¿Cuánto dura?',a:'Express: ~2 horas. Completo: ~4–5 horas.'},
-      {q:'¿Cómo reservo?',a:'Por WhatsApp. Sin formularios. Sin complicaciones.'},
-      {q:'¿Para qué edades es?',a:'Para todas. Desde niños curiosos hasta adultos que siempre soñaron con volar.'},
-    ];
+    const data=I18N[this.state.lang].faq.items;
     return data.map((d,i)=>{ const open=this.state.openFaq===i; return {...d, i, open, sign:open?'−':'+', panelStyle:{maxHeight:open?'200px':'0px', opacity:open?1:0, transition:'max-height .5s ease, opacity .4s ease', overflow:'hidden'}, barStyleStr:'width:'+(open?'100%':'0%')+';transition:width .55s ease', onToggle:()=>this.setState(x=>({openFaq:x.openFaq===i?-1:i}))}; });
   }
 
@@ -914,7 +1107,17 @@ class Component extends DCLogic {
     return cells;
   }
   selDateStr(){ const s=this.state.selDate; if(!s)return null; return this.DIA3[new Date(s.y,s.m,s.d).getDay()]+' '+String(s.d).padStart(2,'0')+' '+this.MES3[s.m]+' '+s.y; }
-  selDateLong(){ const s=this.state.selDate; if(!s)return ''; return this.DIA3[new Date(s.y,s.m,s.d).getDay()]+', '+s.d+' de '+this.MES[s.m]+' '+s.y; }
+  dateLongFor(d,lang){
+    const b=I18N[lang].pkgs.booking;
+    const day3=b.days3[new Date(d.y,d.m,d.d).getDay()];
+    const month=b.months[d.m];
+    if(lang==='en') return day3+', '+month+' '+d.d+', '+d.y;
+    return day3+', '+d.d+' de '+month+' '+d.y;
+  }
+  selDateLong(){
+    const s=this.state.selDate; if(!s)return '';
+    return this.dateLongFor(s, this.state.lang);
+  }
   hashCode(str){ let h=0; for(let i=0;i<str.length;i++){ h=((h<<5)-h+str.charCodeAt(i))|0; } return Math.abs(h); }
   submitBooking(){
     if(!(this.state.bName.trim()&&this.state.bPhone.trim()&&this.state.selDate)) return;
@@ -924,14 +1127,15 @@ class Component extends DCLogic {
     const seat=(1+seed%30)+['A','B','C','D'][seed%4];
     const gate=String(1+seed%18).padStart(2,'0');
     this.setState({ booked:true, ticket:{ name:this.state.bName.trim().toUpperCase(), phone:this.state.bPhone.trim(),
-      pkg:p, date:this.selDateLong(), dateShort:this.selDateStr(), flight, seat, gate } });
+      pkgKey:p.key, selDate:{...this.state.selDate}, flight, seat, gate } });
   }
   resetBooking(){ this.setState({booked:false}); }
 
   renderVals(){
     const s=this.state;
+    const t=I18N[s.lang];
     const wa='https://wa.me/573167249139';
-    const waText=t=>wa+'?text='+encodeURIComponent(t);
+    const waText=msg=>wa+'?text='+encodeURIComponent(msg);
     const isCompleto=s.route==='completo';
     const dot=o=>({width:'46px',height:'46px',borderRadius:'50%',border:'2px solid '+(o?'#F5C400':'rgba(245,196,0,.45)'),background:o?'#F5C400':'rgba(245,196,0,.04)',color:o?'#0A0A0A':'#F5C400',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'JetBrains Mono',monospace",fontWeight:700,fontSize:'14px',cursor:'pointer',flexShrink:0,transition:'all .3s',boxShadow:o?'0 0 22px rgba(245,196,0,.5)':'none'});
     const chev=o=>({transform:o?'rotate(180deg)':'rotate(0deg)',transition:'transform .35s',color:'#F5C400',flexShrink:0});
@@ -944,9 +1148,14 @@ class Component extends DCLogic {
       toggleMenu:()=>this.setState(x=>({menu:!x.menu})),
       closeMenu:()=>this.setState({menu:false}),
       mobilePanelStyle:{position:'fixed',inset:0,zIndex:80,background:'rgba(7,7,7,.97)',backdropFilter:'blur(8px)',transform:s.menu?'translateX(0)':'translateX(100%)',transition:'transform .4s cubic-bezier(.2,.8,.2,1)',borderLeft:'2px solid #F5C400'},
-      waGeneral:waText('Hola, quiero ser piloto por un día ✈'),
-      waExpress:waText('Hola, quiero reservar el Piloto Express'),
-      waCompleto:waText('Hola, quiero reservar el Piloto Completo'),
+      t, lang:s.lang,
+      setLangEs:()=>this.setLang('es'),
+      setLangEn:()=>this.setLang('en'),
+      langEsStyle:{cursor:'pointer',background:s.lang==='es'?'#F5C400':'transparent',color:s.lang==='es'?'#0A0A0A':'#8A9BB5',border:'1px solid '+(s.lang==='es'?'#F5C400':'rgba(138,155,181,.3)'),borderRadius:'4px 0 0 4px',padding:'5px 9px',fontFamily:"'JetBrains Mono',monospace",fontWeight:700,fontSize:'11px',letterSpacing:'.06em',transition:'all .2s'},
+      langEnStyle:{cursor:'pointer',background:s.lang==='en'?'#F5C400':'transparent',color:s.lang==='en'?'#0A0A0A':'#8A9BB5',border:'1px solid '+(s.lang==='en'?'#F5C400':'rgba(138,155,181,.3)'),borderLeft:'0',borderRadius:'0 4px 4px 0',padding:'5px 9px',fontFamily:"'JetBrains Mono',monospace",fontWeight:700,fontSize:'11px',letterSpacing:'.06em',transition:'all .2s'},
+      waGeneral:waText(t.wa.general),
+      waExpress:waText(t.wa.general),
+      waCompleto:waText(t.wa.general),
       heroTagline:s.heroTagline,
       // phases
       openPhase:s.openPhase,
@@ -977,7 +1186,7 @@ class Component extends DCLogic {
       // faq
       faqs:this.faqs(),
       // ---- Booking ----
-      pkgA:this.PKGS.aventurero, pkgC:this.PKGS.comandante,
+      pkgA:{...this.PKGS.aventurero, ...t.pkgs.aventurero}, pkgC:{...this.PKGS.comandante, ...t.pkgs.comandante},
       bPkg:s.bPkg,
       selAventurero:()=>this.setState({bPkg:'aventurero'}),
       selComandante:()=>this.setState({bPkg:'comandante'}),
@@ -986,9 +1195,9 @@ class Component extends DCLogic {
       pkgADot:{width:'18px',height:'18px',borderRadius:'50%',border:'2px solid '+(s.bPkg==='aventurero'?'#F5C400':'#5a6373'),background:s.bPkg==='aventurero'?'#F5C400':'transparent',flexShrink:0,boxShadow:s.bPkg==='aventurero'?'0 0 12px rgba(245,196,0,.6)':'none'},
       pkgCDot:{width:'18px',height:'18px',borderRadius:'50%',border:'2px solid '+(s.bPkg==='comandante'?'#F5C400':'#5a6373'),background:s.bPkg==='comandante'?'#F5C400':'transparent',flexShrink:0,boxShadow:s.bPkg==='comandante'?'0 0 12px rgba(245,196,0,.6)':'none'},
       // calendar
-      calMonthLabel:this.MES[s.calM]+' '+s.calY,
+      calMonthLabel:t.pkgs.booking.months[s.calM]+' '+s.calY,
       calCells:this.calCells(),
-      weekdays:['Lu','Ma','Mi','Ju','Vi','Sa','Do'],
+      weekdays:t.pkgs.booking.weekdays,
       canPrev:this.canPrev(),
       prevMonth:()=>this.prevMonth(),
       nextMonth:()=>this.nextMonth(),
@@ -999,16 +1208,20 @@ class Component extends DCLogic {
       setPhone:(e)=>this.setState({bPhone:e.target.value}),
       hasDate:!!s.selDate,
       selDateStr:this.selDateStr(),
-      selDateLong:this.selDateLong()||'Elige una fecha en el calendario',
-      formPkgName:this.PKGS[s.bPkg].name,
+      selDateLong:this.selDateLong()||t.pkgs.booking.elegirFecha,
+      formPkgName:t.pkgs[s.bPkg].name,
       formPkgPrice:'$'+this.PKGS[s.bPkg].usd+' USD · $'+this.PKGS[s.bPkg].cop+' COP',
       canSubmit:!!(s.bName.trim()&&s.bPhone.trim()&&s.selDate),
       submitStyle:{width:'100%',marginTop:'4px',background:(s.bName.trim()&&s.bPhone.trim()&&s.selDate)?'#F5C400':'rgba(245,196,0,.15)',color:(s.bName.trim()&&s.bPhone.trim()&&s.selDate)?'#0A0A0A':'#8A7a3a',border:'0',borderRadius:'6px',padding:'15px',fontWeight:700,fontSize:'15px',cursor:(s.bName.trim()&&s.bPhone.trim()&&s.selDate)?'pointer':'not-allowed',letterSpacing:'.01em',transition:'all .25s',fontFamily:'Inter,sans-serif'},
       submitBooking:()=>this.submitBooking(),
       booked:s.booked, notBooked:!s.booked,
-      ticket:s.ticket||{name:'',phone:'',pkg:this.PKGS.aventurero,date:'',dateShort:'',flight:'',seat:'',gate:''},
+      ticket:s.ticket?{ name:s.ticket.name, phone:s.ticket.phone, flight:s.ticket.flight, seat:s.ticket.seat, gate:s.ticket.gate,
+        pkg:{...this.PKGS[s.ticket.pkgKey], name:t.pkgs[s.ticket.pkgKey].name}, date:this.dateLongFor(s.ticket.selDate, s.lang) }
+        :{name:'',phone:'',pkg:{...this.PKGS.aventurero,name:t.pkgs.aventurero.name},date:'',flight:'',seat:'',gate:''},
       resetBooking:()=>this.resetBooking(),
-      waConfirm: s.ticket ? (wa+'?text='+encodeURIComponent('✈ HOLD SHORT · Mi reserva\n\nNombre: '+s.ticket.name+'\nPaquete: '+s.ticket.pkg.name+'\nFecha: '+s.ticket.date+'\nVuelo: '+s.ticket.flight+' · Puerta '+s.ticket.gate+' · Asiento '+s.ticket.seat+'\nContacto: '+s.ticket.phone+'\n\n¡Quiero confirmar mi aventura! 🛩') ) : waText('Hola, quiero reservar mi vuelo'),
+      waConfirm: s.ticket ? (()=>{ const tk={ name:s.ticket.name, phone:s.ticket.phone, flight:s.ticket.flight, seat:s.ticket.seat, gate:s.ticket.gate,
+        pkg:{...this.PKGS[s.ticket.pkgKey], name:t.pkgs[s.ticket.pkgKey].name}, date:this.dateLongFor(s.ticket.selDate, s.lang) };
+        return wa+'?text='+encodeURIComponent(t.wa.ticket.title+'\n\n'+t.wa.ticket.name+': '+tk.name+'\n'+t.wa.ticket.pkg+': '+tk.pkg.name+'\n'+t.wa.ticket.date+': '+tk.date+'\n'+t.wa.ticket.flight+': '+tk.flight+' · '+t.wa.ticket.gate+' '+tk.gate+' · '+t.wa.ticket.seat+' '+tk.seat+'\n'+t.wa.ticket.contact+': '+tk.phone+'\n\n'+t.wa.ticket.closing); })() : waText(t.wa.confirmDefault),
     };
   }
 }
