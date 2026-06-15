@@ -1,0 +1,4 @@
+*.dc.html
+.thumbnail
+.image-slots.state.json
+screenshots/

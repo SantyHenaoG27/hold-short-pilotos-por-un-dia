@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/supabase-client.js"></script>
 </head>
 <body>
 <x-dc>
@@ -112,6 +114,7 @@ html,body{margin:0;padding:0;background:#0A0A0A}
         <button onClick="{{ setLangEs }}" style="{{ langEsStyle }}">ES</button>
         <button onClick="{{ setLangEn }}" style="{{ langEnStyle }}">EN</button>
       </div>
+      <button onClick="{{ openLogin }}" style="display:none;align-items:center;background:none;border:1px solid rgba(138,155,181,.3);color:#C8CDD6;text-decoration:none;font-weight:600;font-size:13px;padding:9px 16px;border-radius:3px;letter-spacing:.02em;cursor:pointer;font-family:Inter,sans-serif" data-desk="1" style-hover="border-color:#F5C400;color:#F5C400">{{ t.auth.navLogin }}</button>
       <a href="{{ waGeneral }}" target="_blank" style="display:none;align-items:center;gap:7px;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:13px;padding:10px 18px;border-radius:3px;letter-spacing:.02em" data-desk="1" style-hover="background:#FFD740;transform:translateY(-1px)">{{ t.nav.quieroVolar }}</a>
       <button onClick="{{ toggleMenu }}" aria-label="Menú" style="display:flex;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:6px" data-mob="1">
         <span style="display:block;width:24px;height:2px;background:#F5C400"></span>
@@ -129,8 +132,52 @@ html,body{margin:0;padding:0;background:#0A0A0A}
       <a href="#vuelo" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.tuVuelo }}</a>
       <a href="#paquetes" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.paquetes }}</a>
       <a href="{{ waGeneral }}" target="_blank" onClick="{{ closeMenu }}" style="margin-top:18px;text-align:center;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:16px;padding:15px;border-radius:3px">{{ t.nav.quieroVolar }}</a>
+      <button onClick="{{ openLoginMobile }}" style="margin-top:10px;text-align:center;background:none;border:1px solid rgba(245,196,0,.4);color:#F5C400;font-weight:700;font-size:16px;padding:14px;border-radius:3px;cursor:pointer;font-family:Inter,sans-serif">{{ t.auth.navLogin }}</button>
     </div>
   </div>
+
+  <sc-if value="{{ authOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeAuth }}" style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(7,7,7,.78);backdrop-filter:blur(6px)">
+      <div onClick="{{ stopProp }}" style="position:relative;width:100%;max-width:420px;background:#101012;border:1px solid rgba(245,196,0,.25);border-radius:10px;padding:clamp(24px,4vw,36px);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+        <button onClick="{{ closeAuth }}" aria-label="{{ t.auth.close }}" style="position:absolute;top:14px;right:14px;background:none;border:0;color:#8A9BB5;font-size:22px;cursor:pointer;line-height:1">×</button>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#F5C400;margin-bottom:6px">// {{ t.auth.title }}</div>
+        <div style="display:flex;gap:8px;margin:18px 0 22px">
+          <button onClick="{{ switchToLogin }}" style="{{ loginTabStyle }}">{{ t.auth.loginTab }}</button>
+          <button onClick="{{ switchToRegister }}" style="{{ registerTabStyle }}">{{ t.auth.registerTab }}</button>
+        </div>
+        <sc-if value="{{ isRegisterMode }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-bottom:14px">
+            <label style="{{ authLabelStyle }}">{{ t.auth.nameLabel }}</label>
+            <input type="text" value="{{ authName }}" onChange="{{ setAuthName }}" placeholder="{{ t.auth.namePlaceholder }}" style="{{ authFieldStyle }}"/>
+          </div>
+          <div style="margin-bottom:14px">
+            <label style="{{ authLabelStyle }}">{{ t.auth.phoneLabel }}</label>
+            <input type="tel" value="{{ authPhone }}" onChange="{{ setAuthPhone }}" placeholder="{{ t.auth.phonePlaceholder }}" style="{{ authFieldStyle }}"/>
+          </div>
+        </sc-if>
+        <div style="margin-bottom:14px">
+          <label style="{{ authLabelStyle }}">{{ t.auth.emailLabel }}</label>
+          <input type="email" value="{{ authEmail }}" onChange="{{ setAuthEmail }}" placeholder="{{ t.auth.emailPlaceholder }}" style="{{ authFieldStyle }}"/>
+        </div>
+        <div style="margin-bottom:8px">
+          <label style="{{ authLabelStyle }}">{{ t.auth.passwordLabel }}</label>
+          <input type="password" value="{{ authPassword }}" onChange="{{ setAuthPassword }}" placeholder="{{ t.auth.passwordPlaceholder }}" style="{{ authFieldStyle }}"/>
+        </div>
+        <sc-if value="{{ hasAuthError }}" hint-placeholder-val="{{ false }}">
+          <div style="color:#FF8A8A;font-size:12.5px;margin:8px 0">{{ authError }}</div>
+        </sc-if>
+        <button onClick="{{ submitAuth }}" disabled="{{ authLoading }}" style="{{ authSubmitStyle }}">{{ authSubmitLabel }}</button>
+        <div style="text-align:center;margin-top:16px">
+          <sc-if value="{{ isLoginMode }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ switchToRegister }}" style="background:none;border:0;color:#8A9BB5;font-size:12.5px;cursor:pointer;text-decoration:underline;font-family:Inter,sans-serif">{{ t.auth.switchToRegister }}</button>
+          </sc-if>
+          <sc-if value="{{ isRegisterMode }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ switchToLogin }}" style="background:none;border:0;color:#8A9BB5;font-size:12.5px;cursor:pointer;text-decoration:underline;font-family:Inter,sans-serif">{{ t.auth.switchToLogin }}</button>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
 
   <main id="top">
 
@@ -626,11 +673,11 @@ html,body{margin:0;padding:0;background:#0A0A0A}
         <div data-rev="y" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;margin-bottom:24px">
           <div onClick="{{ selAventurero }}" style="{{ pkgAStyle }}">
             <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px dashed rgba(138,155,181,.28)">
-              <div style="display:flex;align-items:center;gap:11px"><span style="{{ pkgADot }}"></span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#8A9BB5">CLASS · DISCOVERY</span></div>
+              <div style="display:flex;align-items:center;gap:11px"><span style="{{ pkgADot }}"></span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#8A9BB5">CLASS · EXPRESS</span></div>
             </div>
             <div style="padding:20px 20px 24px">
               <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;color:#F0F0F0;line-height:1;letter-spacing:.01em">{{ pkgA.name }}</div>
-              <div style="display:flex;align-items:baseline;gap:10px;margin:14px 0 4px"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:32px;color:#F5C400">$100</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A9BB5">USD</span></div>
+              <div style="display:flex;align-items:baseline;gap:10px;margin:14px 0 4px"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:32px;color:#F5C400">${{ pkgA.cop }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A9BB5">COP</span></div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#C8CDD6;margin-bottom:16px">{{ pkgA.priceLine }}</div>
               <div style="display:flex;flex-direction:column;gap:9px">
                 <sc-for list="{{ pkgA.perks }}" as="perk" hint-placeholder-count="4">
@@ -643,21 +690,20 @@ html,body{margin:0;padding:0;background:#0A0A0A}
           <div onClick="{{ selComandante }}" style="{{ pkgCStyle }}">
             <div style="position:absolute;top:14px;right:-34px;transform:rotate(45deg);background:#F5C400;color:#0A0A0A;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:10px;letter-spacing:.12em;padding:5px 40px;z-index:1">{{ t.pkgs.favorito }}</div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px dashed rgba(245,196,0,.4)">
-              <div style="display:flex;align-items:center;gap:11px"><span style="{{ pkgCDot }}"></span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#F5C400">CLASS · CAPTAIN</span></div>
+              <div style="display:flex;align-items:center;gap:11px"><span style="{{ pkgCDot }}"></span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#F5C400">CLASS · FULL EXPERIENCE</span></div>
             </div>
             <div style="padding:20px 20px 24px">
               <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;color:#F5C400;line-height:1;letter-spacing:.01em">{{ pkgC.name }}</div>
-              <div style="display:flex;align-items:baseline;gap:10px;margin:14px 0 4px"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:32px;color:#F5C400">$190</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A9BB5">USD</span></div>
+              <div style="display:flex;align-items:baseline;gap:10px;margin:14px 0 4px"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:32px;color:#F5C400">${{ pkgC.cop }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A9BB5">COP</span></div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#C8CDD6;margin-bottom:16px">{{ pkgC.priceLine }}</div>
               <div style="display:flex;flex-direction:column;gap:9px">
-                <sc-for list="{{ pkgC.perks }}" as="perk" hint-placeholder-count="5">
+                <sc-for list="{{ pkgC.perks }}" as="perk" hint-placeholder-count="8">
                   <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#F0F0F0;line-height:1.5"><span style="color:#F5C400;flex-shrink:0">✓</span> {{ perk }}</div>
                 </sc-for>
               </div>
             </div>
           </div>
         </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:#5a6373;margin:0 0 24px">{{ t.pkgs.refNote }}</div>
 
         <div data-rev="y" style="background:linear-gradient(160deg,#0e0e12,#090909);border:1px solid rgba(245,196,0,.2);border-radius:16px;overflow:hidden">
           <sc-if value="{{ notBooked }}" hint-placeholder-val="{{ true }}">
@@ -849,11 +895,11 @@ const I18N = {
     pkgs: {
       badge:'// Reserva tu vuelo', h2:'Aparta tu fecha. Genera tu ticket.',
       p:'Elige tu experiencia, escoge un día en el calendario y déjanos tus datos. En segundos tendrás tu pase de abordar listo.',
-      favorito:'FAVORITO', refNote:'// precios de referencia · confirmamos valor final y disponibilidad por WhatsApp',
-      aventurero:{ name:'ESPÍRITU AVENTURERO', priceLine:'$400.000 COP · ~2 h de experiencia',
-        perks:['Recorrido por los simuladores A320 y B200','Briefing de factor humano e instrumentos','Vuelo guiado: virajes, ascenso y descenso','Certificado “Piloto por un Día”'] },
-      comandante:{ name:'COMANDANTE POR UN DÍA', priceLine:'$760.000 COP · ~4–5 h de experiencia',
-        perks:['Todo lo del Espíritu Aventurero, sin prisa','Ruta extendida a tu destino elegido','Despegue y aterrizaje guiados por instructor','Circuitos de tránsito y maniobras avanzadas','Sesión de fotos en cabina + certificado'] },
+      favorito:'FAVORITO',
+      aventurero:{ name:'AVIADOR EXPRESS', priceLine:'$285.000 COP · 00:30 teoría + 00:50 simulador · máx. 2 participantes',
+        perks:['⏱️ 00:30 minutos de teoría — Aprende el conocimiento básico para volar tu avión: todo lo que debes hacer antes de subirte al avión y comandar el vuelo','🕹️ 00:50 minutos de vuelo en simulador — ¡Despega, vuela y relájate! Descubre tus habilidades: ¿podrás encontrar la pista de regreso y aterrizar?','👥 Máximo de participantes (2)','🎓 Certificado “Piloto por un Día”'] },
+      comandante:{ name:'AVIADOR FULL EXPERIENCE', priceLine:'$375.000 COP · 01:00 teoría + 01:30 simulador · máx. 2 participantes',
+        perks:['🌍 01:00 hora de teoría — Démonos un viaje por la historia de la aviación: ¿cómo fue que llegamos a donde está la industria hoy?','✈️ Entiende en detalle la técnica del vuelo','⚙️ La evolución tecnológica','🧠 Los factores humanos detrás de la máquina','🕹️ 01:30 horas de vuelo en simulador — ¡Sube al simulador y pon en práctica todo lo que aprendiste! Despega, controla la máquina y lleva al límite tus habilidades','🗺️ Navega de una ciudad a otra — ¿podrás sortear una situación de emergencia?','👥 Máximo participantes (2)','🎓 Certificado “Piloto por un Día”'] },
       booking:{ fechaSeleccionadaLegend:'fecha seleccionada', boardingData:'PASE DE ABORDAR · DATOS', fechaElegida:'FECHA ELEGIDA', elegirFecha:'Elige una fecha en el calendario',
         paqueteLabel:'PAQUETE', tocaCambiar:'toca una tarjeta arriba para cambiar', nombreCompleto:'NOMBRE COMPLETO', nombrePlaceholder:'Tu nombre',
         whatsappContacto:'WHATSAPP / CONTACTO', generarTicket:'Generar mi ticket de vuelo ✈',
@@ -866,14 +912,22 @@ const I18N = {
               {q:'¿Es para niños?', a:'Sí. Hemos tenido futuros pilotos desde los 8 años.'},
               {q:'¿Voy solo al simulador?', a:'El instructor siempre está a tu lado. Tú mandas, él cuida.'},
               {q:'¿Y si me da miedo?', a:'El simulador es 100% seguro. Superar el miedo es parte de la experiencia.'},
-              {q:'¿Cuánto dura?', a:'Express: ~2 horas. Completo: ~4–5 horas.'},
+              {q:'¿Cuánto dura?', a:'Aviador Express: ~1 h 20 min. Full Experience: ~2 h 30 min.'},
               {q:'¿Cómo reservo?', a:'Por WhatsApp. Sin formularios. Sin complicaciones.'},
               {q:'¿Para qué edades es?', a:'Para todas. Desde niños curiosos hasta adultos que siempre soñaron con volar.'} ] },
     reserva:{ h2Pre:'El cielo lleva esperándote', h2Post:'toda la vida.',
       p:'Hoy puede ser el día en que dejes de mirar los aviones desde abajo. Escríbenos y reserva tu cabina.', cta:'Hablar por WhatsApp ahora →' },
     footer:{ about:'Operamos en nuestro centro de entrenamiento en la ciudad de Pereira, Colombia, y extendemos nuestra operación al escenario virtual.' },
     wa:{ general:'Hola, quiero ser piloto por un día ✈', confirmDefault:'Hola, quiero reservar mi vuelo',
-      ticket:{ title:'✈ HOLD SHORT · Mi reserva', name:'Nombre', pkg:'Paquete', date:'Fecha', flight:'Vuelo', gate:'Puerta', seat:'Asiento', contact:'Contacto', closing:'¡Quiero confirmar mi aventura! 🛩' } }
+      ticket:{ title:'✈ HOLD SHORT · Mi reserva', name:'Nombre', pkg:'Paquete', date:'Fecha', flight:'Vuelo', gate:'Puerta', seat:'Asiento', contact:'Contacto', closing:'¡Quiero confirmar mi aventura! 🛩' } },
+    auth:{ navLogin:'Iniciar sesión', title:'Acceso Hold Short',
+      loginTab:'Iniciar sesión', registerTab:'Crear cuenta',
+      emailLabel:'CORREO', passwordLabel:'CONTRASEÑA', nameLabel:'NOMBRE COMPLETO', phoneLabel:'WHATSAPP / CONTACTO',
+      emailPlaceholder:'tu@correo.com', passwordPlaceholder:'••••••••', namePlaceholder:'Tu nombre', phonePlaceholder:'+57 300 000 0000',
+      loginSubmit:'Entrar', registerSubmit:'Crear cuenta', loadingLabel:'Verificando…',
+      switchToRegister:'¿No tienes cuenta? Crea una', switchToLogin:'¿Ya tienes cuenta? Inicia sesión',
+      errorGeneric:'Correo o contraseña incorrectos.',
+      checkEmail:'¡Listo! Revisa tu correo para confirmar la cuenta antes de iniciar sesión.', close:'Cerrar' }
   },
   en: {
     nav: { experiencia:'Experience', queAprenderas:'What you’ll learn', tuVuelo:'Your flight', paquetes:'Packages', reservar:'Book now', quieroVolar:'I want to fly →' },
@@ -926,11 +980,11 @@ const I18N = {
     pkgs: {
       badge:'// Book your flight', h2:'Reserve your date. Generate your ticket.',
       p:'Choose your experience, pick a day on the calendar and leave us your details. In seconds you’ll have your boarding pass ready.',
-      favorito:'MOST POPULAR', refNote:'// reference prices · we confirm final price and availability via WhatsApp',
-      aventurero:{ name:'ADVENTUROUS SPIRIT', priceLine:'$400,000 COP · ~2 hr experience',
-        perks:['Tour of the A320 and B200 simulators','Human factor and instruments briefing','Guided flight: turns, climbs and descents','“Pilot for a Day” certificate'] },
-      comandante:{ name:'CAPTAIN FOR A DAY', priceLine:'$760,000 COP · ~4–5 hr experience',
-        perks:['Everything in Adventurous Spirit, without rushing','Extended route to your chosen destination','Instructor-guided takeoff and landing','Traffic circuits and advanced maneuvers','Cockpit photo session + certificate'] },
+      favorito:'MOST POPULAR',
+      aventurero:{ name:'AVIATOR EXPRESS', priceLine:'$285,000 COP · 00:30 theory + 00:50 simulator · max. 2 participants',
+        perks:['⏱️ 00:30 minutes of theory — Learn the basics to fly your plane: everything you need to do before getting in and taking command of the flight','🕹️ 00:50 minutes of simulator flight — Take off, fly and relax! Discover your skills: can you find your way back and land?','👥 Maximum participants (2)','🎓 “Pilot for a Day” certificate'] },
+      comandante:{ name:'AVIATOR FULL EXPERIENCE', priceLine:'$375,000 COP · 01:00 theory + 01:30 simulator · max. 2 participants',
+        perks:['🌍 01:00 hour of theory — Let’s take a journey through the history of aviation: how did the industry get to where it is today?','✈️ Get into the details of flight technique','⚙️ Technological evolution','🧠 The human factors behind the machine','🕹️ 01:30 hours of simulator flight — Get in the simulator and put everything you learned into practice! Take off, control the machine and push your skills to the limit','🗺️ Navigate from one city to another — can you handle an emergency situation?','👥 Maximum participants (2)','🎓 “Pilot for a Day” certificate'] },
       booking:{ fechaSeleccionadaLegend:'selected date', boardingData:'BOARDING PASS · DETAILS', fechaElegida:'CHOSEN DATE', elegirFecha:'Choose a date on the calendar',
         paqueteLabel:'PACKAGE', tocaCambiar:'tap a card above to change', nombreCompleto:'FULL NAME', nombrePlaceholder:'Your name',
         whatsappContacto:'WHATSAPP / CONTACT', generarTicket:'Generate my flight ticket ✈',
@@ -943,24 +997,33 @@ const I18N = {
               {q:'Is it for kids?', a:'Yes. We’ve had future pilots as young as 8 years old.'},
               {q:'Do I go into the simulator alone?', a:'The instructor is always by your side. You’re in command, they keep watch.'},
               {q:'What if I get scared?', a:'The simulator is 100% safe. Overcoming fear is part of the experience.'},
-              {q:'How long does it last?', a:'Express: ~2 hours. Complete: ~4–5 hours.'},
+              {q:'How long does it last?', a:'Aviator Express: ~1 hr 20 min. Full Experience: ~2 hr 30 min.'},
               {q:'How do I book?', a:'Via WhatsApp. No forms. No hassle.'},
               {q:'What ages is it for?', a:'For all ages. From curious kids to adults who’ve always dreamed of flying.'} ] },
     reserva:{ h2Pre:'The sky has been waiting for you', h2Post:'your whole life.',
       p:'Today could be the day you stop watching planes from below. Message us and reserve your cockpit.', cta:'Talk on WhatsApp now →' },
     footer:{ about:'We operate from our training center in Pereira, Colombia, and extend our operation to the virtual scenario.' },
     wa:{ general:'Hi, I want to be a pilot for a day ✈', confirmDefault:'Hi, I want to book my flight',
-      ticket:{ title:'✈ HOLD SHORT · My booking', name:'Name', pkg:'Package', date:'Date', flight:'Flight', gate:'Gate', seat:'Seat', contact:'Contact', closing:'I want to confirm my adventure! 🛩' } }
+      ticket:{ title:'✈ HOLD SHORT · My booking', name:'Name', pkg:'Package', date:'Date', flight:'Flight', gate:'Gate', seat:'Seat', contact:'Contact', closing:'I want to confirm my adventure! 🛩' } },
+    auth:{ navLogin:'Log in', title:'Hold Short Access',
+      loginTab:'Log in', registerTab:'Create account',
+      emailLabel:'EMAIL', passwordLabel:'PASSWORD', nameLabel:'FULL NAME', phoneLabel:'WHATSAPP / CONTACT',
+      emailPlaceholder:'you@email.com', passwordPlaceholder:'••••••••', namePlaceholder:'Your name', phonePlaceholder:'+57 300 000 0000',
+      loginSubmit:'Sign in', registerSubmit:'Create account', loadingLabel:'Checking…',
+      switchToRegister:'No account yet? Create one', switchToLogin:'Already have an account? Log in',
+      errorGeneric:'Incorrect email or password.',
+      checkEmail:'Almost there! Check your email to confirm your account before signing in.', close:'Close' }
   }
 };
 class Component extends DCLogic {
   state = { menu:false, openPhase:1, route:'express', openFaq:0, flip:{}, compass:0, cSel:'N', chatLines:[],
             calY:0, calM:0, selDate:null, bName:'', bPhone:'', bPkg:'aventurero', booked:false, ticket:null,
-            lang:(typeof localStorage!=='undefined' && localStorage.getItem('hs_lang')==='en')?'en':'es' };
+            lang:(typeof localStorage!=='undefined' && localStorage.getItem('hs_lang')==='en')?'en':'es',
+            authOpen:false, authMode:'login', authEmail:'', authPassword:'', authName:'', authPhone:'', authError:'', authLoading:false };
 
   PKGS = {
-    aventurero:{ key:'aventurero', tag:'DISCOVERY', usd:100, cop:'400.000', dur:'~2 h' },
-    comandante:{ key:'comandante', tag:'CAPTAIN', usd:190, cop:'760.000', dur:'~4–5 h' }
+    aventurero:{ key:'aventurero', tag:'EXPRESS', cop:'285.000', dur:'1 h 20 min' },
+    comandante:{ key:'comandante', tag:'FULL EXPERIENCE', cop:'375.000', dur:'2 h 30 min' }
   };
   MES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   MES3=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
@@ -997,6 +1060,56 @@ class Component extends DCLogic {
     clearTimeout(this._ct);
     this.ci=0; this.cc=0;
     this.startChat();
+  }
+
+  openAuth(mode){
+    this.setState({ authOpen:true, authMode:mode||'login', authError:'',
+      authEmail:'', authPassword:'', authName:'', authPhone:'' });
+  }
+  closeAuth(){
+    if(this.state.authLoading) return;
+    this.setState({ authOpen:false, authError:'' });
+  }
+  setAuthMode(mode){
+    this.setState({ authMode:mode, authError:'' });
+  }
+  async submitAuth(){
+    const { authMode, authEmail, authPassword, authName, authPhone } = this.state;
+    if(this.state.authLoading) return;
+    this.setState({ authLoading:true, authError:'' });
+    const isRegister = authMode==='register';
+    try{
+      if(isRegister){
+        const { data, error } = await supabaseClient.auth.signUp({
+          email: authEmail,
+          password: authPassword,
+          options: { data: { name: authName, phone: authPhone } }
+        });
+        if(error){
+          this.setState({ authLoading:false, authError: error.message || I18N[this.state.lang].auth.errorGeneric });
+          return;
+        }
+        if(!data.session){
+          // Confirmación de correo habilitada: no hay sesión todavía.
+          this.setState({ authLoading:false, authError: I18N[this.state.lang].auth.checkEmail });
+          return;
+        }
+        window.location.href = '/client/';
+        return;
+      }
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: authEmail, password: authPassword
+      });
+      if(error){
+        this.setState({ authLoading:false, authError: I18N[this.state.lang].auth.errorGeneric });
+        return;
+      }
+      const { data: profile } = await supabaseClient
+        .from('profiles').select('role').eq('id', data.user.id).single();
+      window.location.href = hsRoleHome(profile && profile.role);
+    }catch(_){
+      this.setState({ authLoading:false, authError: I18N[this.state.lang].auth.errorGeneric });
+    }
   }
 
   startChat(){
@@ -1195,7 +1308,7 @@ class Component extends DCLogic {
       selDateStr:this.selDateStr(),
       selDateLong:this.selDateLong()||t.pkgs.booking.elegirFecha,
       formPkgName:t.pkgs[s.bPkg].name,
-      formPkgPrice:'$'+this.PKGS[s.bPkg].usd+' USD · $'+this.PKGS[s.bPkg].cop+' COP',
+      formPkgPrice:'$'+this.PKGS[s.bPkg].cop+' COP',
       canSubmit:!!(s.bName.trim()&&s.bPhone.trim()&&s.selDate),
       submitStyle:{width:'100%',marginTop:'4px',background:(s.bName.trim()&&s.bPhone.trim()&&s.selDate)?'#F5C400':'rgba(245,196,0,.15)',color:(s.bName.trim()&&s.bPhone.trim()&&s.selDate)?'#0A0A0A':'#8A7a3a',border:'0',borderRadius:'6px',padding:'15px',fontWeight:700,fontSize:'15px',cursor:(s.bName.trim()&&s.bPhone.trim()&&s.selDate)?'pointer':'not-allowed',letterSpacing:'.01em',transition:'all .25s',fontFamily:'Inter,sans-serif'},
       submitBooking:()=>this.submitBooking(),
@@ -1207,6 +1320,29 @@ class Component extends DCLogic {
       waConfirm: s.ticket ? (()=>{ const tk={ name:s.ticket.name, phone:s.ticket.phone, flight:s.ticket.flight, seat:s.ticket.seat, gate:s.ticket.gate,
         pkg:{...this.PKGS[s.ticket.pkgKey], name:t.pkgs[s.ticket.pkgKey].name}, date:this.dateLongFor(s.ticket.selDate, s.lang) };
         return wa+'?text='+encodeURIComponent(t.wa.ticket.title+'\n\n'+t.wa.ticket.name+': '+tk.name+'\n'+t.wa.ticket.pkg+': '+tk.pkg.name+'\n'+t.wa.ticket.date+': '+tk.date+'\n'+t.wa.ticket.flight+': '+tk.flight+' · '+t.wa.ticket.gate+' '+tk.gate+' · '+t.wa.ticket.seat+' '+tk.seat+'\n'+t.wa.ticket.contact+': '+tk.phone+'\n\n'+t.wa.ticket.closing); })() : waText(t.wa.confirmDefault),
+      // ---- Auth ----
+      authOpen:s.authOpen,
+      openLogin:()=>this.openAuth('login'),
+      openLoginMobile:()=>{ this.setState({menu:false}); this.openAuth('login'); },
+      closeAuth:()=>this.closeAuth(),
+      stopProp:(e)=>e.stopPropagation(),
+      isLoginMode:s.authMode==='login',
+      isRegisterMode:s.authMode==='register',
+      switchToLogin:()=>this.setAuthMode('login'),
+      switchToRegister:()=>this.setAuthMode('register'),
+      loginTabStyle:{flex:1,cursor:'pointer',background:s.authMode==='login'?'#F5C400':'transparent',color:s.authMode==='login'?'#0A0A0A':'#8A9BB5',border:'1px solid '+(s.authMode==='login'?'#F5C400':'rgba(138,155,181,.3)'),borderRadius:'4px',padding:'9px 12px',fontWeight:700,fontSize:'13px',transition:'all .2s',fontFamily:'Inter,sans-serif'},
+      registerTabStyle:{flex:1,cursor:'pointer',background:s.authMode==='register'?'#F5C400':'transparent',color:s.authMode==='register'?'#0A0A0A':'#8A9BB5',border:'1px solid '+(s.authMode==='register'?'#F5C400':'rgba(138,155,181,.3)'),borderRadius:'4px',padding:'9px 12px',fontWeight:700,fontSize:'13px',transition:'all .2s',fontFamily:'Inter,sans-serif'},
+      authName:s.authName, setAuthName:(e)=>this.setState({authName:e.target.value}),
+      authPhone:s.authPhone, setAuthPhone:(e)=>this.setState({authPhone:e.target.value}),
+      authEmail:s.authEmail, setAuthEmail:(e)=>this.setState({authEmail:e.target.value}),
+      authPassword:s.authPassword, setAuthPassword:(e)=>this.setState({authPassword:e.target.value}),
+      authError:s.authError, hasAuthError:!!s.authError,
+      authLoading:s.authLoading,
+      submitAuth:()=>this.submitAuth(),
+      authSubmitLabel: s.authLoading ? t.auth.loadingLabel : (s.authMode==='login' ? t.auth.loginSubmit : t.auth.registerSubmit),
+      authSubmitStyle:{width:'100%',marginTop:'6px',background:s.authLoading?'rgba(245,196,0,.15)':'#F5C400',color:s.authLoading?'#8A7a3a':'#0A0A0A',border:'0',borderRadius:'6px',padding:'14px',fontWeight:700,fontSize:'15px',cursor:s.authLoading?'not-allowed':'pointer',letterSpacing:'.01em',transition:'all .25s',fontFamily:'Inter,sans-serif'},
+      authFieldStyle:{width:'100%',background:'#0a0a0c',border:'1px solid rgba(138,155,181,.25)',borderRadius:'6px',padding:'12px 13px',color:'#EDEFF2',fontSize:'14px',fontFamily:'Inter,sans-serif',outline:'none',boxSizing:'border-box'},
+      authLabelStyle:{display:'block',fontFamily:"'JetBrains Mono',monospace",fontSize:'10.5px',letterSpacing:'.12em',color:'#8A9BB5',marginBottom:'6px'},
     };
   }
 }

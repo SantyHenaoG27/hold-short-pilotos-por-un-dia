@@ -1,0 +1,11 @@
+{
+  "name": "hold-short-pilotos-por-un-dia",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.100.0"
+  }
+}
