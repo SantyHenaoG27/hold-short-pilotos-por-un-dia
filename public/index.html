@@ -12,13 +12,13 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Bebas+Neue&family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="image-slot.js"></script>
 <style>
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:84px}
-html,body{margin:0;padding:0;background:#0A0A0A}
-::selection{background:#F5C400;color:#0A0A0A}
+html,body{margin:0;padding:0;background:#060b12}
+::selection{background:#f5c542;color:#160f05}
 @keyframes hs-centerline{from{background-position:0 0}to{background-position:0 120px}}
 @keyframes hs-logoReveal{0%{opacity:0;transform:scaleX(.84)}55%{opacity:1}100%{opacity:1;transform:scaleX(1)}}
 @keyframes hs-glow{0%,100%{opacity:.30}50%{opacity:.72}}
@@ -26,7 +26,7 @@ html,body{margin:0;padding:0;background:#0A0A0A}
 @keyframes hs-spin{to{transform:rotate(360deg)}}
 @keyframes hs-spinSlow{to{transform:rotate(-360deg)}}
 @keyframes hs-blink{0%,100%{opacity:1}50%{opacity:.22}}
-@keyframes hs-cta{0%,100%{box-shadow:0 0 0 0 rgba(245,196,0,.45)}50%{box-shadow:0 0 0 16px rgba(245,196,0,0)}}
+@keyframes hs-cta{0%,100%{box-shadow:0 0 0 0 rgba(245,197,66,.45)}50%{box-shadow:0 0 0 16px rgba(245,197,66,0)}}
 @keyframes hs-draw{to{stroke-dashoffset:0}}
 @keyframes hs-vibrate{0%,100%{transform:translate(0,0)}25%{transform:translate(-.6px,.6px)}50%{transform:translate(.6px,-.5px)}75%{transform:translate(-.5px,-.4px)}}
 @keyframes hs-flow{to{stroke-dashoffset:-40}}
@@ -46,6 +46,15 @@ html,body{margin:0;padding:0;background:#0A0A0A}
 @keyframes hs-scan{0%{transform:translateY(-100%)}100%{transform:translateY(2400%)}}
 @keyframes hs-tapHint{0%,100%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(2px,-6px) rotate(-12deg)}}
 @keyframes hs-force{0%,100%{opacity:.45;transform:scale(.94)}50%{opacity:1;transform:scale(1.08)}}
+@keyframes h1903-rise{0%{opacity:0;transform:translateY(28px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes h1903-fade{0%{opacity:0}100%{opacity:1}}
+@keyframes h1903-reveal{0%{opacity:0;transform:translateY(22px) scale(.92);filter:blur(14px)}55%{filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes h1903-glow{0%{opacity:0;transform:translate(-50%,-50%) scale(.7)}100%{opacity:.85;transform:translate(-50%,-50%) scale(1)}}
+@keyframes h1903-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes h1903-spin{0%{transform:translate(-50%,-50%) rotate(0)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes h1903-spin-rev{0%{transform:translate(-50%,-50%) rotate(0)}100%{transform:translate(-50%,-50%) rotate(-360deg)}}
+@keyframes h1903-scroll{0%{transform:translateY(0);opacity:.9}60%{opacity:.2}100%{transform:translateY(13px);opacity:0}}
+
 [data-rev]{opacity:0;transform:translateY(34px);transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1)}
 [data-rev="in"]{opacity:1;transform:none}
 [data-anim="cl-a"]{animation:hs-centerline 3.4s linear infinite}
@@ -96,51 +105,51 @@ html,body{margin:0;padding:0;background:#0A0A0A}
 }
 </style>
 </helmet>
-<div ref="{{ rootRef }}" style="background:#0A0A0A;color:#F0F0F0;font-family:Inter,system-ui,sans-serif;min-height:100vh;overflow-x:hidden;position:relative">
+<div ref="{{ rootRef }}" style="background:#060b12;color:#fbfcff;font-family:Inter,system-ui,sans-serif;min-height:100vh;overflow-x:hidden;position:relative">
 
-  <nav style="position:fixed;top:0;left:0;right:0;z-index:90;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(16px,4vw,48px);background:rgba(10,10,10,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(245,196,0,.16)">
+  <nav style="position:fixed;top:0;left:0;right:0;z-index:90;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(16px,4vw,48px);background:rgba(8,13,21,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(245,197,66,.16)">
     <a href="#top" style="display:flex;align-items:center;gap:10px;text-decoration:none">
-      <img src="assets/logo-lockup.jpg" alt="Hold Short Aviation" style="height:34px;width:auto;display:block"/>
+      <span style="width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(245,197,66,.45);position:relative"><span style="width:6px;height:6px;background:#f5c542;transform:rotate(45deg);box-shadow:0 0 10px rgba(245,197,66,.7)"></span><span style="position:absolute;inset:3px;border:1px solid rgba(245,197,66,.16)"></span></span><span style="display:flex;flex-direction:column;line-height:1"><span style="font-family:'Cinzel',serif;font-weight:700;font-size:18px;letter-spacing:.22em;color:#f7f9fc">HANGAR</span><span style="font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.52em;color:#f5c542;margin-top:3px;padding-left:2px">1903</span></span>
     </a>
     <div style="display:flex;align-items:center;gap:28px">
       <div style="display:none;align-items:center;gap:26px" data-desk="1">
-        <a href="#que-es" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.experiencia }}</a>
-        <a href="#fases" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.queAprenderas }}</a>
-        <a href="#vuelo" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.tuVuelo }}</a>
-        <a href="#paquetes" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.paquetes }}</a>
-        <a href="#reservar" style="color:#C8CDD6;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.reservar }}</a>
+        <a href="#simuladores" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.experiencia }}</a>
+        <a href="#fases" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.queAprenderas }}</a>
+        <a href="#vuelo" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.tuVuelo }}</a>
+        <a href="#paquetes" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.paquetes }}</a>
+        <a href="#reservar" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.reservar }}</a>
       </div>
       <div style="display:flex;align-items:center" aria-label="Language toggle">
         <button onClick="{{ setLangEs }}" style="{{ langEsStyle }}">ES</button>
         <button onClick="{{ setLangEn }}" style="{{ langEnStyle }}">EN</button>
       </div>
-      <button onClick="{{ openLogin }}" style="display:none;align-items:center;background:none;border:1px solid rgba(138,155,181,.3);color:#C8CDD6;text-decoration:none;font-weight:600;font-size:13px;padding:9px 16px;border-radius:3px;letter-spacing:.02em;cursor:pointer;font-family:Inter,sans-serif" data-desk="1" style-hover="border-color:#F5C400;color:#F5C400">{{ t.auth.navLogin }}</button>
-      <a href="{{ waGeneral }}" target="_blank" style="display:none;align-items:center;gap:7px;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:13px;padding:10px 18px;border-radius:3px;letter-spacing:.02em" data-desk="1" style-hover="background:#FFD740;transform:translateY(-1px)">{{ t.nav.quieroVolar }}</a>
+      <button onClick="{{ openLogin }}" style="display:none;align-items:center;background:none;border:1px solid rgba(139,151,166,.3);color:#d8e0ea;text-decoration:none;font-weight:600;font-size:13px;padding:9px 16px;border-radius:3px;letter-spacing:.02em;cursor:pointer;font-family:Inter,sans-serif" data-desk="1" style-hover="border-color:#f5c542;color:#f5c542">{{ t.auth.navLogin }}</button>
+      <a href="{{ waGeneral }}" target="_blank" style="display:none;align-items:center;gap:7px;background:#f5c542;color:#160f05;text-decoration:none;font-weight:700;font-size:13px;padding:10px 18px;border-radius:3px;letter-spacing:.02em" data-desk="1" style-hover="background:#ffe08a;transform:translateY(-1px)">{{ t.nav.quieroVolar }}</a>
       <button onClick="{{ toggleMenu }}" aria-label="Menú" style="display:flex;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:6px" data-mob="1">
-        <span style="display:block;width:24px;height:2px;background:#F5C400"></span>
-        <span style="display:block;width:24px;height:2px;background:#F5C400"></span>
-        <span style="display:block;width:16px;height:2px;background:#F5C400"></span>
+        <span style="display:block;width:24px;height:2px;background:#f5c542"></span>
+        <span style="display:block;width:24px;height:2px;background:#f5c542"></span>
+        <span style="display:block;width:16px;height:2px;background:#f5c542"></span>
       </button>
     </div>
   </nav>
 
   <div style="{{ mobilePanelStyle }}">
     <div style="display:flex;flex-direction:column;gap:4px;padding:90px 28px 28px">
-      <div style="font-family:'JetBrains Mono',monospace;color:#8A9BB5;font-size:10px;letter-spacing:.18em;margin-bottom:14px">// INSTRUMENT PANEL</div>
-      <a href="#que-es" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.experiencia }}</a>
-      <a href="#fases" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.queAprenderas }}</a>
-      <a href="#vuelo" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.tuVuelo }}</a>
-      <a href="#paquetes" onClick="{{ closeMenu }}" style="color:#F0F0F0;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.paquetes }}</a>
-      <a href="{{ waGeneral }}" target="_blank" onClick="{{ closeMenu }}" style="margin-top:18px;text-align:center;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:16px;padding:15px;border-radius:3px">{{ t.nav.quieroVolar }}</a>
-      <button onClick="{{ openLoginMobile }}" style="margin-top:10px;text-align:center;background:none;border:1px solid rgba(245,196,0,.4);color:#F5C400;font-weight:700;font-size:16px;padding:14px;border-radius:3px;cursor:pointer;font-family:Inter,sans-serif">{{ t.auth.navLogin }}</button>
+      <div style="font-family:'JetBrains Mono',monospace;color:#a8b5c7;font-size:10px;letter-spacing:.18em;margin-bottom:14px">// INSTRUMENT PANEL</div>
+      <a href="#simuladores" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.experiencia }}</a>
+      <a href="#fases" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.queAprenderas }}</a>
+      <a href="#vuelo" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.tuVuelo }}</a>
+      <a href="#paquetes" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.paquetes }}</a>
+      <a href="{{ waGeneral }}" target="_blank" onClick="{{ closeMenu }}" style="margin-top:18px;text-align:center;background:#f5c542;color:#160f05;text-decoration:none;font-weight:700;font-size:16px;padding:15px;border-radius:3px">{{ t.nav.quieroVolar }}</a>
+      <button onClick="{{ openLoginMobile }}" style="margin-top:10px;text-align:center;background:none;border:1px solid rgba(245,197,66,.4);color:#f5c542;font-weight:700;font-size:16px;padding:14px;border-radius:3px;cursor:pointer;font-family:Inter,sans-serif">{{ t.auth.navLogin }}</button>
     </div>
   </div>
 
   <sc-if value="{{ authOpen }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ closeAuth }}" style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(7,7,7,.78);backdrop-filter:blur(6px)">
-      <div onClick="{{ stopProp }}" style="position:relative;width:100%;max-width:420px;background:#101012;border:1px solid rgba(245,196,0,.25);border-radius:10px;padding:clamp(24px,4vw,36px);box-shadow:0 30px 80px rgba(0,0,0,.6)">
-        <button onClick="{{ closeAuth }}" aria-label="{{ t.auth.close }}" style="position:absolute;top:14px;right:14px;background:none;border:0;color:#8A9BB5;font-size:22px;cursor:pointer;line-height:1">×</button>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#F5C400;margin-bottom:6px">// {{ t.auth.title }}</div>
+    <div onClick="{{ closeAuth }}" style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(8,13,21,.78);backdrop-filter:blur(6px)">
+      <div onClick="{{ stopProp }}" style="position:relative;width:100%;max-width:420px;background:#0b1420;border:1px solid rgba(245,197,66,.25);border-radius:10px;padding:clamp(24px,4vw,36px);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+        <button onClick="{{ closeAuth }}" aria-label="{{ t.auth.close }}" style="position:absolute;top:14px;right:14px;background:none;border:0;color:#a8b5c7;font-size:22px;cursor:pointer;line-height:1">×</button>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#f5c542;margin-bottom:6px">// {{ t.auth.title }}</div>
         <div style="display:flex;gap:8px;margin:18px 0 22px">
           <button onClick="{{ switchToLogin }}" style="{{ loginTabStyle }}">{{ t.auth.loginTab }}</button>
           <button onClick="{{ switchToRegister }}" style="{{ registerTabStyle }}">{{ t.auth.registerTab }}</button>
@@ -169,10 +178,10 @@ html,body{margin:0;padding:0;background:#0A0A0A}
         <button onClick="{{ submitAuth }}" disabled="{{ authLoading }}" style="{{ authSubmitStyle }}">{{ authSubmitLabel }}</button>
         <div style="text-align:center;margin-top:16px">
           <sc-if value="{{ isLoginMode }}" hint-placeholder-val="{{ false }}">
-            <button onClick="{{ switchToRegister }}" style="background:none;border:0;color:#8A9BB5;font-size:12.5px;cursor:pointer;text-decoration:underline;font-family:Inter,sans-serif">{{ t.auth.switchToRegister }}</button>
+            <button onClick="{{ switchToRegister }}" style="background:none;border:0;color:#a8b5c7;font-size:12.5px;cursor:pointer;text-decoration:underline;font-family:Inter,sans-serif">{{ t.auth.switchToRegister }}</button>
           </sc-if>
           <sc-if value="{{ isRegisterMode }}" hint-placeholder-val="{{ false }}">
-            <button onClick="{{ switchToLogin }}" style="background:none;border:0;color:#8A9BB5;font-size:12.5px;cursor:pointer;text-decoration:underline;font-family:Inter,sans-serif">{{ t.auth.switchToLogin }}</button>
+            <button onClick="{{ switchToLogin }}" style="background:none;border:0;color:#a8b5c7;font-size:12.5px;cursor:pointer;text-decoration:underline;font-family:Inter,sans-serif">{{ t.auth.switchToLogin }}</button>
           </sc-if>
         </div>
       </div>
@@ -181,139 +190,106 @@ html,body{margin:0;padding:0;background:#0A0A0A}
 
   <main id="top">
 
-    <section style="position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 20px 80px;overflow:hidden">
-      <div style="position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 0%,#13131a 0%,#0A0A0A 55%,#070707 100%)"></div>
-      <div style="position:absolute;inset:0;opacity:.5;background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.018) 0 2px,transparent 2px 7px)"></div>
-      <div style="position:absolute;left:50%;top:0;bottom:0;width:5px;transform:translateX(-50%);background:repeating-linear-gradient(to bottom,#F5C400 0 56px,transparent 56px 120px);opacity:.16" data-anim="cl-a"></div>
-      <div style="position:absolute;left:18%;top:0;bottom:0;width:3px;background:repeating-linear-gradient(to bottom,#F0F0F0 0 40px,transparent 40px 120px);opacity:.05" data-anim="cl-b"></div>
-      <div style="position:absolute;right:18%;top:0;bottom:0;width:3px;background:repeating-linear-gradient(to bottom,#F0F0F0 0 40px,transparent 40px 120px);opacity:.05" data-anim="cl-c"></div>
-      <div style="position:absolute;inset:0;background:radial-gradient(70% 60% at 50% 45%,transparent 40%,rgba(10,10,10,.7) 100%)"></div>
-
-      <div style="position:absolute;top:13%;right:8%;width:78px;height:78px;border-radius:50%;border:2px solid rgba(138,155,181,.28);display:flex;align-items:center;justify-content:center;opacity:.5">
-        <div style="position:absolute;width:2px;height:30px;background:#8A9BB5;transform-origin:bottom center;bottom:50%" data-anim="spin"></div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#8A9BB5;position:absolute;bottom:7px">ALT</div>
-      </div>
-
-      <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;max-width:880px">
-        <div style="position:relative" data-anim="logo">
-          <div style="position:absolute;inset:-12% -6%;background:radial-gradient(closest-side,rgba(245,196,0,.55),transparent 72%);filter:blur(26px);z-index:0" data-anim="glow"></div>
-          <img src="assets/logo-lockup.jpg" alt="Hold Short Aviation" style="position:relative;z-index:1;width:min(500px,82vw);height:auto;display:block"/>
-        </div>
-        <div style="height:5px;width:min(440px,72vw);margin-top:6px;background:repeating-linear-gradient(90deg,#F5C400 0 22px,transparent 22px 44px);opacity:.7" data-anim="runway"></div>
-
-        <h1 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(30px,5.4vw,62px);line-height:1.06;margin:30px 0 0;letter-spacing:-.01em;text-wrap:balance">{{ t.hero.titlePre }}<br/>{{ t.hero.titleMid }}<span style="color:#F5C400">{{ t.hero.titleHighlight }}</span>{{ t.hero.titleEnd }}</h1>
-        <p style="font-size:clamp(15px,2vw,18px);color:#C8CDD6;max-width:560px;margin:20px auto 0;line-height:1.6">{{ t.hero.subtitle }}</p>
-
-        <a href="{{ waGeneral }}" target="_blank" style="margin-top:36px;display:inline-flex;align-items:center;gap:9px;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:clamp(15px,2vw,18px);padding:16px 30px;border-radius:4px;letter-spacing:.01em" data-anim="cta" style-hover="background:#FFD740">{{ t.hero.cta }}</a>
-        <a href="#que-es" style="margin-top:22px;color:#8A9BB5;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em">{{ t.hero.conocer }}</a>
-      </div>
+    <section style="position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(120px,16vh,200px) clamp(20px,5vw,40px) 90px;text-align:center;overflow:hidden;background:#060b12">
+      <div style="position:absolute;inset:0;z-index:0;background:radial-gradient(120% 80% at 50% 8%,#17345a 0%,#0d1d31 38%,#05080e 78%)"></div>
+      <div style="position:absolute;inset:0;z-index:0;opacity:.5;background:linear-gradient(rgba(245,197,66,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(245,197,66,.05) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(80% 70% at 50% 42%,#000 20%,transparent 75%);mask-image:radial-gradient(80% 70% at 50% 42%,#000 20%,transparent 75%)"></div>
+      <div style="position:absolute;left:50%;top:42%;width:min(94vw,1140px);aspect-ratio:1;z-index:0;border:1px solid rgba(245,197,66,.07);border-radius:50%;animation:h1903-spin 120s linear infinite"></div>
+      <div style="position:absolute;left:50%;top:42%;width:min(70vw,820px);aspect-ratio:1;z-index:0;border:1px solid rgba(245,197,66,.05);border-radius:50%;animation:h1903-spin-rev 90s linear infinite"></div>
+      <div style="position:absolute;inset:0;z-index:0;background:radial-gradient(60% 50% at 50% 100%,#05080e,transparent 70%),radial-gradient(50% 40% at 50% 0%,#05080e,transparent 60%)"></div>
+      <div style="position:relative;z-index:2;display:flex;align-items:center;gap:14px;opacity:0;animation:h1903-rise .9s ease .15s forwards"><span style="width:38px;height:1px;background:linear-gradient(90deg,transparent,#f5c542)"></span><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.42em;color:#f5c542;text-transform:uppercase">Centro de entrenamiento y experiencia aeron&aacute;utica</span><span style="width:38px;height:1px;background:linear-gradient(270deg,transparent,#f5c542)"></span></div>
+      <div style="position:relative;z-index:2;margin:clamp(20px,4vh,38px) 0 clamp(4px,2vh,16px);width:clamp(280px,40vw,460px)"><div style="position:relative;opacity:0;animation:h1903-reveal 1.5s cubic-bezier(.22,.61,.18,1) .35s forwards"><div style="position:absolute;left:50%;top:52%;width:155%;height:155%;z-index:-1;background:radial-gradient(closest-side,rgba(245,197,66,.24),rgba(245,197,66,.06) 45%,transparent 72%);opacity:0;animation:h1903-glow 1.9s ease .55s forwards;pointer-events:none"></div><img src="assets/hangar-emblem.png" alt="HANGAR 1903" style="width:100%;display:block;animation:h1903-float 7s ease-in-out 2s infinite;-webkit-mask-image:radial-gradient(72% 68% at 50% 46%,#000 52%,transparent 80%);mask-image:radial-gradient(72% 68% at 50% 46%,#000 52%,transparent 80%)"></div></div>
+      <h1 style="position:relative;z-index:2;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(38px,6.4vw,82px);line-height:1.02;letter-spacing:.005em;color:#fbfcff;max-width:14ch;opacity:0;animation:h1903-rise 1s ease .65s forwards">Aqu&iacute; comienza <span style="font-style:italic;background:linear-gradient(100deg,#e3c688,#f5c542 45%,#f0dca3 70%,#d6a84b);-webkit-background-clip:text;background-clip:text;color:transparent">tu historia.</span></h1>
+      <p style="position:relative;z-index:2;margin-top:22px;max-width:54ch;font-size:clamp(15px,1.5vw,18px);line-height:1.65;color:#bac6d5;font-weight:300;opacity:0;animation:h1903-rise 1s ease .8s forwards">El mismo impulso que en 1903 levant&oacute; al ser humano del suelo, hoy te invita a tomar los mandos. Entrena, vuela, inspira.</p>
+      <div style="position:relative;z-index:2;margin-top:clamp(28px,4vh,40px);display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:center;opacity:0;animation:h1903-rise 1s ease .95s forwards"><a href="{{ waGeneral }}" target="_blank" style="text-decoration:none;display:inline-flex;align-items:center;gap:11px;padding:16px 32px;background:linear-gradient(180deg,#ffe08a,#f5c542 55%,#b88924);color:#160f05;font-size:14px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;box-shadow:0 16px 40px -14px rgba(245,197,66,.7);transition:transform .35s ease,box-shadow .35s ease" style-hover="transform:translateY(-3px);box-shadow:0 22px 50px -14px rgba(245,197,66,.9)">Quiero volar <span style="font-size:16px">&rarr;</span></a><a href="#evolucion" style="text-decoration:none;display:inline-flex;align-items:center;gap:11px;padding:16px 30px;background:rgba(255,255,255,.045);border:1px solid rgba(245,197,66,.32);color:#f2f5f9;font-size:14px;font-weight:500;letter-spacing:.05em;transition:border-color .35s ease,background .35s ease" style-hover="border-color:rgba(245,197,66,.7);background:rgba(245,197,66,.07)"><span style="width:7px;height:7px;border-radius:50%;background:#f5c542;box-shadow:0 0 10px #f5c542"></span>Conocer la experiencia</a></div>
+      <div style="position:relative;z-index:2;margin-top:clamp(40px,7vh,72px);display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:clamp(14px,2.4vw,34px);opacity:0;animation:h1903-fade 1.4s ease 1.15s forwards"><div style="display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-family:'Cinzel',serif;font-size:clamp(15px,1.6vw,19px);color:#dbe2ea;letter-spacing:.05em">Kitty Hawk</span><span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.26em;color:#8998aa;text-transform:uppercase">Carolina del Norte</span></div><div style="display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-family:'Cinzel',serif;font-size:clamp(15px,1.6vw,19px);color:#dbe2ea;letter-spacing:.05em">10:35 a.m.</span><span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.26em;color:#8998aa;text-transform:uppercase">La hora del hito</span></div><div style="display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-family:'Cinzel',serif;font-size:clamp(15px,1.6vw,19px);color:#dbe2ea;letter-spacing:.05em">12 seg</span><span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.26em;color:#8998aa;text-transform:uppercase">El primer vuelo</span></div><div style="display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-family:'Cinzel',serif;font-size:clamp(15px,1.6vw,19px);color:#dbe2ea;letter-spacing:.05em">36 m</span><span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.26em;color:#8998aa;text-transform:uppercase">Distancia</span></div><div style="display:flex;flex-direction:column;align-items:center;gap:5px"><span style="font-family:'Cinzel',serif;font-size:clamp(15px,1.6vw,19px);color:#dbe2ea;letter-spacing:.05em">17&middot;12&middot;1903</span><span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.26em;color:#8998aa;text-transform:uppercase">El origen</span></div></div>
+      <a href="#evolucion" style="position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none;opacity:0;animation:h1903-fade 1s ease 1.5s forwards"><span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.32em;color:#7f8fa3;text-transform:uppercase">Desliza</span><span style="width:1px;height:42px;background:linear-gradient(rgba(245,197,66,.5),transparent);position:relative;overflow:hidden"><span style="position:absolute;top:0;left:0;width:1px;height:14px;background:#f5c542;animation:h1903-scroll 1.9s ease-in-out infinite"></span></span></a>
     </section>
 
-    <section id="que-es" style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);border-top:1px solid rgba(255,255,255,.05)">
-      <div style="max-width:1080px;margin:0 auto">
-        <div data-rev="y" style="max-width:680px">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.queEs.badge }}</span>
-          <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0;letter-spacing:-.01em">{{ t.queEs.h2 }}</h2>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(28px,5vw,64px);align-items:center;margin-top:40px">
-          <div data-rev="y" style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#C8CDD6">
-            <p style="margin:0 0 18px">{{ t.queEs.p1Pre }}<strong style="color:#F0F0F0">“Hold Short”</strong>{{ t.queEs.p1Post }}</p>
-            <p style="margin:0 0 18px">{{ t.queEs.p2 }}</p>
-            <p style="margin:0;color:#F5C400;font-weight:600">{{ t.queEs.p3 }}</p>
-          </div>
-          <div data-rev="y" style="position:relative;background:linear-gradient(160deg,#16160f,#0a0a08);border:1px solid rgba(245,196,0,.16);border-radius:8px;padding:clamp(26px,4vw,42px) 26px 30px;overflow:hidden">
-            <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(125deg,rgba(255,255,255,.02) 0 2px,transparent 2px 9px)"></div>
-            <div style="position:absolute;left:-2%;right:-2%;bottom:30%;display:flex;flex-direction:column;gap:5px;opacity:.55">
-              <div style="height:4px;background:#F5C400"></div>
-              <div style="height:4px;background:#F5C400"></div>
-              <div style="height:4px;background:repeating-linear-gradient(90deg,#F5C400 0 14px,transparent 14px 26px)"></div>
-              <div style="height:4px;background:repeating-linear-gradient(90deg,#F5C400 0 14px,transparent 14px 26px)"></div>
-            </div>
-            <div style="position:relative;display:inline-flex;align-items:center;gap:12px;background:#F5C400;color:#0A0A0A;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(24px,3.4vw,34px);letter-spacing:.1em;padding:12px 22px;border-radius:4px;box-shadow:0 0 0 3px #0A0A0A,0 0 34px rgba(245,196,0,.35)">HOLD SHORT</div>
-            <div style="position:relative;display:flex;gap:10px;margin-top:24px;align-items:center">
-              <span style="width:11px;height:11px;border-radius:50%;background:#F5C400;box-shadow:0 0 10px #F5C400" data-anim="blink-a"></span>
-              <span style="width:11px;height:11px;border-radius:50%;background:#F5C400;box-shadow:0 0 10px #F5C400" data-anim="blink-b"></span>
-              <span style="width:11px;height:11px;border-radius:50%;background:#F5C400;box-shadow:0 0 10px #F5C400" data-anim="blink-a"></span>
-              <span style="width:11px;height:11px;border-radius:50%;background:#F5C400;box-shadow:0 0 10px #F5C400" data-anim="blink-b"></span>
-              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A9BB5;margin-left:8px">RWY GUARD · ACTIVE</span>
-            </div>
-          </div>
+    <section id="evolucion" style="position:relative;background:linear-gradient(180deg,#060b12,#0b1420 50%,#060b12);border-top:1px solid rgba(245,197,66,.18)">
+      <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(245,197,66,.4),transparent)"></div>
+      <div style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:clamp(100px,12vh,140px) clamp(20px,5vw,48px) clamp(48px,7vh,80px)">
+        <div data-rev="y" style="max-width:1000px;margin:0 auto clamp(38px,6vh,68px);text-align:center"><div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:22px"><span style="width:30px;height:1px;background:#f5c542"></span><span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.4em;color:#f5c542;text-transform:uppercase">La evoluci&oacute;n del vuelo</span><span style="width:30px;height:1px;background:#f5c542"></span></div><h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(30px,4.4vw,56px);line-height:1.08;color:#f1f4f8;max-width:20ch;margin:0 auto">Del sue&ntilde;o de volar, <span style="font-style:italic;color:#f5c542">a la experiencia que hoy vives.</span></h2><p style="margin:20px auto 0;max-width:60ch;font-size:clamp(14px,1.3vw,16px);line-height:1.65;color:#b2bfce;font-weight:300">Doce segundos sobre la arena de Kitty Hawk cambiaron el mundo para siempre. Esta es la herencia que se transforma en cada despegue dentro de HANGAR 1903.</p></div>
+        <div style="max-width:1340px;margin:0 auto;width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:clamp(16px,1.8vw,28px)">
+          <div data-rev="y" style="display:flex;flex-direction:column;background:rgba(255,255,255,.028);border:1px solid rgba(245,197,66,.14);padding:clamp(14px,1.2vw,18px)"><div style="position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;background:#0d1d31;border:1px solid rgba(245,197,66,.18)"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/First%20flight2.jpg?width=900" alt="Wright Flyer &middot; 1903" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.08) contrast(1.08) brightness(1.02)"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,13,21,.26),transparent 36%,transparent 58%,rgba(8,13,21,.78))"></div><div style="position:absolute;left:11px;top:9px;font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.13em;color:rgba(255,224,138,.92)">// 1903 &middot; KITTY HAWK</div><div style="position:absolute;right:11px;bottom:9px;font-family:'Space Mono',monospace;font-size:8px;color:rgba(255,255,255,.66)">Wright Flyer &middot; 1903</div></div><div style="display:flex;align-items:center;gap:8px;margin:15px 0 11px"><span style="width:9px;height:9px;border-radius:50%;background:#f5c542;box-shadow:0 0 10px rgba(245,197,66,.7)"></span><span style="flex:1;height:1px;background:linear-gradient(90deg,#f5c542,rgba(245,197,66,.06))"></span><span style="font-family:'Space Mono',monospace;font-size:9px;color:#8998aa">01 / 04</span></div><div style="font-family:'Cinzel',serif;font-weight:600;font-size:clamp(28px,2.8vw,42px);line-height:1;color:#f7f9fc">1903</div><span style="font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.24em;color:#f5c542;text-transform:uppercase;margin:11px 0 8px">El primer vuelo</span><h3 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(19px,1.5vw,23px);line-height:1.16;color:#eff3f7;margin:0 0 9px">Doce segundos que cambiaron el mundo</h3><p style="font-size:13px;line-height:1.6;color:#bac6d5;font-weight:300;margin:0">En Kitty Hawk, el Wright Flyer dej&oacute; por primera vez el suelo. La aviaci&oacute;n acababa de nacer.</p><div style="margin-top:auto;padding-top:14px"><div style="display:flex;align-items:baseline;gap:8px;padding-top:13px;border-top:1px solid rgba(245,197,66,.14)"><span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,1.8vw,26px);color:#f5c542;line-height:1">36 m</span><span style="font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.13em;color:#93a0af;text-transform:uppercase">primer vuelo</span></div></div></div>
+          <div data-rev="y" style="display:flex;flex-direction:column;background:rgba(255,255,255,.028);border:1px solid rgba(245,197,66,.14);padding:clamp(14px,1.2vw,18px)"><div style="position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;background:#0d1d31;border:1px solid rgba(245,197,66,.18)"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Airplane%20LCCN2016889166.jpg?width=900" alt="Fairchild FC-2" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.08) contrast(1.08) brightness(1.02)"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,13,21,.26),transparent 36%,transparent 58%,rgba(8,13,21,.78))"></div><div style="position:absolute;left:11px;top:9px;font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.13em;color:rgba(255,224,138,.92)">// 1927 &middot; FAIRCHILD FC-2</div><div style="position:absolute;right:11px;bottom:9px;font-family:'Space Mono',monospace;font-size:8px;color:rgba(255,255,255,.66)">Fairchild FC-2</div></div><div style="display:flex;align-items:center;gap:8px;margin:15px 0 11px"><span style="width:9px;height:9px;border-radius:50%;background:#f5c542;box-shadow:0 0 10px rgba(245,197,66,.7)"></span><span style="flex:1;height:1px;background:linear-gradient(90deg,#f5c542,rgba(245,197,66,.06))"></span><span style="font-family:'Space Mono',monospace;font-size:9px;color:#8998aa">02 / 04</span></div><div style="font-family:'Cinzel',serif;font-weight:600;font-size:clamp(28px,2.8vw,42px);line-height:1;color:#f7f9fc">1927</div><span style="font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.24em;color:#f5c542;text-transform:uppercase;margin:11px 0 8px">Los pioneros</span><h3 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(19px,1.5vw,23px);line-height:1.16;color:#eff3f7;margin:0 0 9px">El vuelo se vuelve oficio</h3><p style="font-size:13px;line-height:1.6;color:#bac6d5;font-weight:300;margin:0">Monoplanos como el Fairchild FC-2 abren rutas de correo y pasaje. La aviaci&oacute;n se profesionaliza.</p><div style="margin-top:auto;padding-top:14px"><div style="display:flex;align-items:baseline;gap:8px;padding-top:13px;border-top:1px solid rgba(245,197,66,.14)"><span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,1.8vw,26px);color:#f5c542;line-height:1">FC-2</span><span style="font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.13em;color:#93a0af;text-transform:uppercase">Fairchild ? monomotor</span></div></div></div>
+          <div data-rev="y" style="display:flex;flex-direction:column;background:rgba(255,255,255,.028);border:1px solid rgba(245,197,66,.14);padding:clamp(14px,1.2vw,18px)"><div style="position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;background:#0d1d31;border:1px solid rgba(245,197,66,.18)"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Boeing%20707-321%2C%20Pan%20Am%20JP6852884.jpg?width=900" alt="Boeing 707 &middot; Pan Am" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.08) contrast(1.08) brightness(1.02)"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,13,21,.26),transparent 36%,transparent 58%,rgba(8,13,21,.78))"></div><div style="position:absolute;left:11px;top:9px;font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.13em;color:rgba(255,224,138,.92)">// 1958 &middot; BOEING 707</div><div style="position:absolute;right:11px;bottom:9px;font-family:'Space Mono',monospace;font-size:8px;color:rgba(255,255,255,.66)">Boeing 707 &middot; Pan Am</div></div><div style="display:flex;align-items:center;gap:8px;margin:15px 0 11px"><span style="width:9px;height:9px;border-radius:50%;background:#f5c542;box-shadow:0 0 10px rgba(245,197,66,.7)"></span><span style="flex:1;height:1px;background:linear-gradient(90deg,#f5c542,rgba(245,197,66,.06))"></span><span style="font-family:'Space Mono',monospace;font-size:9px;color:#8998aa">03 / 04</span></div><div style="font-family:'Cinzel',serif;font-weight:600;font-size:clamp(28px,2.8vw,42px);line-height:1;color:#f7f9fc">1958</div><span style="font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.24em;color:#f5c542;text-transform:uppercase;margin:11px 0 8px">La era del jet</span><h3 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(19px,1.5vw,23px);line-height:1.16;color:#eff3f7;margin:0 0 9px">El cielo se vuelve m&aacute;s peque&ntilde;o</h3><p style="font-size:13px;line-height:1.6;color:#bac6d5;font-weight:300;margin:0">El Boeing 707 inaugura los vuelos comerciales a reacci&oacute;n y acerca el mundo entero.</p><div style="margin-top:auto;padding-top:14px"><div style="display:flex;align-items:baseline;gap:8px;padding-top:13px;border-top:1px solid rgba(245,197,66,.14)"><span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,1.8vw,26px);color:#f5c542;line-height:1">~900 km/h</span><span style="font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.13em;color:#93a0af;text-transform:uppercase">Boeing 707</span></div></div></div>
+          <div data-rev="y" style="display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(245,197,66,.09),rgba(245,197,66,.02));border:1px solid rgba(245,197,66,.4);padding:clamp(14px,1.2vw,18px)"><div style="position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;background:#0d1d31;border:1px solid rgba(245,197,66,.45)"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Beechcraft%20King%20Air.jpg?width=900" alt="Beechcraft King Air 200" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.08) contrast(1.08) brightness(1.02)"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,13,21,.26),transparent 36%,transparent 58%,rgba(8,13,21,.78))"></div><div style="position:absolute;left:11px;top:9px;font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.13em;color:rgba(255,224,138,.92)">// HOY &middot; KING AIR 200</div><div style="position:absolute;right:11px;bottom:9px;font-family:'Space Mono',monospace;font-size:8px;color:rgba(255,255,255,.66)">Beechcraft King Air 200</div></div><div style="display:flex;align-items:center;gap:8px;margin:15px 0 11px"><span style="width:9px;height:9px;border-radius:50%;background:#f5c542;box-shadow:0 0 10px rgba(245,197,66,.7)"></span><span style="flex:1;height:1px;background:linear-gradient(90deg,#f5c542,rgba(245,197,66,.06))"></span><span style="font-family:'Space Mono',monospace;font-size:9px;color:#8998aa">04 / 04</span></div><div style="font-family:'Cinzel',serif;font-weight:600;font-size:clamp(28px,2.8vw,42px);line-height:1;color:#f5c542">Hoy</div><span style="font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.24em;color:#f5c542;text-transform:uppercase;margin:11px 0 8px">Hoy &middot; Hangar 1903</span><h3 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(19px,1.5vw,23px);line-height:1.16;color:#eff3f7;margin:0 0 9px">La historia se vuelve experiencia</h3><p style="font-size:13px;line-height:1.6;color:#bac6d5;font-weight:300;margin:0">El King Air 200 condensa un siglo de progreso. En HANGAR 1903 te sientas a los mandos y escribes tu cap&iacute;tulo.</p><div style="margin-top:auto;padding-top:14px"><div style="display:flex;align-items:baseline;gap:8px;padding-top:13px;border-top:1px solid rgba(245,197,66,.14)"><span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,1.8vw,26px);color:#f5c542;line-height:1">King Air 200</span><span style="font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.13em;color:#93a0af;text-transform:uppercase">tu turno</span></div><a href="{{ waGeneral }}" target="_blank" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;padding:12px;background:linear-gradient(180deg,#ffe08a,#f5c542 55%,#b88924);color:#160f05;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;box-shadow:0 10px 26px -12px rgba(245,197,66,.7)">Quiero volar <span style="font-size:14px">&rarr;</span></a></div></div>
         </div>
       </div>
     </section>
 
-    <section style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);background:#070707;border-top:1px solid rgba(255,255,255,.05)">
+    <section id="simuladores" style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);background:#05080e;border-top:1px solid rgba(245,197,66,.10)">
       <div style="max-width:1080px;margin:0 auto">
         <div data-rev="y" style="max-width:680px;margin-bottom:38px">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.sims.badge }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#f5c542;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.sims.badge }}</span>
           <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0 0 18px;letter-spacing:-.01em">{{ t.sims.h2 }}</h2>
-          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#C8CDD6;margin:0">{{ t.sims.pPre }}<strong style="color:#F0F0F0">A320</strong>{{ t.sims.pMid }}<strong style="color:#F0F0F0">King Air B200</strong>{{ t.sims.pPost }}</p>
+          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#d8e0ea;margin:0">{{ t.sims.pPre }}<strong style="color:#fbfcff">A320</strong>{{ t.sims.pMid }}<strong style="color:#fbfcff">King Air B200</strong>{{ t.sims.pPost }}</p>
         </div>
 
-        <div data-rev="y" style="position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;border:1px solid rgba(245,196,0,.2);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+        <div data-rev="y" style="position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;border:1px solid rgba(245,197,66,.2);box-shadow:0 30px 80px rgba(0,0,0,.6)">
           <image-slot id="sim-main" src="assets/sim-b200.jpg" shape="rect" fit="cover" placeholder="{{ t.sims.placeholderMain }}" style="position:absolute;inset:0;width:100%;height:100%;background:#0c0c0c"></image-slot>
           <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(80% 70% at 50% 40%,transparent 55%,rgba(0,0,0,.55) 100%)"></div>
-          <div style="position:absolute;left:18px;top:16px;width:26px;height:26px;border-left:2px solid rgba(245,196,0,.7);border-top:2px solid rgba(245,196,0,.7)"></div>
-          <div style="position:absolute;right:18px;top:16px;width:26px;height:26px;border-right:2px solid rgba(245,196,0,.7);border-top:2px solid rgba(245,196,0,.7)"></div>
-          <div style="position:absolute;left:18px;bottom:16px;width:26px;height:26px;border-left:2px solid rgba(245,196,0,.7);border-bottom:2px solid rgba(245,196,0,.7)"></div>
-          <div style="position:absolute;right:18px;bottom:16px;width:26px;height:26px;border-right:2px solid rgba(245,196,0,.7);border-bottom:2px solid rgba(245,196,0,.7)"></div>
+          <div style="position:absolute;left:18px;top:16px;width:26px;height:26px;border-left:2px solid rgba(245,197,66,.7);border-top:2px solid rgba(245,197,66,.7)"></div>
+          <div style="position:absolute;right:18px;top:16px;width:26px;height:26px;border-right:2px solid rgba(245,197,66,.7);border-top:2px solid rgba(245,197,66,.7)"></div>
+          <div style="position:absolute;left:18px;bottom:16px;width:26px;height:26px;border-left:2px solid rgba(245,197,66,.7);border-bottom:2px solid rgba(245,197,66,.7)"></div>
+          <div style="position:absolute;right:18px;bottom:16px;width:26px;height:26px;border-right:2px solid rgba(245,197,66,.7);border-bottom:2px solid rgba(245,197,66,.7)"></div>
           <div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:flex-end;padding:18px 22px;background:linear-gradient(transparent,rgba(0,0,0,.7));pointer-events:none">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#F0F0F0"><span style="color:#F5C400">●</span> BEECHCRAFT KING AIR B200</div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#8A9BB5">SKPE · PEI</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#fbfcff"><span style="color:#f5c542">●</span> BEECHCRAFT KING AIR B200</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#a8b5c7">SKPE · PEI</div>
           </div>
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:16px">
-          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-1" shape="rect" placeholder="{{ t.sims.slotCabin }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(255,255,255,.06)"></image-slot></div>
-          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-2" shape="rect" placeholder="{{ t.sims.slotInstruments }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(255,255,255,.06)"></image-slot></div>
-          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-3" shape="rect" placeholder="{{ t.sims.slotInstructor }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(255,255,255,.06)"></image-slot></div>
-          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-4" shape="rect" placeholder="{{ t.sims.slotAmbiente }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(255,255,255,.06)"></image-slot></div>
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-1" shape="rect" placeholder="{{ t.sims.slotCabin }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(245,197,66,.12)"></image-slot></div>
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-2" shape="rect" placeholder="{{ t.sims.slotInstruments }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(245,197,66,.12)"></image-slot></div>
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-3" shape="rect" placeholder="{{ t.sims.slotInstructor }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(245,197,66,.12)"></image-slot></div>
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-4" shape="rect" placeholder="{{ t.sims.slotAmbiente }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(245,197,66,.12)"></image-slot></div>
         </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#5a6373;margin-top:14px">{{ t.sims.dragNote }}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#7f8fa3;margin-top:14px">{{ t.sims.dragNote }}</div>
       </div>
     </section>
 
-    <section id="fases" style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);border-top:1px solid rgba(255,255,255,.05)">
+    <section id="fases" style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);border-top:1px solid rgba(245,197,66,.10)">
       <div style="max-width:980px;margin:0 auto">
         <div data-rev="y" style="max-width:680px;margin-bottom:46px">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.fases.badge }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#f5c542;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.fases.badge }}</span>
           <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0 0 16px;letter-spacing:-.01em">{{ t.fases.h2 }}</h2>
-          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#C8CDD6;margin:0">{{ t.fases.p }}</p>
+          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#d8e0ea;margin:0">{{ t.fases.p }}</p>
         </div>
 
         <div data-rev="y" style="display:flex;gap:clamp(14px,3vw,28px)">
           <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
             <button onClick="{{ tp1 }}" aria-label="Fase 1" style="{{ dot1 }}">01</button>
-            <div style="flex:1;width:2px;background:linear-gradient(rgba(245,196,0,.4),rgba(245,196,0,.08))"></div>
+            <div style="flex:1;width:2px;background:linear-gradient(rgba(245,197,66,.4),rgba(245,197,66,.08))"></div>
           </div>
           <div style="flex:1;padding-bottom:34px;min-width:0">
             <button onClick="{{ tp1 }}" style="width:100%;text-align:left;background:none;border:0;cursor:default;padding:6px 0;display:flex;align-items:flex-start;gap:14px;justify-content:space-between">
               <span style="min-width:0">
-                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">{{ t.fases.f1.tag }}</span>
-                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">{{ t.fases.f1.quote }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#a8b5c7">{{ t.fases.f1.tag }}</span>
+                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#fbfcff;margin-top:3px;line-height:1.15">{{ t.fases.f1.quote }}</span>
               </span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="{{ chev1 }}" data-anim-x><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div style="{{ panel1 }}">
               <div style="padding-top:16px;max-width:760px">
-                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 22px">{{ t.fases.f1.pPre }}<strong style="color:#F0F0F0">CRM</strong>{{ t.fases.f1.pPost }}</p>
+                <p style="font-size:15px;line-height:1.8;color:#d8e0ea;margin:0 0 22px">{{ t.fases.f1.pPre }}<strong style="color:#fbfcff">CRM</strong>{{ t.fases.f1.pPost }}</p>
                 <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:12px">
-                  <div style="background:#101012;border:1px solid rgba(138,155,181,.22);border-radius:8px;padding:20px;transition:all .3s" style-hover="border-color:#F5C400;background:rgba(245,196,0,.06);box-shadow:0 0 30px rgba(245,196,0,.12)">
-                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#F5C400">PF</div>
+                  <div style="background:#0b1420;border:1px solid rgba(139,151,166,.22);border-radius:8px;padding:20px;transition:all .3s" style-hover="border-color:#f5c542;background:rgba(245,197,66,.06);box-shadow:0 0 30px rgba(245,197,66,.12)">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#f5c542">PF</div>
                     <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;margin:4px 0 8px">Pilot Flying</div>
-                    <p style="font-size:13px;line-height:1.6;color:#8A9BB5;margin:0">{{ t.fases.f1.pfDesc }}</p>
+                    <p style="font-size:13px;line-height:1.6;color:#a8b5c7;margin:0">{{ t.fases.f1.pfDesc }}</p>
                   </div>
-                  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;color:#F5C400;font-size:24px;font-weight:700;gap:4px">
+                  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;color:#f5c542;font-size:24px;font-weight:700;gap:4px">
                     <span data-anim="blink-a">↔</span>
-                    <span style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#8A9BB5;writing-mode:vertical-rl;transform:rotate(180deg)">CRM</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#a8b5c7;writing-mode:vertical-rl;transform:rotate(180deg)">CRM</span>
                   </div>
-                  <div style="background:#101012;border:1px solid rgba(138,155,181,.22);border-radius:8px;padding:20px;transition:all .3s" style-hover="border-color:#F5C400;background:rgba(245,196,0,.06);box-shadow:0 0 30px rgba(245,196,0,.12)">
-                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#F5C400">PM</div>
+                  <div style="background:#0b1420;border:1px solid rgba(139,151,166,.22);border-radius:8px;padding:20px;transition:all .3s" style-hover="border-color:#f5c542;background:rgba(245,197,66,.06);box-shadow:0 0 30px rgba(245,197,66,.12)">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#f5c542">PM</div>
                     <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;margin:4px 0 8px">Pilot Monitoring</div>
-                    <p style="font-size:13px;line-height:1.6;color:#8A9BB5;margin:0">{{ t.fases.f1.pmDesc }}</p>
+                    <p style="font-size:13px;line-height:1.6;color:#a8b5c7;margin:0">{{ t.fases.f1.pmDesc }}</p>
                   </div>
                 </div>
-                <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5C400;margin-top:18px;text-align:center;letter-spacing:.08em">{{ t.fases.f1.crmLine }}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#f5c542;margin-top:18px;text-align:center;letter-spacing:.08em">{{ t.fases.f1.crmLine }}</div>
               </div>
             </div>
           </div>
@@ -322,69 +298,69 @@ html,body{margin:0;padding:0;background:#0A0A0A}
         <div style="display:flex;gap:clamp(14px,3vw,28px)">
           <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
             <button onClick="{{ tp2 }}" aria-label="Fase 2" style="{{ dot2 }}">02</button>
-            <div style="flex:1;width:2px;background:linear-gradient(rgba(245,196,0,.4),rgba(245,196,0,.08))"></div>
+            <div style="flex:1;width:2px;background:linear-gradient(rgba(245,197,66,.4),rgba(245,197,66,.08))"></div>
           </div>
           <div style="flex:1;padding-bottom:34px;min-width:0">
             <button onClick="{{ tp2 }}" style="width:100%;text-align:left;background:none;border:0;cursor:default;padding:6px 0;display:flex;align-items:flex-start;gap:14px;justify-content:space-between">
               <span style="min-width:0">
-                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">{{ t.fases.f2.tag }}</span>
-                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">{{ t.fases.f2.quote }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#a8b5c7">{{ t.fases.f2.tag }}</span>
+                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#fbfcff;margin-top:3px;line-height:1.15">{{ t.fases.f2.quote }}</span>
               </span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="{{ chev2 }}"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div style="{{ panel2 }}">
               <div style="padding-top:16px">
-                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 20px;max-width:760px">{{ t.fases.f2.p1Pre }}<strong style="color:#F0F0F0">{{ t.fases.f2.liftWord }}</strong>{{ t.fases.f2.p1Post }}</p>
-                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 24px;max-width:760px">{{ t.fases.f2.p2Pre }}<strong style="color:#F0F0F0">{{ t.fases.f2.dragRoseWord }}</strong>{{ t.fases.f2.p2Post }}</p>
+                <p style="font-size:15px;line-height:1.8;color:#d8e0ea;margin:0 0 20px;max-width:760px">{{ t.fases.f2.p1Pre }}<strong style="color:#fbfcff">{{ t.fases.f2.liftWord }}</strong>{{ t.fases.f2.p1Post }}</p>
+                <p style="font-size:15px;line-height:1.8;color:#d8e0ea;margin:0 0 24px;max-width:760px">{{ t.fases.f2.p2Pre }}<strong style="color:#fbfcff">{{ t.fases.f2.dragRoseWord }}</strong>{{ t.fases.f2.p2Post }}</p>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;align-items:center">
-                  <div style="position:relative;background:radial-gradient(130% 150% at 28% 0%,#0d1118,#070708);border:1px solid rgba(245,196,0,.18);border-radius:10px;overflow:hidden;height:100%">
-                    <div style="position:absolute;left:14px;top:12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A9BB5;z-index:2">{{ t.fases.f2.wingLabel }}</div>
+                  <div style="position:relative;background:radial-gradient(130% 150% at 28% 0%,#0d1118,#070708);border:1px solid rgba(245,197,66,.18);border-radius:10px;overflow:hidden;height:100%">
+                    <div style="position:absolute;left:14px;top:12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#a8b5c7;z-index:2">{{ t.fases.f2.wingLabel }}</div>
                     <svg viewBox="0 0 440 210" style="width:100%;height:auto;display:block">
-                      <g fill="none" stroke="#F5C400" stroke-width="1.5" opacity="0.55" stroke-linecap="round" stroke-dasharray="7 15">
+                      <g fill="none" stroke="#f5c542" stroke-width="1.5" opacity="0.55" stroke-linecap="round" stroke-dasharray="7 15">
                         <path d="M5,40 C120,40 190,26 250,28 C320,30 380,40 435,42" data-anim="stream2"></path>
                         <path d="M5,60 C120,58 185,40 250,44 C325,48 384,60 435,62" data-anim="stream2"></path>
                         <path d="M5,82 C110,80 170,56 250,60 C335,64 392,82 435,84" data-anim="stream2"></path>
                       </g>
-                      <g fill="none" stroke="#5a6373" stroke-width="1.4" opacity="0.5" stroke-linecap="round" stroke-dasharray="7 17">
+                      <g fill="none" stroke="#7f8fa3" stroke-width="1.4" opacity="0.5" stroke-linecap="round" stroke-dasharray="7 17">
                         <path d="M5,150 C120,150 185,158 250,156 C330,154 384,150 435,150" data-anim="stream"></path>
                         <path d="M5,172 C120,172 250,176 435,172" data-anim="stream"></path>
                         <path d="M5,194 C120,194 250,196 435,194" data-anim="stream"></path>
                       </g>
-                      <path d="M95,118 C140,84 230,76 360,120 C250,125 150,128 95,118 Z" fill="#16160f" stroke="#F5C400" stroke-width="2"></path>
-                      <path d="M95,118 C140,84 230,76 360,120" fill="none" stroke="#FFD740" stroke-width="2.4"></path>
-                      <g stroke="#F5C400" fill="#F5C400">
+                      <path d="M95,118 C140,84 230,76 360,120 C250,125 150,128 95,118 Z" fill="#142b49" stroke="#f5c542" stroke-width="2"></path>
+                      <path d="M95,118 C140,84 230,76 360,120" fill="none" stroke="#ffe08a" stroke-width="2.4"></path>
+                      <g stroke="#f5c542" fill="#f5c542">
                         <line x1="224" y1="68" x2="224" y2="40" stroke-width="2"></line>
                         <polygon points="224,30 219,42 229,42"></polygon>
                       </g>
-                      <text x="236" y="46" fill="#F5C400" font-family="'JetBrains Mono',monospace" font-size="11" letter-spacing="1">{{ t.fases.f2.liftLabel }}</text>
-                      <text x="20" y="120" fill="#8A9BB5" font-family="'JetBrains Mono',monospace" font-size="10">{{ t.fases.f2.windLabel }}</text>
+                      <text x="236" y="46" fill="#f5c542" font-family="'JetBrains Mono',monospace" font-size="11" letter-spacing="1">{{ t.fases.f2.liftLabel }}</text>
+                      <text x="20" y="120" fill="#a8b5c7" font-family="'JetBrains Mono',monospace" font-size="10">{{ t.fases.f2.windLabel }}</text>
                     </svg>
-                    <div style="position:relative;border-top:1px solid rgba(245,196,0,.12)">
-                      <div style="position:absolute;left:14px;top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A9BB5;z-index:2">{{ t.fases.f2.forcesLabel }}</div>
+                    <div style="position:relative;border-top:1px solid rgba(245,197,66,.12)">
+                      <div style="position:absolute;left:14px;top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#a8b5c7;z-index:2">{{ t.fases.f2.forcesLabel }}</div>
                       <svg viewBox="0 0 440 240" style="width:100%;height:auto;display:block">
-                        <ellipse cx="220" cy="120" rx="62" ry="11" fill="#16160f" stroke="#8A9BB5" stroke-width="1.4"></ellipse>
-                        <path d="M278,112 L300,120 L278,128 Z" fill="#8A9BB5"></path>
-                        <path d="M165,109 L178,109 L160,86 Z" fill="#8A9BB5" opacity="0.8"></path>
-                        <path d="M205,130 L240,130 L262,152 L195,152 Z" fill="#8A9BB5" opacity="0.55"></path>
+                        <ellipse cx="220" cy="120" rx="62" ry="11" fill="#142b49" stroke="#a8b5c7" stroke-width="1.4"></ellipse>
+                        <path d="M278,112 L300,120 L278,128 Z" fill="#a8b5c7"></path>
+                        <path d="M165,109 L178,109 L160,86 Z" fill="#a8b5c7" opacity="0.8"></path>
+                        <path d="M205,130 L240,130 L262,152 L195,152 Z" fill="#a8b5c7" opacity="0.55"></path>
                         <g data-anim="force0" style="transform-origin:220px 103px">
-                          <line x1="220" y1="103" x2="220" y2="48" stroke="#F5C400" stroke-width="2.5"></line>
-                          <polygon points="220,38 213,52 227,52" fill="#F5C400"></polygon>
-                          <text x="230" y="68" fill="#F5C400" font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="1">{{ t.fases.f2.liftLabel }}</text>
+                          <line x1="220" y1="103" x2="220" y2="48" stroke="#f5c542" stroke-width="2.5"></line>
+                          <polygon points="220,38 213,52 227,52" fill="#f5c542"></polygon>
+                          <text x="230" y="68" fill="#f5c542" font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="1">{{ t.fases.f2.liftLabel }}</text>
                         </g>
                         <g data-anim="force1" style="transform-origin:220px 137px">
-                          <line x1="220" y1="137" x2="220" y2="192" stroke="#8A9BB5" stroke-width="2.5"></line>
-                          <polygon points="220,202 213,188 227,188" fill="#8A9BB5"></polygon>
-                          <text x="230" y="218" fill="#8A9BB5" font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="1">{{ t.fases.f2.weightLabel }}</text>
+                          <line x1="220" y1="137" x2="220" y2="192" stroke="#a8b5c7" stroke-width="2.5"></line>
+                          <polygon points="220,202 213,188 227,188" fill="#a8b5c7"></polygon>
+                          <text x="230" y="218" fill="#a8b5c7" font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="1">{{ t.fases.f2.weightLabel }}</text>
                         </g>
                         <g data-anim="force2" style="transform-origin:302px 120px">
-                          <line x1="302" y1="120" x2="384" y2="120" stroke="#F5C400" stroke-width="2.5"></line>
-                          <polygon points="394,120 380,113 380,127" fill="#F5C400"></polygon>
-                          <text x="312" y="108" fill="#F5C400" font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="1">{{ t.fases.f2.thrustLabel }}</text>
+                          <line x1="302" y1="120" x2="384" y2="120" stroke="#f5c542" stroke-width="2.5"></line>
+                          <polygon points="394,120 380,113 380,127" fill="#f5c542"></polygon>
+                          <text x="312" y="108" fill="#f5c542" font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="1">{{ t.fases.f2.thrustLabel }}</text>
                         </g>
                         <g data-anim="force3" style="transform-origin:153px 120px">
-                          <line x1="153" y1="120" x2="60" y2="120" stroke="#8A9BB5" stroke-width="2.5"></line>
-                          <polygon points="50,120 64,113 64,127" fill="#8A9BB5"></polygon>
-                          <text x="35" y="108" fill="#8A9BB5" font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="1">{{ t.fases.f2.dragLabel }}</text>
+                          <line x1="153" y1="120" x2="60" y2="120" stroke="#a8b5c7" stroke-width="2.5"></line>
+                          <polygon points="50,120 64,113 64,127" fill="#a8b5c7"></polygon>
+                          <text x="35" y="108" fill="#a8b5c7" font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="1">{{ t.fases.f2.dragLabel }}</text>
                         </g>
                       </svg>
                     </div>
@@ -392,29 +368,29 @@ html,body{margin:0;padding:0;background:#0A0A0A}
                   <div>
                     <div style="display:flex;justify-content:center;margin-bottom:14px">
                       <div style="position:relative;width:230px;height:230px">
-                        <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:14px solid #F5C400;z-index:3"></div>
+                        <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:14px solid #f5c542;z-index:3"></div>
                         <div onPointerDown="{{ compassDown }}" onPointerMove="{{ compassMove }}" onPointerUp="{{ compassUp }}" style="{{ compassStyle }}">
-                          <div style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(245,196,0,.16) 0 1deg,transparent 1deg 30deg,rgba(245,196,0,.16) 30deg 31deg,transparent 31deg 60deg,rgba(245,196,0,.16) 60deg 61deg,transparent 61deg 90deg,rgba(245,196,0,.16) 90deg 91deg,transparent 91deg 120deg,rgba(245,196,0,.16) 120deg 121deg,transparent 121deg 150deg,rgba(245,196,0,.16) 150deg 151deg,transparent 151deg 180deg,rgba(245,196,0,.16) 180deg 181deg,transparent 181deg 210deg,rgba(245,196,0,.16) 210deg 211deg,transparent 211deg 240deg,rgba(245,196,0,.16) 240deg 241deg,transparent 241deg 270deg,rgba(245,196,0,.16) 270deg 271deg,transparent 271deg 300deg,rgba(245,196,0,.16) 300deg 301deg,transparent 301deg 330deg,rgba(245,196,0,.16) 330deg 331deg,transparent 331deg 360deg);-webkit-mask:radial-gradient(circle,transparent 78px,#000 79px);mask:radial-gradient(circle,transparent 78px,#000 79px)"></div>
-                          <span style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#F5C400">N</span>
-                          <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:#F0F0F0">E</span>
-                          <span style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:#F0F0F0">S</span>
-                          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:#F0F0F0">W</span>
-                          <div style="position:absolute;top:50%;left:50%;width:8px;height:8px;border-radius:50%;background:#F5C400;transform:translate(-50%,-50%)"></div>
+                          <div style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(245,197,66,.16) 0 1deg,transparent 1deg 30deg,rgba(245,197,66,.16) 30deg 31deg,transparent 31deg 60deg,rgba(245,197,66,.16) 60deg 61deg,transparent 61deg 90deg,rgba(245,197,66,.16) 90deg 91deg,transparent 91deg 120deg,rgba(245,197,66,.16) 120deg 121deg,transparent 121deg 150deg,rgba(245,197,66,.16) 150deg 151deg,transparent 151deg 180deg,rgba(245,197,66,.16) 180deg 181deg,transparent 181deg 210deg,rgba(245,197,66,.16) 210deg 211deg,transparent 211deg 240deg,rgba(245,197,66,.16) 240deg 241deg,transparent 241deg 270deg,rgba(245,197,66,.16) 270deg 271deg,transparent 271deg 300deg,rgba(245,197,66,.16) 300deg 301deg,transparent 301deg 330deg,rgba(245,197,66,.16) 330deg 331deg,transparent 331deg 360deg);-webkit-mask:radial-gradient(circle,transparent 78px,#000 79px);mask:radial-gradient(circle,transparent 78px,#000 79px)"></div>
+                          <span style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#f5c542">N</span>
+                          <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:#fbfcff">E</span>
+                          <span style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:#fbfcff">S</span>
+                          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:#fbfcff">W</span>
+                          <div style="position:absolute;top:50%;left:50%;width:8px;height:8px;border-radius:50%;background:#f5c542;transform:translate(-50%,-50%)"></div>
                         </div>
                       </div>
                     </div>
                     <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px">
                       <span style="font-size:18px;display:inline-block" data-anim="tapHint">👆</span>
-                      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f2.tapCardinal }}</span>
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f2.tapCardinal }}</span>
                     </div>
                     <div style="display:flex;gap:8px;margin-bottom:16px">
                       <sc-for list="{{ cardinals }}" as="c" hint-placeholder-count="4">
                         <button onClick="{{ c.onSel }}" style="{{ c.btnStyle }}" data-anim="cta">{{ c.k }}</button>
                       </sc-for>
                     </div>
-                    <div style="background:#101012;border:1px solid rgba(245,196,0,.2);border-radius:8px;padding:18px 20px;min-height:120px">
-                      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#F5C400;margin-bottom:8px">{{ cSelLabel }}</div>
-                      <p style="font-size:14px;line-height:1.65;color:#C8CDD6;margin:0">{{ cSelTxt }}</p>
+                    <div style="background:#0b1420;border:1px solid rgba(245,197,66,.2);border-radius:8px;padding:18px 20px;min-height:120px">
+                      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#f5c542;margin-bottom:8px">{{ cSelLabel }}</div>
+                      <p style="font-size:14px;line-height:1.65;color:#d8e0ea;margin:0">{{ cSelTxt }}</p>
                     </div>
                   </div>
                 </div>
@@ -426,162 +402,162 @@ html,body{margin:0;padding:0;background:#0A0A0A}
         <div style="display:flex;gap:clamp(14px,3vw,28px)">
           <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
             <button onClick="{{ tp3 }}" aria-label="Fase 3" style="{{ dot3 }}">03</button>
-            <div style="flex:1;width:2px;background:linear-gradient(rgba(245,196,0,.4),rgba(245,196,0,.08))"></div>
+            <div style="flex:1;width:2px;background:linear-gradient(rgba(245,197,66,.4),rgba(245,197,66,.08))"></div>
           </div>
           <div style="flex:1;padding-bottom:34px;min-width:0">
             <button onClick="{{ tp3 }}" style="width:100%;text-align:left;background:none;border:0;cursor:default;padding:6px 0;display:flex;align-items:flex-start;gap:14px;justify-content:space-between">
               <span style="min-width:0">
-                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">{{ t.fases.f3.tag }}</span>
-                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">{{ t.fases.f3.quote }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#a8b5c7">{{ t.fases.f3.tag }}</span>
+                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#fbfcff;margin-top:3px;line-height:1.15">{{ t.fases.f3.quote }}</span>
               </span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="{{ chev3 }}"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div style="{{ panel3 }}">
               <div style="padding-top:16px">
-                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 16px;max-width:760px">{{ t.fases.f3.p }}</p>
+                <p style="font-size:15px;line-height:1.8;color:#d8e0ea;margin:0 0 16px;max-width:760px">{{ t.fases.f3.p }}</p>
                 <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
 
                   <div onClick="{{ i0Flip }}" style="perspective:1000px;height:212px;cursor:pointer">
                     <div style="{{ i0Style }}">
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(138,155,181,.22);border-radius:10px;background:#0e0e12;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
+                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(139,151,166,.22);border-radius:10px;background:#0b1420;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
                         <svg viewBox="0 0 120 120" style="display:block;width:100%;max-width:94px;height:auto;margin:0 auto">
-                          <circle cx="60" cy="60" r="54" fill="#0b0b0e" stroke="rgba(245,196,0,.45)" stroke-width="2"></circle>
-                          <circle cx="60" cy="60" r="47" fill="none" stroke="#8A9BB5" stroke-width="7" stroke-dasharray="1.6 10.7" opacity="0.4"></circle>
-                          <text x="60" y="30" fill="#8A9BB5" font-family="'JetBrains Mono',monospace" font-size="8" text-anchor="middle">KT</text>
-                          <g data-i="asi"><polygon points="60,17 56.5,62 63.5,62" fill="#F5C400"></polygon></g>
-                          <circle cx="60" cy="60" r="5" fill="#F5C400"></circle>
+                          <circle cx="60" cy="60" r="54" fill="#060b12" stroke="rgba(245,197,66,.45)" stroke-width="2"></circle>
+                          <circle cx="60" cy="60" r="47" fill="none" stroke="#a8b5c7" stroke-width="7" stroke-dasharray="1.6 10.7" opacity="0.4"></circle>
+                          <text x="60" y="30" fill="#a8b5c7" font-family="'JetBrains Mono',monospace" font-size="8" text-anchor="middle">KT</text>
+                          <g data-i="asi"><polygon points="60,17 56.5,62 63.5,62" fill="#f5c542"></polygon></g>
+                          <circle cx="60" cy="60" r="5" fill="#f5c542"></circle>
                         </svg>
-                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">{{ t.fases.f3.i0.name }}</div>
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#5a6373;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:0s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#fbfcff;line-height:1.05">{{ t.fases.f3.i0.name }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#7f8fa3;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:0s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,196,0,.4);border-radius:10px;background:linear-gradient(160deg,#16160f,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f3.i0.code }}</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">{{ t.fases.f3.i0.fn }}</div>
-                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">{{ t.fases.f3.i0.fact }}</div>
+                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f3.i0.code }}</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i0.fn }}</div>
+                        <div style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i0.fact }}</div>
                       </div>
                     </div>
                   </div>
 
                   <div onClick="{{ i1Flip }}" style="perspective:1000px;height:212px;cursor:pointer">
                     <div style="{{ i1Style }}">
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(138,155,181,.22);border-radius:10px;background:#0e0e12;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
+                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(139,151,166,.22);border-radius:10px;background:#0b1420;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
                         <svg viewBox="0 0 120 120" style="display:block;width:100%;max-width:94px;height:auto;margin:0 auto">
                           <defs><clipPath id="adiClip"><circle cx="60" cy="60" r="52"></circle></clipPath></defs>
                           <g clip-path="url(#adiClip)">
                             <g data-i="roll"><g data-i="pitch">
                               <rect x="-40" y="-40" width="200" height="102" fill="#34506b"></rect>
                               <rect x="-40" y="60" width="200" height="140" fill="#2e2316"></rect>
-                              <rect x="-40" y="58" width="200" height="3.5" fill="#F5C400"></rect>
+                              <rect x="-40" y="58" width="200" height="3.5" fill="#f5c542"></rect>
                             </g></g>
                           </g>
-                          <g stroke="#F5C400" stroke-width="2.6" fill="none"><line x1="33" y1="60" x2="50" y2="60"></line><line x1="70" y1="60" x2="87" y2="60"></line></g>
-                          <circle cx="60" cy="60" r="2.6" fill="#F5C400"></circle>
-                          <polygon points="60,11 56,19 64,19" fill="#F5C400"></polygon>
-                          <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(245,196,0,.45)" stroke-width="2"></circle>
+                          <g stroke="#f5c542" stroke-width="2.6" fill="none"><line x1="33" y1="60" x2="50" y2="60"></line><line x1="70" y1="60" x2="87" y2="60"></line></g>
+                          <circle cx="60" cy="60" r="2.6" fill="#f5c542"></circle>
+                          <polygon points="60,11 56,19 64,19" fill="#f5c542"></polygon>
+                          <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(245,197,66,.45)" stroke-width="2"></circle>
                         </svg>
-                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">{{ t.fases.f3.i1.name }}</div>
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#5a6373;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.15s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#fbfcff;line-height:1.05">{{ t.fases.f3.i1.name }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#7f8fa3;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.15s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,196,0,.4);border-radius:10px;background:linear-gradient(160deg,#16160f,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f3.i1.code }}</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">{{ t.fases.f3.i1.fn }}</div>
-                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">{{ t.fases.f3.i1.fact }}</div>
+                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f3.i1.code }}</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i1.fn }}</div>
+                        <div style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i1.fact }}</div>
                       </div>
                     </div>
                   </div>
 
                   <div onClick="{{ i2Flip }}" style="perspective:1000px;height:212px;cursor:pointer">
                     <div style="{{ i2Style }}">
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(138,155,181,.22);border-radius:10px;background:#0e0e12;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
+                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(139,151,166,.22);border-radius:10px;background:#0b1420;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
                         <svg viewBox="0 0 120 120" style="display:block;width:100%;max-width:94px;height:auto;margin:0 auto">
-                          <circle cx="60" cy="60" r="54" fill="#0b0b0e" stroke="rgba(245,196,0,.45)" stroke-width="2"></circle>
-                          <circle cx="60" cy="60" r="47" fill="none" stroke="#8A9BB5" stroke-width="7" stroke-dasharray="1.6 6.3" opacity="0.4"></circle>
-                          <g data-i="altS"><rect x="58.4" y="32" width="3.2" height="30" rx="1.6" fill="#C8CDD6"></rect></g>
-                          <g data-i="altB"><polygon points="60,20 57,60 63,60" fill="#F5C400"></polygon></g>
-                          <circle cx="60" cy="60" r="5" fill="#F5C400"></circle>
+                          <circle cx="60" cy="60" r="54" fill="#060b12" stroke="rgba(245,197,66,.45)" stroke-width="2"></circle>
+                          <circle cx="60" cy="60" r="47" fill="none" stroke="#a8b5c7" stroke-width="7" stroke-dasharray="1.6 6.3" opacity="0.4"></circle>
+                          <g data-i="altS"><rect x="58.4" y="32" width="3.2" height="30" rx="1.6" fill="#d8e0ea"></rect></g>
+                          <g data-i="altB"><polygon points="60,20 57,60 63,60" fill="#f5c542"></polygon></g>
+                          <circle cx="60" cy="60" r="5" fill="#f5c542"></circle>
                         </svg>
-                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">{{ t.fases.f3.i2.name }}</div>
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#5a6373;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.3s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#fbfcff;line-height:1.05">{{ t.fases.f3.i2.name }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#7f8fa3;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.3s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,196,0,.4);border-radius:10px;background:linear-gradient(160deg,#16160f,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f3.i2.code }}</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">{{ t.fases.f3.i2.fn }}</div>
-                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">{{ t.fases.f3.i2.fact }}</div>
+                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f3.i2.code }}</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i2.fn }}</div>
+                        <div style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i2.fact }}</div>
                       </div>
                     </div>
                   </div>
 
                   <div onClick="{{ i3Flip }}" style="perspective:1000px;height:212px;cursor:pointer">
                     <div style="{{ i3Style }}">
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(138,155,181,.22);border-radius:10px;background:#0e0e12;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
+                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(139,151,166,.22);border-radius:10px;background:#0b1420;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
                         <svg viewBox="0 0 120 120" style="display:block;width:100%;max-width:94px;height:auto;margin:0 auto">
-                          <circle cx="60" cy="60" r="54" fill="#0b0b0e" stroke="rgba(245,196,0,.45)" stroke-width="2"></circle>
-                          <text x="34" y="40" fill="#8A9BB5" font-family="'JetBrains Mono',monospace" font-size="9" text-anchor="middle">L</text>
-                          <text x="86" y="40" fill="#8A9BB5" font-family="'JetBrains Mono',monospace" font-size="9" text-anchor="middle">R</text>
+                          <circle cx="60" cy="60" r="54" fill="#060b12" stroke="rgba(245,197,66,.45)" stroke-width="2"></circle>
+                          <text x="34" y="40" fill="#a8b5c7" font-family="'JetBrains Mono',monospace" font-size="9" text-anchor="middle">L</text>
+                          <text x="86" y="40" fill="#a8b5c7" font-family="'JetBrains Mono',monospace" font-size="9" text-anchor="middle">R</text>
                           <g data-i="bank">
-                            <line x1="30" y1="56" x2="90" y2="56" stroke="#F5C400" stroke-width="3"></line>
-                            <line x1="60" y1="48" x2="60" y2="56" stroke="#F5C400" stroke-width="3"></line>
-                            <circle cx="60" cy="46" r="3" fill="#F5C400"></circle>
+                            <line x1="30" y1="56" x2="90" y2="56" stroke="#f5c542" stroke-width="3"></line>
+                            <line x1="60" y1="48" x2="60" y2="56" stroke="#f5c542" stroke-width="3"></line>
+                            <circle cx="60" cy="46" r="3" fill="#f5c542"></circle>
                           </g>
-                          <rect x="40" y="86" width="40" height="11" rx="5.5" fill="#0b0b0e" stroke="#8A9BB5" stroke-width="1.3" opacity="0.8"></rect>
-                          <g data-i="ball"><circle cx="60" cy="91.5" r="4.2" fill="#F5C400"></circle></g>
+                          <rect x="40" y="86" width="40" height="11" rx="5.5" fill="#060b12" stroke="#a8b5c7" stroke-width="1.3" opacity="0.8"></rect>
+                          <g data-i="ball"><circle cx="60" cy="91.5" r="4.2" fill="#f5c542"></circle></g>
                         </svg>
-                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">{{ t.fases.f3.i3.name }}</div>
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#5a6373;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.45s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#fbfcff;line-height:1.05">{{ t.fases.f3.i3.name }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#7f8fa3;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.45s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,196,0,.4);border-radius:10px;background:linear-gradient(160deg,#16160f,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f3.i3.code }}</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">{{ t.fases.f3.i3.fn }}</div>
-                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">{{ t.fases.f3.i3.fact }}</div>
+                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f3.i3.code }}</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i3.fn }}</div>
+                        <div style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i3.fact }}</div>
                       </div>
                     </div>
                   </div>
 
                   <div onClick="{{ i4Flip }}" style="perspective:1000px;height:212px;cursor:pointer">
                     <div style="{{ i4Style }}">
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(138,155,181,.22);border-radius:10px;background:#0e0e12;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
+                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(139,151,166,.22);border-radius:10px;background:#0b1420;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
                         <svg viewBox="0 0 120 120" style="display:block;width:100%;max-width:94px;height:auto;margin:0 auto">
-                          <circle cx="60" cy="60" r="54" fill="#0b0b0e" stroke="rgba(245,196,0,.45)" stroke-width="2"></circle>
+                          <circle cx="60" cy="60" r="54" fill="#060b12" stroke="rgba(245,197,66,.45)" stroke-width="2"></circle>
                           <g data-i="hdg">
-                            <circle cx="60" cy="60" r="47" fill="none" stroke="#8A9BB5" stroke-width="7" stroke-dasharray="1.6 10.7" opacity="0.4"></circle>
-                            <text x="60" y="26" fill="#F5C400" font-family="'Barlow Condensed',sans-serif" font-weight="700" font-size="14" text-anchor="middle">N</text>
-                            <text x="96" y="65" fill="#C8CDD6" font-family="'Barlow Condensed',sans-serif" font-weight="700" font-size="12" text-anchor="middle">E</text>
-                            <text x="60" y="102" fill="#C8CDD6" font-family="'Barlow Condensed',sans-serif" font-weight="700" font-size="12" text-anchor="middle">S</text>
-                            <text x="24" y="65" fill="#C8CDD6" font-family="'Barlow Condensed',sans-serif" font-weight="700" font-size="12" text-anchor="middle">W</text>
+                            <circle cx="60" cy="60" r="47" fill="none" stroke="#a8b5c7" stroke-width="7" stroke-dasharray="1.6 10.7" opacity="0.4"></circle>
+                            <text x="60" y="26" fill="#f5c542" font-family="'Barlow Condensed',sans-serif" font-weight="700" font-size="14" text-anchor="middle">N</text>
+                            <text x="96" y="65" fill="#d8e0ea" font-family="'Barlow Condensed',sans-serif" font-weight="700" font-size="12" text-anchor="middle">E</text>
+                            <text x="60" y="102" fill="#d8e0ea" font-family="'Barlow Condensed',sans-serif" font-weight="700" font-size="12" text-anchor="middle">S</text>
+                            <text x="24" y="65" fill="#d8e0ea" font-family="'Barlow Condensed',sans-serif" font-weight="700" font-size="12" text-anchor="middle">W</text>
                           </g>
-                          <polygon points="60,9 56,17 64,17" fill="#F5C400"></polygon>
-                          <g stroke="#F5C400" stroke-width="2" fill="none"><line x1="60" y1="47" x2="60" y2="73"></line><line x1="49" y1="59" x2="71" y2="59"></line><line x1="55" y1="71" x2="65" y2="71"></line></g>
+                          <polygon points="60,9 56,17 64,17" fill="#f5c542"></polygon>
+                          <g stroke="#f5c542" stroke-width="2" fill="none"><line x1="60" y1="47" x2="60" y2="73"></line><line x1="49" y1="59" x2="71" y2="59"></line><line x1="55" y1="71" x2="65" y2="71"></line></g>
                         </svg>
-                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">{{ t.fases.f3.i4.name }}</div>
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#5a6373;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.6s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#fbfcff;line-height:1.05">{{ t.fases.f3.i4.name }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#7f8fa3;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.6s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,196,0,.4);border-radius:10px;background:linear-gradient(160deg,#16160f,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f3.i4.code }}</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">{{ t.fases.f3.i4.fn }}</div>
-                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">{{ t.fases.f3.i4.fact }}</div>
+                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f3.i4.code }}</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i4.fn }}</div>
+                        <div style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i4.fact }}</div>
                       </div>
                     </div>
                   </div>
 
                   <div onClick="{{ i5Flip }}" style="perspective:1000px;height:212px;cursor:pointer">
                     <div style="{{ i5Style }}">
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(138,155,181,.22);border-radius:10px;background:#0e0e12;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
+                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(139,151,166,.22);border-radius:10px;background:#0b1420;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
                         <svg viewBox="0 0 120 120" style="display:block;width:100%;max-width:94px;height:auto;margin:0 auto">
-                          <circle cx="60" cy="60" r="54" fill="#0b0b0e" stroke="rgba(245,196,0,.45)" stroke-width="2"></circle>
-                          <circle cx="60" cy="60" r="47" fill="none" stroke="#8A9BB5" stroke-width="7" stroke-dasharray="1.6 10.7" opacity="0.4"></circle>
-                          <text x="30" y="40" fill="#8A9BB5" font-family="'JetBrains Mono',monospace" font-size="8">UP</text>
-                          <text x="28" y="86" fill="#8A9BB5" font-family="'JetBrains Mono',monospace" font-size="8">DN</text>
-                          <text x="18" y="63" fill="#F0F0F0" font-family="'JetBrains Mono',monospace" font-size="9">0</text>
-                          <g data-i="vsi"><polygon points="19,60 60,57 60,63" fill="#F5C400"></polygon></g>
-                          <circle cx="60" cy="60" r="5" fill="#F5C400"></circle>
+                          <circle cx="60" cy="60" r="54" fill="#060b12" stroke="rgba(245,197,66,.45)" stroke-width="2"></circle>
+                          <circle cx="60" cy="60" r="47" fill="none" stroke="#a8b5c7" stroke-width="7" stroke-dasharray="1.6 10.7" opacity="0.4"></circle>
+                          <text x="30" y="40" fill="#a8b5c7" font-family="'JetBrains Mono',monospace" font-size="8">UP</text>
+                          <text x="28" y="86" fill="#a8b5c7" font-family="'JetBrains Mono',monospace" font-size="8">DN</text>
+                          <text x="18" y="63" fill="#fbfcff" font-family="'JetBrains Mono',monospace" font-size="9">0</text>
+                          <g data-i="vsi"><polygon points="19,60 60,57 60,63" fill="#f5c542"></polygon></g>
+                          <circle cx="60" cy="60" r="5" fill="#f5c542"></circle>
                         </svg>
-                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#F0F0F0;line-height:1.05">{{ t.fases.f3.i5.name }}</div>
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#5a6373;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.75s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#fbfcff;line-height:1.05">{{ t.fases.f3.i5.name }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#7f8fa3;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.75s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,196,0,.4);border-radius:10px;background:linear-gradient(160deg,#16160f,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
-                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#F5C400">{{ t.fases.f3.i5.code }}</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#F0F0F0">{{ t.fases.f3.i5.fn }}</div>
-                        <div style="font-size:11px;line-height:1.5;color:#F5C400;border-top:1px solid rgba(245,196,0,.2);padding-top:8px">{{ t.fases.f3.i5.fact }}</div>
+                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0b0b08);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f3.i5.code }}</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i5.fn }}</div>
+                        <div style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i5.fact }}</div>
                       </div>
                     </div>
                   </div>
@@ -595,23 +571,23 @@ html,body{margin:0;padding:0;background:#0A0A0A}
         <div style="display:flex;gap:clamp(14px,3vw,28px)">
           <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
             <button onClick="{{ tp4 }}" aria-label="Fase 4" style="{{ dot4 }}">04</button>
-            <div style="flex:1;width:2px;background:linear-gradient(rgba(245,196,0,.4),rgba(245,196,0,.08))"></div>
+            <div style="flex:1;width:2px;background:linear-gradient(rgba(245,197,66,.4),rgba(245,197,66,.08))"></div>
           </div>
           <div style="flex:1;padding-bottom:34px;min-width:0">
             <button onClick="{{ tp4 }}" style="width:100%;text-align:left;background:none;border:0;cursor:default;padding:6px 0;display:flex;align-items:flex-start;gap:14px;justify-content:space-between">
               <span style="min-width:0">
-                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">{{ t.fases.f4.tag }}</span>
-                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">{{ t.fases.f4.quote }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#a8b5c7">{{ t.fases.f4.tag }}</span>
+                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#fbfcff;margin-top:3px;line-height:1.15">{{ t.fases.f4.quote }}</span>
               </span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="{{ chev4 }}"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div style="{{ panel4 }}">
               <div style="padding-top:16px;max-width:600px">
-                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 20px">{{ t.fases.f4.p }}</p>
-                <div style="background:#0c0c10;border:1px solid rgba(138,155,181,.2);border-radius:12px;overflow:hidden">
-                  <div style="display:flex;align-items:center;gap:8px;padding:11px 16px;background:rgba(245,196,0,.07);border-bottom:1px solid rgba(245,196,0,.14)">
-                    <span style="width:8px;height:8px;border-radius:50%;background:#F5C400" data-anim="blink-a"></span>
-                    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#8A9BB5">{{ t.fases.f4.briefing }}</span>
+                <p style="font-size:15px;line-height:1.8;color:#d8e0ea;margin:0 0 20px">{{ t.fases.f4.p }}</p>
+                <div style="background:#0c0c10;border:1px solid rgba(139,151,166,.2);border-radius:12px;overflow:hidden">
+                  <div style="display:flex;align-items:center;gap:8px;padding:11px 16px;background:rgba(245,197,66,.07);border-bottom:1px solid rgba(245,197,66,.14)">
+                    <span style="width:8px;height:8px;border-radius:50%;background:#f5c542" data-anim="blink-a"></span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#a8b5c7">{{ t.fases.f4.briefing }}</span>
                   </div>
                   <div ref="{{ chatRef }}" style="display:flex;flex-direction:column;gap:10px;padding:18px;min-height:210px"></div>
                 </div>
@@ -627,30 +603,30 @@ html,body{margin:0;padding:0;background:#0A0A0A}
           <div style="flex:1;min-width:0">
             <button onClick="{{ tp5 }}" style="width:100%;text-align:left;background:none;border:0;cursor:default;padding:6px 0;display:flex;align-items:flex-start;gap:14px;justify-content:space-between">
               <span style="min-width:0">
-                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8A9BB5">{{ t.fases.f5.tag }}</span>
-                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#F0F0F0;margin-top:3px;line-height:1.15">{{ t.fases.f5.quote }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#a8b5c7">{{ t.fases.f5.tag }}</span>
+                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#fbfcff;margin-top:3px;line-height:1.15">{{ t.fases.f5.quote }}</span>
               </span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="{{ chev5 }}"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div style="{{ panel5 }}">
               <div id="vuelo" style="padding-top:16px">
-                <p style="font-size:15px;line-height:1.8;color:#C8CDD6;margin:0 0 20px;max-width:760px">{{ t.fases.f5.p }}</p>
-                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:24px;background:radial-gradient(120% 150% at 18% 0%,#0d1320,#070708);border:1px solid rgba(245,196,0,.2);border-radius:10px;padding:20px 22px;overflow:hidden">
+                <p style="font-size:15px;line-height:1.8;color:#d8e0ea;margin:0 0 20px;max-width:760px">{{ t.fases.f5.p }}</p>
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:24px;background:radial-gradient(120% 150% at 18% 0%,#0d1320,#070708);border:1px solid rgba(245,197,66,.2);border-radius:10px;padding:20px 22px;overflow:hidden">
                   <div style="flex:1;min-width:220px">
-                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#F5C400;margin-bottom:8px">{{ t.fases.f5.destinoLibre }}</div>
-                    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,26px);color:#F0F0F0;line-height:1.1;margin-bottom:8px">{{ t.fases.f5.eligesTitulo }}</div>
-                    <p style="font-size:13.5px;line-height:1.65;color:#C8CDD6;margin:0">{{ t.fases.f5.eligesP }}</p>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#f5c542;margin-bottom:8px">{{ t.fases.f5.destinoLibre }}</div>
+                    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,26px);color:#fbfcff;line-height:1.1;margin-bottom:8px">{{ t.fases.f5.eligesTitulo }}</div>
+                    <p style="font-size:13.5px;line-height:1.65;color:#d8e0ea;margin:0">{{ t.fases.f5.eligesP }}</p>
                   </div>
                   <div style="flex:1;min-width:230px;max-width:340px">
                     <svg viewBox="0 0 340 130" style="width:100%;height:auto;display:block">
-                      <path d="M30,98 Q170,6 308,68" fill="none" stroke="#F5C400" stroke-width="2" opacity="0.28"></path>
-                      <path d="M30,98 Q170,6 308,68" fill="none" stroke="#FFD740" stroke-width="2.2" stroke-dasharray="5 11" data-anim="flow"></path>
-                      <circle cx="30" cy="98" r="6" fill="#F5C400"></circle>
-                      <text x="30" y="120" fill="#8A9BB5" font-family="'JetBrains Mono',monospace" font-size="9" text-anchor="middle">BASE · PEI</text>
-                      <text x="166" y="34" fill="#F5C400" font-size="20" text-anchor="middle" transform="rotate(22 166 30)">✈</text>
-                      <circle cx="308" cy="68" r="10" fill="none" stroke="#F5C400" stroke-width="1.6" data-anim="blink-a"></circle>
-                      <circle cx="308" cy="68" r="3.6" fill="#F5C400"></circle>
-                      <text x="308" y="96" fill="#F0F0F0" font-family="'JetBrains Mono',monospace" font-size="9" text-anchor="middle">{{ t.fases.f5.tuDestino }}</text>
+                      <path d="M30,98 Q170,6 308,68" fill="none" stroke="#f5c542" stroke-width="2" opacity="0.28"></path>
+                      <path d="M30,98 Q170,6 308,68" fill="none" stroke="#ffe08a" stroke-width="2.2" stroke-dasharray="5 11" data-anim="flow"></path>
+                      <circle cx="30" cy="98" r="6" fill="#f5c542"></circle>
+                      <text x="30" y="120" fill="#a8b5c7" font-family="'JetBrains Mono',monospace" font-size="9" text-anchor="middle">BASE · PEI</text>
+                      <text x="166" y="34" fill="#f5c542" font-size="20" text-anchor="middle" transform="rotate(22 166 30)">✈</text>
+                      <circle cx="308" cy="68" r="10" fill="none" stroke="#f5c542" stroke-width="1.6" data-anim="blink-a"></circle>
+                      <circle cx="308" cy="68" r="3.6" fill="#f5c542"></circle>
+                      <text x="308" y="96" fill="#fbfcff" font-family="'JetBrains Mono',monospace" font-size="9" text-anchor="middle">{{ t.fases.f5.tuDestino }}</text>
                     </svg>
                   </div>
                 </div>
@@ -662,61 +638,61 @@ html,body{margin:0;padding:0;background:#0A0A0A}
       </div>
     </section>
 
-    <section id="paquetes" style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);background:#070707;border-top:1px solid rgba(255,255,255,.05)">
+    <section id="paquetes" style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);background:#05080e;border-top:1px solid rgba(245,197,66,.10)">
       <div style="max-width:1040px;margin:0 auto">
         <div data-rev="y" style="max-width:680px;margin-bottom:36px">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.pkgs.badge }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#f5c542;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.pkgs.badge }}</span>
           <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0 0 16px;letter-spacing:-.01em">{{ t.pkgs.h2 }}</h2>
-          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#C8CDD6;margin:0">{{ t.pkgs.p }}</p>
+          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#d8e0ea;margin:0">{{ t.pkgs.p }}</p>
         </div>
 
         <div data-rev="y" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;margin-bottom:24px">
           <div onClick="{{ selAventurero }}" style="{{ pkgAStyle }}">
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px dashed rgba(138,155,181,.28)">
-              <div style="display:flex;align-items:center;gap:11px"><span style="{{ pkgADot }}"></span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#8A9BB5">CLASS · EXPRESS</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px dashed rgba(139,151,166,.28)">
+              <div style="display:flex;align-items:center;gap:11px"><span style="{{ pkgADot }}"></span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#a8b5c7">CLASS · EXPRESS</span></div>
             </div>
             <div style="padding:20px 20px 24px">
-              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;color:#F0F0F0;line-height:1;letter-spacing:.01em">{{ pkgA.name }}</div>
-              <div style="display:flex;align-items:baseline;gap:10px;margin:14px 0 4px"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:32px;color:#F5C400">${{ pkgA.cop }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A9BB5">COP</span></div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#C8CDD6;margin-bottom:16px">{{ pkgA.priceLine }}</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;color:#fbfcff;line-height:1;letter-spacing:.01em">{{ pkgA.name }}</div>
+              <div style="display:flex;align-items:baseline;gap:10px;margin:14px 0 4px"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:32px;color:#f5c542">${{ pkgA.cop }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#a8b5c7">COP</span></div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#d8e0ea;margin-bottom:16px">{{ pkgA.priceLine }}</div>
               <div style="display:flex;flex-direction:column;gap:9px">
                 <sc-for list="{{ pkgA.perks }}" as="perk" hint-placeholder-count="4">
-                  <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#C8CDD6;line-height:1.5"><span style="color:#F5C400;flex-shrink:0">✓</span> {{ perk }}</div>
+                  <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#d8e0ea;line-height:1.5"><span style="color:#f5c542;flex-shrink:0">✓</span> {{ perk }}</div>
                 </sc-for>
               </div>
             </div>
           </div>
 
           <div onClick="{{ selComandante }}" style="{{ pkgCStyle }}">
-            <div style="position:absolute;top:14px;right:-34px;transform:rotate(45deg);background:#F5C400;color:#0A0A0A;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:10px;letter-spacing:.12em;padding:5px 40px;z-index:1">{{ t.pkgs.favorito }}</div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px dashed rgba(245,196,0,.4)">
-              <div style="display:flex;align-items:center;gap:11px"><span style="{{ pkgCDot }}"></span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#F5C400">CLASS · FULL EXPERIENCE</span></div>
+            <div style="position:absolute;top:14px;right:-34px;transform:rotate(45deg);background:#f5c542;color:#160f05;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:10px;letter-spacing:.12em;padding:5px 40px;z-index:1">{{ t.pkgs.favorito }}</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px dashed rgba(245,197,66,.4)">
+              <div style="display:flex;align-items:center;gap:11px"><span style="{{ pkgCDot }}"></span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#f5c542">CLASS · FULL EXPERIENCE</span></div>
             </div>
             <div style="padding:20px 20px 24px">
-              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;color:#F5C400;line-height:1;letter-spacing:.01em">{{ pkgC.name }}</div>
-              <div style="display:flex;align-items:baseline;gap:10px;margin:14px 0 4px"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:32px;color:#F5C400">${{ pkgC.cop }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A9BB5">COP</span></div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#C8CDD6;margin-bottom:16px">{{ pkgC.priceLine }}</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;color:#f5c542;line-height:1;letter-spacing:.01em">{{ pkgC.name }}</div>
+              <div style="display:flex;align-items:baseline;gap:10px;margin:14px 0 4px"><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:32px;color:#f5c542">${{ pkgC.cop }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#a8b5c7">COP</span></div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#d8e0ea;margin-bottom:16px">{{ pkgC.priceLine }}</div>
               <div style="display:flex;flex-direction:column;gap:9px">
                 <sc-for list="{{ pkgC.perks }}" as="perk" hint-placeholder-count="8">
-                  <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#F0F0F0;line-height:1.5"><span style="color:#F5C400;flex-shrink:0">✓</span> {{ perk }}</div>
+                  <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#fbfcff;line-height:1.5"><span style="color:#f5c542;flex-shrink:0">✓</span> {{ perk }}</div>
                 </sc-for>
               </div>
             </div>
           </div>
         </div>
 
-        <div data-rev="y" style="background:linear-gradient(160deg,#0e0e12,#090909);border:1px solid rgba(245,196,0,.2);border-radius:16px;overflow:hidden">
+        <div data-rev="y" style="background:linear-gradient(160deg,#0b1420,#060b12);border:1px solid rgba(245,197,66,.2);border-radius:16px;overflow:hidden">
           <sc-if value="{{ notBooked }}" hint-placeholder-val="{{ true }}">
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
-              <div style="padding:26px 24px;border-right:1px solid rgba(255,255,255,.05)">
+              <div style="padding:26px 24px;border-right:1px solid rgba(245,197,66,.10)">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
                   <button onClick="{{ prevMonth }}" style="{{ prevStyle }}">‹</button>
-                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:21px;color:#F0F0F0;letter-spacing:.02em">{{ calMonthLabel }}</div>
-                  <button onClick="{{ nextMonth }}" style="cursor:pointer;background:none;border:1px solid rgba(245,196,0,.3);color:#F5C400;border-radius:6px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:16px">›</button>
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:21px;color:#fbfcff;letter-spacing:.02em">{{ calMonthLabel }}</div>
+                  <button onClick="{{ nextMonth }}" style="cursor:pointer;background:none;border:1px solid rgba(245,197,66,.3);color:#f5c542;border-radius:6px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:16px">›</button>
                 </div>
                 <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:6px">
                   <sc-for list="{{ weekdays }}" as="w" hint-placeholder-count="7">
-                    <div style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:#5a6373;padding:4px 0">{{ w }}</div>
+                    <div style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:#7f8fa3;padding:4px 0">{{ w }}</div>
                   </sc-for>
                 </div>
                 <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px">
@@ -724,27 +700,27 @@ html,body{margin:0;padding:0;background:#0A0A0A}
                     <div onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.day }}</div>
                   </sc-for>
                 </div>
-                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5a6373;margin-top:14px;display:flex;align-items:center;gap:7px"><span style="width:9px;height:9px;border-radius:2px;background:#F5C400;display:inline-block"></span> {{ t.pkgs.booking.fechaSeleccionadaLegend }}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#7f8fa3;margin-top:14px;display:flex;align-items:center;gap:7px"><span style="width:9px;height:9px;border-radius:2px;background:#f5c542;display:inline-block"></span> {{ t.pkgs.booking.fechaSeleccionadaLegend }}</div>
               </div>
 
               <div style="padding:26px 24px;display:flex;flex-direction:column;gap:14px">
-                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#F5C400">{{ t.pkgs.booking.boardingData }}</div>
-                <div style="background:#0b0b0e;border:1px solid rgba(245,196,0,.18);border-radius:8px;padding:13px 15px">
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:4px">{{ t.pkgs.booking.fechaElegida }}</div>
-                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:18px;color:#F0F0F0">{{ selDateLong }}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#f5c542">{{ t.pkgs.booking.boardingData }}</div>
+                <div style="background:#060b12;border:1px solid rgba(245,197,66,.18);border-radius:8px;padding:13px 15px">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:4px">{{ t.pkgs.booking.fechaElegida }}</div>
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:18px;color:#fbfcff">{{ selDateLong }}</div>
                 </div>
-                <div style="background:#0b0b0e;border:1px solid rgba(245,196,0,.18);border-radius:8px;padding:13px 15px">
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:4px">{{ t.pkgs.booking.paqueteLabel }}</div>
-                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:18px;color:#F5C400;line-height:1.1">{{ formPkgName }}</div>
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A9BB5;margin-top:2px">{{ formPkgPrice }} · {{ t.pkgs.booking.tocaCambiar }}</div>
-                </div>
-                <div>
-                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:6px">{{ t.pkgs.booking.nombreCompleto }}</label>
-                  <input type="text" value="{{ bName }}" onChange="{{ setName }}" placeholder="{{ t.pkgs.booking.nombrePlaceholder }}" style="width:100%;background:#0b0b0e;border:1px solid rgba(138,155,181,.3);border-radius:7px;padding:12px 14px;color:#F0F0F0;font-size:14px;font-family:Inter,sans-serif;outline:none" style-focus="border-color:#F5C400" />
+                <div style="background:#060b12;border:1px solid rgba(245,197,66,.18);border-radius:8px;padding:13px 15px">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:4px">{{ t.pkgs.booking.paqueteLabel }}</div>
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:18px;color:#f5c542;line-height:1.1">{{ formPkgName }}</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a8b5c7;margin-top:2px">{{ formPkgPrice }} · {{ t.pkgs.booking.tocaCambiar }}</div>
                 </div>
                 <div>
-                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:6px">{{ t.pkgs.booking.whatsappContacto }}</label>
-                  <input type="tel" value="{{ bPhone }}" onChange="{{ setPhone }}" placeholder="+57 300 000 0000" style="width:100%;background:#0b0b0e;border:1px solid rgba(138,155,181,.3);border-radius:7px;padding:12px 14px;color:#F0F0F0;font-size:14px;font-family:Inter,sans-serif;outline:none" style-focus="border-color:#F5C400" />
+                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:6px">{{ t.pkgs.booking.nombreCompleto }}</label>
+                  <input type="text" value="{{ bName }}" onChange="{{ setName }}" placeholder="{{ t.pkgs.booking.nombrePlaceholder }}" style="width:100%;background:#060b12;border:1px solid rgba(139,151,166,.3);border-radius:7px;padding:12px 14px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none" style-focus="border-color:#f5c542" />
+                </div>
+                <div>
+                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:6px">{{ t.pkgs.booking.whatsappContacto }}</label>
+                  <input type="tel" value="{{ bPhone }}" onChange="{{ setPhone }}" placeholder="+57 300 000 0000" style="width:100%;background:#060b12;border:1px solid rgba(139,151,166,.3);border-radius:7px;padding:12px 14px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none" style-focus="border-color:#f5c542" />
                 </div>
                 <button onClick="{{ submitBooking }}" style="{{ submitStyle }}">{{ t.pkgs.booking.generarTicket }}</button>
               </div>
@@ -753,55 +729,55 @@ html,body{margin:0;padding:0;background:#0A0A0A}
 
           <sc-if value="{{ booked }}" hint-placeholder-val="{{ false }}">
             <div data-anim="ticket" style="padding:clamp(22px,4vw,34px)">
-              <div style="position:relative;display:flex;flex-wrap:wrap;background:linear-gradient(135deg,#15140d,#0a0a07);border:1px solid #F5C400;border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(245,196,0,.14)">
-                <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(125deg,rgba(255,255,255,.02) 0 2px,transparent 2px 9px);pointer-events:none"></div>
+              <div style="position:relative;display:flex;flex-wrap:wrap;background:linear-gradient(135deg,#142b49,#0a0a07);border:1px solid #f5c542;border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(245,197,66,.14)">
+                <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(125deg,rgba(255,255,255,.045) 0 2px,transparent 2px 9px);pointer-events:none"></div>
                 <div style="position:relative;flex:1;min-width:240px;padding:24px 26px">
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#F5C400">HOLD SHORT · BOARDING PASS</div>
-                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#8A9BB5">{{ ticket.flight }}</div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#f5c542">HOLD SHORT · BOARDING PASS</div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#a8b5c7">{{ ticket.flight }}</div>
                   </div>
-                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(22px,3.4vw,30px);color:#F5C400;line-height:1.02;margin-bottom:20px">{{ t.pkgs.ticket.prepara1 }}<br/>{{ t.pkgs.ticket.prepara2 }}</div>
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(22px,3.4vw,30px);color:#f5c542;line-height:1.02;margin-bottom:20px">{{ t.pkgs.ticket.prepara1 }}<br/>{{ t.pkgs.ticket.prepara2 }}</div>
                   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 18px">
-                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:3px">{{ t.pkgs.ticket.pasajero }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#F0F0F0;line-height:1.05">{{ ticket.name }}</div></div>
-                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:3px">{{ t.pkgs.booking.paqueteLabel }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#F0F0F0;line-height:1.05">{{ ticket.pkg.name }}</div></div>
-                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:3px">{{ t.pkgs.ticket.fecha }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#F0F0F0;line-height:1.05">{{ ticket.date }}</div></div>
-                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#8A9BB5;margin-bottom:3px">{{ t.pkgs.ticket.contacto }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#F0F0F0;line-height:1.05">{{ ticket.phone }}</div></div>
+                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:3px">{{ t.pkgs.ticket.pasajero }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#fbfcff;line-height:1.05">{{ ticket.name }}</div></div>
+                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:3px">{{ t.pkgs.booking.paqueteLabel }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#fbfcff;line-height:1.05">{{ ticket.pkg.name }}</div></div>
+                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:3px">{{ t.pkgs.ticket.fecha }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#fbfcff;line-height:1.05">{{ ticket.date }}</div></div>
+                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:3px">{{ t.pkgs.ticket.contacto }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#fbfcff;line-height:1.05">{{ ticket.phone }}</div></div>
                   </div>
                 </div>
-                <div style="position:relative;width:1px;background:transparent;border-left:2px dashed rgba(245,196,0,.5);margin:14px 0"></div>
-                <div style="position:relative;width:160px;min-width:160px;padding:24px 20px;display:flex;flex-direction:column;justify-content:space-between;background:rgba(245,196,0,.05)">
-                  <div style="display:flex;justify-content:space-between"><div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#8A9BB5">{{ t.pkgs.ticket.puerta }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#F5C400">{{ ticket.gate }}</div></div><div style="text-align:right"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#8A9BB5">{{ t.pkgs.ticket.asiento }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#F5C400">{{ ticket.seat }}</div></div></div>
-                  <div style="height:46px;margin:14px 0;background:repeating-linear-gradient(90deg,#F0F0F0 0 2px,transparent 2px 4px,#F0F0F0 4px 5px,transparent 5px 9px);opacity:.85"></div>
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#8A9BB5;text-align:center">{{ ticket.flight }} · SKPE</div>
+                <div style="position:relative;width:1px;background:transparent;border-left:2px dashed rgba(245,197,66,.5);margin:14px 0"></div>
+                <div style="position:relative;width:160px;min-width:160px;padding:24px 20px;display:flex;flex-direction:column;justify-content:space-between;background:rgba(245,197,66,.05)">
+                  <div style="display:flex;justify-content:space-between"><div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#a8b5c7">{{ t.pkgs.ticket.puerta }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#f5c542">{{ ticket.gate }}</div></div><div style="text-align:right"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#a8b5c7">{{ t.pkgs.ticket.asiento }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#f5c542">{{ ticket.seat }}</div></div></div>
+                  <div style="height:46px;margin:14px 0;background:repeating-linear-gradient(90deg,#fbfcff 0 2px,transparent 2px 4px,#fbfcff 4px 5px,transparent 5px 9px);opacity:.85"></div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#a8b5c7;text-align:center">{{ ticket.flight }} · SKPE</div>
                 </div>
               </div>
               <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;align-items:center">
-                <a href="{{ waConfirm }}" target="_blank" style="flex:1;min-width:240px;text-align:center;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:15px;padding:15px 22px;border-radius:6px;letter-spacing:.01em" style-hover="background:#FFD740">{{ t.pkgs.ticket.confirmar }}</a>
-                <button onClick="{{ resetBooking }}" style="background:none;border:1px solid rgba(138,155,181,.35);color:#C8CDD6;border-radius:6px;padding:15px 22px;font-size:14px;cursor:pointer;font-family:Inter,sans-serif" style-hover="border-color:#F5C400;color:#F5C400">{{ t.pkgs.ticket.nuevaReserva }}</button>
+                <a href="{{ waConfirm }}" target="_blank" style="flex:1;min-width:240px;text-align:center;background:#f5c542;color:#160f05;text-decoration:none;font-weight:700;font-size:15px;padding:15px 22px;border-radius:6px;letter-spacing:.01em" style-hover="background:#ffe08a">{{ t.pkgs.ticket.confirmar }}</a>
+                <button onClick="{{ resetBooking }}" style="background:none;border:1px solid rgba(139,151,166,.35);color:#d8e0ea;border-radius:6px;padding:15px 22px;font-size:14px;cursor:pointer;font-family:Inter,sans-serif" style-hover="border-color:#f5c542;color:#f5c542">{{ t.pkgs.ticket.nuevaReserva }}</button>
               </div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:#8A9BB5;margin-top:14px">{{ t.pkgs.ticket.note }}</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:#a8b5c7;margin-top:14px">{{ t.pkgs.ticket.note }}</div>
             </div>
           </sc-if>
         </div>
       </div>
     </section>
 
-    <section id="faq" style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);border-top:1px solid rgba(255,255,255,.05)">
+    <section id="faq" style="position:relative;padding:clamp(74px,9vw,128px) clamp(20px,5vw,64px);border-top:1px solid rgba(245,197,66,.10)">
       <div style="max-width:760px;margin:0 auto">
         <div data-rev="y" style="margin-bottom:38px">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.faq.badge }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#f5c542;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.faq.badge }}</span>
           <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0;letter-spacing:-.01em">{{ t.faq.h2 }}</h2>
         </div>
         <div data-rev="y" style="display:flex;flex-direction:column;gap:10px">
           <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="7">
-            <div style="background:#0e0e12;border:1px solid rgba(138,155,181,.18);border-radius:8px;overflow:hidden">
+            <div style="background:#0b1420;border:1px solid rgba(139,151,166,.18);border-radius:8px;overflow:hidden">
               <button onClick="{{ f.onToggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;background:none;border:0;cursor:pointer;padding:17px 20px;text-align:left">
-                <span style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:19px;color:#F0F0F0;letter-spacing:.01em">{{ f.q }}</span>
-                <span style="color:#F5C400;font-size:20px;flex-shrink:0;font-family:'JetBrains Mono',monospace">{{ f.sign }}</span>
+                <span style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:19px;color:#fbfcff;letter-spacing:.01em">{{ f.q }}</span>
+                <span style="color:#f5c542;font-size:20px;flex-shrink:0;font-family:'JetBrains Mono',monospace">{{ f.sign }}</span>
               </button>
               <div style="{{ f.panelStyle }}">
-                <div style="padding:0 20px 18px;font-size:14.5px;line-height:1.6;color:#C8CDD6">{{ f.a }}</div>
-                <div style="height:2px;background:#F5C400;{{ f.barStyleStr }}"></div>
+                <div style="padding:0 20px 18px;font-size:14.5px;line-height:1.6;color:#d8e0ea">{{ f.a }}</div>
+                <div style="height:2px;background:#f5c542;{{ f.barStyleStr }}"></div>
               </div>
             </div>
           </sc-for>
@@ -809,35 +785,35 @@ html,body{margin:0;padding:0;background:#0A0A0A}
       </div>
     </section>
 
-    <section id="reservar" style="position:relative;padding:clamp(80px,10vw,150px) clamp(20px,5vw,64px);overflow:hidden;border-top:1px solid rgba(245,196,0,.16)">
-      <div style="position:absolute;inset:0;background:radial-gradient(110% 90% at 50% 120%,#1a1709 0%,#0A0A0A 60%)"></div>
-      <div style="position:absolute;left:50%;top:0;bottom:0;width:5px;transform:translateX(-50%);background:repeating-linear-gradient(to bottom,#F5C400 0 56px,transparent 56px 120px);opacity:.14" data-anim="cl-a"></div>
+    <section id="reservar" style="position:relative;padding:clamp(80px,10vw,150px) clamp(20px,5vw,64px);overflow:hidden;border-top:1px solid rgba(245,197,66,.16)">
+      <div style="position:absolute;inset:0;background:radial-gradient(110% 90% at 50% 120%,#18345a 0%,#160f05 60%)"></div>
+      <div style="position:absolute;left:50%;top:0;bottom:0;width:5px;transform:translateX(-50%);background:repeating-linear-gradient(to bottom,#f5c542 0 56px,transparent 56px 120px);opacity:.14" data-anim="cl-a"></div>
       <div data-rev="y" style="position:relative;max-width:760px;margin:0 auto;text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#F5C400;margin-bottom:22px">CLEARED FOR TAKEOFF</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#f5c542;margin-bottom:22px">CLEARED FOR TAKEOFF</div>
         <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(32px,6vw,68px);line-height:1.02;margin:0;letter-spacing:-.01em">{{ t.reserva.h2Pre }}<br/>{{ t.reserva.h2Post }}</h2>
-        <p style="font-size:clamp(16px,2vw,19px);color:#C8CDD6;max-width:520px;margin:22px auto 0;line-height:1.6">{{ t.reserva.p }}</p>
-        <a href="{{ waGeneral }}" target="_blank" style="margin-top:38px;display:inline-flex;align-items:center;gap:10px;background:#F5C400;color:#0A0A0A;text-decoration:none;font-weight:700;font-size:clamp(16px,2vw,19px);padding:18px 36px;border-radius:5px;letter-spacing:.01em" data-anim="cta" style-hover="background:#FFD740">{{ t.reserva.cta }}</a>
-        <div style="margin-top:24px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;color:#8A9BB5">+57 316 724 9139 · @holdshortpei · Pereira, Colombia</div>
-        <div style="margin-top:40px;font-family:'Barlow Condensed',sans-serif;font-style:italic;font-weight:600;font-size:clamp(18px,2.4vw,24px);color:#F5C400;letter-spacing:.02em">BE: AIRLINE MINDED</div>
+        <p style="font-size:clamp(16px,2vw,19px);color:#d8e0ea;max-width:520px;margin:22px auto 0;line-height:1.6">{{ t.reserva.p }}</p>
+        <a href="{{ waGeneral }}" target="_blank" style="margin-top:38px;display:inline-flex;align-items:center;gap:10px;background:#f5c542;color:#160f05;text-decoration:none;font-weight:700;font-size:clamp(16px,2vw,19px);padding:18px 36px;border-radius:5px;letter-spacing:.01em" data-anim="cta" style-hover="background:#ffe08a">{{ t.reserva.cta }}</a>
+        <div style="margin-top:24px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;color:#a8b5c7">+57 316 724 9139 · @holdshortpei · Pereira, Colombia</div>
+        <div style="margin-top:40px;font-family:'Barlow Condensed',sans-serif;font-style:italic;font-weight:600;font-size:clamp(18px,2.4vw,24px);color:#f5c542;letter-spacing:.02em">BE: AIRLINE MINDED</div>
       </div>
     </section>
     <!--MORE-->
   </main>
 
-  <footer style="border-top:1px solid rgba(245,196,0,.18);background:#070707;padding:clamp(40px,6vw,72px) clamp(20px,5vw,64px)">
+  <footer style="border-top:1px solid rgba(245,197,66,.18);background:#05080e;padding:clamp(40px,6vw,72px) clamp(20px,5vw,64px)">
     <div style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;align-items:flex-start">
       <div style="max-width:360px">
         <img src="assets/logo-lockup.jpg" alt="Hold Short Aviation" style="height:42px;width:auto;display:block;margin-bottom:18px"/>
-        <p style="font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:#8A9BB5;margin:0">{{ t.footer.about }}</p>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:#a8b5c7;margin:0">{{ t.footer.about }}</p>
       </div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1;color:#C8CDD6;display:grid;gap:16px">
-        <a href="{{ waGeneral }}" target="_blank" style="color:#C8CDD6;text-decoration:none;display:flex;gap:14px" style-hover="color:#F5C400"><span style="color:#8A9BB5;width:84px;display:inline-block">WhatsApp</span> +57 316 724 9139</a>
-        <a href="https://www.instagram.com/holdshortpei/" target="_blank" style="color:#C8CDD6;text-decoration:none;display:flex;gap:14px" style-hover="color:#F5C400"><span style="color:#8A9BB5;width:84px;display:inline-block">Instagram</span> @holdshortpei</a>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1;color:#d8e0ea;display:grid;gap:16px">
+        <a href="{{ waGeneral }}" target="_blank" style="color:#d8e0ea;text-decoration:none;display:flex;gap:14px" style-hover="color:#f5c542"><span style="color:#a8b5c7;width:84px;display:inline-block">WhatsApp</span> +57 316 724 9139</a>
+        <a href="https://www.instagram.com/holdshortpei/" target="_blank" style="color:#d8e0ea;text-decoration:none;display:flex;gap:14px" style-hover="color:#f5c542"><span style="color:#a8b5c7;width:84px;display:inline-block">Instagram</span> @holdshortpei</a>
       </div>
     </div>
-    <div style="max-width:1100px;margin:40px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.06);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#5a6373;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between">
+    <div style="max-width:1100px;margin:40px auto 0;padding-top:22px;border-top:1px solid rgba(245,197,66,.12);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#7f8fa3;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between">
       <span>© 2026 HOLD SHORT AVIATION</span>
-      <span style="color:#F5C400">BE: AIRLINE MINDED</span>
+      <span style="color:#f5c542">BE: AIRLINE MINDED</span>
     </div>
   </footer>
 </div>
@@ -1126,7 +1102,7 @@ class Component extends DCLogic {
       const row=document.createElement('div');
       row.style.cssText='display:flex;'+(isA?'justify-content:flex-end':'justify-content:flex-start')+';animation:hs-fadeup .28s ease both';
       const b=document.createElement('div');
-      b.style.cssText='max-width:82%;padding:11px 15px;border-radius:'+(isA?'13px 13px 4px 13px':'13px 13px 13px 4px')+';font-size:14px;line-height:1.45;'+(isA?'background:#F5C400;color:#0A0A0A;font-weight:700;':'background:#15151b;color:#E6E9EE;border:1px solid rgba(138,155,181,.18);');
+      b.style.cssText='max-width:82%;padding:11px 15px;border-radius:'+(isA?'13px 13px 4px 13px':'13px 13px 13px 4px')+';font-size:14px;line-height:1.45;'+(isA?'background:#f5c542;color:#160f05;font-weight:700;':'background:#142b49;color:#f2f5f9;border:1px solid rgba(139,151,166,.18);');
       b.textContent=m.text;
       row.appendChild(b); el.appendChild(row);
     });
@@ -1168,7 +1144,7 @@ class Component extends DCLogic {
       {k:'S',deg:180,label:c.S.label,txt:c.S.txt},
       {k:'W',deg:270,label:c.W.label,txt:c.W.txt},
     ];
-    return data.map(d=>{ const sel=this.state.cSel===d.k; return {...d, sel, onSel:()=>this.setState({cSel:d.k, compass:-d.deg}), btnStyle:{flex:1,padding:'9px 0',borderRadius:'4px',fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:'17px',cursor:'pointer',border:'1px solid '+(sel?'#F5C400':'rgba(138,155,181,.3)'),background:sel?'#F5C400':'transparent',color:sel?'#0A0A0A':'#8A9BB5',transition:'all .2s'}}; });
+    return data.map(d=>{ const sel=this.state.cSel===d.k; return {...d, sel, onSel:()=>this.setState({cSel:d.k, compass:-d.deg}), btnStyle:{flex:1,padding:'9px 0',borderRadius:'4px',fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:'17px',cursor:'pointer',border:'1px solid '+(sel?'#f5c542':'rgba(139,151,166,.3)'),background:sel?'#f5c542':'transparent',color:sel?'#160f05':'#a8b5c7',transition:'all .2s'}}; });
   }
   faqs(){
     const data=I18N[this.state.lang].faq.items;
@@ -1199,9 +1175,9 @@ class Component extends DCLogic {
         style:{ aspectRatio:'1', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'7px',
           fontFamily:"'JetBrains Mono',monospace", fontSize:'13px', fontWeight:isSel?700:500,
           cursor:past?'not-allowed':'pointer',
-          color: isSel?'#0A0A0A': past?'#3a3f48':'#E6E9EE',
-          background: isSel?'#F5C400': 'transparent',
-          border:'1px solid '+(isSel?'#F5C400': isToday?'rgba(245,196,0,.5)':'transparent'),
+          color: isSel?'#160f05': past?'#394657':'#f2f5f9',
+          background: isSel?'#f5c542': 'transparent',
+          border:'1px solid '+(isSel?'#f5c542': isToday?'rgba(245,197,66,.5)':'transparent'),
           transition:'all .15s' } });
     }
     return cells;
@@ -1237,8 +1213,8 @@ class Component extends DCLogic {
     const wa='https://wa.me/573167249139';
     const waText=msg=>wa+'?text='+encodeURIComponent(msg);
     const isCompleto=s.route==='completo';
-    const dot=o=>({width:'46px',height:'46px',borderRadius:'50%',border:'2px solid '+(o?'#F5C400':'rgba(245,196,0,.45)'),background:o?'#F5C400':'rgba(245,196,0,.04)',color:o?'#0A0A0A':'#F5C400',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'JetBrains Mono',monospace",fontWeight:700,fontSize:'14px',cursor:'pointer',flexShrink:0,transition:'all .3s',boxShadow:o?'0 0 22px rgba(245,196,0,.5)':'none'});
-    const chev=o=>({transform:o?'rotate(180deg)':'rotate(0deg)',transition:'transform .35s',color:'#F5C400',flexShrink:0});
+    const dot=o=>({width:'46px',height:'46px',borderRadius:'50%',border:'2px solid '+(o?'#f5c542':'rgba(245,197,66,.45)'),background:o?'#f5c542':'rgba(245,197,66,.04)',color:o?'#160f05':'#f5c542',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'JetBrains Mono',monospace",fontWeight:700,fontSize:'14px',cursor:'pointer',flexShrink:0,transition:'all .3s',boxShadow:o?'0 0 22px rgba(245,197,66,.5)':'none'});
+    const chev=o=>({transform:o?'rotate(180deg)':'rotate(0deg)',transition:'transform .35s',color:'#f5c542',flexShrink:0});
     const fstyle=i=>({transform:this.state.flip[i]?'rotateY(180deg)':'rotateY(0deg)',transition:'transform .55s cubic-bezier(.2,.8,.2,1)',transformStyle:'preserve-3d',position:'relative',width:'100%',height:'100%'});
     const ftog=i=>()=>this.setState(x=>({flip:{...x.flip,[i]:!x.flip[i]}}));
     return {
@@ -1246,12 +1222,12 @@ class Component extends DCLogic {
       menuOpen:s.menu,
       toggleMenu:()=>this.setState(x=>({menu:!x.menu})),
       closeMenu:()=>this.setState({menu:false}),
-      mobilePanelStyle:{position:'fixed',inset:0,zIndex:80,background:'rgba(7,7,7,.97)',backdropFilter:'blur(8px)',transform:s.menu?'translateX(0)':'translateX(100%)',transition:'transform .4s cubic-bezier(.2,.8,.2,1)',borderLeft:'2px solid #F5C400'},
+      mobilePanelStyle:{position:'fixed',inset:0,zIndex:80,background:'rgba(8,13,21,.97)',backdropFilter:'blur(8px)',transform:s.menu?'translateX(0)':'translateX(100%)',transition:'transform .4s cubic-bezier(.2,.8,.2,1)',borderLeft:'2px solid #f5c542'},
       t, lang:s.lang,
       setLangEs:()=>this.setLang('es'),
       setLangEn:()=>this.setLang('en'),
-      langEsStyle:{cursor:'pointer',background:s.lang==='es'?'#F5C400':'transparent',color:s.lang==='es'?'#0A0A0A':'#8A9BB5',border:'1px solid '+(s.lang==='es'?'#F5C400':'rgba(138,155,181,.3)'),borderRadius:'4px 0 0 4px',padding:'5px 9px',fontFamily:"'JetBrains Mono',monospace",fontWeight:700,fontSize:'11px',letterSpacing:'.06em',transition:'all .2s'},
-      langEnStyle:{cursor:'pointer',background:s.lang==='en'?'#F5C400':'transparent',color:s.lang==='en'?'#0A0A0A':'#8A9BB5',border:'1px solid '+(s.lang==='en'?'#F5C400':'rgba(138,155,181,.3)'),borderLeft:'0',borderRadius:'0 4px 4px 0',padding:'5px 9px',fontFamily:"'JetBrains Mono',monospace",fontWeight:700,fontSize:'11px',letterSpacing:'.06em',transition:'all .2s'},
+      langEsStyle:{cursor:'pointer',background:s.lang==='es'?'#f5c542':'transparent',color:s.lang==='es'?'#160f05':'#a8b5c7',border:'1px solid '+(s.lang==='es'?'#f5c542':'rgba(139,151,166,.3)'),borderRadius:'4px 0 0 4px',padding:'5px 9px',fontFamily:"'JetBrains Mono',monospace",fontWeight:700,fontSize:'11px',letterSpacing:'.06em',transition:'all .2s'},
+      langEnStyle:{cursor:'pointer',background:s.lang==='en'?'#f5c542':'transparent',color:s.lang==='en'?'#160f05':'#a8b5c7',border:'1px solid '+(s.lang==='en'?'#f5c542':'rgba(139,151,166,.3)'),borderLeft:'0',borderRadius:'0 4px 4px 0',padding:'5px 9px',fontFamily:"'JetBrains Mono',monospace",fontWeight:700,fontSize:'11px',letterSpacing:'.06em',transition:'all .2s'},
       waGeneral:waText(t.wa.general),
       waExpress:waText(t.wa.general),
       waCompleto:waText(t.wa.general),
@@ -1273,7 +1249,7 @@ class Component extends DCLogic {
       sixpack:this.sixpack(),
       // compass
       cardinals:this.cardinals(),
-      compassStyle:{position:'absolute',inset:'0',borderRadius:'50%',border:'2px solid rgba(245,196,0,.4)',background:'radial-gradient(circle,#0e0e12,#070708)',cursor:'grab',touchAction:'none',transform:`rotate(${s.compass}deg)`,transition:this._dragging?'none':'transform .6s cubic-bezier(.2,.8,.2,1)'},
+      compassStyle:{position:'absolute',inset:'0',borderRadius:'50%',border:'2px solid rgba(245,197,66,.4)',background:'radial-gradient(circle,#0b1420,#070708)',cursor:'grab',touchAction:'none',transform:`rotate(${s.compass}deg)`,transition:this._dragging?'none':'transform .6s cubic-bezier(.2,.8,.2,1)'},
       cSelLabel:(this.cardinals().find(c=>c.k===s.cSel)||{}).label||'',
       cSelTxt:(this.cardinals().find(c=>c.k===s.cSel)||{}).txt||'',
       compassDown:(e)=>{ this.compassEl=e.currentTarget; this._dragging=true; this._a0=this.compassAngle(e); this._r0=s.compass; try{e.currentTarget.setPointerCapture(e.pointerId);}catch(_){}},
@@ -1288,10 +1264,10 @@ class Component extends DCLogic {
       bPkg:s.bPkg,
       selAventurero:()=>this.setState({bPkg:'aventurero'}),
       selComandante:()=>this.setState({bPkg:'comandante'}),
-      pkgAStyle:{position:'relative',cursor:'pointer',background:s.bPkg==='aventurero'?'linear-gradient(155deg,#15140d,#0b0b07)':'linear-gradient(155deg,#111114,#0a0a0c)',border:'1.5px solid '+(s.bPkg==='aventurero'?'#F5C400':'rgba(138,155,181,.22)'),borderRadius:'14px',overflow:'hidden',transition:'all .25s',boxShadow:s.bPkg==='aventurero'?'0 20px 60px rgba(245,196,0,.13)':'none'},
-      pkgCStyle:{position:'relative',cursor:'pointer',background:s.bPkg==='comandante'?'linear-gradient(155deg,#1a1709,#0c0b06)':'linear-gradient(155deg,#111114,#0a0a0c)',border:'1.5px solid '+(s.bPkg==='comandante'?'#F5C400':'rgba(138,155,181,.22)'),borderRadius:'14px',overflow:'hidden',transition:'all .25s',boxShadow:s.bPkg==='comandante'?'0 20px 60px rgba(245,196,0,.13)':'none'},
-      pkgADot:{width:'18px',height:'18px',borderRadius:'50%',border:'2px solid '+(s.bPkg==='aventurero'?'#F5C400':'#5a6373'),background:s.bPkg==='aventurero'?'#F5C400':'transparent',flexShrink:0,boxShadow:s.bPkg==='aventurero'?'0 0 12px rgba(245,196,0,.6)':'none'},
-      pkgCDot:{width:'18px',height:'18px',borderRadius:'50%',border:'2px solid '+(s.bPkg==='comandante'?'#F5C400':'#5a6373'),background:s.bPkg==='comandante'?'#F5C400':'transparent',flexShrink:0,boxShadow:s.bPkg==='comandante'?'0 0 12px rgba(245,196,0,.6)':'none'},
+      pkgAStyle:{position:'relative',cursor:'pointer',background:s.bPkg==='aventurero'?'linear-gradient(155deg,#142b49,#05080e)':'linear-gradient(155deg,#0b1420,#060b12)',border:'1.5px solid '+(s.bPkg==='aventurero'?'#f5c542':'rgba(139,151,166,.22)'),borderRadius:'14px',overflow:'hidden',transition:'all .25s',boxShadow:s.bPkg==='aventurero'?'0 20px 60px rgba(245,197,66,.13)':'none'},
+      pkgCStyle:{position:'relative',cursor:'pointer',background:s.bPkg==='comandante'?'linear-gradient(155deg,#18345a,#05080e)':'linear-gradient(155deg,#0b1420,#060b12)',border:'1.5px solid '+(s.bPkg==='comandante'?'#f5c542':'rgba(139,151,166,.22)'),borderRadius:'14px',overflow:'hidden',transition:'all .25s',boxShadow:s.bPkg==='comandante'?'0 20px 60px rgba(245,197,66,.13)':'none'},
+      pkgADot:{width:'18px',height:'18px',borderRadius:'50%',border:'2px solid '+(s.bPkg==='aventurero'?'#f5c542':'#7f8fa3'),background:s.bPkg==='aventurero'?'#f5c542':'transparent',flexShrink:0,boxShadow:s.bPkg==='aventurero'?'0 0 12px rgba(245,197,66,.6)':'none'},
+      pkgCDot:{width:'18px',height:'18px',borderRadius:'50%',border:'2px solid '+(s.bPkg==='comandante'?'#f5c542':'#7f8fa3'),background:s.bPkg==='comandante'?'#f5c542':'transparent',flexShrink:0,boxShadow:s.bPkg==='comandante'?'0 0 12px rgba(245,197,66,.6)':'none'},
       // calendar
       calMonthLabel:t.pkgs.booking.months[s.calM]+' '+s.calY,
       calCells:this.calCells(),
@@ -1299,7 +1275,7 @@ class Component extends DCLogic {
       canPrev:this.canPrev(),
       prevMonth:()=>this.prevMonth(),
       nextMonth:()=>this.nextMonth(),
-      prevStyle:{cursor:this.canPrev()?'pointer':'not-allowed',opacity:this.canPrev()?1:.3,background:'none',border:'1px solid rgba(245,196,0,.3)',color:'#F5C400',borderRadius:'6px',width:'34px',height:'34px',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'16px'},
+      prevStyle:{cursor:this.canPrev()?'pointer':'not-allowed',opacity:this.canPrev()?1:.3,background:'none',border:'1px solid rgba(245,197,66,.3)',color:'#f5c542',borderRadius:'6px',width:'34px',height:'34px',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'16px'},
       // form
       bName:s.bName, bPhone:s.bPhone,
       setName:(e)=>this.setState({bName:e.target.value}),
@@ -1310,7 +1286,7 @@ class Component extends DCLogic {
       formPkgName:t.pkgs[s.bPkg].name,
       formPkgPrice:'$'+this.PKGS[s.bPkg].cop+' COP',
       canSubmit:!!(s.bName.trim()&&s.bPhone.trim()&&s.selDate),
-      submitStyle:{width:'100%',marginTop:'4px',background:(s.bName.trim()&&s.bPhone.trim()&&s.selDate)?'#F5C400':'rgba(245,196,0,.15)',color:(s.bName.trim()&&s.bPhone.trim()&&s.selDate)?'#0A0A0A':'#8A7a3a',border:'0',borderRadius:'6px',padding:'15px',fontWeight:700,fontSize:'15px',cursor:(s.bName.trim()&&s.bPhone.trim()&&s.selDate)?'pointer':'not-allowed',letterSpacing:'.01em',transition:'all .25s',fontFamily:'Inter,sans-serif'},
+      submitStyle:{width:'100%',marginTop:'4px',background:(s.bName.trim()&&s.bPhone.trim()&&s.selDate)?'#f5c542':'rgba(245,197,66,.15)',color:(s.bName.trim()&&s.bPhone.trim()&&s.selDate)?'#160f05':'#b89642',border:'0',borderRadius:'6px',padding:'15px',fontWeight:700,fontSize:'15px',cursor:(s.bName.trim()&&s.bPhone.trim()&&s.selDate)?'pointer':'not-allowed',letterSpacing:'.01em',transition:'all .25s',fontFamily:'Inter,sans-serif'},
       submitBooking:()=>this.submitBooking(),
       booked:s.booked, notBooked:!s.booked,
       ticket:s.ticket?{ name:s.ticket.name, phone:s.ticket.phone, flight:s.ticket.flight, seat:s.ticket.seat, gate:s.ticket.gate,
@@ -1330,8 +1306,8 @@ class Component extends DCLogic {
       isRegisterMode:s.authMode==='register',
       switchToLogin:()=>this.setAuthMode('login'),
       switchToRegister:()=>this.setAuthMode('register'),
-      loginTabStyle:{flex:1,cursor:'pointer',background:s.authMode==='login'?'#F5C400':'transparent',color:s.authMode==='login'?'#0A0A0A':'#8A9BB5',border:'1px solid '+(s.authMode==='login'?'#F5C400':'rgba(138,155,181,.3)'),borderRadius:'4px',padding:'9px 12px',fontWeight:700,fontSize:'13px',transition:'all .2s',fontFamily:'Inter,sans-serif'},
-      registerTabStyle:{flex:1,cursor:'pointer',background:s.authMode==='register'?'#F5C400':'transparent',color:s.authMode==='register'?'#0A0A0A':'#8A9BB5',border:'1px solid '+(s.authMode==='register'?'#F5C400':'rgba(138,155,181,.3)'),borderRadius:'4px',padding:'9px 12px',fontWeight:700,fontSize:'13px',transition:'all .2s',fontFamily:'Inter,sans-serif'},
+      loginTabStyle:{flex:1,cursor:'pointer',background:s.authMode==='login'?'#f5c542':'transparent',color:s.authMode==='login'?'#160f05':'#a8b5c7',border:'1px solid '+(s.authMode==='login'?'#f5c542':'rgba(139,151,166,.3)'),borderRadius:'4px',padding:'9px 12px',fontWeight:700,fontSize:'13px',transition:'all .2s',fontFamily:'Inter,sans-serif'},
+      registerTabStyle:{flex:1,cursor:'pointer',background:s.authMode==='register'?'#f5c542':'transparent',color:s.authMode==='register'?'#160f05':'#a8b5c7',border:'1px solid '+(s.authMode==='register'?'#f5c542':'rgba(139,151,166,.3)'),borderRadius:'4px',padding:'9px 12px',fontWeight:700,fontSize:'13px',transition:'all .2s',fontFamily:'Inter,sans-serif'},
       authName:s.authName, setAuthName:(e)=>this.setState({authName:e.target.value}),
       authPhone:s.authPhone, setAuthPhone:(e)=>this.setState({authPhone:e.target.value}),
       authEmail:s.authEmail, setAuthEmail:(e)=>this.setState({authEmail:e.target.value}),
@@ -1340,9 +1316,9 @@ class Component extends DCLogic {
       authLoading:s.authLoading,
       submitAuth:()=>this.submitAuth(),
       authSubmitLabel: s.authLoading ? t.auth.loadingLabel : (s.authMode==='login' ? t.auth.loginSubmit : t.auth.registerSubmit),
-      authSubmitStyle:{width:'100%',marginTop:'6px',background:s.authLoading?'rgba(245,196,0,.15)':'#F5C400',color:s.authLoading?'#8A7a3a':'#0A0A0A',border:'0',borderRadius:'6px',padding:'14px',fontWeight:700,fontSize:'15px',cursor:s.authLoading?'not-allowed':'pointer',letterSpacing:'.01em',transition:'all .25s',fontFamily:'Inter,sans-serif'},
-      authFieldStyle:{width:'100%',background:'#0a0a0c',border:'1px solid rgba(138,155,181,.25)',borderRadius:'6px',padding:'12px 13px',color:'#EDEFF2',fontSize:'14px',fontFamily:'Inter,sans-serif',outline:'none',boxSizing:'border-box'},
-      authLabelStyle:{display:'block',fontFamily:"'JetBrains Mono',monospace",fontSize:'10.5px',letterSpacing:'.12em',color:'#8A9BB5',marginBottom:'6px'},
+      authSubmitStyle:{width:'100%',marginTop:'6px',background:s.authLoading?'rgba(245,197,66,.15)':'#f5c542',color:s.authLoading?'#b89642':'#160f05',border:'0',borderRadius:'6px',padding:'14px',fontWeight:700,fontSize:'15px',cursor:s.authLoading?'not-allowed':'pointer',letterSpacing:'.01em',transition:'all .25s',fontFamily:'Inter,sans-serif'},
+      authFieldStyle:{width:'100%',background:'#060b12',border:'1px solid rgba(139,151,166,.25)',borderRadius:'6px',padding:'12px 13px',color:'#f7f9fc',fontSize:'14px',fontFamily:'Inter,sans-serif',outline:'none',boxSizing:'border-box'},
+      authLabelStyle:{display:'block',fontFamily:"'JetBrains Mono',monospace",fontSize:'10.5px',letterSpacing:'.12em',color:'#a8b5c7',marginBottom:'6px'},
     };
   }
 }

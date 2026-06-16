@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "hold-short-pilotos-por-un-dia",
+  "name": "hangar-1903",
   "compatibility_date": "2026-06-14",
   "observability": {
     "enabled": true
