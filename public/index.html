@@ -901,14 +901,14 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
 
               <div style="padding:28px 26px;display:flex;flex-direction:column;gap:16px">
                 <div style="display:flex;flex-direction:column;gap:8px">
-                  <button onClick="{{ chooseMe }}" style="cursor:pointer;width:100%;display:flex;flex-direction:row;align-items:center;gap:14px;padding:18px 20px;border-radius:12px;font-family:Inter,sans-serif;transition:all .22s;outline:none;box-sizing:border-box;font-size:14px;font-weight:600;background:#1a3d70;border:2px solid rgba(100,160,255,.5);color:#c8d4e0;">
+                  <button onClick="{{ chooseMe }}" style="{{ btnMeStyle }}">
                     <span style="font-size:26px;line-height:1;flex-shrink:0">🧑‍✈️</span>
                     <span style="display:flex;flex-direction:column;gap:2px">
                       <span style="display:block;font-size:14px;font-weight:600;line-height:1.2">Para mí</span>
                       <span style="display:block;font-size:11px;opacity:.6;font-weight:400">La experiencia es para mí</span>
                     </span>
                   </button>
-                  <button onClick="{{ chooseGift }}" style="cursor:pointer;width:100%;display:flex;flex-direction:row;align-items:center;gap:14px;padding:18px 20px;border-radius:12px;font-family:Inter,sans-serif;transition:all .22s;outline:none;box-sizing:border-box;font-size:14px;font-weight:600;background:#1a3d70;border:2px solid rgba(100,160,255,.5);color:#c8d4e0;">
+                  <button onClick="{{ chooseGift }}" style="{{ btnGiftStyle }}">
                     <span style="font-size:26px;line-height:1;flex-shrink:0">🎁</span>
                     <span style="display:flex;flex-direction:column;gap:2px">
                       <span style="display:block;font-size:14px;font-weight:600;line-height:1.2">Es un regalo</span>
@@ -1015,7 +1015,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
 
           <sc-if value="{{ booked }}" hint-placeholder-val="{{ false }}">
             <div data-ticket-anchor data-anim="ticket" style="padding:clamp(22px,4vw,34px)">
-              <div style="position:relative;display:flex;flex-wrap:wrap;background:linear-gradient(135deg,#142b49,#0a0a07);border:1px solid #f5c542;border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(245,197,66,.14)">
+              <div data-ticket-card style="position:relative;display:flex;flex-wrap:wrap;background:linear-gradient(135deg,#142b49,#0a0a07);border:1px solid #f5c542;border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(245,197,66,.14)">
                 <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(125deg,rgba(255,255,255,.045) 0 2px,transparent 2px 9px);pointer-events:none"></div>
                 <div style="position:relative;flex:1;min-width:240px;padding:24px 26px">
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
@@ -1037,9 +1037,12 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                   <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#a8b5c7;text-align:center">{{ ticket.flight }} · SKPE</div>
                 </div>
               </div>
-              <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;align-items:center">
-                <a href="{{ waConfirm }}" target="_blank" style="flex:1;min-width:240px;text-align:center;background:#f5c542;color:#160f05;text-decoration:none;font-weight:700;font-size:15px;padding:15px 22px;border-radius:6px;letter-spacing:.01em" style-hover="background:#ffe08a">{{ t.pkgs.ticket.confirmar }}</a>
-                <button onClick="{{ resetBooking }}" style="background:none;border:1px solid rgba(139,151,166,.35);color:#d8e0ea;border-radius:6px;padding:15px 22px;font-size:14px;cursor:pointer;font-family:Inter,sans-serif" style-hover="border-color:#f5c542;color:#f5c542">{{ t.pkgs.ticket.nuevaReserva }}</button>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px">
+                <div style="display:flex;flex-wrap:wrap;gap:10px">
+                  <button onClick="{{ downloadTicket }}" style="flex:1;min-width:180px;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#f5c542,#ffd84a);color:#160f05;font-weight:700;font-size:15px;padding:15px 20px;border-radius:8px;border:0;cursor:pointer;font-family:Inter,sans-serif;box-shadow:0 4px 14px rgba(245,197,66,.25)"><span>⬇</span> Descargar reserva</button>
+                  <a href="{{ waConfirm }}" target="_blank" style="flex:1;min-width:180px;display:flex;align-items:center;justify-content:center;gap:8px;background:#25d366;color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:15px 20px;border-radius:8px;box-shadow:0 4px 14px rgba(37,211,102,.2)"><span>💬</span> Confirmar por WhatsApp</a>
+                </div>
+                <button onClick="{{ resetBooking }}" style="width:100%;background:none;border:1px solid rgba(139,151,166,.25);color:#7f8fa3;border-radius:8px;padding:11px 20px;font-size:13px;cursor:pointer;font-family:Inter,sans-serif">{{ t.pkgs.ticket.nuevaReserva }}</button>
               </div>
               
             </div>
@@ -1697,8 +1700,8 @@ class Component extends DCLogic {
       showFormMe:!s.booked && s.bookFor==='me',
       showFormGift:!s.booked && s.bookFor==='regalo',
       showEnfoque:!s.booked && !!s.bookFor,
-      btnMeStyle:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='me'?'linear-gradient(135deg,#f5c542,#ffd84a)':'rgba(255,255,255,.09)',border:s.bookFor==='me'?'2px solid #f5c542':'2px solid rgba(200,215,235,.28)',color:s.bookFor==='me'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='me'?700:500,boxShadow:s.bookFor==='me'?'0 4px 18px rgba(245,197,66,.3)':'none'},
-      btnGiftStyle:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='regalo'?'linear-gradient(135deg,#f5c542,#ffd84a)':'rgba(255,255,255,.09)',border:s.bookFor==='regalo'?'2px solid #f5c542':'2px solid rgba(200,215,235,.28)',color:s.bookFor==='regalo'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='regalo'?700:500,boxShadow:s.bookFor==='regalo'?'0 4px 18px rgba(245,197,66,.3)':'none'},
+      btnMeStyle:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='me'?'linear-gradient(135deg,#f5c542,#ffd84a)':'#1a3d70',border:s.bookFor==='me'?'2px solid #f5c542':'2px solid rgba(100,160,255,.5)',color:s.bookFor==='me'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='me'?700:500,boxShadow:s.bookFor==='me'?'0 4px 18px rgba(245,197,66,.3)':'none'},
+      btnGiftStyle:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='regalo'?'linear-gradient(135deg,#f5c542,#ffd84a)':'#1a3d70',border:s.bookFor==='regalo'?'2px solid #f5c542':'2px solid rgba(100,160,255,.5)',color:s.bookFor==='regalo'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='regalo'?700:500,boxShadow:s.bookFor==='regalo'?'0 4px 18px rgba(245,197,66,.3)':'none'},
       chooseMe:()=>this.setState({bookFor:'me'}),
       chooseGift:()=>this.setState({bookFor:'regalo'}),
       backToChoice:()=>this.setState({bookFor:null}),
