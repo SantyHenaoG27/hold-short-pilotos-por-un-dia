@@ -902,7 +902,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
 
               <div style="padding:28px 26px;display:flex;flex-direction:column;gap:16px">
                                 <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(245,197,66,.4))"></span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.16em;color:#f5c542;text-transform:uppercase">¿Para quién es la experiencia?</span><span style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(245,197,66,.4))"></span></div>
-<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;flex-direction:row;gap:10px">
                   <button onClick="{{ chooseMe }}" style="{{ btnMeStyle }}">
                     <span style="font-size:26px;line-height:1;flex-shrink:0">🧑‍✈️</span>
                     <span style="display:flex;flex-direction:column;gap:2px">
@@ -921,13 +921,13 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                 <sc-if value="{{ showEnfoque }}" hint-placeholder-val="{{ false }}">
                 <div style="background:rgba(255,255,255,.02);border:1px solid rgba(139,151,166,.12);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:11px">
                   <div style="display:flex;align-items:center;gap:8px">
-                    <span style="width:3px;height:13px;background:#7f8fa3;border-radius:2px;flex-shrink:0"></span>
-                    <span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.22em;color:#7f8fa3;text-transform:uppercase">Enfoque personalizado</span>
+                    <span style="width:3px;height:15px;background:#f5c542;border-radius:2px;flex-shrink:0;opacity:.75"></span>
+                    <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.11em;color:#d0dcea;text-transform:uppercase">Enfoque personalizado</span>
                   </div>
                   <p style="font-family:Inter,sans-serif;font-size:12px;color:#6b7a8d;margin:0;line-height:1.55">{{ enfoqueDesc }}</p>
                   <sc-if value="{{ showGiftName }}" hint-placeholder-val="{{ false }}">
                     <div style="position:relative">
-                      <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;color:#7f8fa3;text-transform:uppercase;margin-bottom:5px">NOMBRE DEL AFORTUNADO</label>
+                      <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>Nombre del afortunado</label>
                       <span style="position:absolute;left:13px;bottom:0;line-height:42px;font-size:14px;pointer-events:none">🎁</span>
                       <input type="text" value="{{ bGiftName }}" onChange="{{ setGiftName }}" placeholder="Nombre de quien recibe el regalo" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:12px 13px 12px 40px;color:#fbfcff;font-size:13px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
                     </div>
@@ -957,16 +957,30 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                     <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;color:#fbfcff;line-height:1.15">{{ selDateLong }}</div>
                   </div>
                   <div style="background:linear-gradient(135deg,#0d1e38,#0a1424);padding:14px 16px">
-                    <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;color:#7f8fa3;margin-bottom:6px;text-transform:uppercase">{{ t.pkgs.booking.paqueteLabel }}</div>
-                    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;color:#f5c542;line-height:1.15">{{ formPkgName }}</div>
-                    <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#7f8fa3;margin-top:3px">{{ formPkgPrice }}</div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;color:#7f8fa3;margin-bottom:8px;text-transform:uppercase">{{ t.pkgs.booking.paqueteLabel }}</div>
+                    <div style="display:flex;flex-direction:column;gap:5px">
+                      <button onClick="{{ selAventurero }}" style="{{ calPkgExpress }}">
+                        <span style="font-size:13px">✈</span>
+                        <span style="display:flex;flex-direction:column;align-items:flex-start;gap:1px">
+                          <span style="font-size:11px;font-weight:600;line-height:1.2">Express</span>
+                          <span style="font-size:9px;opacity:.7">$280K · 1h20</span>
+                        </span>
+                      </button>
+                      <button onClick="{{ selComandante }}" style="{{ calPkgCompleto }}">
+                        <span style="font-size:13px">🛫</span>
+                        <span style="display:flex;flex-direction:column;align-items:flex-start;gap:1px">
+                          <span style="font-size:11px;font-weight:600;line-height:1.2">Completo</span>
+                          <span style="font-size:9px;opacity:.7">$370K · 2h30</span>
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <sc-if value="{{ hasSelDate }}" hint-placeholder-val="{{ false }}">
                   <div style="border:1px solid rgba(139,151,166,.12);border-radius:10px;padding:13px 15px;display:flex;flex-direction:column;gap:9px">
                     <div style="display:flex;align-items:center;gap:8px">
-                      <span style="width:3px;height:12px;background:#7f8fa3;border-radius:2px;flex-shrink:0"></span>
-                      <span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.16em;color:#7f8fa3;text-transform:uppercase">Hora de vuelo</span>
+                      <span style="width:3px;height:15px;background:#f5c542;border-radius:2px;flex-shrink:0;opacity:.75"></span>
+                      <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.11em;color:#d0dcea;text-transform:uppercase">Hora de vuelo</span>
                       <sc-if value="{{ slotsLoading }}" hint-placeholder-val="{{ false }}">
                         <span style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#7f8fa3;opacity:.6">— cargando…</span>
                       </sc-if>
@@ -981,28 +995,28 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                   </div>
                 </sc-if>
                 <div>
-                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.16em;color:#7f8fa3;text-transform:uppercase;margin-bottom:6px">{{ t.pkgs.booking.nombreCompleto }}</label>
+                  <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>{{ t.pkgs.booking.nombreCompleto }}</label>
                   <div style="position:relative">
                     <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">🧑‍✈️</span>
                     <input type="text" value="{{ bName }}" onChange="{{ setName }}" placeholder="{{ t.pkgs.booking.nombrePlaceholder }}" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
                   </div>
                 </div>
                 <div>
-                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.16em;color:#7f8fa3;text-transform:uppercase;margin-bottom:6px">{{ t.pkgs.booking.whatsappContacto }}</label>
+                  <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>{{ t.pkgs.booking.whatsappContacto }}</label>
                   <div style="position:relative">
                     <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">📱</span>
                     <input type="tel" value="{{ bPhone }}" onChange="{{ setPhone }}" placeholder="+57 300 000 0000" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
                   </div>
                 </div>
                 <div>
-                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.16em;color:#7f8fa3;text-transform:uppercase;margin-bottom:6px">CORREO ELECTRÓNICO</label>
+                  <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>Correo electrónico</label>
                   <div style="position:relative">
                     <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">✉️</span>
                     <input type="email" value="{{ bEmail }}" onChange="{{ setEmail }}" placeholder="tu@correo.com" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
                   </div>
                 </div>
                 <div>
-                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.16em;color:#7f8fa3;text-transform:uppercase;margin-bottom:6px">SEGUNDO PARTICIPANTE <span style="color:#405060;font-weight:400;font-size:8px">(opcional)</span></label>
+                  <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>Segundo participante <span style="color:#405060;font-weight:400;font-size:8px">(opcional)</span></label>
                   <div style="position:relative">
                     <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">👤</span>
                     <input type="text" value="{{ bParticipant2 }}" onChange="{{ setParticipant2 }}" placeholder="Nombre del acompañante" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
@@ -1661,6 +1675,8 @@ class Component extends DCLogic {
       // ---- Booking ----
       pkgA:{...this.PKGS.aventurero, ...t.pkgs.aventurero}, pkgC:{...this.PKGS.comandante, ...t.pkgs.comandante},
       bPkg:s.bPkg,
+      calPkgExpress:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'6px',padding:'7px 8px',borderRadius:'7px',fontFamily:'Inter,sans-serif',transition:'all .2s',outline:'none',textAlign:'left',boxSizing:'border-box',border:s.bPkg==='aventurero'?'1.5px solid #f5c542':'1.5px solid rgba(139,151,166,.22)',background:s.bPkg==='aventurero'?'rgba(245,197,66,.1)':'rgba(255,255,255,.03)',color:s.bPkg==='aventurero'?'#f5c542':'#7f8fa3'},
+      calPkgCompleto:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'6px',padding:'7px 8px',borderRadius:'7px',fontFamily:'Inter,sans-serif',transition:'all .2s',outline:'none',textAlign:'left',boxSizing:'border-box',border:s.bPkg==='comandante'?'1.5px solid #f5c542':'1.5px solid rgba(139,151,166,.22)',background:s.bPkg==='comandante'?'rgba(245,197,66,.1)':'rgba(255,255,255,.03)',color:s.bPkg==='comandante'?'#f5c542':'#7f8fa3'},
       selAventurero:()=>{ this.setState({bPkg:'aventurero',selSlot:null}); if(this.state.selDate){const _sd=this.state.selDate;this.selectDate(_sd.y,_sd.m,_sd.d,'aventurero');} },
       selComandante:()=>{ this.setState({bPkg:'comandante',selSlot:null}); if(this.state.selDate){const _sd=this.state.selDate;this.selectDate(_sd.y,_sd.m,_sd.d,'comandante');} },
       pkgAStyle:{position:'relative',cursor:'pointer',background:s.bPkg==='aventurero'?'linear-gradient(155deg,#162e50,#080f1e)':'linear-gradient(155deg,#0d1830,#080f1e)',border:'1.5px solid '+(s.bPkg==='aventurero'?'#f5c542':'rgba(139,151,166,.22)'),borderRadius:'14px',overflow:'hidden',transition:'all .25s',boxShadow:s.bPkg==='aventurero'?'0 20px 60px rgba(245,197,66,.13)':'none'},
@@ -1730,8 +1746,8 @@ class Component extends DCLogic {
       showFormMe:!s.booked && s.bookFor==='me',
       showFormGift:!s.booked && s.bookFor==='regalo',
       showEnfoque:!s.booked && !!s.bookFor,
-      btnMeStyle:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='me'?'linear-gradient(135deg,#f5c542,#ffd84a)':'rgba(0,0,0,0)',border:s.bookFor==='me'?'2px solid #f5c542':'2px solid rgba(139,151,166,.4)',color:s.bookFor==='me'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='me'?700:500,boxShadow:s.bookFor==='me'?'0 4px 18px rgba(245,197,66,.3)':'none'},
-      btnGiftStyle:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='regalo'?'linear-gradient(135deg,#f5c542,#ffd84a)':'rgba(0,0,0,0)',border:s.bookFor==='regalo'?'2px solid #f5c542':'2px solid rgba(139,151,166,.4)',color:s.bookFor==='regalo'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='regalo'?700:500,boxShadow:s.bookFor==='regalo'?'0 4px 18px rgba(245,197,66,.3)':'none'},
+      btnMeStyle:{cursor:'pointer',flex:1,display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='me'?'linear-gradient(135deg,#f5c542,#ffd84a)':'rgba(0,0,0,0)',border:s.bookFor==='me'?'2px solid #f5c542':'2px solid rgba(139,151,166,.4)',color:s.bookFor==='me'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='me'?700:500,boxShadow:s.bookFor==='me'?'0 4px 18px rgba(245,197,66,.3)':'none'},
+      btnGiftStyle:{cursor:'pointer',flex:1,display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='regalo'?'linear-gradient(135deg,#f5c542,#ffd84a)':'rgba(0,0,0,0)',border:s.bookFor==='regalo'?'2px solid #f5c542':'2px solid rgba(139,151,166,.4)',color:s.bookFor==='regalo'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='regalo'?700:500,boxShadow:s.bookFor==='regalo'?'0 4px 18px rgba(245,197,66,.3)':'none'},
       chooseMe:()=>this.setState({bookFor:'me'}),
       chooseGift:()=>this.setState({bookFor:'regalo'}),
       backToChoice:()=>this.setState({bookFor:null}),
