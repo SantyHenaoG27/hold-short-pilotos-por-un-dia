@@ -887,7 +887,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                   <button onClick="{{ nextMonth }}" style="cursor:pointer;background:none;border:1px solid rgba(245,197,66,.3);color:#f5c542;border-radius:6px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:16px">›</button>
                 </div>
                 <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:6px">
-                  <sc-for list="{{ weekdays }}" as="w" hint-placeholder-count="7">
+                  <sc-for list="{{ weekdays }}" as="w" hint-placeholder-count="8">
                     <div style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:#7f8fa3;padding:4px 0">{{ w }}</div>
                   </sc-for>
                 </div>
@@ -995,7 +995,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
           <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0;letter-spacing:-.01em">{{ t.faq.h2 }}</h2>
         </div>
         <div data-rev="y" style="display:flex;flex-direction:column;gap:10px">
-          <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="7">
+          <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="8">
             <div style="background:#0b1420;border:1px solid rgba(139,151,166,.18);border-radius:8px;overflow:hidden">
               <button onClick="{{ f.onToggle }}" aria-expanded="{{ f.open }}" aria-controls="faq-panel-{{ f.i }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;background:none;border:0;cursor:pointer;padding:17px 20px;text-align:left">
                 <span style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:19px;color:#fbfcff;letter-spacing:.01em">{{ f.q }}</span>
@@ -1111,12 +1111,13 @@ const I18N = {
     },
     faq: { badge:'// Torre de control', h2:'Antes de despegar, resolvemos tus dudas.',
       items:[ {q:'¿Necesito saber de aviación?', a:'Absolutamente nada. Eso es exactamente el punto.'},
-              {q:'¿Es para niños?', a:'Sí. Hemos tenido futuros pilotos desde los 8 años.'},
-              {q:'¿Voy solo al simulador?', a:'El instructor siempre está a tu lado. Tú mandas, él cuida.'},
-              {q:'¿Y si me da miedo?', a:'El simulador es 100% seguro. Superar el miedo es parte de la experiencia.'},
-              {q:'¿Cuánto dura?', a:'Aviador Express: ~1 h 20 min. Full Experience: ~2 h 30 min.'},
-              {q:'¿Cómo reservo?', a:'Por WhatsApp. Sin formularios. Sin complicaciones.'},
-              {q:'¿Para qué edades es?', a:'Para todas. Desde niños curiosos hasta adultos que siempre soñaron con volar.'} ] },
+              {q:'¿Es para niños?', a:'La experiencia para niños es fantástica, ya que es un espacio para soñar, pero debido a la complejidad de la máquina y sus dimensiones es algo complejo sentarlos en los controles. Nuestra recomendación es de 12 años en adelante.'},
+              {q:'¿Puedo ir acompañado?', a:'Puedes ir solo o acompañado. Si vas acompañado, el tiempo de vuelo será dividido equitativamente entre los dos participantes.'},
+              {q:'¿Y si me da miedo?', a:'No es normal que te dé miedo — vas a estar tan concentrado con tanta información y retos que no habrá momento para el miedo. ¡Pero claro! Si necesitas hacer una pausa, la hacemos.'},
+              {q:'¿Cuánto dura la experiencia?', a:'Existen dos paquetes principales: Aviador Express, con una duración total de una hora y veinte minutos, y Aviador Full Experience, con una duración de dos horas y treinta minutos. Te recomendamos disponer de un poco más de tiempo para conocer nuestras instalaciones, visitar nuestra tienda y conversar con los pilotos.'},
+              {q:'¿Cómo reservo?', a:'Reservar es muy fácil: selecciona el tipo de experiencia que quieres, escoge una fecha en el calendario y alguien de nuestro equipo te contactará vía WhatsApp para organizar los detalles de la reserva y efectuar el pago.'},
+              {q:'¿Cuándo se confirma la reserva?', a:'La reserva se hace efectiva con el pago del 50% del valor de la experiencia.'},
+              {q:'¿Qué pasa si no puedo asistir?', a:'Debes avisarnos con tiempo suficiente para no afectar el horario del instructor ni incurrir en gastos operacionales. Si cancelas con 24 horas de anticipación te devolvemos el dinero. De lo contrario, podemos reprogramar la experiencia o cederla a otra persona.'} ] },
     reserva:{ h2Pre:'El cielo lleva esperándote', h2Post:'toda la vida.',
       p:'Hoy puede ser el día en que dejes de mirar los aviones desde abajo. Escríbenos y reserva tu cabina.', cta:'Hablar por WhatsApp ahora →' },
     footer:{ about:'Operamos en nuestro centro de entrenamiento en la ciudad de Pereira, Colombia, y extendemos nuestra operación al escenario virtual.' },
@@ -1194,14 +1195,15 @@ const I18N = {
       ticket:{ prepara1:'GET READY FOR YOUR', prepara2:'NEXT ADVENTURE', pasajero:'PASSENGER', fecha:'DATE', contacto:'CONTACT', puerta:'GATE', asiento:'SEAT',
         confirmar:'Confirm my flight via WhatsApp →', nuevaReserva:'New booking', note:'// your spot is reserved once you confirm via WhatsApp. See you in the cockpit!' }
     },
-    faq: { badge:'// Control tower', h2:'Before takeoff, we answer your questions.',
-      items:[ {q:'Do I need to know about aviation?', a:'Absolutely nothing. That’s exactly the point.'},
-              {q:'Is it for kids?', a:'Yes. We’ve had future pilots as young as 8 years old.'},
-              {q:'Do I go into the simulator alone?', a:'The instructor is always by your side. You’re in command, they keep watch.'},
-              {q:'What if I get scared?', a:'The simulator is 100% safe. Overcoming fear is part of the experience.'},
-              {q:'How long does it last?', a:'Aviator Express: ~1 hr 20 min. Full Experience: ~2 hr 30 min.'},
-              {q:'How do I book?', a:'Via WhatsApp. No forms. No hassle.'},
-              {q:'What ages is it for?', a:'For all ages. From curious kids to adults who’ve always dreamed of flying.'} ] },
+    faq: { badge:’// Control tower’, h2:’Before takeoff, we answer your questions.’,
+      items:[ {q:’Do I need to know about aviation?’, a:’Absolutely nothing. That\’s exactly the point.’},
+              {q:’Is it suitable for kids?’, a:’The experience for kids is fantastic — it\’s a space for dreaming big. However, due to the complexity of the machine and its dimensions, it can be tricky to put younger children at the controls. We recommend ages 12 and up.’},
+              {q:’Can I bring someone with me?’, a:’You can go solo or with a companion. If you go with someone, the simulator flight time will be split equally between both participants.’},
+              {q:’What if I get scared?’, a:’It\’s actually not common to feel scared — you\’ll be so focused on all the information and challenges that there won\’t be a moment for fear. But of course, if you need a pause, we\’ll take one.’},
+              {q:’How long does it last?’, a:’There are two main packages: Aviator Express, with a total duration of one hour and twenty minutes, and Aviator Full Experience, with a total duration of two hours and thirty minutes. We recommend allowing a little extra time to explore our facilities, visit our store and chat with the pilots.’},
+              {q:’How do I book?’, a:’Booking is easy: select the experience you want, pick a date on the calendar, and someone from our team will contact you via WhatsApp to arrange the details and process your payment.’},
+              {q:’When is my booking confirmed?’, a:’Your booking is confirmed once the 50% deposit of the experience value has been paid.’},
+              {q:’What if I can\’t make it after booking?’, a:’Please let us know with enough advance notice so we don\’t affect the instructor\’s schedule or incur operational costs. If you cancel at least 24 hours in advance, we\’ll refund your payment. Otherwise, we can reschedule the experience or transfer it to someone else.’} ] },
     reserva:{ h2Pre:'The sky has been waiting for you', h2Post:'your whole life.',
       p:'Today could be the day you stop watching planes from below. Message us and reserve your cockpit.', cta:'Talk on WhatsApp now →' },
     footer:{ about:'We operate from our training center in Pereira, Colombia, and extend our operation to the virtual scenario.' },
