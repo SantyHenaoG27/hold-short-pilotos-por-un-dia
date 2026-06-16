@@ -1038,8 +1038,14 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                     <div><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px">{{ t.pkgs.ticket.fecha }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#fbfcff;line-height:1.1">{{ ticket.date }}</div></div>
                     <div><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px">{{ t.pkgs.booking.paqueteLabel }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#fbfcff;line-height:1.1">{{ ticket.pkg.name }}</div></div>
                     <div><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px">{{ t.pkgs.ticket.contacto }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#fbfcff;line-height:1.1">{{ ticket.phone }}</div></div>
-                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px">HORA</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#f5c542;line-height:1.1">{{ ticket.timeSlot }}</div></div>
+                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px">HORA</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#f5c542;line-height:1.1">{{ ticket.time }}</div></div>
                   </div>
+              <sc-if value="{{ showCompanion }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:6px;padding-top:8px;border-top:1px solid rgba(139,151,166,.15)">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px">ACOMPAÑANTE</div>
+                <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#fbfcff;line-height:1.1">{{ ticket.companion }}</div>
+              </div>
+              </sc-if>
                 </div>
                 <div style="position:relative;display:flex;align-items:center;padding:0 0">
                   <div style="width:18px;height:18px;background:#080f1e;border-radius:50%;margin-left:-9px;flex-shrink:0"></div>
@@ -1580,7 +1586,7 @@ class Component extends DCLogic {
     const seat=(1+seed%30)+['A','B','C','D'][seed%4];
     const gate=String(1+seed%18).padStart(2,'0');
     this.setState({ bookLoading:false, booked:true, ticket:{ name:this.state.bName.trim().toUpperCase(), phone:this.state.bPhone.trim(),
-      pkgKey:p.key, selDate:{...this.state.selDate}, flight, seat, gate, email:this.state.bEmail.trim(), qrToken, timeSlot:this.state.selSlot?this.state.selSlot.start+' – '+this.state.selSlot.end:'' } }); history.pushState({hsTicket:true},''); setTimeout(function(){var el=document.querySelector('[data-ticket-anchor]');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120);
+      pkgKey:p.key, selDate:{...this.state.selDate}, flight, seat, gate, email:this.state.bEmail.trim(), qrToken, timeSlot:this.state.selSlot?this.state.selSlot.start+' – '+this.state.selSlot.end:'', companion:this.state.bParticipant2.trim() } }); history.pushState({hsTicket:true},''); setTimeout(function(){var el=document.querySelector('[data-ticket-anchor]');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120);
   }
   resetBooking(){ this.setState({booked:false, bookFor:null, bookError:null, selSlot:null, availSlots:[], bParticipant2:''}); setTimeout(function(){var el=document.getElementById('reservar');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120); }
   async downloadTicket(){
@@ -1733,10 +1739,11 @@ class Component extends DCLogic {
       bookForGiftStyle:{cursor:'pointer',flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'6px',padding:'16px 12px',borderRadius:'9px',border:'1.5px solid '+(s.bookFor==='regalo'?'transparent':'rgba(139,151,166,.3)'),background:s.bookFor==='regalo'?'linear-gradient(135deg,#f5c542,#ffd84a)':'rgba(20,38,62,.7)',color:s.bookFor==='regalo'?'#160f05':'#c8d4e0',fontFamily:'Inter,sans-serif',fontSize:'13px',fontWeight:s.bookFor==='regalo'?700:500,letterSpacing:'.01em',transition:'all .22s',boxShadow:s.bookFor==='regalo'?'0 4px 18px rgba(245,197,66,.28)':'inset 0 1px 0 rgba(255,255,255,.06)'},
       ticket:s.ticket?{ name:s.ticket.name, phone:s.ticket.phone, email:s.ticket.email||'', flight:s.ticket.flight, seat:s.ticket.seat, gate:s.ticket.gate,
         qrToken:s.ticket.qrToken||'',
-        time:s.ticket.timeSlot||'',
+        time:s.ticket.timeSlot||'', companion:s.ticket.companion||'',
         qrSrc:'https://api.qrserver.com/v1/create-qr-code/?size=140x140&qzone=1&data='+encodeURIComponent(s.ticket.flight||''),
         pkg:{...this.PKGS[s.ticket.pkgKey], name:t.pkgs[s.ticket.pkgKey].name}, date:this.dateLongFor(s.ticket.selDate, s.lang) }
         :{name:'',phone:'',email:'',qrToken:'',qrSrc:'',pkg:{...this.PKGS.aventurero,name:t.pkgs.aventurero.name},date:'',flight:'',seat:'',gate:''},
+      showCompanion:!!(s.ticket&&s.ticket.companion),
       resetBooking:()=>this.resetBooking(),
       downloadTicket:()=>this.downloadTicket(),
       waConfirm: s.ticket ? (()=>{ const tk={ name:s.ticket.name, phone:s.ticket.phone, email:s.ticket.email||'', flight:s.ticket.flight, seat:s.ticket.seat, gate:s.ticket.gate,
