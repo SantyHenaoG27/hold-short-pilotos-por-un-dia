@@ -1344,6 +1344,9 @@ class Component extends DCLogic {
       },{rootMargin:'200px 0px'});
       (this.rootEl||document).querySelectorAll('section[id]').forEach(s=>this._animObs.observe(s));
     }
+  
+    // Handle browser back button from ticket
+    window.addEventListener('popstate',()=>{ if(this.state.booked) this.resetBooking(); });
   }
   componentWillUnmount(){
     if(this._reveal){ window.removeEventListener('scroll', this._reveal); window.removeEventListener('resize', this._reveal); }
@@ -1577,9 +1580,9 @@ class Component extends DCLogic {
     const seat=(1+seed%30)+['A','B','C','D'][seed%4];
     const gate=String(1+seed%18).padStart(2,'0');
     this.setState({ bookLoading:false, booked:true, ticket:{ name:this.state.bName.trim().toUpperCase(), phone:this.state.bPhone.trim(),
-      pkgKey:p.key, selDate:{...this.state.selDate}, flight, seat, gate, email:this.state.bEmail.trim(), qrToken, timeSlot:this.state.selSlot?this.state.selSlot.start+' – '+this.state.selSlot.end:'' } }); setTimeout(function(){var el=document.querySelector('[data-ticket-anchor]');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120);
+      pkgKey:p.key, selDate:{...this.state.selDate}, flight, seat, gate, email:this.state.bEmail.trim(), qrToken, timeSlot:this.state.selSlot?this.state.selSlot.start+' – '+this.state.selSlot.end:'' } }); history.pushState({hsTicket:true},''); setTimeout(function(){var el=document.querySelector('[data-ticket-anchor]');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120);
   }
-  resetBooking(){ this.setState({booked:false, bookFor:null, bookError:null, selSlot:null, availSlots:[], bParticipant2:''}); }
+  resetBooking(){ this.setState({booked:false, bookFor:null, bookError:null, selSlot:null, availSlots:[], bParticipant2:''}); setTimeout(function(){var el=document.getElementById('reservar');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120); }
   async downloadTicket(){
     const el=document.querySelector('[data-ticket-card]');
     if(!el||!window.html2canvas) return;
