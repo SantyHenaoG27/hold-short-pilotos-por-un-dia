@@ -7,6 +7,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/supabase-client.js"></script>
 <link rel="preload" as="image" href="assets/hangar-emblem-nobg.webp" type="image/webp" fetchpriority="high">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 <x-dc>
@@ -1019,26 +1020,42 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
 
           <sc-if value="{{ booked }}" hint-placeholder-val="{{ false }}">
             <div data-ticket-anchor data-anim="ticket" style="padding:clamp(22px,4vw,34px)">
-              <div data-ticket-card style="position:relative;display:flex;flex-wrap:wrap;background:linear-gradient(135deg,#142b49,#0a0a07);border:1px solid #f5c542;border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(245,197,66,.14)">
-                <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(125deg,rgba(255,255,255,.045) 0 2px,transparent 2px 9px);pointer-events:none"></div>
-                <div style="position:relative;flex:1;min-width:240px;padding:24px 26px">
-                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#f5c542">HOLD SHORT · BOARDING PASS</div>
-                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#a8b5c7">{{ ticket.flight }}</div>
-                  </div>
-                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(22px,3.4vw,30px);color:#f5c542;line-height:1.02;margin-bottom:20px">{{ t.pkgs.ticket.prepara1 }}<br/>{{ t.pkgs.ticket.prepara2 }}</div>
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 18px">
-                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:3px">{{ t.pkgs.ticket.pasajero }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#fbfcff;line-height:1.05">{{ ticket.name }}</div></div>
-                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:3px">{{ t.pkgs.booking.paqueteLabel }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#fbfcff;line-height:1.05">{{ ticket.pkg.name }}</div></div>
-                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:3px">{{ t.pkgs.ticket.fecha }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#fbfcff;line-height:1.05">{{ ticket.date }}</div></div>
-                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:3px">{{ t.pkgs.ticket.contacto }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;color:#fbfcff;line-height:1.05">{{ ticket.phone }}</div></div>
+              <div data-ticket-card style="position:relative;max-width:380px;width:100%;margin:0 auto;background:linear-gradient(170deg,#142b49 0%,#0c1e38 55%,#080f1e 100%);border:1.5px solid rgba(245,197,66,.65);border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(245,197,66,.16)">
+                <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(125deg,rgba(255,255,255,.04) 0 1px,transparent 1px 10px);pointer-events:none"></div>
+                <div style="position:relative;padding:16px 22px 13px;border-bottom:1px solid rgba(245,197,66,.2)">
+                  <div style="display:flex;align-items:center;justify-content:space-between">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.22em;color:#f5c542">HOLD SHORT · BOARDING PASS</div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;color:#f5c542;background:rgba(245,197,66,.12);padding:3px 9px;border-radius:5px;border:1px solid rgba(245,197,66,.35)">{{ ticket.flight }}</div>
                   </div>
                 </div>
-                <div style="position:relative;width:1px;background:transparent;border-left:2px dashed rgba(245,197,66,.5);margin:14px 0"></div>
-                <div style="position:relative;width:160px;min-width:160px;padding:24px 20px;display:flex;flex-direction:column;justify-content:space-between;background:rgba(245,197,66,.05)">
-                  <div style="display:flex;justify-content:space-between"><div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#a8b5c7">{{ t.pkgs.ticket.puerta }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#f5c542">{{ ticket.gate }}</div></div><div style="text-align:right"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#a8b5c7">{{ t.pkgs.ticket.asiento }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#f5c542">{{ ticket.seat }}</div></div></div>
-                  <img src="{{ ticket.qrSrc }}" alt="{{ ticket.flight }}" style="width:100%;aspect-ratio:1/1;display:block;border-radius:4px;background:#fbfcff;padding:5px;box-sizing:border-box;margin:12px 0" />
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#a8b5c7;text-align:center">{{ ticket.flight }} · SKPE</div>
+                <div style="position:relative;padding:18px 22px 14px">
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:22px;color:#f5c542;line-height:1.1;margin-bottom:14px">{{ t.pkgs.ticket.prepara1 }}<br/>{{ t.pkgs.ticket.prepara2 }}</div>
+                  <div style="margin-bottom:14px">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.18em;color:#7f8fa3;margin-bottom:2px">{{ t.pkgs.ticket.pasajero }}</div>
+                    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;color:#fbfcff;line-height:1.05">{{ ticket.name }}</div>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 20px">
+                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px">{{ t.pkgs.ticket.fecha }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#fbfcff;line-height:1.1">{{ ticket.date }}</div></div>
+                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px">{{ t.pkgs.booking.paqueteLabel }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#fbfcff;line-height:1.1">{{ ticket.pkg.name }}</div></div>
+                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px">{{ t.pkgs.ticket.contacto }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#fbfcff;line-height:1.1">{{ ticket.phone }}</div></div>
+                    <div><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px">HORA</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#f5c542;line-height:1.1">{{ ticket.timeSlot }}</div></div>
+                  </div>
+                </div>
+                <div style="position:relative;display:flex;align-items:center;padding:0 0">
+                  <div style="width:18px;height:18px;background:#080f1e;border-radius:50%;margin-left:-9px;flex-shrink:0"></div>
+                  <div style="flex:1;border-top:2px dashed rgba(245,197,66,.4)"></div>
+                  <div style="width:18px;height:18px;background:#080f1e;border-radius:50%;margin-right:-9px;flex-shrink:0"></div>
+                </div>
+                <div style="position:relative;padding:18px 22px 22px;display:flex;flex-direction:column;align-items:center;gap:14px">
+                  <img src="{{ ticket.qrSrc }}" alt="{{ ticket.flight }}" style="width:170px;height:170px;display:block;border-radius:8px;background:#fbfcff;padding:8px;box-sizing:border-box" />
+                  <div style="display:flex;align-items:center;gap:16px">
+                    <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#7f8fa3;margin-bottom:2px">{{ t.pkgs.ticket.puerta }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;color:#f5c542">{{ ticket.gate }}</div></div>
+                    <div style="width:1px;height:30px;background:rgba(245,197,66,.25)"></div>
+                    <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#7f8fa3;margin-bottom:2px">{{ t.pkgs.ticket.asiento }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;color:#f5c542">{{ ticket.seat }}</div></div>
+                    <div style="width:1px;height:30px;background:rgba(245,197,66,.25)"></div>
+                    <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#7f8fa3;margin-bottom:2px">AEROP.</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;color:#f5c542">SKPE</div></div>
+                  </div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.14em;color:#7f8fa3">{{ ticket.flight }} · HANGAR 1903</div>
                 </div>
               </div>
               <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px">
