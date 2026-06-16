@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -420,7 +420,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
         <div data-rev="y" style="max-width:680px;margin-bottom:38px">
           <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.22em;color:#8998aa;text-transform:uppercase;display:block;margin-bottom:18px">{{ t.sims.badge }}</span>
           <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0 0 18px;letter-spacing:-.01em">{{ t.sims.h2 }}</h2>
-          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#d8e0ea;margin:0">{{ t.sims.pPre }}<strong style="color:#fbfcff">King Air B200</strong>{{ t.sims.pPost }}</p>
+          <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.8;color:#d8e0ea;margin:0">{{ t.sims.pPre }}<strong style="color:#fbfcff">A320</strong>{{ t.sims.pMid }}<strong style="color:#fbfcff">King Air B200</strong>{{ t.sims.pPost }}</p>
         </div>
 
         <div data-rev="y" style="position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;border:1px solid rgba(245,197,66,.2);box-shadow:0 30px 80px rgba(0,0,0,.6)">
@@ -887,7 +887,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                   <button onClick="{{ nextMonth }}" style="cursor:pointer;background:none;border:1px solid rgba(245,197,66,.3);color:#f5c542;border-radius:6px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:16px">›</button>
                 </div>
                 <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:6px">
-                  <sc-for list="{{ weekdays }}" as="w" hint-placeholder-count="8">
+                  <sc-for list="{{ weekdays }}" as="w" hint-placeholder-count="7">
                     <div style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:#7f8fa3;padding:4px 0">{{ w }}</div>
                   </sc-for>
                 </div>
@@ -995,7 +995,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
           <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(28px,4.4vw,50px);line-height:1.04;margin:0;letter-spacing:-.01em">{{ t.faq.h2 }}</h2>
         </div>
         <div data-rev="y" style="display:flex;flex-direction:column;gap:10px">
-          <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="8">
+          <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="7">
             <div style="background:#0b1420;border:1px solid rgba(139,151,166,.18);border-radius:8px;overflow:hidden">
               <button onClick="{{ f.onToggle }}" aria-expanded="{{ f.open }}" aria-controls="faq-panel-{{ f.i }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;background:none;border:0;cursor:pointer;padding:17px 20px;text-align:left">
                 <span style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:19px;color:#fbfcff;letter-spacing:.01em">{{ f.q }}</span>
@@ -1192,18 +1192,6 @@ const I18N = {
         paqueteLabel:'PACKAGE', tocaCambiar:'tap a card above to change', nombreCompleto:'FULL NAME', nombrePlaceholder:'Your name',
         whatsappContacto:'WHATSAPP / CONTACT', generarTicket:'Generate my flight ticket ✈',
         weekdays:['Mo','Tu','We','Th','Fr','Sa','Su'], months:['January','February','March','April','May','June','July','August','September','October','November','December'], days3:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] },
-      ticket:{ prepara1:'GET READY FOR YOUR', prepara2:'NEXT ADVENTURE', pasajero:'PASSENGER', fecha:'DATE', contacto:'CONTACT', puerta:'GATE', asiento:'SEAT',
-        confirmar:'Confirm my flight via WhatsApp →', nuevaReserva:'New booking', note:'// your spot is reserved once you confirm via WhatsApp. See you in the cockpit!' }
-    },
-    faq: { badge:'// Control tower', h2:'Before takeoff, we answer your questions.',
-      items:[ {q:'Do I need to know about aviation?', a:'Absolutely nothing. That’s exactly the point.'},
-              {q:'Is it suitable for kids?', a:'The experience for kids is fantastic — it’s a space for dreaming big. However, due to the complexity of the machine and its dimensions, it can be tricky to put younger children at the controls. We recommend ages 12 and up.'},
-              {q:'Can I bring someone with me?', a:'You can go solo or with a companion. If you go with someone, the simulator flight time will be split equally between both participants.'},
-              {q:'What if I get scared?', a:'It’s actually not common to feel scared — you’ll be so focused on all the information and challenges that there won’t be a moment for fear. But of course, if you need a pause, we’ll take one.'},
-              {q:'How long does it last?', a:'There are two main packages: Aviator Express, with a total duration of one hour and twenty minutes, and Aviator Full Experience, with a total duration of two hours and thirty minutes. We recommend allowing a little extra time to explore our facilities, visit our store and chat with the pilots.'},
-              {q:'How do I book?', a:'Booking is easy: select the experience you want, pick a date on the calendar, and someone from our team will contact you via WhatsApp to arrange the details and process your payment.'},
-              {q:'When is my booking confirmed?', a:'Your booking is confirmed once the 50% deposit of the experience value has been paid.'},
-              {q:'What if I can’t make it after booking?', a:'Please let us know with enough advance notice so we don’t affect the instructor’s schedule or incur operational costs. If you cancel at least 24 hours in advance, we’ll refund your payment. Otherwise, we can reschedule the experience or transfer it to someone else.'} ] },
       ticket:{ prepara1:'GET READY FOR YOUR', prepara2:'NEXT ADVENTURE', pasajero:'PASSENGER', fecha:'DATE', contacto:'CONTACT', puerta:'GATE', asiento:'SEAT',
         confirmar:'Confirm my flight via WhatsApp →', nuevaReserva:'New booking', note:'// your spot is reserved once you confirm via WhatsApp. See you in the cockpit!' }
     },
