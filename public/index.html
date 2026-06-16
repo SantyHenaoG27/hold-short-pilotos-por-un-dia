@@ -52,6 +52,9 @@ html,body{margin:0;padding:0;background:#080f1e}
 @keyframes h1903-glow{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}55%{opacity:.98;transform:translate(-50%,-50%) scale(1.07)}78%{opacity:.52;transform:translate(-50%,-50%) scale(.97)}100%{opacity:.78;transform:translate(-50%,-50%) scale(1)}}
 @keyframes h1903-ambient{0%,100%{opacity:.78;transform:translate(-50%,-50%) scale(1)}50%{opacity:.44;transform:translate(-50%,-50%) scale(.92)}}
 @keyframes h1903-float{0%{transform:translateY(0) rotate(0deg)}38%{transform:translateY(-8px) rotate(.3deg)}72%{transform:translateY(-3px) rotate(-.18deg)}100%{transform:translateY(0) rotate(0deg)}}
+@keyframes hs-nebula-drift{0%{transform:scale(1) translate(0,0)}38%{transform:scale(1.06) translate(-1.4%,.9%)}68%{transform:scale(.97) translate(.7%,-.6%)}100%{transform:scale(1) translate(0,0)}}
+@keyframes hs-star-twinkle{0%,100%{opacity:.74}28%{opacity:.44}54%{opacity:.84}80%{opacity:.50}}
+@keyframes hs-star-drift{0%{transform:translate(0,0)}50%{transform:translate(-32px,-18px)}100%{transform:translate(0,0)}}
 @keyframes h1903-scroll{0%{transform:translateY(0);opacity:.9}60%{opacity:.2}100%{transform:translateY(13px);opacity:0}}
 
 [data-rev]{opacity:0;transform:translateY(34px);transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1)}
@@ -219,8 +222,8 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
   <main id="top">
 
     <section id="hero" style="position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:clamp(100px,16vh,160px) clamp(20px,5vw,40px) clamp(30px,4vh,50px);text-align:center;overflow:hidden;background:#080f1e">
-      <div style="position:absolute;inset:0;z-index:0;background:radial-gradient(140% 90% at 50% 4%,#1f4f8a 0%,#122c4e 34%,#080f1e 72%)"></div>
-      <div style="position:absolute;inset:0;z-index:0;opacity:.5;background:linear-gradient(rgba(245,197,66,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(245,197,66,.05) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(80% 70% at 50% 42%,#000 20%,transparent 75%);mask-image:radial-gradient(80% 70% at 50% 42%,#000 20%,transparent 75%)"></div>
+      <div style="position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 78% 52% at 22% 28%,rgba(50,22,105,.3),transparent 62%),radial-gradient(ellipse 68% 50% at 78% 72%,rgba(12,58,128,.26),transparent 60%),radial-gradient(ellipse 48% 34% at 64% 14%,rgba(6,85,96,.18),transparent 50%),radial-gradient(ellipse 36% 26% at 12% 80%,rgba(26,10,74,.2),transparent 46%),radial-gradient(ellipse 55% 38% at 85% 20%,rgba(8,40,110,.16),transparent 52%),radial-gradient(ellipse 100% 72% at 50% 50%,rgba(5,12,46,.72),transparent 82%),#060b16;animation:hs-nebula-drift 32s ease-in-out infinite"></div>
+      <div style="position:absolute;inset:0;z-index:0;background-image:radial-gradient(circle,rgba(255,255,255,.95) 1px,transparent 1px),radial-gradient(circle,rgba(210,230,255,.80) 1px,transparent 1px),radial-gradient(circle,rgba(255,255,255,.65) 1px,transparent 1px),radial-gradient(circle,rgba(195,220,255,.52) .8px,transparent .8px),radial-gradient(circle,rgba(255,248,235,.40) .6px,transparent .6px);background-size:641px 439px,421px 311px,277px 193px,163px 121px,87px 63px;background-position:314px 138px,168px 224px,92px 56px,48px 86px,20px 32px;animation:hs-star-twinkle 9s ease-in-out infinite,hs-star-drift 115s ease-in-out infinite"></div>
       <div style="position:absolute;left:50%;top:42%;width:min(94vw,1140px);aspect-ratio:1;z-index:0;border:1px solid rgba(245,197,66,.07);border-radius:50%;transform:translateX(-50%) translateY(-50%)"></div>
       <div style="position:absolute;left:50%;top:42%;width:min(70vw,820px);aspect-ratio:1;z-index:0;border:1px solid rgba(245,197,66,.05);border-radius:50%;transform:translateX(-50%) translateY(-50%)"></div>
       <div style="position:absolute;inset:0;z-index:0;background:radial-gradient(60% 50% at 50% 100%,#080f1e,transparent 70%),radial-gradient(50% 40% at 50% 0%,#080f1e,transparent 60%)"></div>
