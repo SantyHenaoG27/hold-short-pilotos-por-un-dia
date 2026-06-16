@@ -1344,13 +1344,23 @@ class Component extends DCLogic {
   }
   tickChat(){
     const m=this.chatMsgs[this.ci];
-    if(!m){ this._ct=setTimeout(()=>{ this.ci=0; this.cc=0; this.tickChat(); }, 8000); return; }
+    if(!m){ this._ct=setTimeout(()=>{ this.ci=0; this.cc=0; if(this.chatEl)this.chatEl.innerHTML=''; this.tickChat(); }, 8000); return; }
     this.cc++;
     const partial=m.text.slice(0,this.cc);
-    const lines=this.chatMsgs.slice(0,this.ci).map(x=>({who:x.who,text:x.text}));
-    lines.push({who:m.who,text:partial});
-    this.renderChat(lines);
-    if(this.cc>=m.text.length){ this.ci++; this.cc=0; this._ct=setTimeout(()=>this.tickChat(), m.who==='a'?1600:760); }
+    if(this.cc===1){
+      const isA=m.who==='a';
+      const row=document.createElement('div');
+      row.style.cssText='display:flex;'+(isA?'justify-content:flex-end':'justify-content:flex-start')+';animation:hs-fadeup .28s ease both';
+      const b=document.createElement('div');
+      b.style.cssText='max-width:82%;padding:11px 15px;border-radius:'+(isA?'13px 13px 4px 13px':'13px 13px 13px 4px')+';font-size:14px;line-height:1.45;'+(isA?'background:#f5c542;color:#160f05;font-weight:700;':'background:#142b49;color:#f2f5f9;border:1px solid rgba(139,151,166,.18);');
+      b.textContent=partial;
+      row.appendChild(b);
+      if(this.chatEl)this.chatEl.appendChild(row);
+      this._curBubble=b;
+    } else {
+      if(this._curBubble)this._curBubble.textContent=partial;
+    }
+    if(this.cc>=m.text.length){ this.ci++; this.cc=0; this._curBubble=null; this._ct=setTimeout(()=>this.tickChat(), m.who==='a'?1600:760); }
     else { this._ct=setTimeout(()=>this.tickChat(), 32); }
   }
 
