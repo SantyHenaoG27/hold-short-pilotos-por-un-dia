@@ -900,7 +900,8 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
               </div>
 
               <div style="padding:28px 26px;display:flex;flex-direction:column;gap:16px">
-                <div style="display:flex;flex-direction:column;gap:8px">
+                                <p style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;color:#7f8fa3;text-transform:uppercase;margin:0 0 4px">SELECCIONA UNA OPCIÓN</p>
+<div style="display:flex;flex-direction:column;gap:8px">
                   <button onClick="{{ chooseMe }}" style="{{ btnMeStyle }}">
                     <span style="font-size:26px;line-height:1;flex-shrink:0">🧑‍✈️</span>
                     <span style="display:flex;flex-direction:column;gap:2px">
@@ -916,6 +917,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                     </span>
                   </button>
                 </div>
+                <sc-if value="{{ showEnfoque }}" hint-placeholder-val="{{ false }}">
                 <div style="background:rgba(255,255,255,.02);border:1px solid rgba(139,151,166,.12);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:11px">
                   <div style="display:flex;align-items:center;gap:8px">
                     <span style="width:3px;height:13px;background:#7f8fa3;border-radius:2px;flex-shrink:0"></span>
@@ -1008,6 +1010,8 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                 <button onClick="{{ submitBooking }}" style="{{ submitStyle }}">{{ submitLabel }}</button>
                 <sc-if value="{{ hasBookError }}" hint-placeholder-val="{{ false }}">
                   <div style="background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.3);border-radius:6px;padding:12px 14px;font-size:13px;color:#fca5a5;line-height:1.5;margin-top:-8px">⚠ {{ bookError }}</div>
+                </sc-if>
+              
                 </sc-if>
               </div>
             </div>
@@ -1700,8 +1704,8 @@ class Component extends DCLogic {
       showFormMe:!s.booked && s.bookFor==='me',
       showFormGift:!s.booked && s.bookFor==='regalo',
       showEnfoque:!s.booked && !!s.bookFor,
-      btnMeStyle:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='me'?'linear-gradient(135deg,#f5c542,#ffd84a)':'#1a3d70',border:s.bookFor==='me'?'2px solid #f5c542':'2px solid rgba(100,160,255,.5)',color:s.bookFor==='me'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='me'?700:500,boxShadow:s.bookFor==='me'?'0 4px 18px rgba(245,197,66,.3)':'none'},
-      btnGiftStyle:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='regalo'?'linear-gradient(135deg,#f5c542,#ffd84a)':'#1a3d70',border:s.bookFor==='regalo'?'2px solid #f5c542':'2px solid rgba(100,160,255,.5)',color:s.bookFor==='regalo'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='regalo'?700:500,boxShadow:s.bookFor==='regalo'?'0 4px 18px rgba(245,197,66,.3)':'none'},
+      btnMeStyle:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='me'?'linear-gradient(135deg,#f5c542,#ffd84a)':'rgba(0,0,0,0)',border:s.bookFor==='me'?'2px solid #f5c542':'2px solid rgba(139,151,166,.4)',color:s.bookFor==='me'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='me'?700:500,boxShadow:s.bookFor==='me'?'0 4px 18px rgba(245,197,66,.3)':'none'},
+      btnGiftStyle:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='regalo'?'linear-gradient(135deg,#f5c542,#ffd84a)':'rgba(0,0,0,0)',border:s.bookFor==='regalo'?'2px solid #f5c542':'2px solid rgba(139,151,166,.4)',color:s.bookFor==='regalo'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='regalo'?700:500,boxShadow:s.bookFor==='regalo'?'0 4px 18px rgba(245,197,66,.3)':'none'},
       chooseMe:()=>this.setState({bookFor:'me'}),
       chooseGift:()=>this.setState({bookFor:'regalo'}),
       backToChoice:()=>this.setState({bookFor:null}),
