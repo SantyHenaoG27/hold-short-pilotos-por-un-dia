@@ -899,62 +899,122 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                 <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#7f8fa3;margin-top:14px;display:flex;align-items:center;gap:7px"><span style="width:9px;height:9px;border-radius:2px;background:#f5c542;display:inline-block"></span> {{ t.pkgs.booking.fechaSeleccionadaLegend }}</div>
               </div>
 
-              <div style="padding:26px 24px;display:flex;flex-direction:column;gap:14px">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-bottom:14px;border-bottom:1px solid rgba(245,197,66,.10)">
-                  <button onClick="{{ chooseMe }}" style="{{ bookForMeStyle }}">🧑‍✈️ Para mí</button>
-                  <button onClick="{{ chooseGift }}" style="{{ bookForGiftStyle }}">🎁 Es un regalo</button>
+              <div style="padding:28px 26px;display:flex;flex-direction:column;gap:16px">
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <button onClick="{{ chooseMe }}" style="{{ btnMeStyle }}">
+                    <span style="font-size:26px;line-height:1;flex-shrink:0">🧑‍✈️</span>
+                    <span style="display:flex;flex-direction:column;gap:2px">
+                      <span style="display:block;font-size:14px;font-weight:600;line-height:1.2">Para mí</span>
+                      <span style="display:block;font-size:11px;opacity:.6;font-weight:400">La experiencia es para mí</span>
+                    </span>
+                  </button>
+                  <button onClick="{{ chooseGift }}" style="{{ btnGiftStyle }}">
+                    <span style="font-size:26px;line-height:1;flex-shrink:0">🎁</span>
+                    <span style="display:flex;flex-direction:column;gap:2px">
+                      <span style="display:block;font-size:14px;font-weight:600;line-height:1.2">Es un regalo</span>
+                      <span style="display:block;font-size:11px;opacity:.6;font-weight:400">Para alguien especial</span>
+                    </span>
+                  </button>
                 </div>
-                <sc-if value="{{ showEnfoque }}" hint-placeholder-val="{{ false }}">
-                  <div style="background:rgba(245,197,66,.05);border:1px solid rgba(245,197,66,.18);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:10px">
-                    <div style="display:flex;align-items:center;gap:8px">
-                      <span style="width:3px;height:16px;background:#f5c542;border-radius:2px;flex-shrink:0"></span>
-                      <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:#f5c542;text-transform:uppercase">Enfoque personalizado</span>
-                    </div>
-                    <p style="font-family:Inter,sans-serif;font-size:12px;color:#8998aa;margin:0;line-height:1.5">¿A quién va dirigida esta experiencia? Así preparamos algo más especial.</p>
+                <div style="background:rgba(255,255,255,.02);border:1px solid rgba(139,151,166,.12);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:11px">
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <span style="width:3px;height:13px;background:#7f8fa3;border-radius:2px;flex-shrink:0"></span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.22em;color:#7f8fa3;text-transform:uppercase">Enfoque personalizado</span>
+                  </div>
+                  <p style="font-family:Inter,sans-serif;font-size:12px;color:#6b7a8d;margin:0;line-height:1.55">{{ enfoqueDesc }}</p>
+                  <sc-if value="{{ showGiftName }}" hint-placeholder-val="{{ false }}">
                     <div style="position:relative">
-                      <select onChange="{{ setGiftFor }}" style="width:100%;appearance:none;-webkit-appearance:none;background:#060b12;border:1px solid rgba(139,151,166,.3);border-radius:7px;padding:11px 36px 11px 13px;color:{{ bGiftFor ? '#fbfcff' : '#4a5568' }};font-size:13px;font-family:Inter,sans-serif;outline:none;cursor:pointer">
-                        <option value="" disabled selected style="background:#0d1a30;color:#4a5568">Selecciona una opción</option>
-                        <option value="graduado" style="background:#0d1a30;color:#fbfcff">🎓 Próximo graduado — explorando si la aviación es su camino</option>
-                        <option value="apasionado" style="background:#0d1a30;color:#fbfcff">✈️ Apasionado por la aviación — siempre soñó con los cielos</option>
-                        <option value="joven" style="background:#0d1a30;color:#fbfcff">🚀 Joven aventurero — busca experiencias que lo marquen</option>
-                        <option value="profesional" style="background:#0d1a30;color:#fbfcff">💼 Profesional en pausa — necesita algo que lo inspire</option>
-                        <option value="viajero" style="background:#0d1a30;color:#fbfcff">🌍 Viajero frecuente — curioso por lo que pasa en cabina</option>
-                        <option value="tecnologia" style="background:#0d1a30;color:#fbfcff">🛠️ Fanático de la tecnología — ama los sistemas complejos</option>
-                        <option value="familiar" style="background:#0d1a30;color:#fbfcff">👨‍👩‍👧 Experiencia en familia — un recuerdo para compartir</option>
-                      </select>
-                      <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#f5c542;pointer-events:none;font-size:11px">▾</span>
+                      <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;color:#7f8fa3;text-transform:uppercase;margin-bottom:5px">NOMBRE DEL AFORTUNADO</label>
+                      <span style="position:absolute;left:13px;bottom:0;line-height:42px;font-size:14px;pointer-events:none">🎁</span>
+                      <input type="text" value="{{ bGiftName }}" onChange="{{ setGiftName }}" placeholder="Nombre de quien recibe el regalo" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:12px 13px 12px 40px;color:#fbfcff;font-size:13px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
                     </div>
+                  </sc-if>
+                  <div style="position:relative">
+                    <select onChange="{{ setGiftFor }}" style="width:100%;appearance:none;-webkit-appearance:none;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:11px 36px 11px 13px;color:#d8e0ea;font-size:13px;font-family:Inter,sans-serif;outline:none;cursor:pointer;transition:border-color .2s">
+                      <option value="" disabled selected style="background:#0d1a30;color:#4a5568">Selecciona una opción</option>
+                      <option value="graduado" style="background:#0d1a30;color:#fbfcff">🎓 Próximo graduado — explorando si la aviación es su camino</option>
+                      <option value="apasionado" style="background:#0d1a30;color:#fbfcff">✈️ Apasionado por la aviación — siempre soñó con los cielos</option>
+                      <option value="joven" style="background:#0d1a30;color:#fbfcff">🚀 Joven aventurero — busca experiencias que lo marquen</option>
+                      <option value="profesional" style="background:#0d1a30;color:#fbfcff">💼 Profesional en pausa — necesita algo que lo inspire</option>
+                      <option value="viajero" style="background:#0d1a30;color:#fbfcff">🌍 Viajero frecuente — curioso por lo que pasa en cabina</option>
+                      <option value="tecnologia" style="background:#0d1a30;color:#fbfcff">🛠️ Fanático de la tecnología — ama los sistemas complejos</option>
+                      <option value="familiar" style="background:#0d1a30;color:#fbfcff">👨‍👩‍👧 Experiencia en familia — un recuerdo para compartir</option>
+                    </select>
+                    <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#7f8fa3;pointer-events:none;font-size:11px">▾</span>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="width:18px;height:1px;background:rgba(245,197,66,.4);flex-shrink:0"></span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:#f5c542;white-space:nowrap;text-transform:uppercase">{{ t.pkgs.booking.boardingData }}</span>
+                  <span style="flex:1;height:1px;background:rgba(245,197,66,.14)"></span>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(245,197,66,.18);border-radius:10px;overflow:hidden">
+                  <div style="background:linear-gradient(135deg,#0d1e38,#0a1424);padding:14px 16px;border-right:1px solid rgba(245,197,66,.1)">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;color:#7f8fa3;margin-bottom:6px;text-transform:uppercase">{{ t.pkgs.booking.fechaElegida }}</div>
+                    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;color:#fbfcff;line-height:1.15">{{ selDateLong }}</div>
+                  </div>
+                  <div style="background:linear-gradient(135deg,#0d1e38,#0a1424);padding:14px 16px">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;color:#7f8fa3;margin-bottom:6px;text-transform:uppercase">{{ t.pkgs.booking.paqueteLabel }}</div>
+                    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;color:#f5c542;line-height:1.15">{{ formPkgName }}</div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#7f8fa3;margin-top:3px">{{ formPkgPrice }}</div>
+                  </div>
+                </div>
+                <sc-if value="{{ hasSelDate }}" hint-placeholder-val="{{ false }}">
+                  <div style="border:1px solid rgba(139,151,166,.12);border-radius:10px;padding:13px 15px;display:flex;flex-direction:column;gap:9px">
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <span style="width:3px;height:12px;background:#7f8fa3;border-radius:2px;flex-shrink:0"></span>
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.16em;color:#7f8fa3;text-transform:uppercase">Hora de vuelo</span>
+                      <sc-if value="{{ slotsLoading }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#7f8fa3;opacity:.6">— cargando…</span>
+                      </sc-if>
+                    </div>
+                    <sc-if value="{{ hasSlots }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:5px">
+                        <sc-for list="{{ availSlots }}" as="sl" hint-placeholder-count="3">
+                          <button onClick="{{ sl.onClick }}" style="{{ sl.slStyle }}">{{ sl.label }}</button>
+                        </sc-for>
+                      </div>
+                    </sc-if>
                   </div>
                 </sc-if>
-                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#f5c542">{{ t.pkgs.booking.boardingData }}</div>
-                <div style="background:#0a1424;border:1px solid rgba(245,197,66,.18);border-radius:8px;padding:13px 15px">
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:4px">{{ t.pkgs.booking.fechaElegida }}</div>
-                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:18px;color:#fbfcff">{{ selDateLong }}</div>
-                </div>
-                <div style="background:#0a1424;border:1px solid rgba(245,197,66,.18);border-radius:8px;padding:13px 15px">
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:4px">{{ t.pkgs.booking.paqueteLabel }}</div>
-                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:18px;color:#f5c542;line-height:1.1">{{ formPkgName }}</div>
-                  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a8b5c7;margin-top:2px">{{ formPkgPrice }} · {{ t.pkgs.booking.tocaCambiar }}</div>
+                <div>
+                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.16em;color:#7f8fa3;text-transform:uppercase;margin-bottom:6px">{{ t.pkgs.booking.nombreCompleto }}</label>
+                  <div style="position:relative">
+                    <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">🧑‍✈️</span>
+                    <input type="text" value="{{ bName }}" onChange="{{ setName }}" placeholder="{{ t.pkgs.booking.nombrePlaceholder }}" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
+                  </div>
                 </div>
                 <div>
-                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:6px">{{ t.pkgs.booking.nombreCompleto }}</label>
-                  <input type="text" value="{{ bName }}" onChange="{{ setName }}" placeholder="{{ t.pkgs.booking.nombrePlaceholder }}" style="width:100%;background:#060b12;border:1px solid rgba(139,151,166,.3);border-radius:7px;padding:12px 14px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none" style-focus="border-color:#f5c542" />
+                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.16em;color:#7f8fa3;text-transform:uppercase;margin-bottom:6px">{{ t.pkgs.booking.whatsappContacto }}</label>
+                  <div style="position:relative">
+                    <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">📱</span>
+                    <input type="tel" value="{{ bPhone }}" onChange="{{ setPhone }}" placeholder="+57 300 000 0000" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
+                  </div>
                 </div>
                 <div>
-                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:6px">{{ t.pkgs.booking.whatsappContacto }}</label>
-                  <input type="tel" value="{{ bPhone }}" onChange="{{ setPhone }}" placeholder="+57 300 000 0000" style="width:100%;background:#060b12;border:1px solid rgba(139,151,166,.3);border-radius:7px;padding:12px 14px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none" style-focus="border-color:#f5c542" />
+                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.16em;color:#7f8fa3;text-transform:uppercase;margin-bottom:6px">CORREO ELECTRÓNICO</label>
+                  <div style="position:relative">
+                    <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">✉️</span>
+                    <input type="email" value="{{ bEmail }}" onChange="{{ setEmail }}" placeholder="tu@correo.com" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
+                  </div>
                 </div>
                 <div>
-                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#a8b5c7;margin-bottom:6px">CORREO ELECTRÓNICO</label>
-                  <input type="email" value="{{ bEmail }}" onChange="{{ setEmail }}" placeholder="tu@correo.com" style="width:100%;background:#060b12;border:1px solid rgba(139,151,166,.3);border-radius:7px;padding:12px 14px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none" style-focus="border-color:#f5c542" />
+                  <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.16em;color:#7f8fa3;text-transform:uppercase;margin-bottom:6px">SEGUNDO PARTICIPANTE <span style="color:#405060;font-weight:400;font-size:8px">(opcional)</span></label>
+                  <div style="position:relative">
+                    <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">👤</span>
+                    <input type="text" value="{{ bParticipant2 }}" onChange="{{ setParticipant2 }}" placeholder="Nombre del acompañante" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
+                  </div>
                 </div>
-                <button onClick="{{ submitBooking }}" style="{{ submitStyle }}">{{ t.pkgs.booking.generarTicket }}</button>
+                <button onClick="{{ submitBooking }}" style="{{ submitStyle }}">{{ submitLabel }}</button>
+                <sc-if value="{{ hasBookError }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.3);border-radius:6px;padding:12px 14px;font-size:13px;color:#fca5a5;line-height:1.5;margin-top:-8px">⚠ {{ bookError }}</div>
+                </sc-if>
               </div>
             </div>
           </sc-if>
 
           <sc-if value="{{ booked }}" hint-placeholder-val="{{ false }}">
-            <div data-anim="ticket" style="padding:clamp(22px,4vw,34px)">
+            <div data-ticket-anchor data-anim="ticket" style="padding:clamp(22px,4vw,34px)">
               <div style="position:relative;display:flex;flex-wrap:wrap;background:linear-gradient(135deg,#142b49,#0a0a07);border:1px solid #f5c542;border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(245,197,66,.14)">
                 <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(125deg,rgba(255,255,255,.045) 0 2px,transparent 2px 9px);pointer-events:none"></div>
                 <div style="position:relative;flex:1;min-width:240px;padding:24px 26px">
@@ -973,7 +1033,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                 <div style="position:relative;width:1px;background:transparent;border-left:2px dashed rgba(245,197,66,.5);margin:14px 0"></div>
                 <div style="position:relative;width:160px;min-width:160px;padding:24px 20px;display:flex;flex-direction:column;justify-content:space-between;background:rgba(245,197,66,.05)">
                   <div style="display:flex;justify-content:space-between"><div><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#a8b5c7">{{ t.pkgs.ticket.puerta }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#f5c542">{{ ticket.gate }}</div></div><div style="text-align:right"><div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#a8b5c7">{{ t.pkgs.ticket.asiento }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#f5c542">{{ ticket.seat }}</div></div></div>
-                  <div style="height:46px;margin:14px 0;background:repeating-linear-gradient(90deg,#fbfcff 0 2px,transparent 2px 4px,#fbfcff 4px 5px,transparent 5px 9px);opacity:.85"></div>
+                  <img src="{{ ticket.qrSrc }}" alt="{{ ticket.flight }}" style="width:100%;aspect-ratio:1/1;display:block;border-radius:4px;background:#fbfcff;padding:5px;box-sizing:border-box;margin:12px 0" />
                   <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#a8b5c7;text-align:center">{{ ticket.flight }} · SKPE</div>
                 </div>
               </div>
@@ -981,7 +1041,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                 <a href="{{ waConfirm }}" target="_blank" style="flex:1;min-width:240px;text-align:center;background:#f5c542;color:#160f05;text-decoration:none;font-weight:700;font-size:15px;padding:15px 22px;border-radius:6px;letter-spacing:.01em" style-hover="background:#ffe08a">{{ t.pkgs.ticket.confirmar }}</a>
                 <button onClick="{{ resetBooking }}" style="background:none;border:1px solid rgba(139,151,166,.35);color:#d8e0ea;border-radius:6px;padding:15px 22px;font-size:14px;cursor:pointer;font-family:Inter,sans-serif" style-hover="border-color:#f5c542;color:#f5c542">{{ t.pkgs.ticket.nuevaReserva }}</button>
               </div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:#a8b5c7;margin-top:14px">{{ t.pkgs.ticket.note }}</div>
+              
             </div>
           </sc-if>
         </div>
@@ -1098,16 +1158,16 @@ const I18N = {
       badge:'// Reserva tu vuelo', h2:'Aparta tu fecha. Genera tu ticket.',
       p:'Elige tu experiencia, escoge un día en el calendario y déjanos tus datos. En segundos tendrás tu pase de abordar listo.',
       favorito:'FAVORITO',
-      aventurero:{ name:'AVIADOR EXPRESS', priceLine:'$285.000 COP · 00:30 teoría + 00:50 simulador · máx. 2 participantes',
+      aventurero:{ name:'AVIADOR EXPRESS', priceLine:'$280.000 COP · 00:30 teoría + 00:50 simulador · máx. 2 participantes',
         perks:['⏱️ 00:30 minutos de teoría — Aprende el conocimiento básico para volar tu avión: todo lo que debes hacer antes de subirte al avión y comandar el vuelo','🕹️ 00:50 minutos de vuelo en simulador — ¡Despega, vuela y relájate! Descubre tus habilidades: ¿podrás encontrar la pista de regreso y aterrizar?','👥 Máximo de participantes (2)','🎓 Certificado “Piloto por un Día”'] },
-      comandante:{ name:'AVIADOR FULL EXPERIENCE', priceLine:'$375.000 COP · 01:00 teoría + 01:30 simulador · máx. 2 participantes',
+      comandante:{ name:'AVIADOR COMPLETO', priceLine:'$370.000 COP · 01:00 teoría + 01:30 simulador · máx. 2 participantes',
         perks:['🌍 01:00 hora de teoría — Démonos un viaje por la historia de la aviación: ¿cómo fue que llegamos a donde está la industria hoy?','✈️ Entiende en detalle la técnica del vuelo','⚙️ La evolución tecnológica','🧠 Los factores humanos detrás de la máquina','🕹️ 01:30 horas de vuelo en simulador — ¡Sube al simulador y pon en práctica todo lo que aprendiste! Despega, controla la máquina y lleva al límite tus habilidades','🗺️ Navega de una ciudad a otra — ¿podrás sortear una situación de emergencia?','👥 Máximo participantes (2)','🎓 Certificado “Piloto por un Día”'] },
       booking:{ fechaSeleccionadaLegend:'fecha seleccionada', boardingData:'PASE DE ABORDAR · DATOS', fechaElegida:'FECHA ELEGIDA', elegirFecha:'Elige una fecha en el calendario',
         paqueteLabel:'PAQUETE', tocaCambiar:'toca una tarjeta arriba para cambiar', nombreCompleto:'NOMBRE COMPLETO', nombrePlaceholder:'Tu nombre',
         whatsappContacto:'WHATSAPP / CONTACTO', generarTicket:'Generar mi ticket de vuelo ✈',
         weekdays:['Lu','Ma','Mi','Ju','Vi','Sa','Do'], months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'], days3:['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'] },
       ticket:{ prepara1:'PREPÁRATE PARA TU', prepara2:'PRÓXIMA AVENTURA', pasajero:'PASAJERO', fecha:'FECHA', contacto:'CONTACTO', puerta:'PUERTA', asiento:'ASIENTO',
-        confirmar:'Confirmar mi vuelo por WhatsApp →', nuevaReserva:'Nueva reserva', note:'// tu cupo queda apartado al confirmar por WhatsApp. ¡Nos vemos en la cabina!' }
+        nuevaReserva:'Nueva reserva' }
     },
     faq: { badge:'// Torre de control', h2:'Antes de despegar, resolvemos tus dudas.',
       items:[ {q:'¿Necesito saber de aviación?', a:'Absolutamente nada. Eso es exactamente el punto.'},
@@ -1184,9 +1244,9 @@ const I18N = {
       badge:'// Book your flight', h2:'Reserve your date. Generate your ticket.',
       p:'Choose your experience, pick a day on the calendar and leave us your details. In seconds you’ll have your boarding pass ready.',
       favorito:'MOST POPULAR',
-      aventurero:{ name:'AVIATOR EXPRESS', priceLine:'$285,000 COP · 00:30 theory + 00:50 simulator · max. 2 participants',
+      aventurero:{ name:'AVIATOR EXPRESS', priceLine:'$280,000 COP · 00:30 theory + 00:50 simulator · max. 2 participants',
         perks:['⏱️ 00:30 minutes of theory — Learn the basics to fly your plane: everything you need to do before getting in and taking command of the flight','🕹️ 00:50 minutes of simulator flight — Take off, fly and relax! Discover your skills: can you find your way back and land?','👥 Maximum participants (2)','🎓 “Pilot for a Day” certificate'] },
-      comandante:{ name:'AVIATOR FULL EXPERIENCE', priceLine:'$375,000 COP · 01:00 theory + 01:30 simulator · max. 2 participants',
+      comandante:{ name:'AVIATOR COMPLETE', priceLine:'$370,000 COP · 01:00 theory + 01:30 simulator · max. 2 participants',
         perks:['🌍 01:00 hour of theory — Let’s take a journey through the history of aviation: how did the industry get to where it is today?','✈️ Get into the details of flight technique','⚙️ Technological evolution','🧠 The human factors behind the machine','🕹️ 01:30 hours of simulator flight — Get in the simulator and put everything you learned into practice! Take off, control the machine and push your skills to the limit','🗺️ Navigate from one city to another — can you handle an emergency situation?','👥 Maximum participants (2)','🎓 “Pilot for a Day” certificate'] },
       booking:{ fechaSeleccionadaLegend:'selected date', boardingData:'BOARDING PASS · DETAILS', fechaElegida:'CHOSEN DATE', elegirFecha:'Choose a date on the calendar',
         paqueteLabel:'PACKAGE', tocaCambiar:'tap a card above to change', nombreCompleto:'FULL NAME', nombrePlaceholder:'Your name',
@@ -1221,13 +1281,17 @@ const I18N = {
 };
 class Component extends DCLogic {
   state = { menu:false, openPhase:1, route:'express', openFaq:0, flip:{}, compass:0, cSel:'N', chatLines:[],
-            calY:0, calM:0, selDate:null, bName:'', bPhone:'', bEmail:'', bGiftFor:'', bPkg:'aventurero', booked:false, ticket:null, bookFor:null,
+            calY:0, calM:0, selDate:null, bName:'', bPhone:'', bEmail:'', bGiftFor:'', bGiftName:'', bPkg:'aventurero', booked:false, ticket:null, bookFor:null, bookLoading:false, bookError:null, selSlot:null, availSlots:[], slotsLoading:false, bParticipant2:'',
             lang:(typeof localStorage!=='undefined' && localStorage.getItem('hs_lang')==='en')?'en':'es',
             authOpen:false, authMode:'login', authEmail:'', authPassword:'', authName:'', authPhone:'', authError:'', authLoading:false };
 
   PKGS = {
-    aventurero:{ key:'aventurero', tag:'EXPRESS', cop:'285.000', dur:'1 h 20 min' },
-    comandante:{ key:'comandante', tag:'FULL EXPERIENCE', cop:'375.000', dur:'2 h 30 min' }
+    aventurero:{ key:'aventurero', tag:'EXPRESS', cop:'280.000', dur:'1 h 20 min' },
+    comandante:{ key:'comandante', tag:'COMPLETO', cop:'370.000', dur:'2 h 30 min' }
+  };
+  SLOTS={
+    aventurero:[{start:'08:00',end:'09:20'},{start:'09:30',end:'10:50'},{start:'11:00',end:'12:20'},{start:'14:00',end:'15:20'},{start:'15:30',end:'16:50'}],
+    comandante:[{start:'08:00',end:'10:30'},{start:'11:00',end:'13:30'},{start:'14:00',end:'16:30'}]
   };
   MES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   MES3=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
@@ -1401,6 +1465,20 @@ class Component extends DCLogic {
   canPrev(){ const n=this.todayMid(); return (this.state.calY>n.getFullYear())||(this.state.calY===n.getFullYear()&&this.state.calM>n.getMonth()); }
   prevMonth(){ if(!this.canPrev())return; let m=this.state.calM-1,y=this.state.calY; if(m<0){m=11;y--;} this.setState({calM:m,calY:y}); }
   nextMonth(){ let m=this.state.calM+1,y=this.state.calY; if(m>11){m=0;y++;} this.setState({calM:m,calY:y}); }
+  async selectDate(y,m,d,pkg){
+    const p=pkg||this.state.bPkg;
+    this.setState({selDate:{y,m,d},selSlot:null,availSlots:[],slotsLoading:true});
+    const fecha=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    try{
+      const {data}=await supabaseClient.from('v_availability').select('hora_inicio').eq('fecha',fecha);
+      const booked=(data||[]).map(r=>r.hora_inicio);
+      const all=this.SLOTS[p]||[];
+      this.setState({availSlots:all.map(sl=>({...sl,occupied:booked.includes(sl.start)})),slotsLoading:false});
+    }catch(e){
+      const all=this.SLOTS[p]||[];
+      this.setState({availSlots:all.map(sl=>({...sl,occupied:false})),slotsLoading:false});
+    }
+  }
   calCells(){
     const y=this.state.calY,m=this.state.calM;
     const first=new Date(y,m,1).getDay();
@@ -1416,7 +1494,7 @@ class Component extends DCLogic {
       const isSel=sel&&sel.y===y&&sel.m===m&&sel.d===d;
       const isToday=dt.getTime()===today.getTime();
       cells.push({ key:'d'+d, empty:false, day:d, past, isSel, isToday,
-        onClick: past?null:()=>this.setState({selDate:{y,m,d}}),
+        onClick: past?null:()=>this.selectDate(y,m,d),
         style:{ aspectRatio:'1', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'7px',
           fontFamily:"'JetBrains Mono',monospace", fontSize:'13px', fontWeight:isSel?700:500,
           cursor:past?'not-allowed':'pointer',
@@ -1440,17 +1518,60 @@ class Component extends DCLogic {
     return this.dateLongFor(s, this.state.lang);
   }
   hashCode(str){ let h=0; for(let i=0;i<str.length;i++){ h=((h<<5)-h+str.charCodeAt(i))|0; } return Math.abs(h); }
-  submitBooking(){
-    if(!(this.state.bName.trim()&&this.state.bPhone.trim()&&this.state.bEmail.trim()&&this.state.selDate)) return;
+  async submitBooking(){
+    if(!(this.state.bName.trim()&&this.state.bPhone.trim()&&this.state.bEmail.trim()&&this.state.selDate&&this.state.selSlot)) return;
+    if(this.state.bookLoading) return;
+    this.setState({bookLoading:true, bookError:null});
     const p=this.PKGS[this.state.bPkg];
     const seed=this.hashCode(this.state.bName+this.selDateStr()+p.key);
-    const flight='HS'+(100+seed%900);
+    const sd=this.state.selDate;
+    const fecha=sd.y+'-'+String(sd.m+1).padStart(2,'0')+'-'+String(sd.d).padStart(2,'0');
+    const totalMap={aventurero:280000, comandante:370000};
+    const { data, error } = await supabaseClient.from('reservations').insert({
+      cliente_nombre: this.state.bName.trim(),
+      cliente_email:  this.state.bEmail.trim(),
+      cliente_phone:  this.state.bPhone.trim(),
+      paquete: {aventurero:'Aviador Express',comandante:'Aviador Completo'}[this.state.bPkg]||this.state.bPkg,
+      simulador: 'King Air B200',
+      fecha, servicio: 'simulador',
+      estado: 'pendiente', pago: 'pendiente',
+      total: totalMap[this.state.bPkg]||280000,
+      book_for: this.state.bookFor||'me',
+      gift_for: this.state.bGiftFor||null,
+      notas: (this.state.bookFor==='regalo'&&this.state.bGiftName.trim())?'Regalo para: '+this.state.bGiftName.trim():null,
+      hora_inicio: this.state.selSlot?this.state.selSlot.start:null,
+      hora_fin: this.state.selSlot?this.state.selSlot.end:null,
+      regalo_nombre: (this.state.bookFor==='regalo'&&this.state.bGiftName.trim())?this.state.bGiftName.trim():null,
+      participante_2_nombre: this.state.bParticipant2.trim()||null
+    }).select('code, qr_token').single();
+    if(error){
+      this.setState({bookLoading:false, bookError:error.message||'Error al guardar. Intenta de nuevo.'});
+      return;
+    }
+    const flight=data.code;
+    const qrToken=data.qr_token;
     const seat=(1+seed%30)+['A','B','C','D'][seed%4];
     const gate=String(1+seed%18).padStart(2,'0');
-    this.setState({ booked:true, ticket:{ name:this.state.bName.trim().toUpperCase(), phone:this.state.bPhone.trim(),
-      pkgKey:p.key, selDate:{...this.state.selDate}, flight, seat, gate, email:this.state.bEmail.trim() } });
+    this.setState({ bookLoading:false, booked:true, ticket:{ name:this.state.bName.trim().toUpperCase(), phone:this.state.bPhone.trim(),
+      pkgKey:p.key, selDate:{...this.state.selDate}, flight, seat, gate, email:this.state.bEmail.trim(), qrToken, timeSlot:this.state.selSlot?this.state.selSlot.start+' – '+this.state.selSlot.end:'' } }); setTimeout(function(){var el=document.querySelector('[data-ticket-anchor]');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120);
   }
-  resetBooking(){ this.setState({booked:false, bookFor:null}); }
+  resetBooking(){ this.setState({booked:false, bookFor:null, bookError:null, selSlot:null, availSlots:[], bParticipant2:''}); }
+  async downloadTicket(){
+    const el=document.querySelector('[data-ticket-card]');
+    if(!el||!window.html2canvas) return;
+    try{
+      const canvas=await html2canvas(el,{scale:2,useCORS:true,logging:false,backgroundColor:'#0a0a07'});
+      const webp=canvas.toDataURL('image/webp',0.92);
+      const code=(this.state.ticket&&this.state.ticket.flight)||'reserva';
+      const link=document.createElement('a');
+      if(webp.startsWith('data:image/webp')){
+        link.href=webp; link.download='hangar1903-'+code+'.webp';
+      } else {
+        link.href=canvas.toDataURL('image/png'); link.download='hangar1903-'+code+'.png';
+      }
+      document.body.appendChild(link); link.click(); document.body.removeChild(link);
+    }catch(e){console.error('download error',e);}
+  }
 
   renderVals(){
     const s=this.state;
@@ -1507,8 +1628,8 @@ class Component extends DCLogic {
       // ---- Booking ----
       pkgA:{...this.PKGS.aventurero, ...t.pkgs.aventurero}, pkgC:{...this.PKGS.comandante, ...t.pkgs.comandante},
       bPkg:s.bPkg,
-      selAventurero:()=>this.setState({bPkg:'aventurero'}),
-      selComandante:()=>this.setState({bPkg:'comandante'}),
+      selAventurero:()=>{ this.setState({bPkg:'aventurero',selSlot:null}); if(this.state.selDate){const _sd=this.state.selDate;this.selectDate(_sd.y,_sd.m,_sd.d,'aventurero');} },
+      selComandante:()=>{ this.setState({bPkg:'comandante',selSlot:null}); if(this.state.selDate){const _sd=this.state.selDate;this.selectDate(_sd.y,_sd.m,_sd.d,'comandante');} },
       pkgAStyle:{position:'relative',cursor:'pointer',background:s.bPkg==='aventurero'?'linear-gradient(155deg,#162e50,#080f1e)':'linear-gradient(155deg,#0d1830,#080f1e)',border:'1.5px solid '+(s.bPkg==='aventurero'?'#f5c542':'rgba(139,151,166,.22)'),borderRadius:'14px',overflow:'hidden',transition:'all .25s',boxShadow:s.bPkg==='aventurero'?'0 20px 60px rgba(245,197,66,.13)':'none'},
       pkgCStyle:{position:'relative',cursor:'pointer',background:s.bPkg==='comandante'?'linear-gradient(155deg,#1a3a62,#080f1e)':'linear-gradient(155deg,#0d1830,#080f1e)',border:'1.5px solid '+(s.bPkg==='comandante'?'#f5c542':'rgba(139,151,166,.22)'),borderRadius:'14px',overflow:'hidden',transition:'all .25s',boxShadow:s.bPkg==='comandante'?'0 20px 60px rgba(245,197,66,.13)':'none'},
       pkgADot:{width:'18px',height:'18px',borderRadius:'50%',border:'2px solid '+(s.bPkg==='aventurero'?'#f5c542':'#7f8fa3'),background:s.bPkg==='aventurero'?'#f5c542':'transparent',flexShrink:0,boxShadow:s.bPkg==='aventurero'?'0 0 12px rgba(245,197,66,.6)':'none'},
@@ -1527,29 +1648,70 @@ class Component extends DCLogic {
       setPhone:(e)=>this.setState({bPhone:e.target.value}),
       setEmail:(e)=>this.setState({bEmail:e.target.value}),
       setGiftFor:(e)=>this.setState({bGiftFor:e.target.value}),
+      bGiftName:s.bGiftName||'',
+      setGiftName:(e)=>this.setState({bGiftName:e.target.value}),
+      showGiftName:s.bookFor==='regalo',
+      enfoqueDesc:s.bookFor==='regalo'?'¿Cómo describirías a la persona que recibe este regalo?':'¿Cómo te describirías a ti? Así personalizamos tu vuelo.',
       hasDate:!!s.selDate,
       selDateStr:this.selDateStr(),
       selDateLong:this.selDateLong()||t.pkgs.booking.elegirFecha,
       formPkgName:t.pkgs[s.bPkg].name,
       formPkgPrice:'$'+this.PKGS[s.bPkg].cop+' COP',
-      canSubmit:!!(s.bName.trim()&&s.bPhone.trim()&&s.bEmail.trim()&&s.selDate),
-      submitStyle:{width:'100%',marginTop:'4px',background:(s.bName.trim()&&s.bPhone.trim()&&s.bEmail.trim()&&s.selDate)?'#f5c542':'rgba(245,197,66,.15)',color:(s.bName.trim()&&s.bPhone.trim()&&s.bEmail.trim()&&s.selDate)?'#160f05':'#b89642',border:'0',borderRadius:'6px',padding:'15px',fontWeight:700,fontSize:'15px',cursor:(s.bName.trim()&&s.bPhone.trim()&&s.selDate)?'pointer':'not-allowed',letterSpacing:'.01em',transition:'all .25s',fontFamily:'Inter,sans-serif'},
+      canSubmit:!!(s.bName.trim()&&s.bPhone.trim()&&s.bEmail.trim()&&s.selDate&&s.selSlot),
+      submitStyle:{width:'100%',marginTop:'4px',background:(!s.bookLoading&&s.bName.trim()&&s.bPhone.trim()&&s.bEmail.trim()&&s.selDate&&s.selSlot)?'#f5c542':'rgba(245,197,66,.15)',color:(!s.bookLoading&&s.bName.trim()&&s.bPhone.trim()&&s.bEmail.trim()&&s.selDate&&s.selSlot)?'#160f05':'#b89642',border:'0',borderRadius:'6px',padding:'15px',fontWeight:700,fontSize:'15px',cursor:(!s.bookLoading&&s.bName.trim()&&s.bPhone.trim()&&s.selDate&&s.selSlot)?'pointer':'not-allowed',letterSpacing:'.01em',transition:'all .25s',fontFamily:'Inter,sans-serif'},
       submitBooking:()=>this.submitBooking(),
+      submitLabel:s.bookLoading?(s.lang==='es'?'Enviando...':'Sending...'):t.pkgs.booking.generarTicket+' →',
+      bookLoading:s.bookLoading, bookError:s.bookError||'', hasBookError:!!s.bookError,
+      slotsLoading:s.slotsLoading,
+      hasSelDate:!!s.selDate,
+      hasSlots:s.availSlots.length>0,
+      availSlots:s.availSlots.map((sl,i)=>{
+        const isSel=!!(s.selSlot&&s.selSlot.start===sl.start);
+        return {
+          key:'sl'+i,
+          label:sl.start+' – '+sl.end,
+          onClick:sl.occupied?()=>{}:()=>this.setState({selSlot:sl}),
+          slStyle:{
+            cursor:sl.occupied?'not-allowed':'pointer',
+            padding:'9px 4px',
+            borderRadius:'7px',
+            fontFamily:'JetBrains Mono,monospace',
+            fontSize:'11px',
+            fontWeight:isSel?700:400,
+            border:'1px solid '+(sl.occupied?'rgba(139,151,166,.08)':isSel?'#f5c542':'rgba(139,151,166,.22)'),
+            background:sl.occupied?'rgba(255,255,255,.01)':isSel?'rgba(245,197,66,.11)':'transparent',
+            color:sl.occupied?'#3d4f62':isSel?'#f5c542':'#a8b5c7',
+            transition:'all .15s',
+            textAlign:'center',
+            textDecoration:sl.occupied?'line-through':'none',
+            opacity:sl.occupied?.3:1,
+            width:'100%'
+          }
+        };
+      }),
+      bParticipant2:s.bParticipant2||'',
+      setParticipant2:(e)=>this.setState({bParticipant2:e.target.value}),
       booked:s.booked, notBooked:!s.booked,
       bookFor:s.bookFor,
       showChoice:!s.booked && !s.bookFor,
       showFormMe:!s.booked && s.bookFor==='me',
       showFormGift:!s.booked && s.bookFor==='regalo',
       showEnfoque:!s.booked && !!s.bookFor,
+      btnMeStyle:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='me'?'linear-gradient(135deg,#f5c542,#ffd84a)':'rgba(255,255,255,.09)',border:s.bookFor==='me'?'2px solid #f5c542':'2px solid rgba(200,215,235,.28)',color:s.bookFor==='me'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='me'?700:500,boxShadow:s.bookFor==='me'?'0 4px 18px rgba(245,197,66,.3)':'none'},
+      btnGiftStyle:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'14px',padding:'16px 18px',borderRadius:'11px',fontFamily:'Inter,sans-serif',transition:'all .22s',outline:'none',boxSizing:'border-box',background:s.bookFor==='regalo'?'linear-gradient(135deg,#f5c542,#ffd84a)':'rgba(255,255,255,.09)',border:s.bookFor==='regalo'?'2px solid #f5c542':'2px solid rgba(200,215,235,.28)',color:s.bookFor==='regalo'?'#160f05':'#c8d4e0',fontWeight:s.bookFor==='regalo'?700:500,boxShadow:s.bookFor==='regalo'?'0 4px 18px rgba(245,197,66,.3)':'none'},
       chooseMe:()=>this.setState({bookFor:'me'}),
       chooseGift:()=>this.setState({bookFor:'regalo'}),
       backToChoice:()=>this.setState({bookFor:null}),
-      bookForMeStyle:{cursor:'pointer',fontFamily:'\'JetBrains Mono\',monospace',fontSize:'11px',letterSpacing:'.1em',fontWeight:700,padding:'10px 8px',borderRadius:'8px',border:'1.5px solid '+(s.bookFor==='me'?'#f5c542':'rgba(139,151,166,.28)'),background:s.bookFor==='me'?'rgba(245,197,66,.12)':'none',color:s.bookFor==='me'?'#f5c542':'#8998aa',transition:'all .2s'},
-      bookForGiftStyle:{cursor:'pointer',fontFamily:'\'JetBrains Mono\',monospace',fontSize:'11px',letterSpacing:'.1em',fontWeight:700,padding:'10px 8px',borderRadius:'8px',border:'1.5px solid '+(s.bookFor==='regalo'?'#f5c542':'rgba(139,151,166,.28)'),background:s.bookFor==='regalo'?'rgba(245,197,66,.12)':'none',color:s.bookFor==='regalo'?'#f5c542':'#8998aa',transition:'all .2s'},
+      bookForMeStyle:{cursor:'pointer',flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'6px',padding:'16px 12px',borderRadius:'9px',border:'1.5px solid '+(s.bookFor==='me'?'transparent':'rgba(139,151,166,.3)'),background:s.bookFor==='me'?'linear-gradient(135deg,#f5c542,#ffd84a)':'rgba(20,38,62,.7)',color:s.bookFor==='me'?'#160f05':'#c8d4e0',fontFamily:'Inter,sans-serif',fontSize:'13px',fontWeight:s.bookFor==='me'?700:500,letterSpacing:'.01em',transition:'all .22s',boxShadow:s.bookFor==='me'?'0 4px 18px rgba(245,197,66,.28)':'inset 0 1px 0 rgba(255,255,255,.06)'},
+      bookForGiftStyle:{cursor:'pointer',flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'6px',padding:'16px 12px',borderRadius:'9px',border:'1.5px solid '+(s.bookFor==='regalo'?'transparent':'rgba(139,151,166,.3)'),background:s.bookFor==='regalo'?'linear-gradient(135deg,#f5c542,#ffd84a)':'rgba(20,38,62,.7)',color:s.bookFor==='regalo'?'#160f05':'#c8d4e0',fontFamily:'Inter,sans-serif',fontSize:'13px',fontWeight:s.bookFor==='regalo'?700:500,letterSpacing:'.01em',transition:'all .22s',boxShadow:s.bookFor==='regalo'?'0 4px 18px rgba(245,197,66,.28)':'inset 0 1px 0 rgba(255,255,255,.06)'},
       ticket:s.ticket?{ name:s.ticket.name, phone:s.ticket.phone, email:s.ticket.email||'', flight:s.ticket.flight, seat:s.ticket.seat, gate:s.ticket.gate,
+        qrToken:s.ticket.qrToken||'',
+        time:s.ticket.timeSlot||'',
+        qrSrc:'https://api.qrserver.com/v1/create-qr-code/?size=140x140&qzone=1&data='+encodeURIComponent(s.ticket.flight||''),
         pkg:{...this.PKGS[s.ticket.pkgKey], name:t.pkgs[s.ticket.pkgKey].name}, date:this.dateLongFor(s.ticket.selDate, s.lang) }
-        :{name:'',phone:'',email:'',pkg:{...this.PKGS.aventurero,name:t.pkgs.aventurero.name},date:'',flight:'',seat:'',gate:''},
+        :{name:'',phone:'',email:'',qrToken:'',qrSrc:'',pkg:{...this.PKGS.aventurero,name:t.pkgs.aventurero.name},date:'',flight:'',seat:'',gate:''},
       resetBooking:()=>this.resetBooking(),
+      downloadTicket:()=>this.downloadTicket(),
       waConfirm: s.ticket ? (()=>{ const tk={ name:s.ticket.name, phone:s.ticket.phone, email:s.ticket.email||'', flight:s.ticket.flight, seat:s.ticket.seat, gate:s.ticket.gate,
         pkg:{...this.PKGS[s.ticket.pkgKey], name:t.pkgs[s.ticket.pkgKey].name}, date:this.dateLongFor(s.ticket.selDate, s.lang) };
         return wa+'?text='+encodeURIComponent(t.wa.ticket.title+'\n\n'+t.wa.ticket.name+': '+tk.name+'\n'+t.wa.ticket.pkg+': '+tk.pkg.name+'\n'+t.wa.ticket.date+': '+tk.date+'\n'+t.wa.ticket.flight+': '+tk.flight+' · '+t.wa.ticket.gate+' '+tk.gate+' · '+t.wa.ticket.seat+' '+tk.seat+'\n'+t.wa.ticket.contact+': '+tk.phone+'\nEmail: '+tk.email+'\n\n'+t.wa.ticket.closing); })() : waText(t.wa.confirmDefault),
