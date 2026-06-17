@@ -982,29 +982,14 @@
       <!-- ===== PILOTOS ===== -->
       <sc-if value="{{ isPilotos }}" hint-placeholder-val="">
         <div>
-          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px">
-            <div><div class="mono" style="font-size:11px;letter-spacing:.1em;color:#355C7D;font-weight:600;margin-bottom:5px">// CRM HOLD SHORT</div><h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Pilotos</h1></div>
-            <button onClick="{{ toastNuevoCliente }}" style="display:flex;align-items:center;gap:7px;height:38px;padding:0 15px;background:#355C7D;border:none;border-radius:9px;cursor:pointer;font-family:'Space Grotesk';font-size:13px;font-weight:600;color:#fff" style-hover="background:#2c5070"><span class="ms" style="font-size:19px">badge</span>Nuevo piloto</button>
+          <div style="margin-bottom:18px">
+            <div class="mono" style="font-size:11px;letter-spacing:.1em;color:#355C7D;font-weight:600;margin-bottom:5px">// CRM HOLD SHORT</div>
+            <h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Pilotos</h1>
           </div>
-          <div data-r="kpi" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px">
-            <sc-for list="{{ pilKpis }}" as="k" hint-placeholder-count="4">
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:15px 16px"><div style="{{ k.iconWrap }}"><span class="ms" style="font-size:20px">{{ k.icon }}</span></div><div class="disp" style="font-size:24px;font-weight:700;margin-top:11px;letter-spacing:-.02em">{{ k.value }}</div><div style="font-size:12px;color:var(--muted);margin-top:4px;font-weight:500">{{ k.label }}</div></div>
-            </sc-for>
-          </div>
-          <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden">
-            <div style="overflow-x:auto"><div style="min-width:880px">
-              <div class="mono" style="display:grid;grid-template-columns:1.5fr 90px 1.3fr 1.4fr 1fr 44px;align-items:center;gap:10px;padding:11px 18px;border-bottom:1.5px solid var(--border);background:var(--alt);font-size:10px;letter-spacing:.06em;color:var(--muted);font-weight:600;text-transform:uppercase"><span>Piloto</span><span>Lic.</span><span>Objetivo</span><span>Progreso</span><span>Horas</span><span></span></div>
-              <sc-for list="{{ pilRows }}" as="p" hint-placeholder-count="4">
-                <div onClick="{{ p.onClick }}" style="display:grid;grid-template-columns:1.5fr 90px 1.3fr 1.4fr 1fr 44px;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--divider);cursor:pointer;font-size:12.5px" style-hover="background:var(--alt)">
-                  <div style="display:flex;align-items:center;gap:11px;min-width:0"><div style="{{ p.avatarStyle }}">{{ p.initials }}</div><div style="min-width:0"><div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</div><div class="mono" style="font-size:10px;color:var(--faint)">{{ p.escuela }}</div></div></div>
-                  <div><span style="{{ p.licStyle }}">{{ p.licencia }}</span></div>
-                  <div style="font-size:11.5px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.objetivo }}</div>
-                  <div><div style="height:6px;background:var(--track);border-radius:4px;overflow:hidden;margin-bottom:4px"><div style="{{ p.progBar }}"></div></div><span class="mono" style="font-size:10px;color:var(--muted)">{{ p.progreso }}% · {{ p.sesiones }} sesiones</span></div>
-                  <div class="mono" style="font-size:12px;font-weight:600;color:var(--text)">{{ p.horas }}h</div>
-                  <span class="ms" style="font-size:18px;color:#cdcdc6">chevron_right</span>
-                </div>
-              </sc-for>
-            </div></div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:60px 24px;text-align:center">
+            <div style="width:64px;height:64px;border-radius:16px;background:var(--chip);display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px"><span class="ms" style="font-size:32px;color:var(--faint)">badge</span></div>
+            <div class="disp" style="font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px">Próximamente</div>
+            <div style="font-size:13px;color:var(--muted);max-width:380px;margin:0 auto;line-height:1.6">Gestión de pilotos estudiantes con perfil, historial de horas, progreso y objetivos.</div>
           </div>
         </div>
       </sc-if>
