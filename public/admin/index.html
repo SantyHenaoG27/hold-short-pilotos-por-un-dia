@@ -997,18 +997,27 @@
           </div>
           <!-- reservas pxd -->
           <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden">
-            <div style="padding:14px 18px;border-bottom:1px solid var(--divider);display:flex;align-items:center;gap:8px"><span class="ms" style="font-size:19px;color:#F5841F">airplane_ticket</span><h2 class="disp" style="margin:0;font-size:15px;font-weight:600">Reservas de la experiencia</h2></div>
-            <div style="overflow-x:auto"><div style="min-width:760px">
-              <sc-for list="{{ pxdRows }}" as="p" hint-placeholder-count="6">
-                <div onClick="{{ p.onClick }}" style="display:grid;grid-template-columns:90px 1.4fr 1.4fr 1fr 120px;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--divider);cursor:pointer;font-size:12.5px" style-hover="background:var(--alt)">
-                  <span class="mono" style="font-size:11.5px;font-weight:600;color:var(--muted)">{{ p.code }}</span>
-                  <div style="display:flex;align-items:center;gap:6px;min-width:0"><span style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.cliente }}</span><sc-if value="{{ p.regalo }}" hint-placeholder-val=""><span class="ms" style="font-size:14px;color:#C99A2E">redeem</span></sc-if></div>
-                  <div style="color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.paquete }}</div>
-                  <div class="mono" style="font-size:11px;color:var(--faint)">{{ p.fecha }} · {{ p.hi }}</div>
-                  <div><span style="{{ p.statStyle }}">{{ p.statLabel }}</span></div>
-                </div>
-              </sc-for>
-            </div></div>
+            <div style="padding:14px 18px;border-bottom:1px solid var(--divider);display:flex;align-items:center;gap:8px">
+              <span class="ms" style="font-size:19px;color:#F5841F">airplane_ticket</span>
+              <h2 class="disp" style="margin:0;font-size:15px;font-weight:600;flex:1">Reservas de la experiencia</h2>
+              <sc-if value="{{ pxdLoading }}" hint-placeholder-val=""><span style="font-size:12px;color:var(--muted)">Cargando…</span></sc-if>
+            </div>
+            <sc-if value="{{ pxdEmpty }}" hint-placeholder-val="">
+              <div style="padding:32px;text-align:center;color:var(--faint);font-size:13px">No hay reservas registradas aún.</div>
+            </sc-if>
+            <sc-if value="{{ pxdEmpty }}" hint-placeholder-val="x">
+              <div style="overflow-x:auto"><div style="min-width:760px">
+                <sc-for list="{{ pxdRows }}" as="p" hint-placeholder-count="6">
+                  <div onClick="{{ p.onClick }}" style="display:grid;grid-template-columns:90px 1.4fr 1.4fr 1fr 120px;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--divider);cursor:pointer;font-size:12.5px" style-hover="background:var(--alt)">
+                    <span class="mono" style="font-size:11.5px;font-weight:600;color:var(--muted)">{{ p.code }}</span>
+                    <div style="display:flex;align-items:center;gap:6px;min-width:0"><span style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.cliente }}</span><sc-if value="{{ p.regalo }}" hint-placeholder-val=""><span class="ms" style="font-size:14px;color:#C99A2E">redeem</span></sc-if></div>
+                    <div style="color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.paquete }}</div>
+                    <div class="mono" style="font-size:11px;color:var(--faint)">{{ p.fecha }} · {{ p.hi }}</div>
+                    <div><span style="{{ p.statStyle }}">{{ p.statLabel }}</span></div>
+                  </div>
+                </sc-for>
+              </div></div>
+            </sc-if>
           </div>
         </div>
       </sc-if>
@@ -1704,6 +1713,9 @@ class Component extends DCLogic {
     formTotal: '', formAbono: '0', formMetodo: 'Transferencia', formRef: '', formFechaPago: '', formSubmitting: false,
     // documentos
     docTab: 'confirmaciones',
+    // pxd
+    pxdData: null,
+    pxdLoading: false,
     // calendario
     calView: 'semana',
     calAnchor: null,
@@ -1747,7 +1759,7 @@ class Component extends DCLogic {
     return { code:r.code, fecha:fechaDisplay, fechaISO, hoy:fechaISO===this.isoDate(new Date()),
       hi:(r.horaInicio||'').slice(0,5), hf:(r.horaFin||'').slice(0,5),
       cliente:r.clienteNombre||'', segundo:r.giftFor||null, tel:r.clientePhone||'',
-      serv:r.servicio==='pxd'?'pxd':'hs', paquete:r.paquete||'', sim:r.simulador||'',
+      serv:r.servicio==='simulador'?'pxd':r.servicio==='hs_simulador'?'hs':(r.servicio||'pxd'), paquete:r.paquete||'', sim:r.simulador||'',
       instructor:r.instructorNombre||'', origen:'', estado:r.estado||'pendiente',
       pago:r.pago||'pendiente', regalo:r.bookFor==='regalo',
       total:r.total||0, abono:r.abono||0,
@@ -1764,6 +1776,15 @@ class Component extends DCLogic {
       if(!error&&data){ this.setState({dbSessions:data.map(r=>this.mapRsvToSession(hsMapReservation(r))),calLoading:false}); }
       else{ this.setState({calLoading:false}); }
     }catch(e){ this.setState({calLoading:false}); }
+  }
+
+  async fetchPxdData(){
+    this.setState({pxdLoading:true});
+    try{
+      const{data,error}=await supabaseClient.from('reservations').select('*').eq('servicio','simulador').order('fecha',{ascending:false}).order('hora_inicio');
+      if(!error&&data){ this.setState({pxdData:data.map(r=>this.mapRsvToSession(hsMapReservation(r))),pxdLoading:false}); }
+      else{ this.setState({pxdLoading:false}); }
+    }catch(e){ this.setState({pxdLoading:false}); }
   }
 
   logout(){
@@ -1787,6 +1808,7 @@ class Component extends DCLogic {
     clearTimeout(this._loadT);
     this._loadT = setTimeout(()=>this.setState({ loading: false }), 480);
     if(route==='calendario') this.fetchCalSessions(this.state.calAnchor||new Date(), this.state.calView);
+    if(route==='pxd') this.fetchPxdData();
   }
   reload(){
     this.setState({ loading: true });
@@ -2704,10 +2726,10 @@ class Component extends DCLogic {
     ];
 
     // ---------- PILOTO POR UN DÍA (servicio) ----------
-    const pxdReservas = this.sessions.filter(s=>s.serv==='pxd');
-    const pxdRows = pxdReservas.slice(0,7).map(s=>{
+    const allPxd = this.state.pxdData !== null ? this.state.pxdData : this.sessions.filter(s=>s.serv==='pxd');
+    const pxdRows = allPxd.map(s=>{
       const em=this.estadoMeta(s.estado);
-      return { code:s.code, cliente:s.cliente, segundo:s.segundo||'—', fecha:s.fecha, hi:s.hi, paquete:s.paquete, regalo:s.regalo,
+      return { code:s.code, cliente:s.cliente||'—', segundo:s.segundo||'—', fecha:s.fecha, hi:s.hi, paquete:s.paquete, regalo:s.regalo,
         statLabel:em.label, statStyle:`font-size:10.5px;font-weight:600;color:${em.c};background:${em.bg};padding:3px 10px;border-radius:20px`,
         onClick:()=>this.openDrawer(s.code) };
     });
@@ -2717,11 +2739,15 @@ class Component extends DCLogic {
       featured: i===1,
       cardStyle:`border:2px solid ${i===1?'#F5841F':'var(--border)'};background:${i===1?'var(--alt)':'var(--surface)'};border-radius:14px;padding:20px;position:relative`,
     }));
+    const _now=new Date(); const _ym=`${_now.getFullYear()}-${String(_now.getMonth()+1).padStart(2,'0')}`;
+    const _activos=allPxd.filter(s=>!['cancelada','noasistio','reprogramada'].includes(s.estado));
+    const _mes=allPxd.filter(s=>s.fechaISO&&s.fechaISO.startsWith(_ym));
+    const _regalo=allPxd.filter(s=>s.regalo);
     const pxdKpis=[
-      {label:'Experiencias · mes', value:'22', icon:'airplane_ticket', c:'#b5630a', bg:'#FEF1E2'},
-      {label:'Como regalo', value:'9', icon:'redeem', c:'#9a6f12', bg:'#F5EEDD'},
-      {label:'Participantes', value:'37', icon:'group', c:'#2c5070', bg:'#E9F0F6'},
-      {label:'Valoración media', value:'4.9', icon:'star', c:'#F5841F', bg:'#FEF1E2'},
+      {label:'Experiencias · mes', value:this.state.pxdData!==null?String(_mes.length):'…', icon:'airplane_ticket', c:'#b5630a', bg:'#FEF1E2'},
+      {label:'Como regalo', value:this.state.pxdData!==null?String(_regalo.length):'…', icon:'redeem', c:'#9a6f12', bg:'#F5EEDD'},
+      {label:'Reservas activas', value:this.state.pxdData!==null?String(_activos.length):'…', icon:'group', c:'#2c5070', bg:'#E9F0F6'},
+      {label:'Total reservas', value:this.state.pxdData!==null?String(allPxd.length):'…', icon:'bar_chart', c:'#F5841F', bg:'#FEF1E2'},
     ].map(k=>({...k, iconWrap:`width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:${k.c};background:${k.bg}`}));
 
     // ---------- DOCUMENTOS (centro) ----------
@@ -2881,6 +2907,8 @@ class Component extends DCLogic {
       simCards, instCards, pilRows, pilKpis, comList, certRows,
       cfgPaquetes, cfgMetodos, cfgRoles,
       pxdRows, pxdPaquetes, pxdKpis,
+      pxdLoading: this.state.pxdLoading,
+      pxdEmpty: !this.state.pxdLoading && pxdRows.length===0,
       docTabs, docItems, docTab:dt,
       cfgLocal:{ nombre:'Hold Short Aviation', ciudad:'Pereira, Risaralda · SKPE', tel:'316 724 91 39', ig:'@HOLDSHORTPEI', horario:'Lun – Sáb · 9:00 a. m. y 2:00 p. m.' },
       // perfiles
