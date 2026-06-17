@@ -779,7 +779,7 @@
               <div class="mono" style="font-size:11px;letter-spacing:.1em;color:#F5841F;font-weight:600;margin-bottom:5px">// CRM EXPERIENCIA</div>
               <h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Clientes</h1>
             </div>
-            <button onClick="{{ toastNuevoCliente }}" style="display:flex;align-items:center;gap:7px;height:38px;padding:0 15px;background:#F5841F;border:none;border-radius:9px;cursor:pointer;font-family:'Space Grotesk';font-size:13px;font-weight:600;color:#15171b" style-hover="background:#e8780f"><span class="ms" style="font-size:19px">person_add</span>Nuevo cliente</button>
+            <sc-if value="{{ cliLoading }}" hint-placeholder-val=""><span style="font-size:12px;color:var(--muted)">Cargando…</span></sc-if>
           </div>
           <div data-r="kpi" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px">
             <sc-for list="{{ cliKpis }}" as="k" hint-placeholder-count="4">
@@ -791,27 +791,68 @@
             </sc-for>
           </div>
           <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden">
-            <div style="overflow-x:auto"><div style="min-width:880px">
-              <div class="mono" style="display:grid;grid-template-columns:1.6fr 90px 1fr 110px 1.1fr 110px 40px;align-items:center;gap:10px;padding:11px 18px;border-bottom:1.5px solid var(--border);background:var(--alt);font-size:10px;letter-spacing:.06em;color:var(--muted);font-weight:600;text-transform:uppercase">
-                <span>Cliente</span><span>Exp.</span><span>Estado</span><span>Gastado</span><span>Etiquetas</span><span>Última</span><span></span>
-              </div>
-              <sc-for list="{{ cliRows }}" as="c" hint-placeholder-count="8">
-                <div onClick="{{ c.onClick }}" style="display:grid;grid-template-columns:1.6fr 90px 1fr 110px 1.1fr 110px 40px;align-items:center;gap:10px;padding:11px 18px;border-bottom:1px solid var(--divider);cursor:pointer;font-size:12.5px" style-hover="background:var(--alt)">
-                  <div style="display:flex;align-items:center;gap:11px;min-width:0">
-                    <div style="{{ c.avatarStyle }}">{{ c.initials }}</div>
-                    <div style="min-width:0"><div style="font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.nombre }}</div><div class="mono" style="font-size:10.5px;color:var(--faint)">{{ c.tel }} · {{ c.ciudad }}</div></div>
-                  </div>
-                  <div class="disp" style="font-size:15px;font-weight:700;color:var(--text)">{{ c.exp }}</div>
-                  <div><span style="{{ c.estStyle }}">{{ c.estLabel }}</span></div>
-                  <div class="mono" style="font-size:12px;font-weight:600;color:var(--text)">{{ c.gastadoF }}</div>
-                  <div style="display:flex;gap:5px;flex-wrap:wrap"><sc-for list="{{ c.tagChips }}" as="t" hint-placeholder-count="2"><span style="{{ t.style }}">{{ t.label }}</span></sc-for></div>
-                  <div class="mono" style="font-size:11px;color:var(--muted)">{{ c.ultima }}</div>
-                  <span class="ms" style="font-size:18px;color:#cdcdc6">chevron_right</span>
+            <sc-if value="{{ cliEmpty }}" hint-placeholder-val="">
+              <div style="padding:32px;text-align:center;color:var(--faint);font-size:13px">No hay clientes aún. Aparecerán aquí cuando se registren reservas.</div>
+            </sc-if>
+            <sc-if value="{{ cliHasRows }}" hint-placeholder-val="x">
+              <div style="overflow-x:auto"><div style="min-width:780px">
+                <div class="mono" style="display:grid;grid-template-columns:1.8fr 80px 1fr 120px 110px 32px;align-items:center;gap:10px;padding:11px 18px;border-bottom:1.5px solid var(--border);background:var(--alt);font-size:10px;letter-spacing:.06em;color:var(--muted);font-weight:600;text-transform:uppercase">
+                  <span>Cliente</span><span>Sesiones</span><span>Estado</span><span>Total abonado</span><span>Última</span><span></span>
                 </div>
-              </sc-for>
-            </div></div>
-            <div style="padding:11px 18px;border-top:1px solid var(--divider)"><span class="mono" style="font-size:11px;color:var(--muted)">Mostrando {{ cliCount }} de 148 clientes</span></div>
+                <sc-for list="{{ cliRows }}" as="c" hint-placeholder-count="6">
+                  <div onClick="{{ c.onClick }}" style="display:grid;grid-template-columns:1.8fr 80px 1fr 120px 110px 32px;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--divider);cursor:pointer;font-size:12.5px" style-hover="background:var(--alt)">
+                    <div style="display:flex;align-items:center;gap:11px;min-width:0">
+                      <div style="{{ c.avatarStyle }}">{{ c.initials }}</div>
+                      <div style="min-width:0">
+                        <div style="font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.nombre }}</div>
+                        <div class="mono" style="font-size:10px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.email }}</div>
+                      </div>
+                    </div>
+                    <div class="disp" style="font-size:16px;font-weight:700;color:var(--text)">{{ c.numReservas }}</div>
+                    <div><span style="{{ c.estStyle }}">{{ c.estLabel }}</span></div>
+                    <div class="mono" style="font-size:12px;font-weight:600;color:var(--text)">{{ c.totalGastadoF }}</div>
+                    <div class="mono" style="font-size:11px;color:var(--muted)">{{ c.ultimaFecha }}</div>
+                    <span class="ms" style="font-size:18px;color:#cdcdc6">chevron_right</span>
+                  </div>
+                </sc-for>
+                <div style="padding:11px 18px;border-top:1px solid var(--divider)"><span class="mono" style="font-size:11px;color:var(--muted)">{{ cliCount }} clientes</span></div>
+              </div></div>
+            </sc-if>
           </div>
+
+          <!-- Drawer de cliente -->
+          <sc-if value="{{ cliDrawerOpen }}" hint-placeholder-val="">
+            <div onClick="{{ cliDrawerClose }}" style="position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;backdrop-filter:blur(2px)"></div>
+            <div style="position:fixed;top:0;right:0;bottom:0;width:420px;max-width:100vw;background:var(--surface);z-index:201;display:flex;flex-direction:column;box-shadow:-4px 0 32px rgba(0,0,0,.18);overflow:hidden">
+              <div style="padding:20px 20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+                <div>
+                  <div class="disp" style="font-size:18px;font-weight:700;color:var(--text)">{{ clienteDrawerData.nombre }}</div>
+                  <div class="mono" style="font-size:11px;color:var(--muted);margin-top:3px">{{ clienteDrawerData.email }}</div>
+                  <div class="mono" style="font-size:11px;color:var(--muted)">{{ clienteDrawerData.tel }}</div>
+                </div>
+                <button onClick="{{ cliDrawerClose }}" style="width:32px;height:32px;border:1px solid var(--border);border-radius:8px;background:var(--chip);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="font-size:18px;color:var(--muted)">close</span></button>
+              </div>
+              <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;gap:6px;align-items:center">
+                <span class="ms" style="font-size:17px;color:#F5841F">confirmation_number</span>
+                <span style="font-size:12.5px;font-weight:600;color:var(--text)">{{ clienteDrawerData.numReservas }} sesiones registradas</span>
+              </div>
+              <div style="flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:8px">
+                <sc-for list="{{ clienteDrawerData.reservas }}" as="r">
+                  <div onClick="{{ r.onClick }}" style="background:var(--alt);border:1px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer" style-hover="background:var(--chip)">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px">
+                      <span class="mono" style="font-size:11px;font-weight:600;color:var(--text)">{{ r.code }}</span>
+                      <span style="{{ r.estStyle }}">{{ r.estLabel }}</span>
+                    </div>
+                    <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.paquete }}</div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px">
+                      <div class="mono" style="font-size:10.5px;color:var(--muted)">{{ r.fecha }} · {{ r.hi }}–{{ r.hf }}</div>
+                      <div class="mono" style="font-size:11px;font-weight:600;color:var(--text)">{{ r.total }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
         </div>
       </sc-if>
 
@@ -1750,6 +1791,10 @@ class Component extends DCLogic {
     // certificados
     certData: null,
     certLoading: false,
+    // clientes
+    clientesData: null,
+    clientesLoading: false,
+    clienteDrawer: null,
     // calendario
     calView: 'semana',
     calAnchor: null,
@@ -1792,7 +1837,7 @@ class Component extends DCLogic {
     else if(fStr.match(/^\d{2}\/\d{2}\/\d{4}$/)){ const[d,m,y]=fStr.split('/'); fechaISO=`${y}-${m}-${d}`; }
     return { code:r.code, fecha:fechaDisplay, fechaISO, hoy:fechaISO===this.isoDate(new Date()),
       hi:(r.horaInicio||'').slice(0,5), hf:(r.horaFin||'').slice(0,5),
-      cliente:r.clienteNombre||'', segundo:r.giftFor||null, tel:r.clientePhone||'',
+      cliente:r.clienteNombre||'', email:r.clienteEmail||'', segundo:r.giftFor||null, tel:r.clientePhone||'',
       serv:r.servicio==='simulador'?'pxd':r.servicio==='hs_simulador'?'hs':(r.servicio||'pxd'), paquete:r.paquete||'', sim:r.simulador||'',
       instructor:r.instructorNombre||'', origen:'', estado:r.estado||'pendiente',
       pago:r.pago||'pendiente', regalo:r.bookFor==='regalo',
@@ -1813,6 +1858,14 @@ class Component extends DCLogic {
     }catch(e){ this.setState({calLoading:false}); }
   }
 
+  async fetchClientesData(){
+    this.setState({clientesLoading:true});
+    try{
+      const{data,error}=await supabaseClient.from('reservations').select('*').eq('servicio','simulador').order('fecha',{ascending:false});
+      if(!error&&data){ this.setState({clientesData:data.map(r=>this.mapRsvToSession(hsMapReservation(r))),clientesLoading:false}); }
+      else{ this.setState({clientesLoading:false}); }
+    }catch(e){ this.setState({clientesLoading:false}); }
+  }
   async fetchCertData(){
     this.setState({certLoading:true});
     try{
@@ -1853,6 +1906,7 @@ class Component extends DCLogic {
     if(route==='calendario') this.fetchCalSessions(this.state.calAnchor||new Date(), this.state.calView);
     if(route==='pxd') this.fetchPxdData();
     if(route==='certificados') this.fetchCertData();
+    if(route==='clientes') this.fetchClientesData();
   }
   reload(){
     this.setState({ loading: true });
@@ -2687,23 +2741,57 @@ class Component extends DCLogic {
     }
 
     // ---------- CLIENTES ----------
-    const cliRows = this.clientes.map(c=>{
-      const em=this.clienteEstadoMeta(c.estado);
-      const initials=c.nombre.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
-      return { ...c, initials,
+    const cliSource = this.state.clientesData || [];
+    // Agrupar por email (o teléfono si no hay email, o nombre)
+    const _cliMap = {};
+    const _thisMonth = this.isoDate(new Date()).slice(0,7);
+    cliSource.forEach(s=>{
+      const key = s.email || s.tel || s.cliente || 'anonimo';
+      if(!_cliMap[key]){ _cliMap[key]={nombre:s.cliente,email:s.email,tel:s.tel,reservas:[],totalGastado:0,primeraISO:s.fechaISO,ultimaISO:s.fechaISO,ultimaFecha:s.fecha}; }
+      const g=_cliMap[key];
+      g.reservas.push(s);
+      g.totalGastado+=(s.abono||0);
+      if(s.fechaISO && (!g.primeraISO||s.fechaISO<g.primeraISO)) g.primeraISO=s.fechaISO;
+      if(s.fechaISO && (!g.ultimaISO||s.fechaISO>g.ultimaISO)){ g.ultimaISO=s.fechaISO; g.ultimaFecha=s.fecha; }
+    });
+    const _cliList = Object.values(_cliMap);
+    const cliLoading = this.state.clientesLoading;
+    const cliEmpty = !cliLoading && _cliList.length===0;
+    const cliHasRows = _cliList.length>0;
+    const cliRows = _cliList.map(c=>{
+      const n=c.reservas.length;
+      const est = n>=3?'frecuente':n>=2?'recurrente':'nuevo';
+      const em=this.clienteEstadoMeta(est);
+      const initials=(c.nombre||'?').split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'?';
+      return { nombre:c.nombre||'—', email:c.email||'—', tel:c.tel||'—', initials,
         avatarStyle:`width:36px;height:36px;border-radius:9px;background:${em.bg};color:${em.c};display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:13px;flex-shrink:0`,
         estLabel:em.label, estStyle:`font-size:10.5px;font-weight:600;color:${em.c};background:${em.bg};padding:3px 10px;border-radius:20px;white-space:nowrap`,
-        gastadoF:this.cop(c.gastado),
-        tagChips:c.tags.map(t=>({label:t, style:'font-size:10px;font-weight:500;color:var(--muted);background:var(--chip);padding:2px 8px;border-radius:6px;white-space:nowrap'})),
-        onClick:()=>this.openProfile('cliente', c.id),
+        numReservas:n, totalGastadoF:this.cop(c.totalGastado), ultimaFecha:c.ultimaFecha||'—',
+        onClick:()=>this.setState({clienteDrawer:c}),
       };
     });
+    const _cliConGift = _cliList.filter(c=>c.reservas.some(s=>s.regalo)).length;
+    const _cliNuevos = _cliList.filter(c=>c.primeraISO&&c.primeraISO.startsWith(_thisMonth)).length;
+    const _completadas = cliSource.filter(s=>s.estado==='completada').length;
     const cliKpis=[
-      {label:'Clientes totales', value:'148', icon:'group', c:'#2c5070', bg:'#E9F0F6'},
-      {label:'Recurrentes', value:'52', icon:'repeat', c:'#227a45', bg:'#E6F4EC'},
-      {label:'Nuevos este mes', value:'19', icon:'person_add', c:'#b5630a', bg:'#FEF1E2'},
-      {label:'Ticket promedio', value:this.cop(312000), icon:'payments', c:'#5848c0', bg:'#EEEBFB'},
+      {label:'Clientes registrados', value:String(_cliList.length), icon:'group', c:'#2c5070', bg:'#E9F0F6'},
+      {label:'Con regalo recibido', value:String(_cliConGift), icon:'card_giftcard', c:'#C99A2E', bg:'#FBF0D5'},
+      {label:'Nuevos este mes', value:String(_cliNuevos), icon:'person_add', c:'#b5630a', bg:'#FEF1E2'},
+      {label:'Sesiones completadas', value:String(_completadas), icon:'task_alt', c:'#227a45', bg:'#E6F4EC'},
     ].map(k=>({...k, iconWrap:`width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:${k.c};background:${k.bg}`}));
+    // Drawer de cliente: reservas ordenadas para mostrar
+    const clienteDrawerData = (()=>{
+      const cd=this.state.clienteDrawer; if(!cd) return null;
+      const rows=cd.reservas.map(s=>{
+        const em2=this.estadoMeta(s.estado);
+        return {code:s.code, fecha:s.fecha, paquete:s.paquete, hi:s.hi, hf:s.hf,
+          estLabel:em2.label, estStyle:`font-size:10px;font-weight:600;color:${em2.c};background:${em2.bg};padding:2px 9px;border-radius:12px`,
+          total:this.cop(s.abono||s.total||0), onClick:()=>{this.setState({clienteDrawer:null});this.openDrawer(s.code);} };
+      });
+      return {nombre:cd.nombre||'—', email:cd.email||'—', tel:cd.tel||'—', numReservas:cd.reservas.length, reservas:rows};
+    })();
+    const cliDrawerOpen = !!this.state.clienteDrawer;
+    const cliDrawerClose = ()=>this.setState({clienteDrawer:null});
 
     // ---------- REGALOS ----------
     const regList = this.regalos.map(g=>{
@@ -3033,7 +3121,8 @@ class Component extends DCLogic {
       profileEdit:()=>this.toast('Editar ficha'),
       profileMsg:()=>this.toast('Enviar mensaje (simulado)'),
       // clientes
-      cliRows, cliKpis, cliCount:cliRows.length,
+      cliRows, cliKpis, cliCount:cliRows.length, cliLoading, cliEmpty, cliHasRows,
+      clienteDrawerData, cliDrawerOpen, cliDrawerClose,
       // regalos
       regList, regPipeline, regCount:regList.length,
       // pagos
