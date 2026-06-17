@@ -993,7 +993,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
         <div data-rev="y" style="background:linear-gradient(160deg,#0d1a30,#080f1e);border:1px solid rgba(245,197,66,.2);border-radius:16px;overflow:hidden">
           <sc-if value="{{ notBooked }}" hint-placeholder-val="{{ true }}">
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
-              <div style="padding:26px 24px;border-right:1px solid rgba(245,197,66,.10)">
+              <div style="padding:clamp(16px,5vw,26px) clamp(14px,4vw,24px);border-right:1px solid rgba(245,197,66,.10)">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
                   <button onClick="{{ prevMonth }}" style="{{ prevStyle }}">‹</button>
                   <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:21px;color:#fbfcff;letter-spacing:.02em">{{ calMonthLabel }}</div>
@@ -1012,7 +1012,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                 
               </div>
 
-              <div style="padding:28px 26px;display:flex;flex-direction:column;gap:16px">
+              <div style="padding:clamp(16px,5vw,28px) clamp(14px,4vw,26px);display:flex;flex-direction:column;gap:16px">
                                 <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(245,197,66,.4))"></span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.16em;color:#f5c542;text-transform:uppercase">¿Para quién es la experiencia?</span><span style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(245,197,66,.4))"></span></div>
 <div style="display:flex;flex-direction:row;gap:10px">
                   <button onClick="{{ chooseMe }}" style="{{ btnMeStyle }}">
@@ -1041,15 +1041,15 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                     <div style="position:relative">
                       <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>Nombre del afortunado</label>
                       <span style="position:absolute;left:13px;bottom:0;line-height:42px;font-size:14px;pointer-events:none">🎁</span>
-                      <input type="text" value="{{ bGiftName }}" onChange="{{ setGiftName }}" placeholder="Nombre de quien recibe el regalo" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:12px 13px 12px 40px;color:#fbfcff;font-size:13px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
+                      <input type="text" value="{{ bGiftName }}" onChange="{{ setGiftName }}" placeholder="Nombre de quien recibe el regalo" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:12px 13px 12px 40px;color:#fbfcff;font-size:16px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
                     </div>
                     <div style="margin-top:10px">
                       <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>Mensaje personalizado (opcional)</label>
-                      <textarea rows="3" value="{{ bGiftMsg }}" onChange="{{ setGiftMsg }}" placeholder="Escribe un mensaje especial para el afortunado..." style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:12px 13px;color:#fbfcff;font-size:13px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;resize:vertical;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)"></textarea>
+                      <textarea rows="3" value="{{ bGiftMsg }}" onChange="{{ setGiftMsg }}" placeholder="Escribe un mensaje especial para el afortunado..." style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:12px 13px;color:#fbfcff;font-size:16px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;resize:vertical;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)"></textarea>
                     </div>
                   </sc-if>
                   <div style="position:relative">
-                    <select onChange="{{ setGiftFor }}" style="width:100%;appearance:none;-webkit-appearance:none;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:11px 36px 11px 13px;color:#d8e0ea;font-size:13px;font-family:Inter,sans-serif;outline:none;cursor:pointer;transition:border-color .2s">
+                    <select onChange="{{ setGiftFor }}" style="width:100%;appearance:none;-webkit-appearance:none;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 36px 13px 13px;color:#d8e0ea;font-size:16px;font-family:Inter,sans-serif;outline:none;cursor:pointer;transition:border-color .2s">
                       <option value="" disabled selected style="background:#0d1a30;color:#4a5568">Selecciona una opción</option>
                       <option value="graduado" style="background:#0d1a30;color:#fbfcff">🎓 Próximo graduado — explorando si la aviación es su camino</option>
                       <option value="apasionado" style="background:#0d1a30;color:#fbfcff">✈️ Apasionado por la aviación — siempre soñó con los cielos</option>
@@ -1102,7 +1102,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                       </sc-if>
                     </div>
                     <sc-if value="{{ hasSlots }}" hint-placeholder-val="{{ false }}">
-                      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:5px">
+                      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px">
                         <sc-for list="{{ availSlots }}" as="sl" hint-placeholder-count="3">
                           <button onClick="{{ sl.onClick }}" style="{{ sl.slStyle }}">{{ sl.label }}</button>
                         </sc-for>
@@ -1114,28 +1114,28 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                   <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>{{ t.pkgs.booking.nombreCompleto }}</label>
                   <div style="position:relative">
                     <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">🧑‍✈️</span>
-                    <input type="text" value="{{ bName }}" onChange="{{ setName }}" placeholder="{{ t.pkgs.booking.nombrePlaceholder }}" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
+                    <input type="text" value="{{ bName }}" onChange="{{ setName }}" placeholder="{{ t.pkgs.booking.nombrePlaceholder }}" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:16px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
                   </div>
                 </div>
                 <div>
                   <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>{{ t.pkgs.booking.whatsappContacto }}</label>
                   <div style="position:relative">
                     <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">📱</span>
-                    <input type="tel" value="{{ bPhone }}" onChange="{{ setPhone }}" placeholder="+57 300 000 0000" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
+                    <input type="tel" value="{{ bPhone }}" onChange="{{ setPhone }}" placeholder="+57 300 000 0000" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:16px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
                   </div>
                 </div>
                 <div>
                   <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>Correo electrónico</label>
                   <div style="position:relative">
                     <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">✉️</span>
-                    <input type="email" value="{{ bEmail }}" onChange="{{ setEmail }}" placeholder="tu@correo.com" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
+                    <input type="email" value="{{ bEmail }}" onChange="{{ setEmail }}" placeholder="tu@correo.com" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:16px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
                   </div>
                 </div>
                 <div>
                   <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>Segundo participante <span style="color:#405060;font-weight:400;font-size:8px">(opcional)</span></label>
                   <div style="position:relative">
                     <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">👤</span>
-                    <input type="text" value="{{ bParticipant2 }}" onChange="{{ setParticipant2 }}" placeholder="Nombre del acompañante" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
+                    <input type="text" value="{{ bParticipant2 }}" onChange="{{ setParticipant2 }}" placeholder="Nombre del acompañante" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:16px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
                   </div>
                 </div>
                 <button onClick="{{ submitBooking }}" style="{{ submitStyle }}">{{ submitLabel }}</button>
@@ -1682,7 +1682,7 @@ class Component extends DCLogic {
       const isToday=dt.getTime()===today.getTime();
       cells.push({ key:'d'+d, empty:false, day:d, past, isSel, isToday,
         onClick: past?null:()=>this.selectDate(y,m,d),
-        style:{ aspectRatio:'1', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'7px',
+        style:{ aspectRatio:'1', minHeight:'40px', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'7px',
           fontFamily:"'JetBrains Mono',monospace", fontSize:'13px', fontWeight:isSel?700:500,
           cursor:past?'not-allowed':'pointer',
           color: isSel?'#160f05': past?'#394657':'#f2f5f9',
@@ -2139,10 +2139,11 @@ portalDownloadCert(r){
           onClick:sl.occupied?()=>{}:()=>this.setState({selSlot:sl}),
           slStyle:{
             cursor:sl.occupied?'not-allowed':'pointer',
-            padding:'9px 4px',
-            borderRadius:'7px',
+            padding:'13px 6px',
+            minHeight:'48px',
+            borderRadius:'9px',
             fontFamily:'JetBrains Mono,monospace',
-            fontSize:'11px',
+            fontSize:'13px',
             fontWeight:isSel?700:400,
             border:'1px solid '+(sl.occupied?'rgba(139,151,166,.08)':isSel?'#f5c542':'rgba(139,151,166,.22)'),
             background:sl.occupied?'rgba(255,255,255,.01)':isSel?'rgba(245,197,66,.11)':'transparent',
