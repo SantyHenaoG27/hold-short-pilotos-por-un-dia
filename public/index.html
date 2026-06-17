@@ -319,7 +319,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                 <sc-if value="{{ portalDetail.isFinalizada }}" hint-placeholder-val="{{ false }}">
                   <div style="font-family:Inter,sans-serif;font-size:12px;color:#93c5fd;line-height:1.5;margin-top:4px;margin-bottom:10px">¡Felicitaciones! Completaste tu experiencia en el King Air B200.</div>
                   <sc-if value="{{ portalDetail.hasCertificado }}" hint-placeholder-val="{{ false }}">
-                    <a href="{{ portalDetail.certificadoUrl }}" target="_blank" style="display:inline-flex;align-items:center;gap:7px;background:#60a5fa;color:#0f172a;text-decoration:none;padding:9px 16px;border-radius:7px;font-weight:700;font-size:13px;font-family:Inter,sans-serif">🎖 Descargar certificado</a>
+                    <button onClick="{{ portalDetail.dlCert }}" style="display:inline-flex;align-items:center;gap:7px;background:#60a5fa;color:#0f172a;border:none;cursor:pointer;padding:9px 16px;border-radius:7px;font-weight:700;font-size:13px;font-family:Inter,sans-serif">🎖 Descargar certificado</button>
                   </sc-if>
                 </sc-if>
                 <sc-if value="{{ portalDetail.s3Pending }}" hint-placeholder-val="{{ false }}">
@@ -1043,6 +1043,10 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                       <span style="position:absolute;left:13px;bottom:0;line-height:42px;font-size:14px;pointer-events:none">🎁</span>
                       <input type="text" value="{{ bGiftName }}" onChange="{{ setGiftName }}" placeholder="Nombre de quien recibe el regalo" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:12px 13px 12px 40px;color:#fbfcff;font-size:13px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
                     </div>
+                    <div style="margin-top:10px">
+                      <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>Mensaje personalizado (opcional)</label>
+                      <textarea rows="3" value="{{ bGiftMsg }}" onChange="{{ setGiftMsg }}" placeholder="Escribe un mensaje especial para el afortunado..." style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:12px 13px;color:#fbfcff;font-size:13px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;resize:vertical;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)"></textarea>
+                    </div>
                   </sc-if>
                   <div style="position:relative">
                     <select onChange="{{ setGiftFor }}" style="width:100%;appearance:none;-webkit-appearance:none;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:11px 36px 11px 13px;color:#d8e0ea;font-size:13px;font-family:Inter,sans-serif;outline:none;cursor:pointer;transition:border-color .2s">
@@ -1454,7 +1458,7 @@ function hsOpenPrint(body,label,code){
 }
 class Component extends DCLogic {
   state = { menu:false, openPhase:1, route:'express', openFaq:0, flip:{}, compass:0, cSel:'N', chatLines:[],
-            calY:0, calM:0, selDate:null, bName:'', bPhone:'', bEmail:'', bGiftFor:'', bGiftName:'', bPkg:'aventurero', booked:false, ticket:null, bookFor:null, bookLoading:false, bookError:null, selSlot:null, availSlots:[], slotsLoading:false, bParticipant2:'',
+            calY:0, calM:0, selDate:null, bName:'', bPhone:'', bEmail:'', bGiftFor:'', bGiftName:'', bGiftMsg:'', bPkg:'aventurero', booked:false, ticket:null, bookFor:null, bookLoading:false, bookError:null, selSlot:null, availSlots:[], slotsLoading:false, bParticipant2:'',
             lang:(typeof localStorage!=='undefined' && localStorage.getItem('hs_lang')==='en')?'en':'es',
             authOpen:false, authMode:'login', authEmail:'', authPassword:'', authName:'', authPhone:'', authError:'', authLoading:false, portalOpen:false, portalEmail:'', portalLoading:false, portalError:'', portalReservas:[], portalFound:false, portalSelectedId:null };
 
@@ -1715,8 +1719,8 @@ class Component extends DCLogic {
       estado: 'pendiente', pago: 'pendiente',
       total: totalMap[this.state.bPkg]||280000,
       book_for: this.state.bookFor||'me',
-      gift_for: this.state.bGiftFor||null,
-      notas: (this.state.bookFor==='regalo'&&this.state.bGiftName.trim())?'Regalo para: '+this.state.bGiftName.trim():null,
+      gift_for: (this.state.bookFor==='regalo'&&this.state.bGiftName.trim())?this.state.bGiftName.trim():(this.state.bGiftFor||null),
+      notas: (this.state.bookFor==='regalo'&&this.state.bGiftMsg.trim())?this.state.bGiftMsg.trim():null,
       hora_inicio: this.state.selSlot?this.state.selSlot.start:null,
       hora_fin: this.state.selSlot?this.state.selSlot.end:null,
       regalo_nombre: (this.state.bookFor==='regalo'&&this.state.bGiftName.trim())?this.state.bGiftName.trim():null,
@@ -1733,7 +1737,7 @@ class Component extends DCLogic {
     this.setState({ bookLoading:false, booked:true, ticket:{ name:this.state.bName.trim().toUpperCase(), phone:this.state.bPhone.trim(),
       pkgKey:p.key, selDate:{...this.state.selDate}, flight, seat, gate, email:this.state.bEmail.trim(), qrToken, timeSlot:this.state.selSlot?this.state.selSlot.start+' – '+this.state.selSlot.end:'', companion:this.state.bParticipant2.trim() } }); history.pushState({hsTicket:true},''); setTimeout(function(){var el=document.querySelector('[data-ticket-anchor]');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120);
   }
-  resetBooking(){ this.setState({booked:false, bookFor:null, bookError:null, selSlot:null, availSlots:[], bParticipant2:''}); setTimeout(function(){var el=document.getElementById('reservar');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120); }
+  resetBooking(){ this.setState({booked:false, bookFor:null, bookError:null, selSlot:null, availSlots:[], bParticipant2:'', bGiftMsg:''}); setTimeout(function(){var el=document.getElementById('reservar');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120); }
   openPortal(){ this.setState({portalOpen:true, portalEmail:'', portalError:'', portalReservas:[], portalFound:false}); }
   closePortal(){ this.setState({portalOpen:false}); }
   resetPortal(){ this.setState({portalEmail:'', portalError:'', portalReservas:[], portalFound:false, portalSelectedId:null}); }
@@ -1758,12 +1762,12 @@ class Component extends DCLogic {
     if(!s.portalSelectedId||!s.portalReservas.length) return {};
     var r=s.portalReservas.find(function(x){ return x.id===s.portalSelectedId; });
     if(!r) return {};
-    var d2=r.estado==='confirmada'||r.estado==='finalizada';
-    var d3=r.estado==='finalizada';
+    var d2=r.estado==='confirmada'||r.estado==='completada';
+    var d3=r.estado==='completada';
     return Object.assign({},r,{
       qrSrc:'https://api.qrserver.com/v1/create-qr-code/?size=120x120&data='+encodeURIComponent(window.location.origin+'/?reserva='+r.code),
       timeDisplay:(r.horaInicio&&r.horaFin)?r.horaInicio+' – '+r.horaFin:'',
-      hasCertificado:!!(r.certificadoUrl),
+      hasCertificado:!!(r.certificadoUrl)||r.estado==='completada',
       isConfirmada:d2,
       isFinalizada:d3,
       isPendiente:!d2&&!d3,
@@ -1781,6 +1785,7 @@ class Component extends DCLogic {
       s3Title:d3?'Vuelo completado':'Vuelo por realizar',
       dlTicket:this.portalDownloadTicket.bind(this,r),
       dlConfirm:this.portalDownloadConfirm.bind(this,r),
+      dlCert:this.portalDownloadCert.bind(this,r),
     });
   }
 portalDownloadTicket(r){
@@ -1839,19 +1844,174 @@ portalDownloadTicket(r){
 }
 
 portalDownloadConfirm(r){
-  var time=(r.horaInicio&&r.horaFin)?r.horaInicio+' – '+r.horaFin:'';
-  var timeRow=time?'<div class="row"><span class="lbl-sm">Hora</span><span class="val">'+time+'</span></div>':'';
-  var body=
-    '<div class="check-icon">&#x2713;</div>'+
-    '<div class="conf-title">RESERVA CONFIRMADA</div>'+
-    '<div class="row"><span class="lbl-sm">Codigo</span><span class="val">'+r.code+'</span></div>'+
-    '<div class="row"><span class="lbl-sm">Pasajero</span><span class="val">'+(r.clienteNombre||'')+'</span></div>'+
-    '<div class="row"><span class="lbl-sm">Paquete</span><span class="val">'+(r.paquete||'')+'</span></div>'+
-    '<div class="row"><span class="lbl-sm">Fecha</span><span class="val">'+(r.fecha||'')+'</span></div>'+
-    timeRow+
-    '<div class="status st-conf">CONFIRMADO &#x2713;</div>'+
-    '<div class="note">Presentate 15 min antes en Hangar 1903 con este documento.</div>';
-  hsOpenPrint(body,'CONFIRMACION',r.code);
+  var base=window.location.origin;
+  var isGift=r.bookFor==='regalo';
+  var recipient=(isGift&&r.giftFor)?r.giftFor:r.clienteNombre;
+  var giver=isGift?(r.clienteNombre||''):'';
+  var segundo=giver||'–';
+  var paquete=r.paquete||'–';
+  var fecha=r.fecha||'–';
+  var hora=r.horaInicio||'–';
+  var timeRange=(r.horaInicio&&r.horaFin)?(r.horaInicio+' – '+r.horaFin):hora;
+  var sim=r.simulador||'King Air B200';
+  var instructor=r.instructorNombre||'Cap. Mateo Ríos';
+  var msg=r.notas||'¡Que disfrutes esta experiencia única de aviación!';
+  var qr='https://api.qrserver.com/v1/create-qr-code/?size=140x140&data='+encodeURIComponent(base+'/?reserva='+r.code);
+  var FONTS='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">';
+  var CSS=':root{--surface:#ffffff;--muted:#9a9ea5}*{box-sizing:border-box;margin:0;padding:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}body{background:#E9E9E4;padding:24px;font-family:"Space Grotesk",sans-serif}.ms{font-family:"Material Symbols Outlined";font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;font-feature-settings:"liga";-webkit-font-smoothing:antialiased;font-variation-settings:"opsz" 24,"wght" 400;-webkit-user-select:none;user-select:none}.mono{font-family:"JetBrains Mono",monospace}.disp{font-family:"Space Grotesk",sans-serif}.hs-pbtn{display:block;margin:20px auto 0;background:#0C0D10;color:#F5841F;border:1px solid #F5841F;border-radius:8px;padding:11px 28px;font-weight:700;font-size:14px;cursor:pointer;font-family:"Space Grotesk",sans-serif;letter-spacing:.04em}@page{size:A4 landscape;margin:8mm}@media print{.hs-pbtn{display:none!important}body{padding:0;margin:0}}';
+  var invHtml=isGift ? `
+<div style="width:880px;max-width:100%;margin:0 auto 20px;background:#F3EFE7;border-radius:8px;overflow:hidden;box-shadow:0 16px 44px rgba(0,0,0,.28);font-family:'Space Grotesk',sans-serif">
+  <div style="background:#0C0D10;display:flex;align-items:center;justify-content:space-between;padding:12px 22px;border-bottom:3px solid #F5841F">
+    <span class="mono" style="font-size:11px;letter-spacing:.18em;color:#F5841F;font-weight:600">PILOTO POR UN DÍA · INVITACIÓN</span>
+    <img src="${base}/assets/logo.png" alt="Hold Short" style="height:26px">
+  </div>
+  <div style="display:flex;align-items:stretch">
+    <div style="width:188px;flex-shrink:0;position:relative;display:flex;align-items:flex-end;padding:14px;overflow:hidden;background:linear-gradient(160deg,#e8e2d4,#cbc3b2)">
+      <img src="${base}/assets/avion.png" alt="Biplano" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:sepia(.4) contrast(1.03);mix-blend-mode:multiply">
+      <span class="mono" style="position:relative;font-size:9px;letter-spacing:.05em;color:#3a342a;background:rgba(255,255,255,.72);padding:3px 7px;border-radius:5px">EST. 1903 · WRIGHT FLYER</span>
+    </div>
+    <div style="flex:1;padding:26px 26px 18px;text-align:center;min-width:0">
+      <div class="mono" style="font-size:12px;letter-spacing:.28em;color:#7a7264;font-weight:600">APRECIADO CAPITÁN</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 0 4px"><span style="height:1px;width:50px;background:#d6cdbd"></span><span class="ms" style="font-size:16px;color:#F5841F">flight</span><span class="ms" style="font-size:13px;color:#F5841F">star</span><span style="height:1px;width:50px;background:#d6cdbd"></span></div>
+      <div class="disp" style="font-size:36px;font-weight:700;color:#15171b;letter-spacing:-.01em;line-height:1.05">${recipient}</div>
+      <p style="font-family:Inter,sans-serif;font-size:12.5px;color:#3a3530;font-weight:600;line-height:1.5;margin:16px auto 10px;max-width:440px">Hoy recibes mucho más que un regalo: recibes un llamado a despegar hacia uno de los mejores días de tu vida.</p>
+      <p style="font-family:Inter,sans-serif;font-size:11.5px;color:#6b645a;line-height:1.55;margin:0 auto;max-width:440px">De parte de <strong style="color:#b5630a">${giver}</strong>, has sido invitado a vivir la experiencia &#39;Piloto por un Día&#39;: una jornada teórico-práctica para sentir la emoción de volar y crear un recuerdo inolvidable.</p>
+    </div>
+    <div style="width:160px;flex-shrink:0;padding:22px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px dashed #cdc4b4">
+      <span class="mono" style="font-size:8.5px;letter-spacing:.08em;color:#7a7264;text-align:center;font-weight:600;margin-bottom:9px">ESCANEA PARA VER<br>DETALLES DE TU RESERVA</span>
+      <img src="${qr}" width="108" height="108" style="border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.12)">
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#ddd4c4;margin:0 22px;border-radius:9px;overflow:hidden;border:1px solid #ddd4c4">
+    <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">event</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">FECHA PROGRAMADA</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">${fecha}</div></div>
+    <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">schedule</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">HORA</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">${hora}</div></div>
+    <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">location_on</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">UBICACIÓN</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">Pereira · SKPE</div></div>
+    <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">confirmation_number</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">RESERVA</div><div class="mono" style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">${r.code}</div></div>
+  </div>
+  <div style="margin:13px 22px 0;border:1px solid #ddd4c4;border-radius:9px;padding:10px 14px;display:flex;gap:10px;align-items:center">
+    <span class="ms" style="font-size:18px;color:#b5630a">mail</span>
+    <div><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f">MENSAJE PERSONALIZADO</div><div style="font-family:Inter,sans-serif;font-size:11.5px;color:#3a3530;font-style:italic;margin-top:2px">&#x201C;${msg}&#x201D;</div></div>
+  </div>
+  <div style="background:#0C0D10;margin-top:16px;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+    <span class="mono" style="font-size:10px;color:#9a9ea5;display:flex;align-items:center;gap:6px"><span class="ms" style="font-size:14px;color:#F5841F">photo_camera</span>@HOLDSHORTPEI · 316 724 91 39</span>
+    <span class="disp" style="font-size:13px;font-weight:700;color:#fff;letter-spacing:.02em">TU EXPERIENCIA TE ESPERA · <span style="color:#F5841F;font-style:italic">CLEARED FOR TAKEOFF</span></span>
+  </div>
+</div>` : '';
+  var confHtml=`
+<div style="width:880px;max-width:100%;margin:0 auto;background:#0C0D10;border-radius:12px;overflow:hidden;box-shadow:0 16px 44px rgba(0,0,0,.34);font-family:'Space Grotesk',sans-serif;border:1px solid #26282d">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid #1d1f24">
+    <div><div class="mono" style="font-size:10px;letter-spacing:.2em;color:#F5841F;font-weight:600">RESERVA CONFIRMADA</div><div class="disp" style="font-size:13px;color:#9a9ea5;margin-top:2px">HOLD SHORT · BOARDING PASS</div></div>
+    <img src="${base}/assets/logo.png" alt="Hold Short" style="height:26px">
+  </div>
+  <div style="position:relative;height:76px;overflow:hidden">
+    <img src="${base}/assets/avion.png" alt="" aria-hidden="true" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);min-width:100%;min-height:100%;object-fit:cover;object-position:center 38%;filter:sepia(.6) brightness(.38) contrast(1.18);pointer-events:none">
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,#0C0D10 0%,transparent 18%,transparent 82%,#0C0D10 100%)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,13,16,.9) 0%,transparent 30%,rgba(12,13,16,.5) 100%)"></div>
+    <div style="position:absolute;left:50%;bottom:10px;transform:translateX(-50%);white-space:nowrap">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.26em;color:rgba(245,132,31,.5)">EST. 1903 · WRIGHT FLYER · HOLD SHORT AVIATION</span>
+    </div>
+  </div>
+  <div style="display:flex;align-items:stretch">
+    <div style="flex:1;padding:22px 24px;min-width:0">
+      <div class="disp" style="font-size:13px;color:#c9cdd3;font-weight:500">Capitán</div>
+      <div class="disp" style="font-size:32px;font-weight:700;color:#fff;letter-spacing:-.01em;margin:2px 0 3px">${recipient}</div>
+      <div style="font-family:Inter,sans-serif;font-size:11px;color:#9a9ea5">Todo está listo para tu experiencia · 2º participante: ${segundo}</div>
+      <p style="font-family:Inter,sans-serif;font-size:11.5px;color:#a9adb4;line-height:1.5;margin:14px 0 18px;max-width:440px">Tu lugar a bordo ha sido reservado. Muy pronto tomarás los controles, descubrirás los fundamentos del vuelo y vivirás una experiencia diseñada para acercarte al mundo de la aviación.</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+        <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">PAQUETE</div><div style="font-size:12.5px;font-weight:600;color:#fff;margin-top:3px">${paquete}</div></div>
+        <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">FECHA</div><div style="font-size:12.5px;font-weight:600;color:#fff;margin-top:3px">${fecha}</div></div>
+        <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">HORA</div><div style="font-size:12.5px;font-weight:600;color:#fff;margin-top:3px">${timeRange}</div></div>
+        <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">DURACIÓN</div><div style="font-size:12.5px;font-weight:600;color:#fff;margin-top:3px">2h aprox.</div></div>
+        <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">SIMULADOR</div><div style="font-size:12.5px;font-weight:600;color:#fff;margin-top:3px">${sim}</div></div>
+        <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">INSTRUCTOR</div><div style="font-size:12.5px;font-weight:600;color:#fff;margin-top:3px">${instructor}</div></div>
+        <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">UBICACIÓN</div><div style="font-size:12.5px;font-weight:600;color:#fff;margin-top:3px">Pereira · SKPE</div></div>
+        <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">RESERVA</div><div class="mono" style="font-size:12.5px;font-weight:700;color:#F5841F;margin-top:3px">${r.code}</div></div>
+      </div>
+      <div style="margin-top:18px;border-top:1px solid #1d1f24;padding-top:13px;display:flex;gap:18px;flex-wrap:wrap">
+        <span class="mono" style="font-size:9.5px;color:#9a9ea5;display:flex;align-items:center;gap:5px"><span class="ms" style="font-size:13px;color:#F5841F">check</span>Llega 15 min antes</span>
+        <span class="mono" style="font-size:9.5px;color:#9a9ea5;display:flex;align-items:center;gap:5px"><span class="ms" style="font-size:13px;color:#F5841F">check</span>Ropa cómoda</span>
+        <span class="mono" style="font-size:9.5px;color:#9a9ea5;display:flex;align-items:center;gap:5px"><span class="ms" style="font-size:13px;color:#F5841F">check</span>Documento de identidad</span>
+      </div>
+    </div>
+    <div style="width:200px;flex-shrink:0;border-left:2px dashed #2a2c31;background:#0a0b0d;padding:20px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+      <img src="${qr}" width="104" height="104" style="border-radius:9px">
+      <span class="mono" style="font-size:9px;color:#62666d;margin-top:9px">${r.code} · SKPE</span>
+      <div style="display:flex;gap:1.5px;margin-top:12px;height:34px;align-items:stretch">
+        <span style="width:2px;background:#fff"></span><span style="width:1px;background:#fff"></span><span style="width:3px;background:#fff"></span><span style="width:1px;background:#fff"></span><span style="width:2px;background:#fff"></span><span style="width:4px;background:#fff"></span><span style="width:1px;background:#fff"></span><span style="width:2px;background:#fff"></span><span style="width:3px;background:#fff"></span><span style="width:1px;background:#fff"></span><span style="width:2px;background:#fff"></span><span style="width:1px;background:#fff"></span><span style="width:3px;background:#fff"></span>
+      </div>
+    </div>
+  </div>
+  <div style="background:#F5841F;padding:11px 24px;text-align:center"><span class="disp" style="font-size:14px;font-weight:700;color:#15171b;letter-spacing:.02em">NOS VEMOS EN CABINA · <span style="font-style:italic">CLEARED FOR TAKEOFF</span></span></div>
+</div>`;
+  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Confirmación '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+invHtml+confHtml+'<div style="text-align:center"><button id="hs-p" class="hs-pbtn" onclick="window.print()" disabled style="opacity:.5;cursor:wait">Cargando…</button></div>\x3Cscript>(function(){var b=document.getElementById("hs-p"),imgs=Array.from(document.images).filter(function(i){return !i.complete;}),n=imgs.length,d=0;function ok(){document.fonts.ready.then(function(){b.textContent="Imprimir / Guardar PDF";b.style.opacity="";b.style.cursor="";b.removeAttribute("disabled");});}if(!n){ok();}else{imgs.forEach(function(i){function cb(){if(++d>=n)ok();}i.addEventListener("load",cb);i.addEventListener("error",cb);});}})()\x3C/script></body></html>';
+  var w=window.open('','_blank','width=960,height=860');
+  if(!w){alert('Activa ventanas emergentes para descargar.');return;}
+  w.document.write(full);
+  w.document.close();
+}
+portalDownloadCert(r){
+  var base=window.location.origin;
+  var recipient=(r.bookFor==='regalo'&&r.giftFor)?r.giftFor:r.clienteNombre;
+  var paquete=r.paquete||'–';
+  var fecha=r.fecha||'–';
+  var instructor=r.instructorNombre||'Cap. Mateo Ríos';
+  var certNo='HS-'+r.code;
+  var FONTS='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">';
+  var CSS=':root{--surface:#ffffff;--muted:#9a9ea5}*{box-sizing:border-box;margin:0;padding:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}body{background:#E9E9E4;padding:24px;font-family:"Space Grotesk",sans-serif}.ms{font-family:"Material Symbols Outlined";font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;font-feature-settings:"liga";-webkit-font-smoothing:antialiased;font-variation-settings:"opsz" 24,"wght" 400;-webkit-user-select:none;user-select:none}.mono{font-family:"JetBrains Mono",monospace}.disp{font-family:"Space Grotesk",sans-serif}.hs-pbtn{display:block;margin:20px auto 0;background:#0C0D10;color:#F5841F;border:1px solid #F5841F;border-radius:8px;padding:11px 28px;font-weight:700;font-size:14px;cursor:pointer;font-family:"Space Grotesk",sans-serif;letter-spacing:.04em}@page{size:A4 landscape;margin:8mm}@media print{.hs-pbtn{display:none!important}body{padding:0;margin:0}}';
+  var certHtml=`
+<div style="width:880px;max-width:100%;margin:0 auto;background:#F3EFE7;box-shadow:0 16px 44px rgba(0,0,0,.3);font-family:'Space Grotesk',sans-serif;position:relative;padding:7px">
+  <div style="border:2px solid #0C0D10;position:relative;padding:0">
+    <div style="position:absolute;inset:5px;border:1px solid #C99A2E;pointer-events:none"></div>
+    <div style="background:#0C0D10;padding:13px 26px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #F5841F">
+      <img src="${base}/assets/logo.png" alt="Hold Short" style="height:26px">
+      <span class="mono" style="font-size:10px;letter-spacing:.2em;color:#F5841F;font-weight:600">CERTIFICADO DE PARTICIPACIÓN</span>
+    </div>
+    <img src="${base}/assets/avion.png" alt="" style="position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);width:430px;max-width:78%;opacity:.07;filter:grayscale(1);pointer-events:none;mix-blend-mode:multiply">
+    <div style="padding:24px 44px 26px;text-align:center;position:relative">
+      <div style="display:flex;justify-content:center;margin-bottom:10px">
+        <div style="position:relative;width:230px;height:115px;display:flex;align-items:center;justify-content:center">
+          <span style="position:absolute;left:0;top:50%;height:1px;width:46px;background:linear-gradient(90deg,transparent,#C99A2E)"></span>
+          <img src="${base}/assets/avion.png" alt="Biplano Wright" style="height:104px;width:auto;filter:sepia(.55) contrast(1.05) brightness(1.02);mix-blend-mode:multiply">
+          <span style="position:absolute;right:0;top:50%;height:1px;width:46px;background:linear-gradient(90deg,#C99A2E,transparent)"></span>
+        </div>
+      </div>
+      <div class="mono" style="font-size:11px;letter-spacing:.3em;color:#7a7264;font-weight:600;margin-bottom:18px">HOLD SHORT AVIATION · PEREIRA</div>
+      <div style="font-family:Inter,sans-serif;font-size:12px;color:#6b645a;letter-spacing:.04em;position:relative">Se otorga el presente certificado a</div>
+      <div class="disp" style="font-size:40px;font-weight:700;color:#15171b;letter-spacing:-.01em;margin:8px 0 6px;line-height:1.05">${recipient}</div>
+      <div style="width:240px;height:1px;background:#cdc4b4;margin:0 auto 18px"></div>
+      <p style="font-family:Inter,sans-serif;font-size:13px;color:#3a3530;line-height:1.6;max-width:560px;margin:0 auto 6px">Por haber completado satisfactoriamente la experiencia <strong>Piloto por un Día</strong> en el paquete <strong style="color:#b5630a">${paquete}</strong>, demostrando entrega, disciplina y pasión por la aviación a bordo de nuestro simulador.</p>
+    </div>
+    <div style="display:flex;align-items:stretch;justify-content:center;gap:0;margin:0 44px;border-top:1px solid #ddd4c4;border-bottom:1px solid #ddd4c4">
+      <div style="flex:1;text-align:center;padding:12px 8px;border-right:1px solid #ddd4c4"><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#9a917f">FECHA</div><div style="font-size:12.5px;font-weight:700;color:#15171b;margin-top:3px">${fecha}</div></div>
+      <div style="flex:1;text-align:center;padding:12px 8px;border-right:1px solid #ddd4c4"><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#9a917f">SIMULADOR</div><div style="font-size:12.5px;font-weight:700;color:#15171b;margin-top:3px">King Air B200</div></div>
+      <div style="flex:1;text-align:center;padding:12px 8px"><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#9a917f">CERTIFICADO N.º</div><div class="mono" style="font-size:11.5px;font-weight:700;color:#b5630a;margin-top:3px">${certNo}</div></div>
+    </div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:26px 44px 24px">
+      <div style="flex:1;text-align:center">
+        <div class="disp" style="font-size:17px;color:#15171b;font-style:italic;border-bottom:1px solid #15171b;padding-bottom:6px;margin-bottom:6px">${instructor}</div>
+        <div class="mono" style="font-size:9px;letter-spacing:.08em;color:#7a7264">PILOTO INSTRUCTOR</div>
+      </div>
+      <div style="width:78px;height:78px;flex-shrink:0;border-radius:50%;border:2px solid #F5841F;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#ffffff;box-shadow:0 2px 8px rgba(0,0,0,.1)">
+        <span class="ms" style="font-size:26px;color:#F5841F">verified</span>
+        <span class="mono" style="font-size:6.5px;letter-spacing:.1em;color:#7a7264;margin-top:1px">HOLD SHORT</span>
+        <span class="mono" style="font-size:6.5px;letter-spacing:.1em;color:#7a7264">SKPE</span>
+      </div>
+      <div style="flex:1;text-align:center">
+        <div class="disp" style="font-size:17px;color:#15171b;font-style:italic;border-bottom:1px solid #15171b;padding-bottom:6px;margin-bottom:6px">Cap. Mateo Ríos</div>
+        <div class="mono" style="font-size:9px;letter-spacing:.08em;color:#7a7264">JEFE DE OPERACIONES</div>
+      </div>
+    </div>
+    <div style="background:#0C0D10;padding:10px 26px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <span class="mono" style="font-size:9.5px;color:#9a9ea5">@HOLDSHORTPEI · 316 724 91 39 · Pereira</span>
+      <span class="disp" style="font-size:11px;font-weight:700;color:#F5841F;font-style:italic;letter-spacing:.02em">CLEARED FOR TAKEOFF</span>
+    </div>
+  </div>
+</div>`;
+  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Certificado '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+certHtml+'<div style="text-align:center"><button id="hs-p" class="hs-pbtn" onclick="window.print()" disabled style="opacity:.5;cursor:wait">Cargando…</button></div>\x3Cscript>(function(){var b=document.getElementById("hs-p"),imgs=Array.from(document.images).filter(function(i){return !i.complete;}),n=imgs.length,d=0;function ok(){document.fonts.ready.then(function(){b.textContent="Imprimir / Guardar PDF";b.style.opacity="";b.style.cursor="";b.removeAttribute("disabled");});}if(!n){ok();}else{imgs.forEach(function(i){function cb(){if(++d>=n)ok();}i.addEventListener("load",cb);i.addEventListener("error",cb);});}})()\x3C/script></body></html>';
+  var w=window.open('','_blank','width=960,height=900');
+  if(!w){alert('Activa ventanas emergentes para descargar.');return;}
+  w.document.write(full);
+  w.document.close();
 }
   async downloadTicket(){
     const el=document.querySelector('[data-ticket-card]');
@@ -1949,6 +2109,8 @@ portalDownloadConfirm(r){
       setGiftFor:(e)=>this.setState({bGiftFor:e.target.value}),
       bGiftName:s.bGiftName||'',
       setGiftName:(e)=>this.setState({bGiftName:e.target.value}),
+      bGiftMsg:s.bGiftMsg||'',
+      setGiftMsg:(e)=>this.setState({bGiftMsg:e.target.value}),
       showGiftName:s.bookFor==='regalo',
       enfoqueDesc:s.bookFor==='regalo'?'¿Cómo describirías a la persona que recibe este regalo?':'¿Cómo te describirías a ti? Así personalizamos tu vuelo.',
       hasDate:!!s.selDate,
@@ -2059,9 +2221,9 @@ portalDownloadConfirm(r){
           return {
             id:r.id, code:r.code, paquete:r.paquete, fecha:r.fecha,
             timeDisplay:(r.horaInicio&&r.horaFin)?r.horaInicio+' – '+r.horaFin:'',
-            statusText:r.estado==='confirmada'?'Confirmada':r.estado==='finalizada'?'Completada':'Pendiente',
-            dotStyle:'width:8px;height:8px;border-radius:50%;flex-shrink:0;background:'+(r.estado==='confirmada'?'#4ade80':r.estado==='finalizada'?'#60a5fa':'#f5c542'),
-            statusStyle:'font-size:11px;font-weight:600;font-family:Inter,sans-serif;color:'+(r.estado==='confirmada'?'#4ade80':r.estado==='finalizada'?'#60a5fa':'#f5c542'),
+            statusText:r.estado==='confirmada'?'Confirmada':r.estado==='completada'?'Completada':'Pendiente',
+            dotStyle:'width:8px;height:8px;border-radius:50%;flex-shrink:0;background:'+(r.estado==='confirmada'?'#4ade80':r.estado==='completada'?'#60a5fa':'#f5c542'),
+            statusStyle:'font-size:11px;font-weight:600;font-family:Inter,sans-serif;color:'+(r.estado==='confirmada'?'#4ade80':r.estado==='completada'?'#60a5fa':'#f5c542'),
             selectThis:function(){ self.setState({portalSelectedId:r.id}); },
           };
         });
