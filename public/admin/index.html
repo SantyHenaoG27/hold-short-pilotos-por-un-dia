@@ -1461,7 +1461,7 @@
 
               <!-- ===== INVITACIÓN DE REGALO ===== -->
               <sc-if value="{{ doc.isInv }}" hint-placeholder-val="x">
-                <div style="width:880px;max-width:100%;margin:0 auto;background:#F3EFE7;border-radius:8px;overflow:hidden;box-shadow:0 16px 44px rgba(0,0,0,.28);font-family:'Space Grotesk'">
+                <div id="hs-inv" style="width:880px;max-width:100%;margin:0 auto;background:#F3EFE7;border-radius:8px;overflow:hidden;box-shadow:0 16px 44px rgba(0,0,0,.28);font-family:'Space Grotesk'">
                   <!-- header -->
                   <div style="background:#0C0D10;display:flex;align-items:center;justify-content:space-between;padding:12px 22px;border-bottom:3px solid #F5841F">
                     <span class="mono" style="font-size:11px;letter-spacing:.18em;color:#F5841F;font-weight:600">PILOTO POR UN DÍA · INVITACIÓN</span>
@@ -1494,9 +1494,10 @@
                     </div>
                   </div>
                   <!-- info chips -->
-                  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#ddd4c4;margin:0 22px;border-radius:9px;overflow:hidden;border:1px solid #ddd4c4">
+                  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#ddd4c4;margin:0 22px;border-radius:9px;overflow:hidden;border:1px solid #ddd4c4">
                     <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">event</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">FECHA PROGRAMADA</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">{{ doc.fecha }}</div></div>
                     <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">schedule</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">HORA</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">{{ doc.hora }}</div></div>
+                    <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">group</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">ACOMPAÑANTE</div><div style="font-size:11px;font-weight:700;color:#15171b;margin-top:2px">{{ doc.acompanante }}</div></div>
                     <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">location_on</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">UBICACIÓN</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">Pereira · SKPE</div></div>
                     <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">confirmation_number</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">RESERVA</div><div class="mono" style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">{{ doc.code }}</div></div>
                   </div>
@@ -1515,7 +1516,7 @@
 
               <!-- ===== CONFIRMACIÓN (BOARDING PASS) ===== -->
               <sc-if value="{{ doc.isConf }}" hint-placeholder-val="">
-                <div style="width:880px;max-width:100%;margin:0 auto;background:#0C0D10;border-radius:12px;overflow:hidden;box-shadow:0 16px 44px rgba(0,0,0,.34);font-family:'Space Grotesk';border:1px solid #26282d">
+                <div id="hs-conf" style="width:880px;max-width:100%;margin:0 auto;background:#0C0D10;border-radius:12px;overflow:hidden;box-shadow:0 16px 44px rgba(0,0,0,.34);font-family:'Space Grotesk';border:1px solid #26282d">
                   <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid #1d1f24">
                     <div><div class="mono" style="font-size:10px;letter-spacing:.2em;color:#F5841F;font-weight:600">RESERVA CONFIRMADA</div><div class="disp" style="font-size:13px;color:var(--muted);margin-top:2px">HOLD SHORT · BOARDING PASS</div></div>
                     <img src="assets/logo.png" alt="Hold Short" style="height:26px">
@@ -1563,7 +1564,7 @@
 
               <!-- ===== CERTIFICADO DE PARTICIPACIÓN ===== -->
               <sc-if value="{{ doc.isCert }}" hint-placeholder-val="">
-                <div style="width:880px;max-width:100%;margin:0 auto;background:#F3EFE7;box-shadow:0 16px 44px rgba(0,0,0,.3);font-family:'Space Grotesk';position:relative;padding:7px">
+                <div id="hs-cert" style="width:880px;max-width:100%;margin:0 auto;background:#F3EFE7;box-shadow:0 16px 44px rgba(0,0,0,.3);font-family:'Space Grotesk';position:relative;padding:7px">
                   <!-- ornamental frame -->
                   <div style="border:2px solid #0C0D10;position:relative;padding:0">
                     <div style="position:absolute;inset:5px;border:1px solid #C99A2E;pointer-events:none"></div>
@@ -1772,6 +1773,7 @@ class Component extends DCLogic {
       serv:r.servicio==='simulador'?'pxd':r.servicio==='hs_simulador'?'hs':(r.servicio||'pxd'), paquete:r.paquete||'', sim:r.simulador||'',
       instructor:r.instructorNombre||'', origen:'', estado:r.estado||'pendiente',
       pago:r.pago||'pendiente', regalo:r.bookFor==='regalo',
+      participante2:r.participante2Nombre||null, notas:r.notas||'',
       total:r.total||0, abono:r.abono||0,
       creada:r.createdAt?(r.createdAt.slice(0,10).split('-').reverse().join('/')):'', };
   }
@@ -1832,6 +1834,34 @@ class Component extends DCLogic {
   closeDrawer(){ this.setState({ drawer: null }); }
   openForm(tipo){ const t=tipo||'pxd'; const paq=(this.paquetes[t]||[])[0]||{}; this.setState({ modal:{type:'form'}, formStep:1, formTipo:t, formModalidad:'personal', formPago:'pendiente', formFecha:'', formHoraInicio:'', formPaqueteIdx:0, formSim:'King Air B200', formInstructor:this.instList[0]||'', formOrigen:'Registro manual', formNombre:'', formPhone:'', formEmail:'', formSegundo:'', formGiftNombre:'', formGiftPhone:'', formGiftDest:'', formGiftDestPhone:'', formGiftMsg:'', formTotal:String(paq.price||''), formAbono:'0', formMetodo:'Transferencia', formRef:'', formFechaPago:'', formSubmitting:false }); }
   openDoc(kind, code){ this.setState({ modal: { type:'doc', kind, code } }); }
+  printDoc(){
+    const kind = this.state.modal?.kind;
+    const elId = kind==='invitacion'?'hs-inv':kind==='confirmacion'?'hs-conf':'hs-cert';
+    const el = document.getElementById(elId);
+    if(!el){ this.toast('El documento aún no está visible'); return; }
+    const clone = el.cloneNode(true);
+    clone.style.width='100%'; clone.style.maxWidth='100%'; clone.style.borderRadius='0';
+    const pw = window.open('','_blank');
+    if(!pw){ this.toast('Permite ventanas emergentes para descargar el PDF'); return; }
+    pw.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
+<style>
+@page{size:A4 landscape;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:297mm;height:210mm;display:flex;align-items:center;justify-content:center;background:#E9E9E4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#pw{width:277mm}
+#pw>*{width:100%!important;max-width:100%!important}
+.ms{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;font-feature-settings:'liga';-webkit-font-smoothing:antialiased;font-variation-settings:'opsz' 24,'wght' 400}
+.mono{font-family:'JetBrains Mono',monospace}
+.disp{font-family:'Space Grotesk',sans-serif}
+</style></head><body><div id="pw">${clone.outerHTML}</div>
+<script>document.fonts.ready.then(function(){setTimeout(function(){window.print()},600)})</script>
+</body></html>`);
+    pw.document.close();
+  }
   addMinutes(hhmm,mins){ const[h,m]=(hhmm||'00:00').split(':').map(Number); const t=h*60+m+mins; return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'); }
   durToMins(dur){ const r=dur.match(/(\d+)h\s*(\d+)m/); if(r) return +r[1]*60+ +r[2]; const h=dur.match(/(\d+)h/); return h?+h[1]*60:60; }
   async submitForm(){
@@ -2594,14 +2624,20 @@ class Component extends DCLogic {
       const isCert = m.kind==='certificado';
       const cert = isCert ? this.certificados.find(c=>c.id===m.code) : null;
       const s = this.getSession(m.code) || this.sessions[0];
+      const _isGift = s.regalo;
+      const _recipient = s.segundo || s.cliente;
+      const _acompanante = s.participante2 || s.cliente;
       doc = {
         kind:m.kind, isInv: m.kind==='invitacion', isConf: m.kind==='confirmacion', isCert,
-        nombre: cert ? cert.participante : s.cliente, segundo:s.segundo||'—', deParteDe:'Carlos Ospina',
+        nombre: cert ? cert.participante : (_isGift ? _recipient : s.cliente),
+        deParteDe: s.cliente,
+        acompanante: _acompanante,
+        segundo: s.participante2 || '—',
         fecha: cert ? cert.fecha : s.fecha, hora:s.hi, dur:this.duracion(s.hi,s.hf),
         paquete: cert ? cert.paquete : s.paquete, sim:s.sim,
         instructor: cert ? cert.instructor : s.instructor, code: cert ? cert.id : s.code,
         certNo: cert ? cert.id.replace('CERT-','HS-PXD-2026-') : 'HS-PXD-2026-2261',
-        mensaje:'¡Feliz cumpleaños! Sé que siempre soñaste con volar. Hoy te toca.',
+        mensaje: s.notas || '¡Feliz cumpleaños! Sé que siempre soñaste con volar. Hoy te toca.',
       };
     }
 
@@ -2997,9 +3033,9 @@ class Component extends DCLogic {
       modalIsForm, modalIsDoc, modalIsConfirm, form, doc, confirm,
       docHeadIcon: doc ? (doc.isInv?'redeem':doc.isCert?'workspace_premium':'confirmation_number') : 'description',
       docHeadTitle: doc ? (doc.isInv?'Invitación de regalo · Piloto por un Día':doc.isCert?'Certificado de participación':'Confirmación de reserva') : 'Documento',
-      docPrint:()=>this.toast('Vista de impresión (simulada)'),
+      docPrint:()=>this.printDoc(),
       docWa:()=>this.toast('Envío por WhatsApp (simulado)'),
-      docDownload:()=>this.toast('Descarga del documento (simulada)'),
+      docDownload:()=>this.printDoc(),
       docEdit:()=>this.toast('Editar mensaje del documento'),
       docSchedule:()=>this.toast('Programar entrega del documento'),
       closeModal:()=>this.closeModal(),

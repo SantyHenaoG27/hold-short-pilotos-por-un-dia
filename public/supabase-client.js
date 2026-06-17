@@ -52,6 +52,7 @@ function hsMapReservation(r) {
     saldoPendiente: (r.total || 0) - (r.abono || 0),
     bookFor: r.book_for,
     giftFor: r.gift_for,
+    participante2Nombre: r.participante_2_nombre,
     qrToken: r.qr_token,
     asistenciaConfirmada: r.asistencia_confirmada,
     asistenciaAt: r.asistencia_at,
