@@ -2031,7 +2031,7 @@ class Component extends DCLogic {
       {icon:'workspace_premium',title:'Certificados',desc:'Generación al completar la experiencia.'},
       {icon:'photo_camera',title:'Fotografías',desc:'Galería de la sesión en cabina.'},
       {icon:'forum',title:'Historial de comunicación',desc:'Confirmaciones, recordatorios y reseñas.'},
-      {icon:'inventory_2',title:'Paquetes',desc:'Espíritu Aventurero y Comandante por un Día.'} ] },
+      {icon:'inventory_2',title:'Paquetes',desc:'Aviador Express y Aviador Completo.'} ] },
     clientes:     { title:'Clientes',                   kicker:'CRM EXPERIENCIA',   sub:'Base de clientes de Piloto por un Día con perfil, historial, regalos recibidos y comprados, pagos y etiquetas.', features:[
       {icon:'group',title:'Directorio',desc:'Nombre, contacto, ciudad y nº de experiencias.'},
       {icon:'badge',title:'Estados de cliente',desc:'Nuevo, recurrente, frecuente, inactivo.'},
@@ -2155,20 +2155,20 @@ class Component extends DCLogic {
 
   // mock sessions (shared)
   sessions = [
-    {code:'HS-2261', fecha:'13/06/2026', hoy:true, hi:'09:00', hf:'10:20', cliente:'Santiago Henao', segundo:'Valentina Ríos', tel:'315 546 4296', serv:'pxd', paquete:'Comandante por un Día', sim:'King Air B200', instructor:'Cap. Andrés Villa', origen:'Página PxD', estado:'curso', pago:'pagado', regalo:false, total:370000, abono:370000, creada:'05/06/2026'},
+    {code:'HS-2261', fecha:'13/06/2026', hoy:true, hi:'09:00', hf:'10:20', cliente:'Santiago Henao', segundo:'Valentina Ríos', tel:'315 546 4296', serv:'pxd', paquete:'Aviador Completo', sim:'King Air B200', instructor:'Cap. Andrés Villa', origen:'Página PxD', estado:'curso', pago:'pagado', regalo:false, total:370000, abono:370000, creada:'05/06/2026'},
     {code:'HS-2262', fecha:'13/06/2026', hoy:true, hi:'09:00', hf:'10:30', cliente:'Mariana Cárdenas', segundo:null, tel:'310 224 7781', serv:'hs', paquete:'Sesión IFR · 1h30', sim:'A320', instructor:'Cap. Laura Restrepo', origen:'Página Hold Short', estado:'completada', pago:'pagado', regalo:false, total:270000, abono:270000, creada:'02/06/2026'},
-    {code:'HS-2263', fecha:'13/06/2026', hoy:true, hi:'10:45', hf:'12:05', cliente:'Familia Gómez', segundo:'Andrés Gómez', tel:'320 778 1190', serv:'pxd', paquete:'Espíritu Aventurero', sim:'King Air B200', instructor:'Cap. Julián Mejía', origen:'WhatsApp', estado:'confirmada', pago:'abono', regalo:true, total:280000, abono:140000, creada:'06/06/2026'},
-    {code:'HS-2264', fecha:'13/06/2026', hoy:true, hi:'14:00', hf:'15:20', cliente:'Daniela Ospina', segundo:'Carlos Ospina', tel:'301 556 8842', serv:'pxd', paquete:'Comandante por un Día', sim:'King Air B200', instructor:'Cap. Andrés Villa', origen:'Instagram', estado:'pendiente', pago:'pendiente', regalo:false, total:370000, abono:0, creada:'11/06/2026'},
+    {code:'HS-2263', fecha:'13/06/2026', hoy:true, hi:'10:45', hf:'12:05', cliente:'Familia Gómez', segundo:'Andrés Gómez', tel:'320 778 1190', serv:'pxd', paquete:'Aviador Express', sim:'King Air B200', instructor:'Cap. Julián Mejía', origen:'WhatsApp', estado:'confirmada', pago:'abono', regalo:true, total:280000, abono:140000, creada:'06/06/2026'},
+    {code:'HS-2264', fecha:'13/06/2026', hoy:true, hi:'14:00', hf:'15:20', cliente:'Daniela Ospina', segundo:'Carlos Ospina', tel:'301 556 8842', serv:'pxd', paquete:'Aviador Completo', sim:'King Air B200', instructor:'Cap. Andrés Villa', origen:'Instagram', estado:'pendiente', pago:'pendiente', regalo:false, total:370000, abono:0, creada:'11/06/2026'},
     {code:'HS-2265', fecha:'13/06/2026', hoy:true, hi:'14:00', hf:'15:00', cliente:'Juan David Marín', segundo:null, tel:'316 990 2210', serv:'hs', paquete:'Aproximaciones · 1h', sim:'A320', instructor:'Cap. Laura Restrepo', origen:'Recomendación', estado:'confirmada', pago:'pagado', regalo:false, total:180000, abono:180000, creada:'08/06/2026'},
-    {code:'HS-2266', fecha:'13/06/2026', hoy:true, hi:'15:30', hf:'16:50', cliente:'Laura Vásquez', segundo:'Esteban Cano', tel:'312 445 7789', serv:'pxd', paquete:'Comandante por un Día', sim:'King Air B200', instructor:'Cap. Julián Mejía', origen:'Presencial', estado:'proxima', pago:'abono', regalo:true, total:370000, abono:200000, creada:'09/06/2026'},
-    {code:'HS-2267', fecha:'13/06/2026', hoy:true, hi:'17:00', hf:'18:20', cliente:'Camilo Restrepo', segundo:null, tel:'318 220 1145', serv:'pxd', paquete:'Espíritu Aventurero', sim:'King Air B200', instructor:'Cap. Andrés Villa', origen:'Llamada', estado:'solicitud', pago:'pendiente', regalo:false, total:280000, abono:0, creada:'12/06/2026'},
-    {code:'HS-2258', fecha:'12/06/2026', hoy:false, hi:'09:00', hf:'11:30', cliente:'Verónica Salazar', segundo:'Tomás Salazar', tel:'314 667 8821', serv:'pxd', paquete:'Comandante por un Día', sim:'King Air B200', instructor:'Cap. Julián Mejía', origen:'Página PxD', estado:'completada', pago:'pagado', regalo:true, total:370000, abono:370000, creada:'01/06/2026'},
+    {code:'HS-2266', fecha:'13/06/2026', hoy:true, hi:'15:30', hf:'16:50', cliente:'Laura Vásquez', segundo:'Esteban Cano', tel:'312 445 7789', serv:'pxd', paquete:'Aviador Completo', sim:'King Air B200', instructor:'Cap. Julián Mejía', origen:'Presencial', estado:'proxima', pago:'abono', regalo:true, total:370000, abono:200000, creada:'09/06/2026'},
+    {code:'HS-2267', fecha:'13/06/2026', hoy:true, hi:'17:00', hf:'18:20', cliente:'Camilo Restrepo', segundo:null, tel:'318 220 1145', serv:'pxd', paquete:'Aviador Express', sim:'King Air B200', instructor:'Cap. Andrés Villa', origen:'Llamada', estado:'solicitud', pago:'pendiente', regalo:false, total:280000, abono:0, creada:'12/06/2026'},
+    {code:'HS-2258', fecha:'12/06/2026', hoy:false, hi:'09:00', hf:'11:30', cliente:'Verónica Salazar', segundo:'Tomás Salazar', tel:'314 667 8821', serv:'pxd', paquete:'Aviador Completo', sim:'King Air B200', instructor:'Cap. Julián Mejía', origen:'Página PxD', estado:'completada', pago:'pagado', regalo:true, total:370000, abono:370000, creada:'01/06/2026'},
     {code:'HS-2259', fecha:'12/06/2026', hoy:false, hi:'14:00', hf:'15:00', cliente:'Andrés Felipe Cano', segundo:null, tel:'300 112 9087', serv:'hs', paquete:'Navegación · 1h', sim:'A320', instructor:'Cap. Laura Restrepo', origen:'Página Hold Short', estado:'noasistio', pago:'pagado', regalo:false, total:180000, abono:180000, creada:'04/06/2026'},
-    {code:'HS-2260', fecha:'12/06/2026', hoy:false, hi:'15:30', hf:'16:50', cliente:'Paula Giraldo', segundo:'Sara Giraldo', tel:'313 556 2210', serv:'pxd', paquete:'Espíritu Aventurero', sim:'King Air B200', instructor:'Cap. Andrés Villa', origen:'Instagram', estado:'reprogramada', pago:'abono', regalo:false, total:280000, abono:100000, creada:'03/06/2026'},
-    {code:'HS-2268', fecha:'14/06/2026', hoy:false, hi:'09:00', hf:'10:20', cliente:'Ricardo Montoya', segundo:'Lina Montoya', tel:'317 889 1102', serv:'pxd', paquete:'Comandante por un Día', sim:'King Air B200', instructor:'Cap. Julián Mejía', origen:'WhatsApp', estado:'confirmada', pago:'abono', regalo:true, total:370000, abono:185000, creada:'10/06/2026'},
+    {code:'HS-2260', fecha:'12/06/2026', hoy:false, hi:'15:30', hf:'16:50', cliente:'Paula Giraldo', segundo:'Sara Giraldo', tel:'313 556 2210', serv:'pxd', paquete:'Aviador Express', sim:'King Air B200', instructor:'Cap. Andrés Villa', origen:'Instagram', estado:'reprogramada', pago:'abono', regalo:false, total:280000, abono:100000, creada:'03/06/2026'},
+    {code:'HS-2268', fecha:'14/06/2026', hoy:false, hi:'09:00', hf:'10:20', cliente:'Ricardo Montoya', segundo:'Lina Montoya', tel:'317 889 1102', serv:'pxd', paquete:'Aviador Completo', sim:'King Air B200', instructor:'Cap. Julián Mejía', origen:'WhatsApp', estado:'confirmada', pago:'abono', regalo:true, total:370000, abono:185000, creada:'10/06/2026'},
     {code:'HS-2269', fecha:'14/06/2026', hoy:false, hi:'14:00', hf:'15:30', cliente:'Sebastián Arango', segundo:null, tel:'305 442 7781', serv:'hs', paquete:'Procedimientos · 1h30', sim:'A320', instructor:'Cap. Laura Restrepo', origen:'Recomendación', estado:'pendiente', pago:'pendiente', regalo:false, total:270000, abono:0, creada:'12/06/2026'},
-    {code:'HS-2270', fecha:'14/06/2026', hoy:false, hi:'14:00', hf:'15:20', cliente:'Manuela Ríos', segundo:'Diego Ríos', tel:'319 220 8845', serv:'pxd', paquete:'Comandante por un Día', sim:'King Air B200', instructor:'Cap. Andrés Villa', origen:'Página PxD', estado:'cancelada', pago:'reembolso', regalo:false, total:370000, abono:0, creada:'07/06/2026'},
-    {code:'HS-2271', fecha:'15/06/2026', hoy:false, hi:'09:00', hf:'10:20', cliente:'Carolina Mejía', segundo:null, tel:'311 556 9921', serv:'pxd', paquete:'Espíritu Aventurero', sim:'King Air B200', instructor:'Cap. Julián Mejía', origen:'Presencial', estado:'solicitud', pago:'pendiente', regalo:true, total:280000, abono:0, creada:'13/06/2026'},
+    {code:'HS-2270', fecha:'14/06/2026', hoy:false, hi:'14:00', hf:'15:20', cliente:'Manuela Ríos', segundo:'Diego Ríos', tel:'319 220 8845', serv:'pxd', paquete:'Aviador Completo', sim:'King Air B200', instructor:'Cap. Andrés Villa', origen:'Página PxD', estado:'cancelada', pago:'reembolso', regalo:false, total:370000, abono:0, creada:'07/06/2026'},
+    {code:'HS-2271', fecha:'15/06/2026', hoy:false, hi:'09:00', hf:'10:20', cliente:'Carolina Mejía', segundo:null, tel:'311 556 9921', serv:'pxd', paquete:'Aviador Express', sim:'King Air B200', instructor:'Cap. Julián Mejía', origen:'Presencial', estado:'solicitud', pago:'pendiente', regalo:true, total:280000, abono:0, creada:'13/06/2026'},
   ];
 
   clientes = [
@@ -2186,12 +2186,12 @@ class Component extends DCLogic {
     return m[e]||m.nuevo;
   }
   regalos = [
-    {code:'REG-118', de:'Carlos Ospina', deTel:'300 119 2245', para:'Daniela Ospina', paquete:'Comandante por un Día', valor:370000, estado:'canjeado', creado:'28/05/2026', vence:'28/11/2026', envio:'whatsapp', sesion:'HS-2264'},
-    {code:'REG-121', de:'Andrés Gómez', deTel:'320 778 1190', para:'Familia Gómez', paquete:'Espíritu Aventurero', valor:280000, estado:'programado', creado:'06/06/2026', vence:'06/12/2026', envio:'whatsapp', sesion:'HS-2263'},
-    {code:'REG-124', de:'Esteban Cano', deTel:'312 445 7789', para:'Laura Vásquez', paquete:'Comandante por un Día', valor:370000, estado:'enviado', creado:'09/06/2026', vence:'09/12/2026', envio:'correo', sesion:null},
-    {code:'REG-126', de:'Lina Montoya', deTel:'317 889 1102', para:'Ricardo Montoya', paquete:'Comandante por un Día', valor:370000, estado:'programado', creado:'10/06/2026', vence:'10/12/2026', envio:'whatsapp', sesion:'HS-2268'},
-    {code:'REG-129', de:'Sara Giraldo', deTel:'313 556 2210', para:'Carolina Mejía', paquete:'Espíritu Aventurero', valor:280000, estado:'pendiente', creado:'13/06/2026', vence:'13/12/2026', envio:null, sesion:null},
-    {code:'REG-130', de:'Tomás Salazar', deTel:'314 667 8821', para:'Verónica Salazar', paquete:'Comandante por un Día', valor:370000, estado:'fechaAbierta', creado:'13/06/2026', vence:'13/12/2026', envio:'descarga', sesion:null},
+    {code:'REG-118', de:'Carlos Ospina', deTel:'300 119 2245', para:'Daniela Ospina', paquete:'Aviador Completo', valor:370000, estado:'canjeado', creado:'28/05/2026', vence:'28/11/2026', envio:'whatsapp', sesion:'HS-2264'},
+    {code:'REG-121', de:'Andrés Gómez', deTel:'320 778 1190', para:'Familia Gómez', paquete:'Aviador Express', valor:280000, estado:'programado', creado:'06/06/2026', vence:'06/12/2026', envio:'whatsapp', sesion:'HS-2263'},
+    {code:'REG-124', de:'Esteban Cano', deTel:'312 445 7789', para:'Laura Vásquez', paquete:'Aviador Completo', valor:370000, estado:'enviado', creado:'09/06/2026', vence:'09/12/2026', envio:'correo', sesion:null},
+    {code:'REG-126', de:'Lina Montoya', deTel:'317 889 1102', para:'Ricardo Montoya', paquete:'Aviador Completo', valor:370000, estado:'programado', creado:'10/06/2026', vence:'10/12/2026', envio:'whatsapp', sesion:'HS-2268'},
+    {code:'REG-129', de:'Sara Giraldo', deTel:'313 556 2210', para:'Carolina Mejía', paquete:'Aviador Express', valor:280000, estado:'pendiente', creado:'13/06/2026', vence:'13/12/2026', envio:null, sesion:null},
+    {code:'REG-130', de:'Tomás Salazar', deTel:'314 667 8821', para:'Verónica Salazar', paquete:'Aviador Completo', valor:370000, estado:'fechaAbierta', creado:'13/06/2026', vence:'13/12/2026', envio:'descarga', sesion:null},
   ];
   regaloEstadoMeta(e){
     const m={ pendiente:{label:'Por enviar',c:'#9a6f0a',bg:'#FBF0D5',ic:'pending'}, enviado:{label:'Enviado',c:'#2c5070',bg:'#E9F0F6',ic:'send'}, programado:{label:'Programado',c:'#5848c0',bg:'#EEEBFB',ic:'event_available'}, fechaAbierta:{label:'Fecha abierta',c:'#0c7a82',bg:'#DDF1F2',ic:'event'}, canjeado:{label:'Canjeado',c:'#227a45',bg:'#E6F4EC',ic:'task_alt'}, vencido:{label:'Vencido',c:'#b13838',bg:'#FBEAEA',ic:'block'} };
@@ -2243,14 +2243,14 @@ class Component extends DCLogic {
     {id:'CM-06', name:'Solicitud de reseña', canal:'whatsapp', icon:'rate_review', desc:'Se envía tras completar la experiencia.', usos:58, preview:'¡Gracias por volar con nosotros, {nombre}! 🌟 ¿Nos dejas tu reseña? {enlace}. ¡Tus fotos están en camino!'},
   ];
   certificados = [
-    {id:'CERT-2261', participante:'Santiago Henao', paquete:'Comandante por un Día', instructor:'Cap. Andrés Villa', fecha:'13/06/2026', estado:'listo'},
-    {id:'CERT-2258', participante:'Verónica Salazar', paquete:'Comandante por un Día', instructor:'Cap. Julián Mejía', fecha:'12/06/2026', estado:'emitido'},
+    {id:'CERT-2261', participante:'Santiago Henao', paquete:'Aviador Completo', instructor:'Cap. Andrés Villa', fecha:'13/06/2026', estado:'listo'},
+    {id:'CERT-2258', participante:'Verónica Salazar', paquete:'Aviador Completo', instructor:'Cap. Julián Mejía', fecha:'12/06/2026', estado:'emitido'},
     {id:'CERT-2262', participante:'Mariana Cárdenas', paquete:'Sesión IFR · 1h30', instructor:'Cap. Laura Restrepo', fecha:'13/06/2026', estado:'listo'},
-    {id:'CERT-2255', participante:'Tomás Salazar', paquete:'Espíritu Aventurero', instructor:'Cap. Andrés Villa', fecha:'12/06/2026', estado:'emitido'},
+    {id:'CERT-2255', participante:'Tomás Salazar', paquete:'Aviador Express', instructor:'Cap. Andrés Villa', fecha:'12/06/2026', estado:'emitido'},
   ];
 
   paquetes = {
-    pxd: [ {name:'Espíritu Aventurero', price:280000, dur:'1h 20m'}, {name:'Comandante por un Día', price:370000, dur:'2h 30m'} ],
+    pxd: [ {name:'Aviador Express', price:280000, dur:'1h 20m'}, {name:'Aviador Completo', price:370000, dur:'2h 30m'} ],
     hs:  [ {name:'Sesión IFR · 1h30', price:270000, dur:'1h 30m'}, {name:'Navegación · 1h', price:180000, dur:'1h 00m'}, {name:'Aproximaciones · 1h', price:180000, dur:'1h 00m'}, {name:'Procedimientos · 1h30', price:270000, dur:'1h 30m'} ],
   };
   simsList = ['King Air B200','Airbus A320'];
@@ -2328,7 +2328,7 @@ class Component extends DCLogic {
     const av = (icon,col,bg,text,meta) => ({icon,text,meta, iconWrap:`width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:${col};background:${bg}`, onClick:()=>this.toast(text)});
     const alerts = [
       av('warning','#b13838','#FBEAEA','Conflicto: King Air B200 con dos reservas a las 14:00','Sesiones HS-2264 · HS-2270 · hace 4 min'),
-      av('person_off','#9a6f0a','#FBF0D5','Sesión HS-2267 (17:00) sin instructor asignado','Espíritu Aventurero · hoy'),
+      av('person_off','#9a6f0a','#FBF0D5','Sesión HS-2267 (17:00) sin instructor asignado','Aviador Express · hoy'),
       av('schedule','#1d5fb0','#E3EEFB','Sesión próxima a iniciar en 25 min — Familia Gómez','HS-2263 · 10:45'),
       av('build','#C2410C','#FBE9DF','Airbus A320 entra a mantenimiento el 18/06','3 sesiones a reubicar'),
       av('redeem','#9a6f12','#F5EEDD','2 regalos sin fecha programada','Fecha abierta · pendiente de canje'),
@@ -2979,10 +2979,10 @@ class Component extends DCLogic {
         const initials=c.nombre.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
         const ptab=this.state.profileTab;
         const hist=[
-          {code:'HS-2261', fecha:'13/06/2026', paquete:'Comandante por un Día', estado:'curso', valor:370000},
-          {code:'HS-2240', fecha:'02/05/2026', paquete:'Espíritu Aventurero', estado:'completada', valor:280000},
-          {code:'HS-2218', fecha:'14/03/2026', paquete:'Comandante por un Día', estado:'completada', valor:370000},
-          {code:'HS-2201', fecha:'21/01/2026', paquete:'Espíritu Aventurero', estado:'completada', valor:280000},
+          {code:'HS-2261', fecha:'13/06/2026', paquete:'Aviador Completo', estado:'curso', valor:370000},
+          {code:'HS-2240', fecha:'02/05/2026', paquete:'Aviador Express', estado:'completada', valor:280000},
+          {code:'HS-2218', fecha:'14/03/2026', paquete:'Aviador Completo', estado:'completada', valor:370000},
+          {code:'HS-2201', fecha:'21/01/2026', paquete:'Aviador Express', estado:'completada', valor:280000},
         ].map(h=>{const em2=this.estadoMeta(h.estado);return{...h, valorF:this.cop(h.valor), statLabel:em2.label, statStyle:`font-size:10px;font-weight:600;color:${em2.c};background:${em2.bg};padding:2px 9px;border-radius:20px`, rail:`width:3px;border-radius:3px;background:${em2.rail};align-self:stretch`, onClick:()=>this.openDrawer(h.code)};});
         const pagosC=[
           {fecha:'05/06/2026', metodo:'Transferencia', tipo:'Pago total', valor:370000, estado:'pagado'},
@@ -2990,14 +2990,14 @@ class Component extends DCLogic {
           {fecha:'12/03/2026', metodo:'Efectivo', tipo:'Pago total', valor:370000, estado:'pagado'},
         ].map(p=>{const pm=this.pagoMeta(p.estado);return{...p, valorF:this.cop(p.valor), estStyle:`display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;color:${pm.c};background:${pm.c}1a;padding:3px 10px;border-radius:20px`, dot:`width:7px;height:7px;border-radius:50%;background:${pm.c}`};});
         const regalosC=[
-          {code:'REG-118', rol:'Comprado', para:'Daniela Ospina', paquete:'Comandante por un Día', estado:'canjeado'},
-          {code:'REG-090', rol:'Recibido', para:'Santiago Henao', paquete:'Espíritu Aventurero', estado:'canjeado'},
+          {code:'REG-118', rol:'Comprado', para:'Daniela Ospina', paquete:'Aviador Completo', estado:'canjeado'},
+          {code:'REG-090', rol:'Recibido', para:'Santiago Henao', paquete:'Aviador Express', estado:'canjeado'},
         ].map(g=>{const gm=this.regaloEstadoMeta(g.estado);return{...g, rolStyle:g.rol==='Comprado'?'font-size:9.5px;font-weight:600;color:#9a6f12;background:#F5EEDD;padding:2px 7px;border-radius:5px':'font-size:9.5px;font-weight:600;color:#2c5070;background:#E9F0F6;padding:2px 7px;border-radius:5px', estStyle:`font-size:10px;font-weight:600;color:${gm.c};background:${gm.bg};padding:2px 9px;border-radius:20px`};});
         const timeline=[
-          {icon:'flight_takeoff', color:'#F5841F', titulo:'Sesión en curso', detalle:'Comandante por un Día · King Air B200', fecha:'Hoy · 09:00'},
+          {icon:'flight_takeoff', color:'#F5841F', titulo:'Sesión en curso', detalle:'Aviador Completo · King Air B200', fecha:'Hoy · 09:00'},
           {icon:'payments', color:'#2E9E5B', titulo:'Pago registrado', detalle:'Transferencia · '+this.cop(370000), fecha:'05/06/2026'},
           {icon:'redeem', color:'#C99A2E', titulo:'Regaló una experiencia', detalle:'REG-118 a Daniela Ospina', fecha:'28/05/2026'},
-          {icon:'workspace_premium', color:'#5848c0', titulo:'Certificado emitido', detalle:'Espíritu Aventurero', fecha:'02/05/2026'},
+          {icon:'workspace_premium', color:'#5848c0', titulo:'Certificado emitido', detalle:'Aviador Express', fecha:'02/05/2026'},
           {icon:'person_add', color:'#355C7D', titulo:'Cliente registrado', detalle:'Origen: Página Piloto por un Día', fecha:'21/01/2026'},
         ];
         const ptabs=[['historial','Historial','event_note'],['pagos','Pagos','payments'],['regalos','Regalos','redeem'],['timeline','Actividad','timeline']].map(([id,label,icon])=>({id,label,icon,onClick:()=>this.setState({profileTab:id}),style:`display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer;border:none;${ptab===id?'background:var(--btnsolid);color:#fff':'background:var(--surface);color:var(--muted);border:1px solid var(--border)'}`}));
