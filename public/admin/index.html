@@ -3020,8 +3020,8 @@ class Component extends DCLogic {
     // ---------- SIMULADORES ----------
     const _sm=this.state.simMant||{};
     const _smLabel=_sm.activo&&_sm.desde&&_sm.hasta?`${_sm.desde} → ${_sm.hasta}`:'Ninguno programado';
-    const _today = this.isoDate(new Date());
-    const _enMantHoy = _sm.activo && _sm.desde && _sm.hasta && _today >= _sm.desde && _today <= _sm.hasta;
+    const _simToday = this.isoDate(new Date());
+    const _enMantHoy = _sm.activo && _sm.desde && _sm.hasta && _simToday >= _sm.desde && _simToday <= _sm.hasta;
     const simCards = this.simuladores.map(s=>{
       const estadoEfectivo = _enMantHoy ? 'mantenimiento' : s.estado;
       const em=this.simEstadoMeta(estadoEfectivo);
