@@ -1465,12 +1465,12 @@
                   <!-- header -->
                   <div style="background:#0C0D10;display:flex;align-items:center;justify-content:space-between;padding:12px 22px;border-bottom:3px solid #F5841F">
                     <span class="mono" style="font-size:11px;letter-spacing:.18em;color:#F5841F;font-weight:600">PILOTO POR UN DÍA · INVITACIÓN</span>
-                    <img src="assets/logo.png" alt="Hold Short" style="height:26px">
+                    <img src="/assets/logo.png" alt="Hold Short" style="height:26px">
                   </div>
                   <div style="display:flex;align-items:stretch">
                     <!-- left plane -->
                     <div style="width:188px;flex-shrink:0;position:relative;display:flex;align-items:flex-end;padding:14px;overflow:hidden;background:linear-gradient(160deg,#e8e2d4,#cbc3b2)">
-                      <img src="assets/avion.png" alt="Biplano" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:sepia(.4) contrast(1.03);mix-blend-mode:multiply">
+                      <img src="/assets/avion.png" alt="Biplano" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:sepia(.4) contrast(1.03);mix-blend-mode:multiply">
                       <span class="mono" style="position:relative;font-size:9px;letter-spacing:.05em;color:#3a342a;background:rgba(255,255,255,.72);padding:3px 7px;border-radius:5px">EST. 1903 · WRIGHT FLYER</span>
                     </div>
                     <!-- center -->
@@ -1519,14 +1519,14 @@
                 <div id="hs-conf" style="width:880px;max-width:100%;margin:0 auto;background:#0C0D10;border-radius:12px;overflow:hidden;box-shadow:0 16px 44px rgba(0,0,0,.34);font-family:'Space Grotesk';border:1px solid #26282d">
                   <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid #1d1f24">
                     <div><div class="mono" style="font-size:10px;letter-spacing:.2em;color:#F5841F;font-weight:600">RESERVA CONFIRMADA</div><div class="disp" style="font-size:13px;color:var(--muted);margin-top:2px">HOLD SHORT · BOARDING PASS</div></div>
-                    <img src="assets/logo.png" alt="Hold Short" style="height:26px">
+                    <img src="/assets/logo.png" alt="Hold Short" style="height:26px">
                   </div>
                   <div style="display:flex;align-items:stretch">
                     <!-- main -->
                     <div style="flex:1;padding:22px 24px;min-width:0">
                       <div class="disp" style="font-size:13px;color:#c9cdd3;font-weight:500">Capitán</div>
                       <div class="disp" style="font-size:32px;font-weight:700;color:#fff;letter-spacing:-.01em;margin:2px 0 3px">{{ doc.nombre }}</div>
-                      <div style="font-family:Inter;font-size:11px;color:var(--muted)">Todo está listo para tu experiencia · 2º participante: {{ doc.segundo }}</div>
+                      <div style="font-family:Inter;font-size:11px;color:var(--muted)">{{ doc.confSubtitle }}</div>
                       <p style="font-family:Inter;font-size:11.5px;color:#a9adb4;line-height:1.5;margin:14px 0 18px;max-width:440px">Tu lugar a bordo ha sido reservado. Muy pronto tomarás los controles, descubrirás los fundamentos del vuelo y vivirás una experiencia diseñada para acercarte al mundo de la aviación.</p>
                       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
                         <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">PAQUETE</div><div style="font-size:12.5px;font-weight:600;color:#fff;margin-top:3px">{{ doc.paquete }}</div></div>
@@ -1570,18 +1570,18 @@
                     <div style="position:absolute;inset:5px;border:1px solid #C99A2E;pointer-events:none"></div>
                     <!-- top bar -->
                     <div style="background:#0C0D10;padding:13px 26px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #F5841F">
-                      <img src="assets/logo.png" alt="Hold Short" style="height:26px">
+                      <img src="/assets/logo.png" alt="Hold Short" style="height:26px">
                       <span class="mono" style="font-size:10px;letter-spacing:.2em;color:#F5841F;font-weight:600">CERTIFICADO DE PARTICIPACIÓN</span>
                     </div>
                     <!-- watermark plane -->
-                    <img src="assets/avion.png" alt="" style="position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);width:430px;max-width:78%;opacity:.07;filter:grayscale(1);pointer-events:none;mix-blend-mode:multiply">
+                    <img src="/assets/avion.png" alt="" style="position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);width:430px;max-width:78%;opacity:.07;filter:grayscale(1);pointer-events:none;mix-blend-mode:multiply">
                     <!-- body -->
                     <div style="padding:24px 44px 26px;text-align:center;position:relative">
                       <!-- biplane centerpiece -->
                       <div style="display:flex;justify-content:center;margin-bottom:10px">
                         <div style="position:relative;width:230px;height:115px;display:flex;align-items:center;justify-content:center">
                           <span style="position:absolute;left:0;top:50%;height:1px;width:46px;background:linear-gradient(90deg,transparent,#C99A2E)"></span>
-                          <img src="assets/avion.png" alt="Biplano Wright" style="height:104px;width:auto;filter:sepia(.55) contrast(1.05) brightness(1.02);mix-blend-mode:multiply">
+                          <img src="/assets/avion.png" alt="Biplano Wright" style="height:104px;width:auto;filter:sepia(.55) contrast(1.05) brightness(1.02);mix-blend-mode:multiply">
                           <span style="position:absolute;right:0;top:50%;height:1px;width:46px;background:linear-gradient(90deg,#C99A2E,transparent)"></span>
                         </div>
                       </div>
@@ -1846,6 +1846,7 @@ class Component extends DCLogic {
     document.body.appendChild(iframe);
     const iDoc = iframe.contentWindow.document;
     iDoc.write('<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">'
+      +'<base href="'+window.location.origin+'/">'
       +'<link rel="preconnect" href="https://fonts.googleapis.com">'
       +'<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
       +'<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">'
@@ -2631,12 +2632,16 @@ class Component extends DCLogic {
       const _isGift = s.regalo;
       const _recipient = s.segundo || s.cliente;
       const _acompanante = s.participante2 || s.cliente;
+      const _confSubtitle = s.participante2
+        ? 'Acompañante registrado: ' + s.participante2
+        : 'Tu lugar está reservado y confirmado';
       doc = {
         kind:m.kind, isInv: m.kind==='invitacion', isConf: m.kind==='confirmacion', isCert,
         nombre: cert ? cert.participante : (_isGift ? _recipient : s.cliente),
         deParteDe: s.cliente,
         acompanante: _acompanante,
-        segundo: s.participante2 || '—',
+        segundo: s.participante2 || null,
+        confSubtitle: _confSubtitle,
         fecha: cert ? cert.fecha : s.fecha, hora:s.hi, dur:this.duracion(s.hi,s.hf),
         paquete: cert ? cert.paquete : s.paquete, sim:s.sim,
         instructor: cert ? cert.instructor : s.instructor, code: cert ? cert.id : s.code,
