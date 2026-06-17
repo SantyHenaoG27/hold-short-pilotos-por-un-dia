@@ -2681,8 +2681,8 @@ class Component extends DCLogic {
         horaFin:(()=>{ const paq=(this.paquetes[tipo]||[])[this.state.formPaqueteIdx]; return (paq&&this.state.formHoraInicio)?this.addMinutes(this.state.formHoraInicio,this.durToMins(paq.dur)):'—'; })(),
         horaOpciones:(()=>{
           if(tipo==='pxd'){
-            const PXDSLOTS={aventurero:['08:00','09:30','11:00','14:00','15:30'],comandante:['08:00','11:00','14:00']};
-            const key=this.state.formPaqueteIdx===1?'comandante':'aventurero';
+            const PXDSLOTS={express:['08:00','09:30','11:00','14:00','15:30'],completo:['08:00','11:00','14:00']};
+            const key=this.state.formPaqueteIdx===1?'completo':'express';
             return (PXDSLOTS[key]).map(h=>({v:h,label:h}));
           }
           return ['08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00'].map(h=>({v:h,label:h}));
@@ -2935,18 +2935,20 @@ class Component extends DCLogic {
     const pxdPaquetes=this.paquetes.pxd.map((p,i)=>({
       name:p.name, price:this.cop(p.price), dur:p.dur,
       teorico: i===0?'30 min':'1 hora', sim: i===0?'50 min':'1h 30m', part:'hasta 2 personas',
-      featured: i===1,
-      cardStyle:`border:2px solid ${i===1?'#F5841F':'var(--border)'};background:${i===1?'var(--alt)':'var(--surface)'};border-radius:14px;padding:20px;position:relative`,
+      featured: false,
+      cardStyle:`border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:20px;position:relative`,
     }));
+    const _pxdReal = this.state.pxdData || [];
+    const _loaded = this.state.pxdData !== null;
     const _now=new Date(); const _ym=`${_now.getFullYear()}-${String(_now.getMonth()+1).padStart(2,'0')}`;
-    const _activos=allPxd.filter(s=>!['cancelada','noasistio','reprogramada'].includes(s.estado));
-    const _mes=allPxd.filter(s=>s.fechaISO&&s.fechaISO.startsWith(_ym));
-    const _regalo=allPxd.filter(s=>s.regalo);
+    const _activos=_pxdReal.filter(s=>!['cancelada','noasistio','reprogramada','completada'].includes(s.estado));
+    const _mes=_pxdReal.filter(s=>s.fechaISO&&s.fechaISO.startsWith(_ym));
+    const _regalo=_pxdReal.filter(s=>s.regalo);
     const pxdKpis=[
-      {label:'Experiencias · mes', value:this.state.pxdData!==null?String(_mes.length):'…', icon:'airplane_ticket', c:'#b5630a', bg:'#FEF1E2'},
-      {label:'Como regalo', value:this.state.pxdData!==null?String(_regalo.length):'…', icon:'redeem', c:'#9a6f12', bg:'#F5EEDD'},
-      {label:'Reservas activas', value:this.state.pxdData!==null?String(_activos.length):'…', icon:'group', c:'#2c5070', bg:'#E9F0F6'},
-      {label:'Total reservas', value:this.state.pxdData!==null?String(allPxd.length):'…', icon:'bar_chart', c:'#F5841F', bg:'#FEF1E2'},
+      {label:'Experiencias · mes', value:_loaded?String(_mes.length):'…', icon:'airplane_ticket', c:'#b5630a', bg:'#FEF1E2'},
+      {label:'Como regalo', value:_loaded?String(_regalo.length):'…', icon:'redeem', c:'#9a6f12', bg:'#F5EEDD'},
+      {label:'Reservas activas', value:_loaded?String(_activos.length):'…', icon:'group', c:'#2c5070', bg:'#E9F0F6'},
+      {label:'Total reservas', value:_loaded?String(_pxdReal.length):'…', icon:'bar_chart', c:'#F5841F', bg:'#FEF1E2'},
     ].map(k=>({...k, iconWrap:`width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:${k.c};background:${k.bg}`}));
 
     // ---------- DOCUMENTOS (centro) ----------
