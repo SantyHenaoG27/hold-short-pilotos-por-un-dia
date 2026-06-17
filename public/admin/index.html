@@ -959,8 +959,17 @@
               <h2 class="disp" style="margin:0;font-size:15px;font-weight:600;flex:1">Reservas de la experiencia</h2>
               <sc-if value="{{ pxdLoading }}" hint-placeholder-val=""><span style="font-size:12px;color:var(--muted)">Cargando…</span></sc-if>
             </div>
+            <!-- filtro de fecha -->
+            <div style="padding:12px 16px;border-bottom:1px solid var(--divider);display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--alt)">
+              <span class="ms" style="font-size:17px;color:var(--muted)">calendar_today</span>
+              <sc-for list="{{ pxdDateBtns }}" as="b" hint-placeholder-count="4">
+                <button onClick="{{ b.onClick }}" style="{{ b.style }}">{{ b.label }}</button>
+              </sc-for>
+              <div style="height:22px;width:1px;background:var(--border);margin:0 2px"></div>
+              <input type="date" value="{{ pxdCustomDate }}" onInput="{{ pxdSetCustom }}" style="height:32px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);font-family:Inter;font-size:12px;padding:0 9px;outline:none;cursor:pointer" style-focus="border-color:#F5841F">
+            </div>
             <sc-if value="{{ pxdEmpty }}" hint-placeholder-val="">
-              <div style="padding:32px;text-align:center;color:var(--faint);font-size:13px">No hay reservas registradas aún.</div>
+              <div style="padding:32px;text-align:center;color:var(--faint);font-size:13px">No hay reservas para este período.</div>
             </sc-if>
             <sc-if value="{{ pxdHasRows }}" hint-placeholder-val="x">
               <div style="overflow-x:auto"><div style="min-width:760px">
@@ -1764,6 +1773,8 @@ class Component extends DCLogic {
     // pxd
     pxdData: null,
     pxdLoading: false,
+    pxdDateFilter: 'todos',
+    pxdCustomDate: '',
     // certificados
     certData: null,
     certLoading: false,
@@ -2984,7 +2995,30 @@ class Component extends DCLogic {
 
     // ---------- PILOTO POR UN DÍA (servicio) ----------
     const allPxd = this.state.pxdData !== null ? this.state.pxdData : this.sessions.filter(s=>s.serv==='pxd');
-    const pxdRows = allPxd.map(s=>{
+    const _pxdDf = this.state.pxdDateFilter;
+    const _pxdCd = this.state.pxdCustomDate;
+    const _pxdToday = this.isoDate(new Date());
+    const _pxdTomorrow = this.isoDate(new Date(Date.now()+86400000));
+    const _pxdMon = (()=>{ const d=new Date(); d.setDate(d.getDate()-((d.getDay()+6)%7)); return this.isoDate(d); })();
+    const _pxdSun = (()=>{ const d=new Date(); d.setDate(d.getDate()+(6-((d.getDay()+6)%7))); return this.isoDate(d); })();
+    const pxdFiltered = allPxd.filter(s=>{
+      if(_pxdDf==='todos')  return true;
+      if(!s.fechaISO)       return false;
+      if(_pxdDf==='hoy')    return s.fechaISO===_pxdToday;
+      if(_pxdDf==='manana') return s.fechaISO===_pxdTomorrow;
+      if(_pxdDf==='semana') return s.fechaISO>=_pxdMon && s.fechaISO<=_pxdSun;
+      if(_pxdDf==='custom') return s.fechaISO===_pxdCd;
+      return true;
+    });
+    const pxdDateBtns=[
+      {id:'todos',  label:'Todos'},
+      {id:'hoy',    label:'Hoy'},
+      {id:'manana', label:'Mañana'},
+      {id:'semana', label:'Esta semana'},
+    ].map(b=>({...b, onClick:()=>this.setState({pxdDateFilter:b.id,pxdCustomDate:''}),
+      style:`height:32px;padding:0 13px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:${_pxdDf===b.id?'none':'1px solid var(--border)'};background:${_pxdDf===b.id?'var(--btnsolid)':'var(--surface)'};color:${_pxdDf===b.id?'#fff':'var(--muted)'}`}));
+    const pxdSetCustom = (e)=>this.setState({pxdDateFilter:'custom',pxdCustomDate:e.target.value});
+    const pxdRows = pxdFiltered.map(s=>{
       const em=this.estadoMeta(s.estado);
       return { code:s.code, cliente:s.cliente||'—', segundo:s.segundo||'—', fecha:s.fecha, hi:s.hi, paquete:s.paquete, regalo:s.regalo,
         statLabel:em.label, statStyle:`font-size:10.5px;font-weight:600;color:${em.c};background:${em.bg};padding:3px 10px;border-radius:20px`,
@@ -3187,7 +3221,7 @@ class Component extends DCLogic {
       // nuevos módulos
       simCards, instCards, pilRows, pilKpis, comList, certRows, certLoading, certEmpty, certHasRows,
       cfgPaquetes, cfgMetodos, cfgRoles,
-      pxdRows, pxdPaquetes, pxdKpis,
+      pxdRows, pxdPaquetes, pxdKpis, pxdDateBtns, pxdSetCustom, pxdCustomDate:_pxdCd,
       pxdLoading: this.state.pxdLoading,
       pxdEmpty: !this.state.pxdLoading && pxdRows.length===0,
       pxdHasRows: pxdRows.length>0,
