@@ -1841,9 +1841,11 @@ class Component extends DCLogic {
     if(!el){ this.toast('El documento aún no está visible'); return; }
     const clone = el.cloneNode(true);
     clone.style.width='100%'; clone.style.maxWidth='100%'; clone.style.borderRadius='0';
-    const pw = window.open('','_blank');
-    if(!pw){ this.toast('Permite ventanas emergentes para descargar el PDF'); return; }
-    pw.document.write('<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">'
+    const iframe = document.createElement('iframe');
+    iframe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:0;border:none;visibility:hidden';
+    document.body.appendChild(iframe);
+    const iDoc = iframe.contentWindow.document;
+    iDoc.write('<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">'
       +'<link rel="preconnect" href="https://fonts.googleapis.com">'
       +'<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
       +'<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">'
@@ -1858,8 +1860,11 @@ class Component extends DCLogic {
       +'.mono{font-family:"JetBrains Mono",monospace}'
       +'.disp{font-family:"Space Grotesk",sans-serif}'
       +'</style></head><body><div id="pw">'+clone.outerHTML+'</div></body></html>');
-    pw.document.close();
-    pw.document.fonts.ready.then(function(){ setTimeout(function(){ pw.print(); }, 600); });
+    iDoc.close();
+    iDoc.fonts.ready.then(function(){ setTimeout(function(){
+      iframe.contentWindow.print();
+      setTimeout(function(){ document.body.removeChild(iframe); }, 2000);
+    }, 600); });
   }
   addMinutes(hhmm,mins){ const[h,m]=(hhmm||'00:00').split(':').map(Number); const t=h*60+m+mins; return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'); }
   durToMins(dur){ const r=dur.match(/(\d+)h\s*(\d+)m/); if(r) return +r[1]*60+ +r[2]; const h=dur.match(/(\d+)h/); return h?+h[1]*60:60; }
