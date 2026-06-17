@@ -1843,24 +1843,23 @@ class Component extends DCLogic {
     clone.style.width='100%'; clone.style.maxWidth='100%'; clone.style.borderRadius='0';
     const pw = window.open('','_blank');
     if(!pw){ this.toast('Permite ventanas emergentes para descargar el PDF'); return; }
-    pw.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
-<style>
-@page{size:A4 landscape;margin:0}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;width:297mm;height:210mm;display:flex;align-items:center;justify-content:center;background:#E9E9E4;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-#pw{width:277mm}
-#pw>*{width:100%!important;max-width:100%!important}
-.ms{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;font-feature-settings:'liga';-webkit-font-smoothing:antialiased;font-variation-settings:'opsz' 24,'wght' 400}
-.mono{font-family:'JetBrains Mono',monospace}
-.disp{font-family:'Space Grotesk',sans-serif}
-</style></head><body><div id="pw">${clone.outerHTML}</div>
-<script>document.fonts.ready.then(function(){setTimeout(function(){window.print()},600)})</script>
-</body></html>`);
+    pw.document.write('<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">'
+      +'<link rel="preconnect" href="https://fonts.googleapis.com">'
+      +'<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+      +'<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">'
+      +'<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">'
+      +'<style>'
+      +'@page{size:A4 landscape;margin:0}'
+      +'*{box-sizing:border-box}'
+      +'html,body{margin:0;padding:0;width:297mm;height:210mm;display:flex;align-items:center;justify-content:center;background:#E9E9E4;-webkit-print-color-adjust:exact;print-color-adjust:exact}'
+      +'#pw{width:277mm}'
+      +'#pw>*{width:100%!important;max-width:100%!important}'
+      +'.ms{font-family:"Material Symbols Outlined";font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;font-feature-settings:"liga";-webkit-font-smoothing:antialiased;font-variation-settings:"opsz" 24,"wght" 400}'
+      +'.mono{font-family:"JetBrains Mono",monospace}'
+      +'.disp{font-family:"Space Grotesk",sans-serif}'
+      +'</style></head><body><div id="pw">'+clone.outerHTML+'</div></body></html>');
     pw.document.close();
+    pw.document.fonts.ready.then(function(){ setTimeout(function(){ pw.print(); }, 600); });
   }
   addMinutes(hhmm,mins){ const[h,m]=(hhmm||'00:00').split(':').map(Number); const t=h*60+m+mins; return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'); }
   durToMins(dur){ const r=dur.match(/(\d+)h\s*(\d+)m/); if(r) return +r[1]*60+ +r[2]; const h=dur.match(/(\d+)h/); return h?+h[1]*60:60; }
