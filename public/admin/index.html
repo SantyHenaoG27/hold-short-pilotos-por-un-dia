@@ -1367,30 +1367,29 @@
             <sc-if value="{{ form.s3 }}" hint-placeholder-val="">
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px 14px">
                 <div style="grid-column:1/3"><div class="disp" style="font-size:13px;font-weight:600;margin-bottom:9px;color:var(--muted)">Datos generales</div></div>
-                <label style="{{ form.lbl }}">Fecha<input type="date" value="2026-06-20" style="{{ form.inp }}"></label>
-                <label style="{{ form.lbl }}">Hora inicial<select style="{{ form.inp }}"><option>09:00</option><option>14:00</option></select></label>
-                <label style="{{ form.lbl }}">Paquete<select style="{{ form.inp }}"><sc-for list="{{ form.paquetes }}" as="p" hint-placeholder-count="2"><option>{{ p.name }} · {{ p.price }}</option></sc-for></select></label>
-                <label style="{{ form.lbl }}">Participantes<select style="{{ form.inp }}"><option>1 participante</option><option>2 participantes</option></select></label>
-                <label style="{{ form.lbl }}">Simulador<select style="{{ form.inp }}"><sc-for list="{{ form.sims }}" as="s" hint-placeholder-count="2"><option>{{ s }}</option></sc-for></select></label>
-                <label style="{{ form.lbl }}">Instructor<select style="{{ form.inp }}"><sc-for list="{{ form.instructores }}" as="i" hint-placeholder-count="3"><option>{{ i }}</option></sc-for></select></label>
-                <label style="{{ form.lbl }}">Origen de la reserva<select style="{{ form.inp }}"><sc-for list="{{ form.origenes }}" as="o" hint-placeholder-count="3"><option>{{ o }}</option></sc-for></select></label>
-                <label style="{{ form.lbl }}">Hora final (calculada)<input value="—" readonly style="{{ form.inpRO }}"></label>
+                <label style="{{ form.lbl }}">Fecha<input type="date" value="{{ form.fecha }}" onChange="{{ form.setFecha }}" style="{{ form.inp }}"></label>
+                <label style="{{ form.lbl }}">Hora inicial<select value="{{ form.horaInicio }}" onChange="{{ form.setHoraInicio }}" style="{{ form.inp }}"><option value="">-- seleccionar --</option><sc-for list="{{ form.horaOpciones }}" as="h" hint-placeholder-count="5"><option value="{{ h.v }}">{{ h.label }}</option></sc-for></select></label>
+                <label style="{{ form.lbl }}">Paquete<select value="{{ form.paqueteIdx }}" onChange="{{ form.setPaqueteIdx }}" style="{{ form.inp }}"><sc-for list="{{ form.paquetes }}" as="p" hint-placeholder-count="2"><option value="{{ p.idx }}">{{ p.name }} · {{ p.price }}</option></sc-for></select></label>
+                <label style="{{ form.lbl }}">Hora final (calculada)<input value="{{ form.horaFin }}" readonly style="{{ form.inpRO }}"></label>
+                <label style="{{ form.lbl }}">Simulador<select value="{{ form.sim }}" onChange="{{ form.setSim }}" style="{{ form.inp }}"><sc-for list="{{ form.sims }}" as="s" hint-placeholder-count="2"><option>{{ s }}</option></sc-for></select></label>
+                <label style="{{ form.lbl }}">Instructor<select value="{{ form.instructor }}" onChange="{{ form.setInstructor }}" style="{{ form.inp }}"><sc-for list="{{ form.instructores }}" as="i" hint-placeholder-count="3"><option>{{ i }}</option></sc-for></select></label>
+                <label style="{{ form.lbl }}">Origen de la reserva<select value="{{ form.origen }}" onChange="{{ form.setOrigen }}" style="{{ form.inp }}"><sc-for list="{{ form.origenes }}" as="o" hint-placeholder-count="3"><option>{{ o }}</option></sc-for></select></label>
 
                 <sc-if value="{{ form.isPersonal }}" hint-placeholder-val="x">
                   <div style="grid-column:1/3;margin-top:6px"><div class="disp" style="font-size:13px;font-weight:600;margin-bottom:9px;color:var(--muted)">Participante principal</div></div>
-                  <label style="{{ form.lbl }}">Nombre del participante<input placeholder="Nombre completo" style="{{ form.inp }}"></label>
-                  <label style="{{ form.lbl }}">Teléfono principal *<input placeholder="3XX XXX XXXX" style="{{ form.inp }}"></label>
-                  <label style="{{ form.lbl }}">Segundo participante<input placeholder="Opcional" style="{{ form.inp }}"></label>
-                  <label style="{{ form.lbl }}">Correo<input placeholder="correo@ejemplo.com" style="{{ form.inp }}"></label>
+                  <label style="{{ form.lbl }}">Nombre del participante<input value="{{ form.nombre }}" onChange="{{ form.setNombre }}" placeholder="Nombre completo" style="{{ form.inp }}"></label>
+                  <label style="{{ form.lbl }}">Teléfono principal *<input value="{{ form.phone }}" onChange="{{ form.setPhone }}" placeholder="3XX XXX XXXX" style="{{ form.inp }}"></label>
+                  <label style="{{ form.lbl }}">Segundo participante<input value="{{ form.segundo }}" onChange="{{ form.setSegundo }}" placeholder="Opcional" style="{{ form.inp }}"></label>
+                  <label style="{{ form.lbl }}">Correo<input value="{{ form.email }}" onChange="{{ form.setEmail }}" placeholder="correo@ejemplo.com" style="{{ form.inp }}"></label>
                 </sc-if>
                 <sc-if value="{{ form.isRegalo }}" hint-placeholder-val="">
                   <div style="grid-column:1/3;margin-top:6px"><div class="disp" style="font-size:13px;font-weight:600;margin-bottom:4px;color:#9a6f12;display:flex;align-items:center;gap:6px"><span class="ms" style="font-size:16px">card_giftcard</span>Quien compra el regalo</div></div>
-                  <label style="{{ form.lbl }}">Nombre<input placeholder="Nombre de quien regala" style="{{ form.inp }}"></label>
-                  <label style="{{ form.lbl }}">Teléfono *<input placeholder="3XX XXX XXXX" style="{{ form.inp }}"></label>
+                  <label style="{{ form.lbl }}">Nombre<input value="{{ form.giftNombre }}" onChange="{{ form.setGiftNombre }}" placeholder="Nombre de quien regala" style="{{ form.inp }}"></label>
+                  <label style="{{ form.lbl }}">Teléfono *<input value="{{ form.giftPhone }}" onChange="{{ form.setGiftPhone }}" placeholder="3XX XXX XXXX" style="{{ form.inp }}"></label>
                   <div style="grid-column:1/3;margin-top:4px"><div class="disp" style="font-size:13px;font-weight:600;margin-bottom:4px;color:#9a6f12;display:flex;align-items:center;gap:6px"><span class="ms" style="font-size:16px">redeem</span>Quien recibe el regalo</div></div>
-                  <label style="{{ form.lbl }}">Nombre destinatario<input placeholder="Nombre de quien recibe" style="{{ form.inp }}"></label>
-                  <label style="{{ form.lbl }}">Teléfono (opcional)<input placeholder="Opcional" style="{{ form.inp }}"></label>
-                  <label style="{{ form.lbl }};grid-column:1/3">Mensaje personalizado<textarea placeholder="Escribe un mensaje para el destinatario…" style="{{ form.inp }};height:64px;resize:none;padding-top:9px"></textarea></label>
+                  <label style="{{ form.lbl }}">Nombre destinatario<input value="{{ form.giftDest }}" onChange="{{ form.setGiftDest }}" placeholder="Nombre de quien recibe" style="{{ form.inp }}"></label>
+                  <label style="{{ form.lbl }}">Teléfono (opcional)<input value="{{ form.giftDestPhone }}" onChange="{{ form.setGiftDestPhone }}" placeholder="Opcional" style="{{ form.inp }}"></label>
+                  <label style="{{ form.lbl }};grid-column:1/3">Mensaje personalizado<textarea onChange="{{ form.setGiftMsg }}" placeholder="Escribe un mensaje para el destinatario…" style="{{ form.inp }};height:64px;resize:none;padding-top:9px">{{ form.giftMsg }}</textarea></label>
                   <label style="display:flex;align-items:center;gap:9px;grid-column:1/3;font-size:12px;color:var(--text2);cursor:pointer"><input type="checkbox" style="width:16px;height:16px;accent-color:#F5841F">Fecha abierta — el destinatario escoge la fecha después</label>
                 </sc-if>
               </div>
@@ -1399,12 +1398,12 @@
             <sc-if value="{{ form.s4 }}" hint-placeholder-val="">
               <div style="display:flex;align-items:center;gap:8px;font-size:11.5px;color:#9a6f0a;background:#FBF0D5;padding:10px 13px;border-radius:9px;margin-bottom:16px"><span class="ms" style="font-size:17px">info</span>Los pagos se registran manualmente. Este sistema no procesa transacciones ni utiliza pasarela de pagos.</div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px 14px">
-                <label style="{{ form.lbl }}">Valor total<input value="$370.000" style="{{ form.inp }}"></label>
-                <label style="{{ form.lbl }}">Abono<input value="$0" style="{{ form.inp }}"></label>
+                <label style="{{ form.lbl }}">Valor total<input value="{{ form.formTotal }}" onChange="{{ form.setFormTotal }}" placeholder="280000" style="{{ form.inp }}"></label>
+                <label style="{{ form.lbl }}">Abono<input value="{{ form.formAbono }}" onChange="{{ form.setAbono }}" placeholder="0" style="{{ form.inp }}"></label>
                 <label style="{{ form.lbl }}">Estado del pago<select value="{{ form.pagoVal }}" onChange="{{ form.setPago }}" style="{{ form.inp }}"><option value="pendiente">Pendiente</option><option value="abono">Abono recibido</option><option value="pagado">Pagado</option><option value="vencido">Vencido</option></select></label>
-                <label style="{{ form.lbl }}">Método de pago<select style="{{ form.inp }}"><sc-for list="{{ form.metodos }}" as="mt" hint-placeholder-count="4"><option>{{ mt }}</option></sc-for></select></label>
-                <label style="{{ form.lbl }}">Referencia<input placeholder="Nº de transferencia / recibo" style="{{ form.inp }}"></label>
-                <label style="{{ form.lbl }}">Fecha del pago<input type="date" style="{{ form.inp }}"></label>
+                <label style="{{ form.lbl }}">Método de pago<select value="{{ form.formMetodo }}" onChange="{{ form.setMetodo }}" style="{{ form.inp }}"><sc-for list="{{ form.metodos }}" as="mt" hint-placeholder-count="4"><option>{{ mt }}</option></sc-for></select></label>
+                <label style="{{ form.lbl }}">Referencia<input value="{{ form.formRef }}" onChange="{{ form.setRef }}" placeholder="Nº de transferencia / recibo" style="{{ form.inp }}"></label>
+                <label style="{{ form.lbl }}">Fecha del pago<input type="date" value="{{ form.formFechaPago }}" onChange="{{ form.setFechaPago }}" style="{{ form.inp }}"></label>
                 <label style="{{ form.lbl }};grid-column:1/3">Adjuntar comprobante (simulado)
                   <div style="border:1.5px dashed #d8d8d0;border-radius:10px;padding:16px;text-align:center;color:var(--faint);cursor:pointer;margin-top:5px" style-hover="border-color:#F5841F;color:#b5630a"><span class="ms" style="font-size:22px">upload_file</span><div style="font-size:11.5px;margin-top:4px">Arrastra o haz clic para subir</div></div>
                 </label>
@@ -1416,7 +1415,7 @@
             <button onClick="{{ form.prev }}" style="height:40px;padding:0 16px;background:var(--surface);border:1px solid var(--border);border-radius:9px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px" style-hover="background:#f4f4f1"><span class="ms" style="font-size:18px">arrow_back</span>Atrás</button>
             <div style="flex:1"></div>
             <sc-if value="{{ form.s4 }}" hint-placeholder-val="x">
-              <button onClick="{{ form.submit }}" style="height:40px;padding:0 20px;background:#2E9E5B;border:none;border-radius:9px;font-family:'Space Grotesk';font-size:13px;font-weight:600;color:#fff;cursor:pointer;display:flex;align-items:center;gap:7px" style-hover="background:#268048"><span class="ms" style="font-size:18px">check</span>Registrar sesión</button>
+              <button onClick="{{ form.submit }}" style="height:40px;padding:0 20px;background:#2E9E5B;border:none;border-radius:9px;font-family:'Space Grotesk';font-size:13px;font-weight:600;color:#fff;cursor:pointer;display:flex;align-items:center;gap:7px" style-hover="background:#268048"><span class="ms" style="font-size:18px">check</span>{{ form.submitLabel }}</button>
             </sc-if>
             <sc-if value="{{ form.s4 }}" hint-placeholder-val="">
               <button onClick="{{ form.next }}" style="height:40px;padding:0 20px;background:#F5841F;border:none;border-radius:9px;font-family:'Space Grotesk';font-size:13px;font-weight:600;color:#15171b;cursor:pointer;display:flex;align-items:center;gap:7px" style-hover="background:#e8780f">Continuar<span class="ms" style="font-size:18px">arrow_forward</span></button>
@@ -1698,6 +1697,11 @@ class Component extends DCLogic {
     formTipo: 'pxd',
     formModalidad: 'personal',
     formPago: 'pendiente',
+    formFecha: '', formHoraInicio: '', formPaqueteIdx: 0,
+    formSim: 'King Air B200', formInstructor: 'Cap. Andrés Villa', formOrigen: 'Registro manual',
+    formNombre: '', formPhone: '', formEmail: '', formSegundo: '',
+    formGiftNombre: '', formGiftPhone: '', formGiftDest: '', formGiftDestPhone: '', formGiftMsg: '',
+    formTotal: '', formAbono: '0', formMetodo: 'Transferencia', formRef: '', formFechaPago: '', formSubmitting: false,
     // documentos
     docTab: 'confirmaciones',
     // calendario
@@ -1794,8 +1798,42 @@ class Component extends DCLogic {
 
   openDrawer(code){ this.setState({ drawer: { code } }); }
   closeDrawer(){ this.setState({ drawer: null }); }
-  openForm(tipo){ this.setState({ modal: { type:'form' }, formStep:1, formTipo: tipo||'pxd', formModalidad:'personal', formPago:'pendiente' }); }
+  openForm(tipo){ const t=tipo||'pxd'; const paq=(this.paquetes[t]||[])[0]||{}; this.setState({ modal:{type:'form'}, formStep:1, formTipo:t, formModalidad:'personal', formPago:'pendiente', formFecha:'', formHoraInicio:'', formPaqueteIdx:0, formSim:'King Air B200', formInstructor:this.instList[0]||'', formOrigen:'Registro manual', formNombre:'', formPhone:'', formEmail:'', formSegundo:'', formGiftNombre:'', formGiftPhone:'', formGiftDest:'', formGiftDestPhone:'', formGiftMsg:'', formTotal:String(paq.price||''), formAbono:'0', formMetodo:'Transferencia', formRef:'', formFechaPago:'', formSubmitting:false }); }
   openDoc(kind, code){ this.setState({ modal: { type:'doc', kind, code } }); }
+  addMinutes(hhmm,mins){ const[h,m]=(hhmm||'00:00').split(':').map(Number); const t=h*60+m+mins; return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'); }
+  durToMins(dur){ const r=dur.match(/(\d+)h\s*(\d+)m/); if(r) return +r[1]*60+ +r[2]; const h=dur.match(/(\d+)h/); return h?+h[1]*60:60; }
+  async submitForm(){
+    const s=this.state;
+    const paq=(this.paquetes[s.formTipo]||[])[s.formPaqueteIdx]||{};
+    const dur=this.durToMins(paq.dur||'1h 20m');
+    const horaFin=s.formHoraInicio?this.addMinutes(s.formHoraInicio,dur):'';
+    const total=parseInt((s.formTotal||'').replace(/\D/g,''))||paq.price||280000;
+    const abono=parseInt((s.formAbono||'').replace(/\D/g,''))||0;
+    const nombre=(s.formModalidad==='personal'?s.formNombre:s.formGiftNombre).trim()||'Sin nombre';
+    const phone=(s.formModalidad==='personal'?s.formPhone:s.formGiftPhone).trim()||null;
+    this.setState({formSubmitting:true});
+    try{
+      const{error}=await supabaseClient.from('reservations').insert({
+        cliente_nombre:nombre, cliente_phone:phone, cliente_email:s.formEmail.trim()||null,
+        paquete:paq.name||'', simulador:s.formSim, fecha:s.formFecha,
+        hora_inicio:s.formHoraInicio?(s.formHoraInicio+':00'):null,
+        hora_fin:horaFin?(horaFin+':00'):null,
+        estado:'confirmada', pago:s.formPago, total, abono,
+        book_for:s.formModalidad,
+        gift_for:s.formModalidad==='regalo'?(s.formGiftDest.trim()||null):null,
+        regalo_nombre:s.formModalidad==='regalo'?(s.formGiftDest.trim()||null):null,
+        notas:s.formGiftMsg.trim()||null,
+        servicio:s.formTipo==='pxd'?'simulador':'hs_simulador',
+      });
+      if(error) throw error;
+      this.closeModal();
+      this.fetchCalSessions(this.state.calAnchor||new Date(),this.state.calView);
+      this.toast('Sesión registrada exitosamente');
+    }catch(e){
+      this.toast('Error al registrar: '+(e.message||'intenta de nuevo'));
+      this.setState({formSubmitting:false});
+    }
+  }
   openConfirm(kind, code){ this.setState({ modal: { type:'confirm', kind, code } }); }
   closeModal(){ this.setState({ modal: null }); }
   sesAct(code, label){ this.toast(label + ' · ' + code); }
@@ -2423,10 +2461,10 @@ class Component extends DCLogic {
           labelStyle:`font-size:12px;font-weight:600;${step===i+1?'color:var(--text)':'color:var(--faint)'}`,
           done: step>i+1,
         })),
-        paquetes: (this.paquetes[tipo]||[]).map(p=>({name:p.name, price:this.cop(p.price), dur:p.dur})),
+        paquetes: (this.paquetes[tipo]||[]).map((p,i)=>({name:p.name, price:this.cop(p.price), dur:p.dur, idx:String(i)})),
         sims:this.simsList, instructores:this.instList, origenes:this.origenList, metodos:this.metodoList,
-        pickPxd:()=>this.setState({formTipo:'pxd'}),
-        pickHs:()=>this.setState({formTipo:'hs'}),
+        pickPxd:()=>{ const paq=(this.paquetes.pxd||[])[0]||{}; this.setState({formTipo:'pxd',formPaqueteIdx:0,formHoraInicio:'',formTotal:String(paq.price||'')}); },
+        pickHs:()=>{ const paq=(this.paquetes.hs||[])[0]||{}; this.setState({formTipo:'hs',formPaqueteIdx:0,formHoraInicio:'',formTotal:String(paq.price||'')}); },
         pickPersonal:()=>this.setState({formModalidad:'personal'}),
         pickRegalo:()=>this.setState({formModalidad:'regalo'}),
         cardPxd: `border:2px solid ${tipo==='pxd'?'#F5841F':'var(--border)'};background:${tipo==='pxd'?'#FEF8F1':'var(--surface)'};border-radius:13px;padding:18px;cursor:pointer;transition:all .15s`,
@@ -2442,8 +2480,60 @@ class Component extends DCLogic {
         next:()=>this.setState({formStep:Math.min(4,this.state.formStep+1)}),
         prev:()=>this.setState({formStep:Math.max(1,this.state.formStep-1)}),
         goStep:(n)=>this.setState({formStep:n}),
-        submit:()=>{ this.closeModal(); this.toast('Sesión registrada (simulada)'); },
+        submit:()=>this.submitForm(),
+        submitLabel: this.state.formSubmitting?'Registrando...':'Registrar sesión',
         pagoVal:this.state.formPago,
+        // datos step 3
+        fecha:this.state.formFecha,
+        horaInicio:this.state.formHoraInicio,
+        paqueteIdx:String(this.state.formPaqueteIdx),
+        sim:this.state.formSim,
+        instructor:this.state.formInstructor,
+        origen:this.state.formOrigen,
+        nombre:this.state.formNombre,
+        phone:this.state.formPhone,
+        email:this.state.formEmail,
+        segundo:this.state.formSegundo,
+        giftNombre:this.state.formGiftNombre,
+        giftPhone:this.state.formGiftPhone,
+        giftDest:this.state.formGiftDest,
+        giftDestPhone:this.state.formGiftDestPhone,
+        giftMsg:this.state.formGiftMsg,
+        horaFin:(()=>{ const paq=(this.paquetes[tipo]||[])[this.state.formPaqueteIdx]; return (paq&&this.state.formHoraInicio)?this.addMinutes(this.state.formHoraInicio,this.durToMins(paq.dur)):'—'; })(),
+        horaOpciones:(()=>{
+          if(tipo==='pxd'){
+            const PXDSLOTS={aventurero:['08:00','09:30','11:00','14:00','15:30'],comandante:['08:00','11:00','14:00']};
+            const key=this.state.formPaqueteIdx===1?'comandante':'aventurero';
+            return (PXDSLOTS[key]).map(h=>({v:h,label:h}));
+          }
+          return ['08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00'].map(h=>({v:h,label:h}));
+        })(),
+        setFecha:(e)=>this.setState({formFecha:e.target.value}),
+        setHoraInicio:(e)=>this.setState({formHoraInicio:e.target.value}),
+        setPaqueteIdx:(e)=>{ const idx=parseInt(e.target.value)||0; const paq=(this.paquetes[this.state.formTipo]||[])[idx]||{}; this.setState({formPaqueteIdx:idx,formHoraInicio:'',formTotal:String(paq.price||'')}); },
+        setSim:(e)=>this.setState({formSim:e.target.value}),
+        setInstructor:(e)=>this.setState({formInstructor:e.target.value}),
+        setOrigen:(e)=>this.setState({formOrigen:e.target.value}),
+        setNombre:(e)=>this.setState({formNombre:e.target.value}),
+        setPhone:(e)=>this.setState({formPhone:e.target.value}),
+        setEmail:(e)=>this.setState({formEmail:e.target.value}),
+        setSegundo:(e)=>this.setState({formSegundo:e.target.value}),
+        setGiftNombre:(e)=>this.setState({formGiftNombre:e.target.value}),
+        setGiftPhone:(e)=>this.setState({formGiftPhone:e.target.value}),
+        setGiftDest:(e)=>this.setState({formGiftDest:e.target.value}),
+        setGiftDestPhone:(e)=>this.setState({formGiftDestPhone:e.target.value}),
+        setGiftMsg:(e)=>this.setState({formGiftMsg:e.target.value}),
+        // pago step 4
+        formTotal:this.state.formTotal,
+        formAbono:this.state.formAbono,
+        formMetodo:this.state.formMetodo,
+        formRef:this.state.formRef,
+        formFechaPago:this.state.formFechaPago,
+        setFormTotal:(e)=>this.setState({formTotal:e.target.value}),
+        setAbono:(e)=>this.setState({formAbono:e.target.value}),
+        setMetodo:(e)=>this.setState({formMetodo:e.target.value}),
+        setRef:(e)=>this.setState({formRef:e.target.value}),
+        setFechaPago:(e)=>this.setState({formFechaPago:e.target.value}),
       };
     }
     if (m && m.type==='doc') {
