@@ -1131,7 +1131,7 @@
             </sc-for>
             <div style="height:24px;width:1px;background:var(--border);margin:0 2px"></div>
             <input type="date" value="{{ docCustomDate }}" onInput="{{ docSetCustom }}" style="height:34px;border:1px solid var(--border);border-radius:8px;background:var(--chip);color:var(--text);font-family:Inter;font-size:12.5px;padding:0 10px;outline:none;cursor:pointer" style-focus="border-color:#F5841F">
-            <sc-if value="{{ docHasItems }}" hint-placeholder-val="">
+            <sc-if value="{{ docShowCount }}" hint-placeholder-val="">
               <span style="margin-left:auto;font-size:12px;color:var(--muted)">{{ docCount }} sesiones · {{ docDateLabel }}</span>
             </sc-if>
           </div>
@@ -3084,6 +3084,7 @@ class Component extends DCLogic {
     });
     const docEmpty=_docFiltered.length===0;
     const docHasItems=_docFiltered.length>0;
+    const docShowCount=_docFiltered.length>0;
     const docLoading=this.state.docsLoading;
     const docDateLabel=_docFilter==='hoy'?_today:_docFilter==='manana'?_tomorrow:_docFilter==='semana'?`${_weekMon} → ${_weekSun}`:_docCustom;
     const docCount=_docFiltered.length;
@@ -3229,7 +3230,7 @@ class Component extends DCLogic {
       pxdEmpty: !this.state.pxdLoading && pxdRows.length===0,
       pxdHasRows: pxdRows.length>0,
       docItems, docFilterBtns, docSetCustom, docCustomDate:_docCustom,
-      docEmpty, docHasItems, docLoading, docCount, docDateLabel,
+      docEmpty, docHasItems, docShowCount, docLoading, docCount, docDateLabel,
       cfgLocal:{ nombre:'Hold Short Aviation', ciudad:'Pereira, Risaralda · SKPE', tel:'316 724 91 39', ig:'@HOLDSHORTPEI', horario:'Lun – Sáb · 9:00 a. m. y 2:00 p. m.' },
       // perfiles
       profile,
