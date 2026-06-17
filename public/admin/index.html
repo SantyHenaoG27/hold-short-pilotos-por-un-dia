@@ -1149,7 +1149,7 @@
           <sc-if value="{{ docHasItems }}" hint-placeholder-val="x">
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:13px">
               <sc-for list="{{ docItems }}" as="d" hint-placeholder-count="4">
-                <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden">
+                <div onClick="{{ d.onDrawer }}" style="background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden;cursor:pointer;transition:border-color .15s" style-hover="border-color:#d6d6cf;box-shadow:0 4px 14px rgba(20,20,20,.07)">
                   <div style="padding:14px 16px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--divider)">
                     <div style="{{ d.avatarStyle }}">{{ d.initials }}</div>
                     <div style="min-width:0;flex:1">
@@ -1157,6 +1157,7 @@
                       <div class="mono" style="font-size:10px;color:var(--faint)">{{ d.code }}</div>
                     </div>
                     <span style="{{ d.estStyle }}">{{ d.estLabel }}</span>
+                    <span class="ms" style="font-size:18px;color:var(--faint);margin-left:2px">chevron_right</span>
                   </div>
                   <div style="padding:11px 16px;border-bottom:1px solid var(--divider)">
                     <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ d.paquete }}</div>
@@ -1781,7 +1782,7 @@ class Component extends DCLogic {
     // documentos
     docsData: null,
     docsLoading: false,
-    docDateFilter: 'hoy',
+    docDateFilter: 'todos',
     docCustomDate: '',
     // clientes
     clientesData: null,
@@ -3053,6 +3054,7 @@ class Component extends DCLogic {
     const _weekMon = (()=>{ const d=new Date(); d.setDate(d.getDate()-((d.getDay()+6)%7)); return this.isoDate(d); })();
     const _weekSun = (()=>{ const d=new Date(); d.setDate(d.getDate()+(6-((d.getDay()+6)%7))); return this.isoDate(d); })();
     const _docFiltered = _docSrc.filter(s=>{
+      if(_docFilter==='todos') return true;
       if(!s.fechaISO) return false;
       if(_docFilter==='hoy')    return s.fechaISO===_today;
       if(_docFilter==='manana') return s.fechaISO===_tomorrow;
@@ -3061,6 +3063,7 @@ class Component extends DCLogic {
       return true;
     });
     const docFilterBtns=[
+      {id:'todos', label:'Todos'},
       {id:'hoy',   label:'Hoy'},
       {id:'manana',label:'Mañana'},
       {id:'semana',label:'Esta semana'},
@@ -3077,7 +3080,7 @@ class Component extends DCLogic {
       return { code:s.code, cliente:s.cliente||'—', initials, fecha:s.fecha, hi:s.hi, hf:s.hf, paquete:s.paquete, regalo:s.regalo,
         estLabel:em.label, estStyle:`font-size:10px;font-weight:600;color:${em.c};background:${em.bg};padding:2px 9px;border-radius:10px`,
         avatarStyle:`width:38px;height:38px;border-radius:10px;background:${em.bg};color:${em.c};display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:14px;flex-shrink:0`,
-        docBtns };
+        onDrawer:()=>this.openDrawer(s.code), docBtns };
     });
     const docEmpty=_docFiltered.length===0;
     const docHasItems=_docFiltered.length>0;
