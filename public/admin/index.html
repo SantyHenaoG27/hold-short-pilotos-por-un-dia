@@ -1417,7 +1417,7 @@
             <sc-if value="{{ form.s4 }}" hint-placeholder-val="x">
               <button onClick="{{ form.submit }}" style="height:40px;padding:0 20px;background:#2E9E5B;border:none;border-radius:9px;font-family:'Space Grotesk';font-size:13px;font-weight:600;color:#fff;cursor:pointer;display:flex;align-items:center;gap:7px" style-hover="background:#268048"><span class="ms" style="font-size:18px">check</span>{{ form.submitLabel }}</button>
             </sc-if>
-            <sc-if value="{{ form.s4 }}" hint-placeholder-val="">
+            <sc-if value="{{ form.notS4 }}" hint-placeholder-val="x">
               <button onClick="{{ form.next }}" style="height:40px;padding:0 20px;background:#F5841F;border:none;border-radius:9px;font-family:'Space Grotesk';font-size:13px;font-weight:600;color:#15171b;cursor:pointer;display:flex;align-items:center;gap:7px" style-hover="background:#e8780f">Continuar<span class="ms" style="font-size:18px">arrow_forward</span></button>
             </sc-if>
           </div>
@@ -2477,8 +2477,9 @@ class Component extends DCLogic {
         setTipo:(t)=>this.setState({formTipo:t}),
         setModalidad:(md)=>this.setState({formModalidad:md}),
         setPago:(e)=>this.setState({formPago:e.target.value}),
+        notS4: step !== 4,
         next:()=>this.setState({formStep:Math.min(4,this.state.formStep+1)}),
-        prev:()=>this.setState({formStep:Math.max(1,this.state.formStep-1)}),
+        prev:()=>{ if(this.state.formStep<=1) this.closeModal(); else this.setState({formStep:this.state.formStep-1}); },
         goStep:(n)=>this.setState({formStep:n}),
         submit:()=>this.submitForm(),
         submitLabel: this.state.formSubmitting?'Registrando...':'Registrar sesión',
