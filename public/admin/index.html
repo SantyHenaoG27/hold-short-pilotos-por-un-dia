@@ -509,6 +509,21 @@
       <!-- ===== SESIONES DE SIMULADOR ===== -->
       <sc-if value="{{ isSesiones }}" hint-placeholder-val="">
         <div>
+          <div style="margin-bottom:18px">
+            <div class="mono" style="font-size:11px;letter-spacing:.1em;color:#F5841F;font-weight:600;margin-bottom:5px">// GESTIÓN DE RESERVAS</div>
+            <h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Sesiones de simulador</h1>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:60px 24px;text-align:center">
+            <div style="width:64px;height:64px;border-radius:16px;background:var(--chip);display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px"><span class="ms" style="font-size:32px;color:var(--faint)">flight</span></div>
+            <div class="disp" style="font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px">Próximamente</div>
+            <div style="font-size:13px;color:var(--muted);max-width:380px;margin:0 auto;line-height:1.6">Esta sección estará disponible en una próxima actualización con tabla avanzada, filtros, vistas y exportación.</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- SESIONES ELIMINADAS TEMPORALMENTE - REEMPLAZADAS POR PRÓXIMAMENTE
+      <sc-if value="{{ isSesiones_DISABLED }}" hint-placeholder-val="">
+        <div>
           <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px">
             <div>
               <div class="mono" style="font-size:11px;letter-spacing:.1em;color:#F5841F;font-weight:600;margin-bottom:5px">// GESTIÓN DE RESERVAS</div>
@@ -634,7 +649,7 @@
           </sc-if>
 
         </div>
-      </sc-if>
+      </sc-if_DISABLED -->
 
       <!-- ===== CALENDARIO OPERATIVO ===== -->
       <sc-if value="{{ isCalendario }}" hint-placeholder-val="">
