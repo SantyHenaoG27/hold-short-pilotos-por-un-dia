@@ -116,10 +116,31 @@
 
       <div style="flex:1"></div>
 
-      <div data-r="hideSm" style="position:relative;display:flex;align-items:center;background:var(--chip);border:1px solid var(--border);border-radius:9px;padding:0 11px;height:38px;width:230px">
+      <div data-r="hideSm" style="position:relative;display:flex;align-items:center;background:var(--chip);border:1px solid var(--border);border-radius:9px;padding:0 11px;height:38px;width:260px">
         <span class="ms" style="font-size:18px;color:var(--faint)">search</span>
-        <input placeholder="Buscar reserva, cliente, código…" style="border:none;background:transparent;outline:none;font-family:'Inter';font-size:12.5px;padding:0 8px;width:100%;color:var(--text)">
+        <input value="{{ globalSearch }}" onInput="{{ setSearch }}" onFocus="{{ onSearchFocus }}" onBlur="{{ onSearchBlur }}" placeholder="Buscar reserva, cliente, código…" style="border:none;background:transparent;outline:none;font-family:'Inter';font-size:12.5px;padding:0 8px;width:100%;color:var(--text)">
         <span class="mono" style="font-size:10px;color:var(--faint);border:1px solid #e2e2db;border-radius:5px;padding:1px 5px">/</span>
+        <!-- Dropdown resultados -->
+        <sc-if value="{{ searchOpen }}" hint-placeholder-val="">
+          <div style="position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:11px;box-shadow:0 8px 32px rgba(0,0,0,.14);z-index:500;overflow:hidden">
+            <sc-for list="{{ searchRows }}" as="r">
+              <div onClick="{{ r.onClick }}" style="display:flex;align-items:center;gap:11px;padding:10px 13px;border-bottom:1px solid var(--divider);cursor:pointer" style-hover="background:var(--alt)">
+                <span class="ms" style="font-size:18px;color:#F5841F;flex-shrink:0">confirmation_number</span>
+                <div style="flex:1;min-width:0">
+                  <div style="display:flex;align-items:center;gap:7px">
+                    <span class="mono" style="font-size:11px;font-weight:600;color:var(--text)">{{ r.code }}</span>
+                    <span style="{{ r.estStyle }}">{{ r.estLabel }}</span>
+                  </div>
+                  <div style="font-size:11.5px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px">{{ r.cliente }}</div>
+                  <div class="mono" style="font-size:10px;color:var(--faint)">{{ r.paquete }} · {{ r.fecha }}</div>
+                </div>
+              </div>
+            </sc-for>
+            <sc-if value="{{ searchRows.length === 0 }}" hint-placeholder-val="">
+              <div style="padding:14px 13px;font-size:12px;color:var(--faint);text-align:center">Sin resultados</div>
+            </sc-if>
+          </div>
+        </sc-if>
       </div>
 
       <button onClick="{{ openSede }}" data-r="hideSm" style="display:flex;align-items:center;gap:7px;height:38px;padding:0 12px;background:var(--surface);border:1px solid var(--border);border-radius:9px;cursor:pointer;font-size:12.5px;font-weight:500;color:var(--text2)" style-hover="border-color:#cfcfc8;background:#fafaf8">
@@ -1785,6 +1806,8 @@ class Component extends DCLogic {
     formTotal: '', formAbono: '0', formMetodo: 'Transferencia', formRef: '', formFechaPago: '', formSubmitting: false,
     // documentos
     docTab: 'confirmaciones',
+    globalSearch: '',
+    searchFocus: false,
     // pxd
     pxdData: null,
     pxdLoading: false,
@@ -2262,6 +2285,30 @@ class Component extends DCLogic {
   renderVals(){
     const r = this.state.route;
     const L = this.state.loading;
+
+    // ---------- BÚSQUEDA GLOBAL ----------
+    const _sq = (this.state.globalSearch||'').trim().toLowerCase();
+    const _allSessions = [
+      ...(this.state.pxdData||[]),
+      ...(this.state.dbSessions||[]),
+      ...this.sessions,
+    ].filter((s,i,arr)=>arr.findIndex(x=>x.code===s.code)===i); // deduplicar por code
+    const searchResults = _sq.length >= 2 ? _allSessions.filter(s=>{
+      const hay = [s.code,s.cliente,s.segundo,s.tel,s.email,s.paquete].filter(Boolean).join(' ').toLowerCase();
+      return hay.includes(_sq);
+    }).slice(0,8) : [];
+    const searchOpen = this.state.searchFocus && _sq.length >= 2;
+    const searchRows = searchResults.map(s=>{
+      const em=this.estadoMeta(s.estado);
+      return { code:s.code, cliente:s.cliente||'—', paquete:s.paquete, fecha:s.fecha,
+        estLabel:em.label, estStyle:`font-size:10px;font-weight:600;color:${em.c};background:${em.bg};padding:2px 8px;border-radius:10px`,
+        onClick:()=>{ this.setState({globalSearch:'',searchFocus:false}); this.openDrawer(s.code); this.nav('pxd'); },
+      };
+    });
+    const setSearch = (e)=>this.setState({globalSearch:e.target.value});
+    const onSearchFocus = ()=>this.setState({searchFocus:true});
+    const onSearchBlur = ()=>setTimeout(()=>this.setState({searchFocus:false}),180);
+
     const expanded = !this.state.collapsed;
     const hour = this.state.now.getHours();
     const greeting = (hour<12?'Buenos días':hour<19?'Buenas tardes':'Buenas noches') + ', Cap. Mateo';
@@ -3124,6 +3171,7 @@ class Component extends DCLogic {
       profileMsg:()=>this.toast('Enviar mensaje (simulado)'),
       // clientes
       cliRows, cliKpis, cliCount:cliRows.length, cliLoading, cliEmpty, cliHasRows,
+      searchRows, searchOpen, setSearch, onSearchFocus, onSearchBlur, globalSearch:this.state.globalSearch,
       clienteDrawerData, cliDrawerOpen, cliDrawerClose,
       // regalos
       regList, regPipeline, regCount:regList.length,
