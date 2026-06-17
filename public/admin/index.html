@@ -1399,7 +1399,6 @@
               <button onClick="{{ b.onClick }}" style="{{ b.style }}" style-hover="background:var(--alt);border-color:#cfcfc8"><span class="ms" style="font-size:17px;color:{{ b.color }}">{{ b.icon }}</span>{{ b.label }}</button>
             </sc-for>
           </div>
-          <button onClick="{{ drawer.actDoc }}" style="width:100%;height:42px;background:var(--btnsolid);border:none;border-radius:10px;color:#fff;font-family:'Space Grotesk';font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" style-hover="background:#26282d"><span class="ms" style="font-size:18px;color:#F5841F">description</span>{{ drawer.docBtn }}</button>
         </div>
       </div>
     </div>
@@ -2555,10 +2554,10 @@ class Component extends DCLogic {
         });
         const ab = (icon,label,color,onClick)=>({icon,label,color, style:'display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;background:var(--surface);border:1px solid var(--border);border-radius:9px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;justify-content:center', onClick});
         drawerActions = [
-          ab('notifications_active','Recordatorio','#2563B0', ()=>this.sendRecordatorio(s)),
-          ab('event_repeat','Reprogramar','#6D5AE0',          ()=>this.openReprModal(s)),
-          ab('redeem','Invitación de regalo','#C99A2E',        ()=>this.openDoc('invitacion',s.code)),
-          ab('cancel','Cancelar sesión','#b13838',             ()=>this.setEstado(s.code,'cancelada')),
+          ab('notifications_active','Recordatorio','#2563B0',                           ()=>this.sendRecordatorio(s)),
+          ab('event_repeat','Reprogramar','#6D5AE0',                                    ()=>this.openReprModal(s)),
+          ab(s.regalo?'redeem':'confirmation_number', s.regalo?'Invitación de regalo':'Confirmación', s.regalo?'#C99A2E':'#355C7D', ()=>this.openDoc(s.regalo?'invitacion':'confirmacion',s.code)),
+          ab('cancel','Cancelar sesión','#b13838',                                      ()=>this.setEstado(s.code,'cancelada')),
         ];
         const flowEstados=[['solicitud','Reserva recibida'],['confirmada','Confirmada'],['checkin','Check-in / asistencia'],['curso','En simulador'],['completada','Experiencia completada']];
         drawerEstados = flowEstados.map(([est,label])=>{
