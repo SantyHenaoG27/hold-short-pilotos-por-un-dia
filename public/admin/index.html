@@ -2145,15 +2145,15 @@ class Component extends DCLogic {
     { label:'OPERACIÓN', items:[
       ['panel','space_dashboard','Panel principal',null],
       ['calendario','calendar_month','Calendario operativo',null],
-      ['sesiones','flight','Sesiones de simulador','3'] ]},
+      ['sesiones','flight','Sesiones de simulador',null] ]},
     { label:'CLIENTES & SERVICIOS', items:[
       ['pxd','airplane_ticket','Piloto por un Día',null],
       ['clientes','group','Clientes',null],
-      ['regalos','redeem','Regalos','6'],
+      ['regalos','redeem','Regalos',null],
       ['pilotos','badge','Pilotos',null] ]},
     { label:'DOCUMENTOS', items:[
-      ['documentos','forward_to_inbox','Confirmaciones e invitaciones','5'],
-      ['certificados','workspace_premium','Certificados','4'],
+      ['documentos','forward_to_inbox','Confirmaciones e invitaciones',null],
+      ['certificados','workspace_premium','Certificados',null],
       ['comunicaciones','chat','Comunicaciones',null] ]},
     { label:'RECURSOS', items:[
       ['simuladores','airlines','Simuladores',null],
@@ -2336,6 +2336,10 @@ class Component extends DCLogic {
 
     // sidebar
     const sidebarStyle = `width:${this.state.collapsed?72:248}px;flex-shrink:0;background:#0C0D10;display:flex;flex-direction:column;height:100vh;transition:width .2s;border-right:1px solid #1d1f24`;
+    const _navBadges = {
+      regalos:   this.state.regalosData ? String(this.state.regalosData.length) : null,
+      certificados: this.state.certData  ? String(this.state.certData.length)   : null,
+    };
     const navGroups = this.navStructure.map(g => ({
       label: g.label,
       items: g.items.map(([id,icon,label,badge]) => {
@@ -2344,7 +2348,8 @@ class Component extends DCLogic {
         const style = active
           ? base + `color:#fff;background:#1a1c21;border-left-color:#F5841F;font-weight:600`
           : base + `color:var(--faint);font-weight:500`;
-        return { id, icon, label, badge,
+        const dynBadge = _navBadges[id] !== undefined ? _navBadges[id] : badge;
+        return { id, icon, label, badge: dynBadge,
           style,
           badgeStyle: active
             ? 'margin-left:auto;font-size:10px;background:#F5841F;color:#15171b;padding:1px 7px;border-radius:20px;font-weight:600'
