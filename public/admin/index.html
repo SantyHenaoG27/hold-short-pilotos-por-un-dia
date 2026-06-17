@@ -1399,8 +1399,37 @@
               <button onClick="{{ b.onClick }}" style="{{ b.style }}" style-hover="background:var(--alt);border-color:#cfcfc8"><span class="ms" style="font-size:17px;color:{{ b.color }}">{{ b.icon }}</span>{{ b.label }}</button>
             </sc-for>
           </div>
-          <button onClick="{{ drawer.actDoc }}" style="width:100%;height:42px;background:var(--btnsolid);border:none;border-radius:10px;color:#fff;font-family:'Space Grotesk';font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px" style-hover="background:#26282d"><span class="ms" style="font-size:18px;color:#F5841F">description</span>{{ drawer.docBtn }}</button>
-          <button onClick="{{ drawerCancel }}" style="width:100%;height:38px;background:var(--surface);border:1px solid #F1D4D4;border-radius:10px;color:#b13838;font-size:12.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px" style-hover="background:#FBEAEA"><span class="ms" style="font-size:17px">cancel</span>Cancelar sesión</button>
+          <button onClick="{{ drawer.actDoc }}" style="width:100%;height:42px;background:var(--btnsolid);border:none;border-radius:10px;color:#fff;font-family:'Space Grotesk';font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" style-hover="background:#26282d"><span class="ms" style="font-size:18px;color:#F5841F">description</span>{{ drawer.docBtn }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ REPROGRAMAR MODAL ============ -->
+  <sc-if value="{{ reprModalOpen }}" hint-placeholder-val="">
+    <div onClick="{{ reprClose }}" style="position:fixed;inset:0;z-index:300;background:rgba(10,11,13,.5);display:flex;align-items:center;justify-content:center;padding:24px">
+      <div onClick="{{ stopE }}" style="width:400px;max-width:96vw;background:var(--surface);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.3);overflow:hidden">
+        <div style="padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+          <span class="ms" style="font-size:22px;color:#6D5AE0">event_repeat</span>
+          <div style="flex:1">
+            <h2 class="disp" style="margin:0;font-size:16px;font-weight:700">Reprogramar sesión</h2>
+            <div style="font-size:11.5px;color:var(--muted);margin-top:2px">{{ reprModal.cliente }} · {{ reprModal.paquete }}</div>
+          </div>
+          <span class="ms" onClick="{{ reprClose }}" style="font-size:22px;color:var(--faint);cursor:pointer;padding:4px;border-radius:7px" style-hover="background:var(--chip)">close</span>
+        </div>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:14px">
+          <div>
+            <label style="display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.03em">NUEVA FECHA</label>
+            <input type="date" value="{{ reprModal.fecha }}" onInput="{{ reprSetFecha }}" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-family:Inter;font-size:13px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#6D5AE0">
+          </div>
+          <div>
+            <label style="display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.03em">NUEVA HORA DE INICIO</label>
+            <input type="time" value="{{ reprModal.hi }}" onInput="{{ reprSetHi }}" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-family:Inter;font-size:13px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#6D5AE0">
+          </div>
+          <div style="display:flex;gap:10px;margin-top:4px">
+            <button onClick="{{ reprClose }}" style="flex:1;height:40px;background:var(--chip);border:1px solid var(--border);border-radius:9px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer" style-hover="background:var(--alt)">Cancelar</button>
+            <button onClick="{{ reprSubmit }}" style="flex:2;height:40px;background:#6D5AE0;border:none;border-radius:9px;font-size:13px;font-weight:600;color:#fff;cursor:pointer" style-hover="background:#5a49c4">Confirmar reprogramación</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1830,6 +1859,8 @@ class Component extends DCLogic {
     // regalos
     regalosData: null,
     regalosLoading: false,
+    // reprogramar modal
+    reprModal: null,
     // calendario
     calView: 'semana',
     calAnchor: null,
@@ -1893,6 +1924,30 @@ class Component extends DCLogic {
     }catch(e){ this.setState({calLoading:false}); }
   }
 
+  sendRecordatorio(s){
+    const tel=(s.tel||'').replace(/[\s\-()]/g,'');
+    if(!tel){ this.toast('Sin número de teléfono'); return; }
+    const msg=`Hola ${s.cliente} 👋, te recordamos que tienes tu experiencia *Piloto por un Día* (${s.paquete}) el *${s.fecha}* a las *${s.hi}* en Hold Short Aviation ✈️\n\n¡Te esperamos!`;
+    window.open('https://wa.me/57'+tel+'?text='+encodeURIComponent(msg),'_blank');
+  }
+  openReprModal(s){
+    this.setState({ reprModal:{ code:s.code, cliente:s.cliente, paquete:s.paquete, fecha:s.fechaISO||'', hi:s.hi||'' } });
+  }
+  async submitRepr(){
+    const m=this.state.reprModal; if(!m||!m.fecha||!m.hi){ this.toast('Completa fecha y hora'); return; }
+    const durMins = (m.paquete||'').includes('Completo')?150:80;
+    const horaFin = this.addMinutes(m.hi, durMins);
+    try{
+      const{error}=await supabaseClient.from('reservations').update({fecha:m.fecha,hora_inicio:m.hi+':00',hora_fin:horaFin+':00',estado:'reprogramada'}).eq('code',m.code);
+      if(error){ this.toast('Error al reprogramar'); return; }
+      const[y,mo,d]=m.fecha.split('-'); const fechaDisplay=`${d}/${mo}/${y}`;
+      const upd=s=>s.code===m.code?{...s,fecha:fechaDisplay,fechaISO:m.fecha,hi:m.hi,hf:horaFin,estado:'reprogramada'}:s;
+      if(this.state.pxdData) this.setState({pxdData:this.state.pxdData.map(upd)});
+      if(this.state.dbSessions) this.setState({dbSessions:this.state.dbSessions.map(upd)});
+      this.setState({reprModal:null,drawer:null});
+      this.toast('Sesión reprogramada para '+fechaDisplay+' · '+m.hi);
+    }catch(e){ this.toast('Error al reprogramar'); }
+  }
   async fetchRegalosData(){
     this.setState({regalosLoading:true});
     try{
@@ -2500,12 +2555,10 @@ class Component extends DCLogic {
         });
         const ab = (icon,label,color,onClick)=>({icon,label,color, style:'display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;background:var(--surface);border:1px solid var(--border);border-radius:9px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;justify-content:center', onClick});
         drawerActions = [
-          ab('check_circle','Confirmar','#2E9E5B',     ()=>this.setEstado(s.code,'confirmada')),
-          ab('notifications_active','Recordatorio','#355C7D', ()=>this.toast('Recordatorio · '+s.code)),
-          ab('how_to_reg','Registrar llegada','#0E9AA3',()=>this.setEstado(s.code,'checkin')),
-          ab('play_circle','Iniciar','#2563B0',         ()=>this.setEstado(s.code,'curso')),
-          ab('task_alt','Completar','#227a45',          ()=>this.setEstado(s.code,'completada')),
-          ab('event_repeat','Reprogramar','#6D5AE0',    ()=>this.setEstado(s.code,'reprogramada')),
+          ab('notifications_active','Recordatorio','#2563B0', ()=>this.sendRecordatorio(s)),
+          ab('event_repeat','Reprogramar','#6D5AE0',          ()=>this.openReprModal(s)),
+          ab('redeem','Invitación de regalo','#C99A2E',        ()=>this.openDoc('invitacion',s.code)),
+          ab('cancel','Cancelar sesión','#b13838',             ()=>this.setEstado(s.code,'cancelada')),
         ];
         const flowEstados=[['solicitud','Reserva recibida'],['confirmada','Confirmada'],['checkin','Check-in / asistencia'],['curso','En simulador'],['completada','Experiencia completada']];
         drawerEstados = flowEstados.map(([est,label])=>{
@@ -3242,6 +3295,12 @@ class Component extends DCLogic {
       drawer, drawerRows, drawerFlow, drawerActions, drawerEstados,
       closeDrawer:()=>this.closeDrawer(),
       drawerCancel:()=>{ const c=this.state.drawer?.code; if(c) this.setEstado(c,'cancelada'); },
+      reprModal: this.state.reprModal,
+      reprModalOpen: !!this.state.reprModal,
+      reprClose: ()=>this.setState({reprModal:null}),
+      reprSetFecha: (e)=>this.setState({reprModal:{...this.state.reprModal,fecha:e.target.value}}),
+      reprSetHi: (e)=>this.setState({reprModal:{...this.state.reprModal,hi:e.target.value}}),
+      reprSubmit: ()=>this.submitRepr(),
       hasModal: !!this.state.modal,
       modalIsForm, modalIsDoc, modalIsConfirm, form, doc, confirm,
       docHeadIcon: doc ? (doc.isInv?'redeem':doc.isCert?'workspace_premium':'confirmation_number') : 'description',
