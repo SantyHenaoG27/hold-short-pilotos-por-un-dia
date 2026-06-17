@@ -1005,7 +1005,7 @@
             <sc-if value="{{ pxdEmpty }}" hint-placeholder-val="">
               <div style="padding:32px;text-align:center;color:var(--faint);font-size:13px">No hay reservas registradas aún.</div>
             </sc-if>
-            <sc-if value="{{ pxdEmpty }}" hint-placeholder-val="x">
+            <sc-if value="{{ pxdHasRows }}" hint-placeholder-val="x">
               <div style="overflow-x:auto"><div style="min-width:760px">
                 <sc-for list="{{ pxdRows }}" as="p" hint-placeholder-count="6">
                   <div onClick="{{ p.onClick }}" style="display:grid;grid-template-columns:90px 1.4fr 1.4fr 1fr 120px;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--divider);cursor:pointer;font-size:12.5px" style-hover="background:var(--alt)">
@@ -2909,6 +2909,7 @@ class Component extends DCLogic {
       pxdRows, pxdPaquetes, pxdKpis,
       pxdLoading: this.state.pxdLoading,
       pxdEmpty: !this.state.pxdLoading && pxdRows.length===0,
+      pxdHasRows: pxdRows.length>0,
       docTabs, docItems, docTab:dt,
       cfgLocal:{ nombre:'Hold Short Aviation', ciudad:'Pereira, Risaralda · SKPE', tel:'316 724 91 39', ig:'@HOLDSHORTPEI', horario:'Lun – Sáb · 9:00 a. m. y 2:00 p. m.' },
       // perfiles
