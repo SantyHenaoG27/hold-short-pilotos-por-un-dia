@@ -299,11 +299,18 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
               </div>
               <div style="flex:1;padding-bottom:20px">
                 <div style="{{ portalDetail.s2Style }}">{{ portalDetail.s2Title }}</div>
-                <sc-if value="{{ portalDetail.isConfirmada }}" hint-placeholder-val="{{ false }}">
+                <sc-if value="{{ portalDetail.isConfirmadaNoGift }}" hint-placeholder-val="{{ false }}">
                   <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.18);border-radius:8px;padding:10px 12px;margin-top:6px">
                     <div style="font-family:Inter,sans-serif;font-size:12px;color:#86efac;line-height:1.5">Confirmado en Hangar 1903. Al llegar presenta el código <strong style="color:#4ade80">{{ portalDetail.code }}</strong></div>
                   </div>
                   <button onClick="{{ portalDetail.dlConfirm }}" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:10px;background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);color:#4ade80;padding:7px 12px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">⬇ Guardar confirmación</button>
+                </sc-if>
+                <sc-if value="{{ portalDetail.isConfirmadaGift }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.18);border-radius:8px;padding:10px 12px;margin-top:6px">
+                    <div style="font-family:Inter,sans-serif;font-size:12px;color:#86efac;line-height:1.5">Confirmado en Hangar 1903. Al llegar presenta el código <strong style="color:#4ade80">{{ portalDetail.code }}</strong></div>
+                  </div>
+                  <button onClick="{{ portalDetail.dlConfirm }}" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:10px;background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);color:#4ade80;padding:7px 12px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">⬇ Guardar confirmación</button>
+                  <button onClick="{{ portalDetail.dlInvitacion }}" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:7px;background:rgba(201,154,46,.07);border:1px solid rgba(201,154,46,.25);color:#C99A2E;padding:7px 12px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">🎁 Guardar invitación de regalo</button>
                 </sc-if>
                 <sc-if value="{{ portalDetail.isPendiente }}" hint-placeholder-val="{{ false }}">
                   <div style="font-family:Inter,sans-serif;font-size:11.5px;color:#3a4f63;margin-top:4px">Recibirás confirmación por WhatsApp o correo en breve.</div>
@@ -1774,6 +1781,8 @@ class Component extends DCLogic {
       timeDisplay:(r.horaInicio&&r.horaFin)?r.horaInicio+' – '+r.horaFin:'',
       hasCertificado:!!(r.certificadoUrl)||r.estado==='completada',
       isConfirmada:d2,
+      isConfirmadaNoGift:d2 && r.bookFor!=='regalo',
+      isConfirmadaGift:d2 && r.bookFor==='regalo',
       isFinalizada:d3,
       isPendiente:!d2&&!d3,
       s3Pending:!d3,
@@ -1790,6 +1799,7 @@ class Component extends DCLogic {
       s3Title:d3?'Vuelo completado':'Vuelo por realizar',
       dlTicket:this.portalDownloadTicket.bind(this,r),
       dlConfirm:this.portalDownloadConfirm.bind(this,r),
+      dlInvitacion:this.portalDownloadInvitacion.bind(this,r),
       dlCert:this.portalDownloadCert.bind(this,r),
     });
   }
@@ -1948,7 +1958,63 @@ portalDownloadConfirm(r){
   </div>
   <div style="background:#F5841F;padding:11px 24px;text-align:center"><span class="disp" style="font-size:14px;font-weight:700;color:#15171b;letter-spacing:.02em">NOS VEMOS EN CABINA · <span style="font-style:italic">CLEARED FOR TAKEOFF</span></span></div>
 </div>`;
-  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Confirmación '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+invHtml+confHtml+'<div style="text-align:center"><button id="hs-p" class="hs-pbtn" onclick="window.print()" disabled style="opacity:.5;cursor:wait">Cargando…</button></div>\x3Cscript>(function(){var b=document.getElementById("hs-p"),imgs=Array.from(document.images).filter(function(i){return !i.complete;}),n=imgs.length,d=0;function ok(){document.fonts.ready.then(function(){b.textContent="Imprimir / Guardar PDF";b.style.opacity="";b.style.cursor="";b.removeAttribute("disabled");});}if(!n){ok();}else{imgs.forEach(function(i){function cb(){if(++d>=n)ok();}i.addEventListener("load",cb);i.addEventListener("error",cb);});}})()\x3C/script></body></html>';
+  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Confirmación '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+confHtml+'<div style="text-align:center"><button id="hs-p" class="hs-pbtn" onclick="window.print()" disabled style="opacity:.5;cursor:wait">Cargando…</button></div>\x3Cscript>(function(){var b=document.getElementById("hs-p"),imgs=Array.from(document.images).filter(function(i){return !i.complete;}),n=imgs.length,d=0;function ok(){document.fonts.ready.then(function(){b.textContent="Imprimir / Guardar PDF";b.style.opacity="";b.style.cursor="";b.removeAttribute("disabled");});}if(!n){ok();}else{imgs.forEach(function(i){function cb(){if(++d>=n)ok();}i.addEventListener("load",cb);i.addEventListener("error",cb);});}})()\x3C/script></body></html>';
+  var w=window.open('','_blank','width=960,height=860');
+  if(!w){alert('Activa ventanas emergentes para descargar.');return;}
+  w.document.write(full);
+  w.document.close();
+}
+portalDownloadInvitacion(r){
+  var base=window.location.origin;
+  var isGift=r.bookFor==='regalo';
+  if(!isGift){return;}
+  var recipient=(r.giftFor)?r.giftFor:r.clienteNombre;
+  var giver=r.clienteNombre||'';
+  var fecha=r.fecha||'–';
+  var hora=r.horaInicio||'–';
+  var msg=r.notas||'¡Que disfrutes esta experiencia única de aviación!';
+  var qr='https://api.qrserver.com/v1/create-qr-code/?size=140x140&data='+encodeURIComponent(base+'/?reserva='+r.code);
+  var FONTS='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">';
+  var CSS=':root{--surface:#ffffff;--muted:#9a9ea5}*{box-sizing:border-box;margin:0;padding:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}body{background:#E9E9E4;padding:24px;font-family:"Space Grotesk",sans-serif}.ms{font-family:"Material Symbols Outlined";font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;font-feature-settings:"liga";-webkit-font-smoothing:antialiased;font-variation-settings:"opsz" 24,"wght" 400;-webkit-user-select:none;user-select:none}.mono{font-family:"JetBrains Mono",monospace}.disp{font-family:"Space Grotesk",sans-serif}.hs-pbtn{display:block;margin:20px auto 0;background:#0C0D10;color:#F5841F;border:1px solid #F5841F;border-radius:8px;padding:11px 28px;font-weight:700;font-size:14px;cursor:pointer;font-family:"Space Grotesk",sans-serif;letter-spacing:.04em}@page{size:A4 landscape;margin:8mm}@media print{.hs-pbtn{display:none!important}body{padding:0;margin:0}}';
+  var invHtml=`
+<div style="width:880px;max-width:100%;margin:0 auto 20px;background:#F3EFE7;border-radius:8px;overflow:hidden;box-shadow:0 16px 44px rgba(0,0,0,.28);font-family:'Space Grotesk',sans-serif">
+  <div style="background:#0C0D10;display:flex;align-items:center;justify-content:space-between;padding:12px 22px;border-bottom:3px solid #F5841F">
+    <span class="mono" style="font-size:11px;letter-spacing:.18em;color:#F5841F;font-weight:600">PILOTO POR UN DÍA · INVITACIÓN</span>
+    <img src="${base}/assets/logo.png" alt="Hold Short" style="height:26px">
+  </div>
+  <div style="display:flex;align-items:stretch">
+    <div style="width:188px;flex-shrink:0;position:relative;display:flex;align-items:flex-end;padding:14px;overflow:hidden;background:linear-gradient(160deg,#e8e2d4,#cbc3b2)">
+      <img src="${base}/assets/avion.png" alt="Biplano" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:sepia(.4) contrast(1.03);mix-blend-mode:multiply">
+      <span class="mono" style="position:relative;font-size:9px;letter-spacing:.05em;color:#3a342a;background:rgba(255,255,255,.72);padding:3px 7px;border-radius:5px">EST. 1903 · WRIGHT FLYER</span>
+    </div>
+    <div style="flex:1;padding:26px 26px 18px;text-align:center;min-width:0">
+      <div class="mono" style="font-size:12px;letter-spacing:.28em;color:#7a7264;font-weight:600">APRECIADO CAPITÁN</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 0 4px"><span style="height:1px;width:50px;background:#d6cdbd"></span><span class="ms" style="font-size:16px;color:#F5841F">flight</span><span class="ms" style="font-size:13px;color:#F5841F">star</span><span style="height:1px;width:50px;background:#d6cdbd"></span></div>
+      <div class="disp" style="font-size:36px;font-weight:700;color:#15171b;letter-spacing:-.01em;line-height:1.05">${recipient}</div>
+      <p style="font-family:Inter,sans-serif;font-size:12.5px;color:#3a3530;font-weight:600;line-height:1.5;margin:16px auto 10px;max-width:440px">Hoy recibes mucho más que un regalo: recibes un llamado a despegar hacia uno de los mejores días de tu vida.</p>
+      <p style="font-family:Inter,sans-serif;font-size:11.5px;color:#6b645a;line-height:1.55;margin:0 auto;max-width:440px">De parte de <strong style="color:#b5630a">${giver}</strong>, has sido invitado a vivir la experiencia 'Piloto por un Día': una jornada teórico-práctica para sentir la emoción de volar y crear un recuerdo inolvidable.</p>
+    </div>
+    <div style="width:160px;flex-shrink:0;padding:22px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px dashed #cdc4b4">
+      <span class="mono" style="font-size:8.5px;letter-spacing:.08em;color:#7a7264;text-align:center;font-weight:600;margin-bottom:9px">ESCANEA PARA VER<br>DETALLES DE TU RESERVA</span>
+      <img src="${qr}" width="108" height="108" style="border-radius:9px;box-shadow:0 3px 10px rgba(0,0,0,.12)">
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#ddd4c4;margin:0 22px;border-radius:9px;overflow:hidden;border:1px solid #ddd4c4">
+    <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">event</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">FECHA PROGRAMADA</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">${fecha}</div></div>
+    <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">schedule</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">HORA</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">${hora}</div></div>
+    <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">location_on</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">UBICACIÓN</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">Pereira · SKPE</div></div>
+    <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">confirmation_number</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">RESERVA</div><div class="mono" style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">${r.code}</div></div>
+  </div>
+  <div style="margin:13px 22px 0;border:1px solid #ddd4c4;border-radius:9px;padding:10px 14px;display:flex;gap:10px;align-items:center">
+    <span class="ms" style="font-size:18px;color:#b5630a">mail</span>
+    <div><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f">MENSAJE PERSONALIZADO</div><div style="font-family:Inter,sans-serif;font-size:11.5px;color:#3a3530;font-style:italic;margin-top:2px">&#x201C;${msg}&#x201D;</div></div>
+  </div>
+  <div style="background:#0C0D10;margin-top:16px;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+    <span class="mono" style="font-size:10px;color:#9a9ea5;display:flex;align-items:center;gap:6px"><span class="ms" style="font-size:14px;color:#F5841F">photo_camera</span>@HOLDSHORTPEI · 316 724 91 39</span>
+    <span class="disp" style="font-size:13px;font-weight:700;color:#fff;letter-spacing:.02em">TU EXPERIENCIA TE ESPERA · <span style="color:#F5841F;font-style:italic">CLEARED FOR TAKEOFF</span></span>
+  </div>
+</div>`;
+  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Invitación '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+invHtml+'<div style="text-align:center"><button id="hs-p" class="hs-pbtn" onclick="window.print()" disabled style="opacity:.5;cursor:wait">Cargando…</button></div>\x3Cscript>(function(){var b=document.getElementById("hs-p"),imgs=Array.from(document.images).filter(function(i){return !i.complete;}),n=imgs.length,d=0;function ok(){document.fonts.ready.then(function(){b.textContent="Imprimir / Guardar PDF";b.style.opacity="";b.style.cursor="";b.removeAttribute("disabled");});}if(!n){ok();}else{imgs.forEach(function(i){function cb(){if(++d>=n)ok();}i.addEventListener("load",cb);i.addEventListener("error",cb);});}})()\x3C/script></body></html>';
   var w=window.open('','_blank','width=960,height=860');
   if(!w){alert('Activa ventanas emergentes para descargar.');return;}
   w.document.write(full);
