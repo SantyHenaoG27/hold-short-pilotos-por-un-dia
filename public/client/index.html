@@ -268,8 +268,16 @@ class Component extends DCLogic {
   componentWillUnmount(){ clearInterval(this._t); clearTimeout(this._toastT); }
 
   loadSimMant(){
-    supabaseClient.from('settings').select('value').eq('key','simulator_maintenance').single()
-      .then(({data})=>{ if(data&&data.value) this.setState({simMant:data.value}); });
+    // Carga todos los settings per-sim y los unifica: si ALGUNO está activo en las fechas, bloquea
+    supabaseClient.from('settings').select('key,value').like('key','simulator_maintenance_%')
+      .then(({data})=>{
+        if(!data||!data.length) return;
+        // Tomar el período activo más largo (hasta más tardío) entre todos los sims en mantenimiento
+        const active = data.map(r=>r.value).filter(v=>v&&v.activo&&v.desde&&v.hasta);
+        if(!active.length) return;
+        const merged = active.reduce((acc,v)=> acc.hasta>=v.hasta ? acc : v);
+        this.setState({simMant:merged});
+      });
   }
 
   loadReservas(){
