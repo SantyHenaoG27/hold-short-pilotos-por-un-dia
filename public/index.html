@@ -159,7 +159,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
         <button onClick="{{ setLangEs }}" aria-label="Español" style="{{ langEsStyle }}">ES</button>
         <button onClick="{{ setLangEn }}" aria-label="English" style="{{ langEnStyle }}">EN</button>
       </div>
-      <button onClick="{{ openLogin }}" style="display:none;align-items:center;background:none;border:1px solid rgba(139,151,166,.3);color:#d8e0ea;text-decoration:none;font-weight:600;font-size:13px;padding:9px 16px;border-radius:3px;letter-spacing:.02em;cursor:pointer;font-family:Inter,sans-serif" data-desk="1" style-hover="border-color:#f5c542;color:#f5c542">{{ t.auth.navLogin }}</button>
+      <button onClick="{{ openPortal }}" style="display:none;align-items:center;background:none;border:1.5px solid rgba(245,197,66,.5);color:#f5c542;text-decoration:none;font-weight:700;font-size:11px;padding:9px 18px;border-radius:3px;letter-spacing:.1em;cursor:pointer;font-family:'Barlow Condensed',sans-serif" data-desk="1" style-hover="background:rgba(245,197,66,.08)">MANEJA TU RESERVA</button>
       <a href="{{ waGeneral }}" target="_blank" style="display:none;align-items:center;gap:7px;background:#f5c542;color:#160f05;text-decoration:none;font-weight:700;font-size:13px;padding:10px 18px;border-radius:3px;letter-spacing:.02em" data-desk="1" style-hover="background:#ffe08a;transform:translateY(-1px)">{{ t.nav.quieroVolar }}</a>
       <button onClick="{{ toggleMenu }}" aria-label="Menú" aria-expanded="{{ menu }}" style="display:flex;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:12px 10px" data-mob="1">
         <span style="display:block;width:24px;height:2px;background:#f5c542"></span>
@@ -177,7 +177,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
       <a href="#vuelo" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.tuVuelo }}</a>
       <a href="#paquetes" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.paquetes }}</a>
       <a href="{{ waGeneral }}" target="_blank" onClick="{{ closeMenu }}" style="margin-top:18px;text-align:center;background:#f5c542;color:#160f05;text-decoration:none;font-weight:700;font-size:16px;padding:15px;border-radius:3px">{{ t.nav.quieroVolar }}</a>
-      <button onClick="{{ openLoginMobile }}" style="margin-top:10px;text-align:center;background:none;border:1px solid rgba(245,197,66,.4);color:#f5c542;font-weight:700;font-size:16px;padding:14px;border-radius:3px;cursor:pointer;font-family:Inter,sans-serif">{{ t.auth.navLogin }}</button>
+      <button onClick="{{ openPortal }}" style="margin-top:10px;text-align:center;background:none;border:1.5px solid rgba(245,197,66,.5);color:#f5c542;font-weight:700;font-size:18px;padding:14px;border-radius:3px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;letter-spacing:.08em">MANEJA TU RESERVA</button>
     </div>
   </div>
 
@@ -219,6 +219,118 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
           <sc-if value="{{ isRegisterMode }}" hint-placeholder-val="{{ false }}">
             <button onClick="{{ switchToLogin }}" style="background:none;border:0;color:#a8b5c7;font-size:12.5px;cursor:pointer;text-decoration:underline;font-family:Inter,sans-serif">{{ t.auth.switchToLogin }}</button>
           </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ portalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closePortal }}" style="position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(7,13,28,.9);backdrop-filter:blur(8px)">
+      <div onClick="{{ stopProp }}" style="position:relative;width:100%;max-width:460px;max-height:88vh;overflow-y:auto;background:#0b1420;border:1px solid rgba(245,197,66,.25);border-radius:14px;padding:28px 24px;box-shadow:0 30px 80px rgba(0,0,0,.7)">
+        <button onClick="{{ closePortal }}" style="position:absolute;top:14px;right:14px;background:none;border:0;color:#a8b5c7;font-size:22px;cursor:pointer;line-height:1">×</button>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#f5c542;margin-bottom:4px">// BOARDING STATUS</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;color:#fbfcff;letter-spacing:.05em;margin-bottom:6px">MANEJA TU RESERVA</div>
+        <div style="font-family:Inter,sans-serif;font-size:13px;color:#6b7a8d;margin-bottom:22px;line-height:1.4">Ingresa el correo con el que hiciste tu reserva y verás el estado de tu vuelo.</div>
+
+        <sc-if value="{{ portalShowSearch }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <input type="email" value="{{ portalEmail }}" onChange="{{ setPortalEmail }}" placeholder="tu@correo.com" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)"/>
+            <button onClick="{{ lookupReserva }}" style="background:#f5c542;color:#160f05;border:0;border-radius:8px;padding:13px;font-weight:700;font-size:16px;font-family:'Barlow Condensed',sans-serif;letter-spacing:.08em;cursor:pointer">{{ portalBtnLabel }}</button>
+            <sc-if value="{{ hasPortalError }}" hint-placeholder-val="{{ false }}">
+              <div style="color:#fca5a5;font-size:12.5px;text-align:center;font-family:Inter,sans-serif;line-height:1.4">{{ portalError }}</div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ portalShowList }}" hint-placeholder-val="{{ false }}">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;color:#7f8fa3;margin-bottom:10px">RESERVAS ENCONTRADAS</div>
+          <sc-for list="{{ portalReservas }}" as="rv">
+            <div onClick="{{ rv.selectThis }}" style="border:1px solid rgba(245,197,66,.14);border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color .2s,background .2s" style-hover="border-color:rgba(245,197,66,.4);background:rgba(245,197,66,.03)">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+                <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;color:#f5c542;letter-spacing:.04em">{{ rv.code }}</div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div style="{{ rv.dotStyle }}"></div>
+                  <div style="{{ rv.statusStyle }}">{{ rv.statusText }}</div>
+                </div>
+              </div>
+              <div style="font-family:Inter,sans-serif;font-size:12px;color:#a8b5c7;margin-bottom:2px">{{ rv.paquete }}</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#7f8fa3">{{ rv.fecha }} · {{ rv.timeDisplay }}</div>
+              <div style="text-align:right;margin-top:10px;font-family:Inter,sans-serif;font-size:12px;color:#f5c542;font-weight:600">Ver mi vuelo →</div>
+            </div>
+          </sc-for>
+          <button onClick="{{ resetPortal }}" style="width:100%;background:none;border:1px solid rgba(139,151,166,.14);color:#6b7a8d;border-radius:8px;padding:10px;font-size:12.5px;cursor:pointer;font-family:Inter,sans-serif;margin-top:4px">← Buscar con otro correo</button>
+        </sc-if>
+
+        <sc-if value="{{ portalShowDetail }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ backToList }}" style="background:none;border:0;color:#7f8fa3;font-size:12px;cursor:pointer;font-family:Inter,sans-serif;padding:0;margin-bottom:16px;display:flex;align-items:center;gap:4px">← Mis reservas</button>
+          <div style="border:1px solid rgba(245,197,66,.14);border-radius:12px;padding:18px 16px;background:rgba(255,255,255,.015)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:14px;margin-bottom:18px;border-bottom:1px solid rgba(245,197,66,.1)">
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;color:#7f8fa3;margin-bottom:3px">CÓDIGO DE VUELO</div>
+                <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#f5c542;letter-spacing:.04em">{{ portalDetail.code }}</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-family:Inter,sans-serif;font-size:11.5px;color:#a8b5c7;font-weight:600">{{ portalDetail.paquete }}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#7f8fa3;margin-top:2px">{{ portalDetail.fecha }}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#7f8fa3">{{ portalDetail.timeDisplay }}</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px">
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <div style="{{ portalDetail.s1Ind }}">✓</div>
+                <div style="flex:1;min-height:20px;border-left:{{ portalDetail.conn12 }};margin:4px 0 0"></div>
+              </div>
+              <div style="flex:1;padding-bottom:20px">
+                <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;color:#fbfcff;margin-bottom:8px">Reserva recibida</div>
+                <div style="background:rgba(245,197,66,.05);border:1px solid rgba(245,197,66,.1);border-radius:8px;padding:10px 12px;display:flex;gap:10px;align-items:center">
+                  <img src="{{ portalDetail.qrSrc }}" width="50" height="50" style="border-radius:4px;background:#fff;flex-shrink:0"/>
+                  <div>
+                    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;color:#fbfcff;line-height:1.1">{{ portalDetail.clienteNombre }}</div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#7f8fa3;margin-top:4px">King Air B200 · Hangar 1903</div>
+                  </div>
+                </div>
+                <button onClick="{{ portalDetail.dlTicket }}" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:10px;background:rgba(245,197,66,.07);border:1px solid rgba(245,197,66,.2);color:#f5c542;padding:7px 12px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">⬇ Guardar ticket</button>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px">
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <div style="{{ portalDetail.s2Ind }}">{{ portalDetail.s2Num }}</div>
+                <div style="flex:1;min-height:20px;border-left:{{ portalDetail.conn23 }};margin:4px 0 0"></div>
+              </div>
+              <div style="flex:1;padding-bottom:20px">
+                <div style="{{ portalDetail.s2Style }}">{{ portalDetail.s2Title }}</div>
+                <sc-if value="{{ portalDetail.isConfirmada }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.18);border-radius:8px;padding:10px 12px;margin-top:6px">
+                    <div style="font-family:Inter,sans-serif;font-size:12px;color:#86efac;line-height:1.5">Confirmado en Hangar 1903. Al llegar presenta el código <strong style="color:#4ade80">{{ portalDetail.code }}</strong></div>
+                  </div>
+                  <button onClick="{{ portalDetail.dlConfirm }}" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:10px;background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);color:#4ade80;padding:7px 12px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">⬇ Guardar confirmación</button>
+                </sc-if>
+                <sc-if value="{{ portalDetail.isPendiente }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-family:Inter,sans-serif;font-size:11.5px;color:#3a4f63;margin-top:4px">Recibirás confirmación por WhatsApp o correo en breve.</div>
+                </sc-if>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px">
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <div style="{{ portalDetail.s3Ind }}">{{ portalDetail.s3Num }}</div>
+              </div>
+              <div style="flex:1">
+                <div style="{{ portalDetail.s3Style }}">{{ portalDetail.s3Title }}</div>
+                <sc-if value="{{ portalDetail.isFinalizada }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-family:Inter,sans-serif;font-size:12px;color:#93c5fd;line-height:1.5;margin-top:4px;margin-bottom:10px">¡Felicitaciones! Completaste tu experiencia en el King Air B200.</div>
+                  <sc-if value="{{ portalDetail.hasCertificado }}" hint-placeholder-val="{{ false }}">
+                    <a href="{{ portalDetail.certificadoUrl }}" target="_blank" style="display:inline-flex;align-items:center;gap:7px;background:#60a5fa;color:#0f172a;text-decoration:none;padding:9px 16px;border-radius:7px;font-weight:700;font-size:13px;font-family:Inter,sans-serif">🎖 Descargar certificado</a>
+                  </sc-if>
+                </sc-if>
+                <sc-if value="{{ portalDetail.s3Pending }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-family:Inter,sans-serif;font-size:11.5px;color:#3a4f63;margin-top:4px">Al completar tu vuelo recibirás tu certificado aquí.</div>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+        <div style="text-align:center;margin-top:22px;padding-top:16px;border-top:1px solid rgba(139,151,166,.07)">
+          <button onClick="{{ openAdminLogin }}" style="background:none;border:0;color:#2a3a4a;font-size:11px;cursor:pointer;font-family:Inter,sans-serif">Acceso instructor / admin</button>
         </div>
       </div>
     </div>
@@ -1323,11 +1435,28 @@ const I18N = {
       checkEmail:'Almost there! Check your email to confirm your account before signing in.', close:'Close' }
   }
 };
+function hsOpenPrint(body,label,code){
+  var css='*{box-sizing:border-box;margin:0;padding:0}body{background:#070d1c;color:#fbfcff;font-family:"Inter",sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:36px 20px}h1{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:10px;letter-spacing:.24em;color:#7f8fa3;margin-bottom:16px;text-transform:uppercase}.card{background:#0b1420;border:1.5px solid rgba(245,197,66,.3);border-radius:14px;width:380px;max-width:100%;overflow:hidden}.top{background:rgba(245,197,66,.06);padding:16px 22px;border-bottom:1px solid rgba(245,197,66,.15);display:flex;justify-content:space-between;align-items:center}.brand{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:20px;letter-spacing:.08em;color:#f5c542}.brandSub{font-family:"JetBrains Mono",monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-top:2px;text-transform:uppercase}.top-lbl{font-family:"JetBrains Mono",monospace;font-size:8px;letter-spacing:.16em;color:#7f8fa3;text-transform:uppercase}.body{padding:22px}.qr-wrap{display:flex;justify-content:center;margin-bottom:18px}.qr-wrap img{border-radius:6px;background:#fff;padding:5px;width:130px;height:130px}.code{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:26px;color:#f5c542;letter-spacing:.06em;text-align:center;margin-bottom:16px}.row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(139,151,166,.1)}.lbl-sm{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;color:#7f8fa3;text-transform:uppercase;flex-shrink:0;padding-right:12px}.val{color:#d0dcea;font-weight:600;font-size:13px;max-width:220px;text-align:right}.status{margin-top:14px;padding:9px 14px;border-radius:8px;text-align:center;font-family:"Barlow Condensed",sans-serif;font-size:14px;font-weight:700;letter-spacing:.08em}.st-pend{background:rgba(245,197,66,.07);border:1px solid rgba(245,197,66,.2);color:#f5c542}.st-conf{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);color:#4ade80}.note{margin-top:10px;font-size:11.5px;color:#6b7a8d;line-height:1.5;text-align:center}.check-icon{display:flex;justify-content:center;align-items:center;width:46px;height:46px;border-radius:50%;background:rgba(74,222,128,.12);border:2px solid rgba(74,222,128,.4);color:#4ade80;font-size:22px;margin:0 auto 12px}.conf-title{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:20px;color:#4ade80;letter-spacing:.06em;text-align:center;margin-bottom:14px}.btn{display:block;margin:20px auto 0;background:#f5c542;color:#160f05;border:0;padding:11px 28px;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;font-family:"Inter",sans-serif;letter-spacing:.02em}@media print{.btn{display:none}body{background:#fff;color:#000;padding:20px}.card{border-color:#ccc;background:#f8f5e8;border-radius:0;width:100%}.top{background:#f0ead0;border-color:#ccc}.brand{color:#c4970a}.brandSub,.top-lbl{color:#666}.code{color:#c4970a}.lbl-sm{color:#666}.val{color:#222}.status{background:#f0ead0!important;border-color:#ccc!important;color:#c4970a!important}.note{color:#666}h1{color:#888}}';
+  var link='<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">';
+  var html=
+    '<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>'+label+' - '+code+'</title>'+link+'<style>'+css+'</style></head>'+
+    '<body><h1>'+label+'</h1>'+
+    '<div class="card"><div class="top"><div><div class="brand">HANGAR 1903</div>'+
+    '<div class="brandSub">KING AIR B200 &bull; PEREIRA</div></div>'+
+    '<div class="top-lbl">'+label+'</div></div>'+
+    '<div class="body">'+body+'</div></div>'+
+    '<button class="btn" onclick="window.print()">Imprimir / Guardar PDF</button>'+
+    '</body></html>';
+  var w=window.open('','_blank','width=540,height=740');
+  if(!w){alert('Activa ventanas emergentes para descargar.');return;}
+  w.document.write(html);
+  w.document.close();
+}
 class Component extends DCLogic {
   state = { menu:false, openPhase:1, route:'express', openFaq:0, flip:{}, compass:0, cSel:'N', chatLines:[],
             calY:0, calM:0, selDate:null, bName:'', bPhone:'', bEmail:'', bGiftFor:'', bGiftName:'', bPkg:'aventurero', booked:false, ticket:null, bookFor:null, bookLoading:false, bookError:null, selSlot:null, availSlots:[], slotsLoading:false, bParticipant2:'',
             lang:(typeof localStorage!=='undefined' && localStorage.getItem('hs_lang')==='en')?'en':'es',
-            authOpen:false, authMode:'login', authEmail:'', authPassword:'', authName:'', authPhone:'', authError:'', authLoading:false };
+            authOpen:false, authMode:'login', authEmail:'', authPassword:'', authName:'', authPhone:'', authError:'', authLoading:false, portalOpen:false, portalEmail:'', portalLoading:false, portalError:'', portalReservas:[], portalFound:false, portalSelectedId:null };
 
   PKGS = {
     aventurero:{ key:'aventurero', tag:'EXPRESS', cop:'280.000', dur:'1 h 20 min' },
@@ -1367,6 +1496,8 @@ class Component extends DCLogic {
   
     // Handle browser back button from ticket
     window.addEventListener('popstate',()=>{ if(this.state.booked) this.resetBooking(); });
+    var _rq=new URLSearchParams(window.location.search).get('reserva');
+    if(_rq){ setTimeout(()=>{ this.setState({portalOpen:true,portalEmail:'',portalError:'',portalReservas:[],portalFound:false,portalSelectedId:null}); this.lookupByCode(_rq.trim().toUpperCase()); },300); }
   }
   componentWillUnmount(){
     if(this._reveal){ window.removeEventListener('scroll', this._reveal); window.removeEventListener('resize', this._reveal); }
@@ -1603,6 +1734,125 @@ class Component extends DCLogic {
       pkgKey:p.key, selDate:{...this.state.selDate}, flight, seat, gate, email:this.state.bEmail.trim(), qrToken, timeSlot:this.state.selSlot?this.state.selSlot.start+' – '+this.state.selSlot.end:'', companion:this.state.bParticipant2.trim() } }); history.pushState({hsTicket:true},''); setTimeout(function(){var el=document.querySelector('[data-ticket-anchor]');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120);
   }
   resetBooking(){ this.setState({booked:false, bookFor:null, bookError:null, selSlot:null, availSlots:[], bParticipant2:''}); setTimeout(function(){var el=document.getElementById('reservar');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120); }
+  openPortal(){ this.setState({portalOpen:true, portalEmail:'', portalError:'', portalReservas:[], portalFound:false}); }
+  closePortal(){ this.setState({portalOpen:false}); }
+  resetPortal(){ this.setState({portalEmail:'', portalError:'', portalReservas:[], portalFound:false, portalSelectedId:null}); }
+  async lookupByCode(code){
+    this.setState({portalLoading:true, portalError:''});
+    const { data, error } = await supabaseClient.from('reservations').select('*').eq('code',code).single();
+    if(error||!data){ this.setState({portalLoading:false, portalError:'No encontramos esa reserva.'}); return; }
+    var mapped=[hsMapReservation(data)];
+    this.setState({portalLoading:false, portalReservas:mapped, portalFound:true, portalSelectedId:mapped[0].id});
+  }
+    async lookupReserva(){
+    const email=this.state.portalEmail.trim().toLowerCase();
+    if(!email) return;
+    this.setState({portalLoading:true, portalError:'', portalReservas:[], portalFound:false});
+    const { data, error } = await supabaseClient.from('reservations').select('*').ilike('cliente_email',email).order('created_at',{ascending:false});
+    if(error){ this.setState({portalLoading:false, portalError:'Error al buscar: '+error.message}); return; }
+    if(!data||data.length===0){ this.setState({portalLoading:false, portalError:'No encontramos reservas con ese correo.'}); return; }
+    var mapped=data.map(hsMapReservation);
+    this.setState({portalLoading:false, portalReservas:mapped, portalFound:true, portalSelectedId:mapped.length===1?mapped[0].id:null});
+  }
+  getPortalDetail(s){
+    if(!s.portalSelectedId||!s.portalReservas.length) return {};
+    var r=s.portalReservas.find(function(x){ return x.id===s.portalSelectedId; });
+    if(!r) return {};
+    var d2=r.estado==='confirmada'||r.estado==='finalizada';
+    var d3=r.estado==='finalizada';
+    return Object.assign({},r,{
+      qrSrc:'https://api.qrserver.com/v1/create-qr-code/?size=120x120&data='+encodeURIComponent(window.location.origin+'/?reserva='+r.code),
+      timeDisplay:(r.horaInicio&&r.horaFin)?r.horaInicio+' – '+r.horaFin:'',
+      hasCertificado:!!(r.certificadoUrl),
+      isConfirmada:d2,
+      isFinalizada:d3,
+      isPendiente:!d2&&!d3,
+      s3Pending:!d3,
+      s1Ind:'width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:13px;'+'background:#f5c542;color:#160f05;box-shadow:0 0 0 3px rgba(245,197,66,.18)',
+      s2Ind:d2?'width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:13px;'+'background:#f5c542;color:#160f05;box-shadow:0 0 0 3px rgba(245,197,66,.18)':'width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:13px;'+'border:2px solid rgba(139,151,166,.2);color:#3a4f63',
+      s3Ind:d3?'width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:13px;'+'background:#60a5fa;color:#0f172a;box-shadow:0 0 0 3px rgba(96,165,250,.18)':'width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:13px;'+'border:2px solid rgba(139,151,166,.2);color:#3a4f63',
+      s2Num:d2?'✓':'2',
+      s3Num:d3?'✓':'3',
+      conn12:d2?'2px solid #f5c542':'2px dashed rgba(139,151,166,.18)',
+      conn23:d3?'2px solid #60a5fa':d2?'2px solid rgba(245,197,66,.3)':'2px dashed rgba(139,151,166,.18)',
+      s2Style:'font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:16px;margin-bottom:6px;color:'+(d2?'#fbfcff':'#3a4f63'),
+      s3Style:'font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:16px;margin-bottom:6px;color:'+(d3?'#fbfcff':'#3a4f63'),
+      s2Title:d2?'Reserva confirmada':'Confirmación pendiente',
+      s3Title:d3?'Vuelo completado':'Vuelo por realizar',
+      dlTicket:this.portalDownloadTicket.bind(this,r),
+      dlConfirm:this.portalDownloadConfirm.bind(this,r),
+    });
+  }
+portalDownloadTicket(r){
+  if(!window.html2canvas){ alert('Cargando... intenta de nuevo en unos segundos.'); return; }
+  var qr='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(window.location.origin+'/?reserva='+r.code);
+  var time=(r.horaInicio&&r.horaFin)?r.horaInicio+' – '+r.horaFin:'–';
+  var wrap=document.createElement('div');
+  wrap.style.cssText='position:fixed;top:-9999px;left:-9999px;z-index:-1;padding:28px;background:#070d1c;';
+  var card=document.createElement('div');
+  card.style.cssText='position:relative;width:380px;background:linear-gradient(170deg,#142b49 0%,#0c1e38 55%,#080f1e 100%);border:1.5px solid rgba(245,197,66,.65);border-radius:18px;overflow:hidden;font-family:sans-serif;';
+  card.innerHTML=`<div style="position:absolute;inset:0;background-image:repeating-linear-gradient(125deg,rgba(255,255,255,.04) 0 1px,transparent 1px 10px);pointer-events:none;z-index:0"></div>
+<div style="position:relative;z-index:1;padding:16px 22px 13px;border-bottom:1px solid rgba(245,197,66,.2)">
+  <div style="display:flex;align-items:center;justify-content:space-between">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.22em;color:#f5c542">HOLD SHORT · BOARDING PASS</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;color:#f5c542;background:rgba(245,197,66,.12);padding:3px 9px;border-radius:5px;border:1px solid rgba(245,197,66,.35)">${r.code}</div>
+  </div>
+</div>
+<div style="position:relative;z-index:1;padding:18px 22px 14px">
+  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:22px;color:#f5c542;line-height:1.1;margin-bottom:14px">PRÉPARATE PARA<br/>TU VUELO</div>
+  <div style="margin-bottom:14px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.18em;color:#7f8fa3;margin-bottom:2px;text-transform:uppercase">Pasajero</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;color:#fbfcff;line-height:1.05">${r.clienteNombre||'–'}</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 20px">
+    <div><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px;text-transform:uppercase">Fecha</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#fbfcff;line-height:1.1">${r.fecha||'–'}</div></div>
+    <div><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px;text-transform:uppercase">Paquete</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#fbfcff;line-height:1.1">${r.paquete||'–'}</div></div>
+    <div><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px;text-transform:uppercase">Contacto</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#fbfcff;line-height:1.1">${r.clientePhone||'–'}</div></div>
+    <div><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:#7f8fa3;margin-bottom:2px;text-transform:uppercase">Hora</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#f5c542;line-height:1.1">${time}</div></div>
+  </div>
+</div>
+<div style="position:relative;z-index:1;display:flex;align-items:center">
+  <div style="width:18px;height:18px;background:#080f1e;border-radius:50%;margin-left:-9px;flex-shrink:0"></div>
+  <div style="flex:1;border-top:2px dashed rgba(245,197,66,.4)"></div>
+  <div style="width:18px;height:18px;background:#080f1e;border-radius:50%;margin-right:-9px;flex-shrink:0"></div>
+</div>
+<div style="position:relative;z-index:1;padding:18px 22px 22px;display:flex;flex-direction:column;align-items:center;gap:14px">
+  <img src="${qr}" width="160" height="160" style="display:block;border-radius:8px;background:#fbfcff;padding:8px;box-sizing:border-box;"/>
+  <div style="display:flex;align-items:center;gap:16px">
+    <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#7f8fa3;margin-bottom:2px;text-transform:uppercase">Aeropuerto</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;color:#f5c542">SKPE</div></div>
+    <div style="width:1px;height:30px;background:rgba(245,197,66,.25)"></div>
+    <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#7f8fa3;margin-bottom:2px;text-transform:uppercase">Simulador</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;color:#f5c542">B200</div></div>
+    <div style="width:1px;height:30px;background:rgba(245,197,66,.25)"></div>
+    <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#7f8fa3;margin-bottom:2px;text-transform:uppercase">Estado</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#4ade80">ACTIVO</div></div>
+  </div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.14em;color:#7f8fa3">${r.code} · HANGAR 1903 · PEREIRA</div>
+</div>`;
+  wrap.appendChild(card);
+  document.body.appendChild(wrap);
+  html2canvas(card,{scale:3,useCORS:true,logging:false,backgroundColor:'#080f1e',allowTaint:false}).then(function(canvas){
+    var png=canvas.toDataURL('image/png');
+    var a=document.createElement('a');
+    a.href=png; a.download='ticket-'+r.code+'.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    document.body.removeChild(wrap);
+  }).catch(function(e){ document.body.removeChild(wrap); console.error('ticket-dl',e); });
+}
+
+portalDownloadConfirm(r){
+  var time=(r.horaInicio&&r.horaFin)?r.horaInicio+' – '+r.horaFin:'';
+  var timeRow=time?'<div class="row"><span class="lbl-sm">Hora</span><span class="val">'+time+'</span></div>':'';
+  var body=
+    '<div class="check-icon">&#x2713;</div>'+
+    '<div class="conf-title">RESERVA CONFIRMADA</div>'+
+    '<div class="row"><span class="lbl-sm">Codigo</span><span class="val">'+r.code+'</span></div>'+
+    '<div class="row"><span class="lbl-sm">Pasajero</span><span class="val">'+(r.clienteNombre||'')+'</span></div>'+
+    '<div class="row"><span class="lbl-sm">Paquete</span><span class="val">'+(r.paquete||'')+'</span></div>'+
+    '<div class="row"><span class="lbl-sm">Fecha</span><span class="val">'+(r.fecha||'')+'</span></div>'+
+    timeRow+
+    '<div class="status st-conf">CONFIRMADO &#x2713;</div>'+
+    '<div class="note">Presentate 15 min antes en Hangar 1903 con este documento.</div>';
+  hsOpenPrint(body,'CONFIRMACION',r.code);
+}
   async downloadTicket(){
     const el=document.querySelector('[data-ticket-card]');
     if(!el||!window.html2canvas) return;
@@ -1756,7 +2006,7 @@ class Component extends DCLogic {
       ticket:s.ticket?{ name:s.ticket.name, phone:s.ticket.phone, email:s.ticket.email||'', flight:s.ticket.flight, seat:s.ticket.seat, gate:s.ticket.gate,
         qrToken:s.ticket.qrToken||'',
         time:s.ticket.timeSlot||'', companion:s.ticket.companion||'',
-        qrSrc:'https://api.qrserver.com/v1/create-qr-code/?size=140x140&qzone=1&data='+encodeURIComponent(s.ticket.flight||''),
+        qrSrc:'https://api.qrserver.com/v1/create-qr-code/?size=140x140&qzone=1&data='+encodeURIComponent(window.location.origin+'/?reserva='+(s.ticket.flight||'')),
         pkg:{...this.PKGS[s.ticket.pkgKey], name:t.pkgs[s.ticket.pkgKey].name}, date:this.dateLongFor(s.ticket.selDate, s.lang) }
         :{name:'',phone:'',email:'',qrToken:'',qrSrc:'',pkg:{...this.PKGS.aventurero,name:t.pkgs.aventurero.name},date:'',flight:'',seat:'',gate:''},
       showCompanion:!!(s.ticket&&s.ticket.companion),
@@ -1788,6 +2038,35 @@ class Component extends DCLogic {
       authSubmitStyle:{width:'100%',marginTop:'6px',background:s.authLoading?'rgba(245,197,66,.15)':'#f5c542',color:s.authLoading?'#b89642':'#160f05',border:'0',borderRadius:'6px',padding:'14px',fontWeight:700,fontSize:'15px',cursor:s.authLoading?'not-allowed':'pointer',letterSpacing:'.01em',transition:'all .25s',fontFamily:'Inter,sans-serif'},
       authFieldStyle:{width:'100%',background:'#060b12',border:'1px solid rgba(139,151,166,.25)',borderRadius:'6px',padding:'12px 13px',color:'#f7f9fc',fontSize:'14px',fontFamily:'Inter,sans-serif',outline:'none',boxSizing:'border-box'},
       authLabelStyle:{display:'block',fontFamily:"'JetBrains Mono',monospace",fontSize:'10.5px',letterSpacing:'.12em',color:'#a8b5c7',marginBottom:'6px'},
+      // ---- Client Portal ----
+      portalOpen:s.portalOpen,
+      openPortal:()=>this.openPortal(),
+      closePortal:()=>this.closePortal(),
+      resetPortal:()=>this.resetPortal(),
+      portalEmail:s.portalEmail,
+      setPortalEmail:(e)=>this.setState({portalEmail:e.target.value}),
+      portalLoading:s.portalLoading,
+      portalError:s.portalError, hasPortalError:!!(s.portalError),
+      portalFound:s.portalFound, portalShowSearch:!s.portalFound,
+      lookupReserva:()=>this.lookupReserva(),
+      openAdminLogin:()=>{ this.setState({portalOpen:false}); this.openAuth('login'); },
+      portalBtnLabel:s.portalLoading?'BUSCANDO…':'BUSCAR MI RESERVA',
+      portalShowList:s.portalFound&&!s.portalSelectedId,
+      portalShowDetail:s.portalFound&&!!s.portalSelectedId,
+      backToList:()=>this.setState({portalSelectedId:null}),
+      portalReservas:(function(self){
+        return s.portalReservas.map(function(r){
+          return {
+            id:r.id, code:r.code, paquete:r.paquete, fecha:r.fecha,
+            timeDisplay:(r.horaInicio&&r.horaFin)?r.horaInicio+' – '+r.horaFin:'',
+            statusText:r.estado==='confirmada'?'Confirmada':r.estado==='finalizada'?'Completada':'Pendiente',
+            dotStyle:'width:8px;height:8px;border-radius:50%;flex-shrink:0;background:'+(r.estado==='confirmada'?'#4ade80':r.estado==='finalizada'?'#60a5fa':'#f5c542'),
+            statusStyle:'font-size:11px;font-weight:600;font-family:Inter,sans-serif;color:'+(r.estado==='confirmada'?'#4ade80':r.estado==='finalizada'?'#60a5fa':'#f5c542'),
+            selectThis:function(){ self.setState({portalSelectedId:r.id}); },
+          };
+        });
+      })(this),
+      portalDetail:this.getPortalDetail(s),
     };
   }
 }
