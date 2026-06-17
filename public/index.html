@@ -1652,10 +1652,15 @@ class Component extends DCLogic {
     this.setState({selDate:{y,m,d},selSlot:null,availSlots:[],slotsLoading:true});
     const fecha=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
     try{
-      const {data}=await supabaseClient.from('v_availability').select('hora_inicio').eq('fecha',fecha);
-      const booked=(data||[]).map(r=>r.hora_inicio);
+      const {data}=await supabaseClient.from('v_availability').select('hora_inicio,hora_fin').eq('fecha',fecha).eq('simulador','King Air B200');
+      const booked=data||[];
+      const toMin=t=>{const[h,m]=(t||'00:00').slice(0,5).split(':').map(Number);return h*60+m;};
       const all=this.SLOTS[p]||[];
-      this.setState({availSlots:all.map(sl=>({...sl,occupied:booked.includes(sl.start)})),slotsLoading:false});
+      this.setState({availSlots:all.map(sl=>{
+        const ss=toMin(sl.start),se=toMin(sl.end);
+        const occupied=booked.some(r=>toMin(r.hora_inicio)<se && toMin(r.hora_fin)>ss);
+        return {...sl,occupied};
+      }),slotsLoading:false});
     }catch(e){
       const all=this.SLOTS[p]||[];
       this.setState({availSlots:all.map(sl=>({...sl,occupied:false})),slotsLoading:false});

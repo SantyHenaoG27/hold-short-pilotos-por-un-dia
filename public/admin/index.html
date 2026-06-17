@@ -17,7 +17,7 @@
 <style>
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
-  :root,[data-theme=light]{--bg:#F4F4F1;--surface:#ffffff;--chip:#F4F4F1;--alt:#FAFAF8;--border:var(--border);--divider:var(--divider);--track:#F0F0EA;--text:#16181c;--text2:#3a3d42;--muted:#73777e;--faint:#9a9ea5;--btnsolid:#16181c}
+  :root,[data-theme=light]{--bg:#F4F4F1;--surface:#ffffff;--chip:#F4F4F1;--alt:#FAFAF8;--border:#ddddd6;--divider:#eaeae4;--track:#F0F0EA;--text:#16181c;--text2:#3a3d42;--muted:#73777e;--faint:#9a9ea5;--btnsolid:#16181c}
   [data-theme=dark]{--bg:#0c0d10;--surface:#16181d;--chip:#23262c;--alt:#1b1e24;--border:#2a2d34;--divider:#23262c;--track:#272b32;--text:#eef0f2;--text2:#c2c6cc;--muted:#9a9ea5;--faint:#787c83;--btnsolid:#2c2f37}
   body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;transition:background .3s}
   .ms{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;font-feature-settings:'liga';-webkit-font-smoothing:antialiased;font-variation-settings:'opsz' 24,'wght' 400;-webkit-user-select:none;user-select:none}
@@ -625,11 +625,12 @@
             </div>
             <div style="display:flex;align-items:center;gap:9px">
               <div style="display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden">
-                <button style="width:34px;height:36px;border:none;background:var(--surface);color:var(--faint);cursor:pointer"><span class="ms" style="font-size:18px">chevron_left</span></button>
-                <span class="mono" style="font-size:12px;font-weight:600;color:var(--text2);padding:0 10px">08–13 JUN 2026</span>
-                <button style="width:34px;height:36px;border:none;background:var(--surface);color:var(--faint);cursor:pointer"><span class="ms" style="font-size:18px">chevron_right</span></button>
+                <button onClick="{{ calPrev }}" style="width:34px;height:36px;border:none;background:var(--surface);color:var(--faint);cursor:pointer"><span class="ms" style="font-size:18px">chevron_left</span></button>
+                <span class="mono" style="font-size:12px;font-weight:600;color:var(--text2);padding:0 10px">{{ calRangeLabel }}</span>
+                <button onClick="{{ calNext }}" style="width:34px;height:36px;border:none;background:var(--surface);color:var(--faint);cursor:pointer"><span class="ms" style="font-size:18px">chevron_right</span></button>
               </div>
-              <button style="height:36px;padding:0 14px;background:var(--btnsolid);border:none;border-radius:9px;color:#fff;font-size:12.5px;font-weight:600;cursor:pointer">Hoy</button>
+              <button onClick="{{ calToday }}" style="height:36px;padding:0 14px;background:var(--btnsolid);border:none;border-radius:9px;color:#fff;font-size:12.5px;font-weight:600;cursor:pointer">Hoy</button>
+              <sc-if value="{{ calLoading }}" hint-placeholder-val=""><span class="ms" style="font-size:20px;color:#F5841F;animation:hs-spin 1s linear infinite">progress_activity</span></sc-if>
             </div>
           </div>
 
@@ -640,7 +641,7 @@
             </div>
             <div style="flex:1"></div>
             <div style="display:flex;gap:6px;flex-wrap:wrap" data-r="hideSm">
-              <sc-for list="{{ calFilterChips }}" as="c" hint-placeholder-count="5"><button style="{{ c.style }}">{{ c.label }}</button></sc-for>
+              <sc-for list="{{ calFilterChips }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button></sc-for>
             </div>
           </div>
 
@@ -651,20 +652,20 @@
               <div style="display:flex;border-bottom:1px solid var(--border)">
                 <div style="width:56px;flex-shrink:0;border-right:1px solid var(--divider)"></div>
                 <sc-for list="{{ calColumns }}" as="day" hint-placeholder-count="6">
-                  <div style="flex:1;text-align:center;padding:10px 4px;border-right:1px solid var(--divider)">
+                  <div style="flex:1;text-align:center;padding:10px 4px;border-right:1px solid var(--border)">
                     <div class="mono" style="font-size:10px;letter-spacing:.06em;color:{{ day.hoy }};color:var(--faint)">{{ day.l }}</div>
                     <div class="disp" style="{{ day.headStyle }}">{{ day.d }}</div>
                   </div>
                 </sc-for>
               </div>
               <div style="display:flex;max-height:600px;overflow-y:auto">
-                <div style="width:56px;flex-shrink:0;border-right:1px solid var(--divider)">
+                <div style="width:56px;flex-shrink:0;border-right:1px solid var(--border)">
                   <sc-for list="{{ calHours }}" as="h" hint-placeholder-count="11">
                     <div class="mono" style="height:52px;font-size:9.5px;color:var(--faint);text-align:right;padding:2px 7px 0 0">{{ h }}</div>
                   </sc-for>
                 </div>
                 <sc-for list="{{ calColumns }}" as="day" hint-placeholder-count="6">
-                  <div style="flex:1;position:relative;height:{{ calHeight }};border-right:1px solid var(--divider);background-image:repeating-linear-gradient(#fff 0 51px,#F4F4F1 51px 52px);background-color:{{ day.bg }}">
+                  <div style="flex:1;position:relative;height:{{ calHeight }};border-right:1px solid var(--border);background-image:repeating-linear-gradient(var(--surface) 0 51px,var(--alt) 51px 52px);background-color:{{ day.bg }}">
                     <sc-if value="{{ day.nowLine }}" hint-placeholder-val=""><div style="{{ day.nowLine }}"></div></sc-if>
                     <sc-for list="{{ day.blocks }}" as="b" hint-placeholder-count="0">
                       <div onClick="{{ b.onClick }}" style="{{ b.style }}" style-hover="filter:brightness(.97)">
@@ -683,12 +684,12 @@
           <!-- DÍA -->
           <sc-if value="{{ calIsDia }}" hint-placeholder-val="">
             <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden">
-              <div style="padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px"><span class="ms" style="font-size:19px;color:#F5841F">today</span><span class="disp" style="font-weight:600;font-size:15px">Sábado 13 de junio</span><span class="mono" style="font-size:11px;color:var(--faint)">· hoy</span></div>
+              <div style="padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px"><span class="ms" style="font-size:19px;color:#F5841F">today</span><span class="disp" style="font-weight:600;font-size:15px">{{ calDayLabel }}</span><sc-if value="{{ calDayIsToday }}" hint-placeholder-val=""><span class="mono" style="font-size:11px;color:var(--faint)">· hoy</span></sc-if></div>
               <div style="display:flex;max-height:600px;overflow-y:auto">
-                <div style="width:56px;flex-shrink:0;border-right:1px solid var(--divider)">
+                <div style="width:56px;flex-shrink:0;border-right:1px solid var(--border)">
                   <sc-for list="{{ calHours }}" as="h" hint-placeholder-count="11"><div class="mono" style="height:52px;font-size:9.5px;color:var(--faint);text-align:right;padding:2px 7px 0 0">{{ h }}</div></sc-for>
                 </div>
-                <div style="flex:1;position:relative;height:{{ calHeight }};background-image:repeating-linear-gradient(#fff 0 51px,#F4F4F1 51px 52px)">
+                <div style="flex:1;position:relative;height:{{ calHeight }};background-image:repeating-linear-gradient(var(--surface) 0 51px,var(--alt) 51px 52px)">
                   <sc-if value="{{ calDayCol.nowLine }}" hint-placeholder-val=""><div style="{{ calDayCol.nowLine }}"></div></sc-if>
                   <sc-for list="{{ calDayCol.blocks }}" as="b" hint-placeholder-count="4">
                     <div onClick="{{ b.onClick }}" style="{{ b.style }}" style-hover="filter:brightness(.97)">
@@ -710,7 +711,7 @@
               </div>
               <div style="display:grid;grid-template-columns:repeat(7,1fr)">
                 <sc-for list="{{ monthCells }}" as="c" hint-placeholder-count="35">
-                  <div style="min-height:92px;border-right:1px solid var(--divider);border-bottom:1px solid var(--divider);padding:7px 9px;background:{{ c.cellBg }}">
+                  <div onClick="{{ c.onClick }}" style="min-height:92px;border-right:1px solid var(--divider);border-bottom:1px solid var(--divider);padding:7px 9px;background:{{ c.cellBg }};cursor:{{ c.cursor }}" style-hover="{{ c.hoverStyle }}">
                     <sc-if value="{{ c.day }}" hint-placeholder-val="">
                       <div style="{{ c.numStyle }}">{{ c.day }}</div>
                       <div style="display:flex;gap:3px;margin-top:7px;flex-wrap:wrap"><sc-for list="{{ c.dots }}" as="d" hint-placeholder-count="0"><span style="{{ d }}"></span></sc-for></div>
@@ -724,7 +725,7 @@
           <!-- AGENDA -->
           <sc-if value="{{ calIsAgenda }}" hint-placeholder-val="">
             <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden">
-              <div style="padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px"><span class="ms" style="font-size:19px;color:#F5841F">view_agenda</span><span class="disp" style="font-weight:600;font-size:15px">Sábado 13 de junio · {{ agendaCount }} sesiones</span></div>
+              <div style="padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px"><span class="ms" style="font-size:19px;color:#F5841F">view_agenda</span><span class="disp" style="font-weight:600;font-size:15px">{{ calDayLabel }} · {{ calAgendaCount }} sesiones</span></div>
               <sc-for list="{{ agendaList }}" as="a" hint-placeholder-count="6">
                 <div onClick="{{ a.onClick }}" style="display:flex;align-items:center;gap:13px;padding:13px 18px;border-bottom:1px solid var(--divider);cursor:pointer" style-hover="background:var(--alt)">
                   <div class="mono" style="width:78px;flex-shrink:0;font-size:12px;font-weight:600;color:var(--text)">{{ a.hi }}<div style="font-size:10px;color:var(--faint);font-weight:400">{{ a.hf }}</div></div>
@@ -1701,6 +1702,10 @@ class Component extends DCLogic {
     docTab: 'confirmaciones',
     // calendario
     calView: 'semana',
+    calAnchor: null,
+    calFilter: [],
+    calLoading: false,
+    dbSessions: null,
     // perfiles
     profile: null,   // {type:'cliente'|'piloto', id}
     profileTab: 'historial',
@@ -1718,10 +1723,44 @@ class Component extends DCLogic {
     this._t = setInterval(() => this.setState({ now: new Date() }), 1000);
     hsGetSession().then(data => {
       if (!data.authenticated || data.user.role !== 'admin') { window.location.href = '/'; return; }
-      this.setState({ authReady: true, me: data.user });
+      const anchor = this.calMonday(new Date());
+      this.setState({ authReady: true, me: data.user, calAnchor: anchor });
+      this.fetchCalSessions(anchor, 'semana');
     });
   }
   componentWillUnmount(){ clearInterval(this._t); }
+
+  calMonday(d){ const dt=new Date(d); const day=dt.getDay(); const diff=day===0?-6:1-day; dt.setDate(dt.getDate()+diff); dt.setHours(0,0,0,0); return dt; }
+  isoDate(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+  calPrev(){ const cv=this.state.calView; const a=new Date(this.state.calAnchor||new Date()); if(cv==='dia'||cv==='agenda') a.setDate(a.getDate()-1); else if(cv==='mes') a.setMonth(a.getMonth()-1); else a.setDate(a.getDate()-7); this.setState({calAnchor:a}); this.fetchCalSessions(a,cv); }
+  calNext(){ const cv=this.state.calView; const a=new Date(this.state.calAnchor||new Date()); if(cv==='dia'||cv==='agenda') a.setDate(a.getDate()+1); else if(cv==='mes') a.setMonth(a.getMonth()+1); else a.setDate(a.getDate()+7); this.setState({calAnchor:a}); this.fetchCalSessions(a,cv); }
+  calToday(){ const anchor=this.calMonday(new Date()); this.setState({calAnchor:anchor,calView:'semana'}); this.fetchCalSessions(anchor,'semana'); }
+  toggleCalFilter(label){ const f=this.state.calFilter; const next=f.includes(label)?f.filter(x=>x!==label):[...f,label]; this.setState({calFilter:next}); }
+  mapRsvToSession(r){
+    const fStr=r.fecha||''; let fechaDisplay=fStr,fechaISO=null;
+    if(fStr.match(/^\d{4}-\d{2}-\d{2}$/)){ const[y,m,d]=fStr.split('-'); fechaDisplay=`${d}/${m}/${y}`; fechaISO=fStr; }
+    else if(fStr.match(/^\d{2}\/\d{2}\/\d{4}$/)){ const[d,m,y]=fStr.split('/'); fechaISO=`${y}-${m}-${d}`; }
+    return { code:r.code, fecha:fechaDisplay, fechaISO, hoy:fechaISO===this.isoDate(new Date()),
+      hi:(r.horaInicio||'').slice(0,5), hf:(r.horaFin||'').slice(0,5),
+      cliente:r.clienteNombre||'', segundo:r.giftFor||null, tel:r.clientePhone||'',
+      serv:r.servicio==='pxd'?'pxd':'hs', paquete:r.paquete||'', sim:r.simulador||'',
+      instructor:r.instructorNombre||'', origen:'', estado:r.estado||'pendiente',
+      pago:r.pago||'pendiente', regalo:r.bookFor==='regalo',
+      total:r.total||0, abono:r.abono||0,
+      creada:r.createdAt?(r.createdAt.slice(0,10).split('-').reverse().join('/')):'', };
+  }
+  async fetchCalSessions(anchorArg, viewArg){
+    const cv=viewArg||this.state.calView; const anchor=anchorArg||this.state.calAnchor||new Date();
+    let from,to;
+    if(cv==='mes'){ from=new Date(anchor.getFullYear(),anchor.getMonth(),1); to=new Date(anchor.getFullYear(),anchor.getMonth()+1,0); }
+    else { const mon=this.calMonday(anchor); from=mon; to=new Date(mon); to.setDate(mon.getDate()+6); }
+    this.setState({calLoading:true});
+    try{
+      const{data,error}=await supabaseClient.from('reservations').select('*').gte('fecha',this.isoDate(from)).lte('fecha',this.isoDate(to)).order('fecha').order('hora_inicio');
+      if(!error&&data){ this.setState({dbSessions:data.map(r=>this.mapRsvToSession(hsMapReservation(r))),calLoading:false}); }
+      else{ this.setState({calLoading:false}); }
+    }catch(e){ this.setState({calLoading:false}); }
+  }
 
   logout(){
     hsLogout();
@@ -1743,6 +1782,7 @@ class Component extends DCLogic {
     this.setState({ route, mobileNav: false, showNotif: false, drawer: null, modal: null, profile: null, loading: true });
     clearTimeout(this._loadT);
     this._loadT = setTimeout(()=>this.setState({ loading: false }), 480);
+    if(route==='calendario') this.fetchCalSessions(this.state.calAnchor||new Date(), this.state.calView);
   }
   reload(){
     this.setState({ loading: true });
@@ -2209,10 +2249,55 @@ class Component extends DCLogic {
     const HSTART=8, HEND=19, ROW=52;
     const toMin=t=>{const[a,b]=t.split(':').map(Number);return a*60+b;};
     const calHours=[]; for(let h=HSTART;h<=HEND;h++) calHours.push((h<10?'0'+h:''+h)+':00');
-    const calDays=[{l:'LUN',d:'08'},{l:'MAR',d:'09'},{l:'MIÉ',d:'10'},{l:'JUE',d:'11'},{l:'VIE',d:'12'},{l:'SÁB',d:'13',hoy:true}];
-    const place={'HS-2271':0,'HS-2269':0,'HS-2268':1,'HS-2270':3,'HS-2258':4,'HS-2259':4,'HS-2260':4,'HS-2261':5,'HS-2263':5,'HS-2264':5,'HS-2265':5,'HS-2266':5,'HS-2267':5};
-    const byDay=calDays.map(()=>[]);
-    this.sessions.forEach(s=>{ const di=place[s.code]; if(di!=null) byDay[di].push(s); });
+
+    // source: Supabase real data once loaded, mock sessions as fallback while loading
+    const allSessions = this.state.dbSessions !== null ? this.state.dbSessions : this.sessions;
+    const activeFilters = this.state.calFilter;
+    const filteredSessions = activeFilters.length===0 ? allSessions : allSessions.filter(s=>
+      activeFilters.some(f=>
+        (f==='Piloto por un Día'&&s.serv==='pxd')||(f==='Hold Short Pilotos'&&s.serv==='hs')||
+        (f==='Regalos'&&s.regalo)||(f==='King Air B200'&&s.sim==='King Air B200')||(f==='A320'&&s.sim==='A320')
+      )
+    );
+
+    // dynamic week from calAnchor
+    const CAL_MONTH=['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+    const CAL_MONTH_L=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    const CAL_DAY_S=['LUN','MAR','MIÉ','JUE','VIE','SÁB','DOM'];
+    const CAL_DAY_L=['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
+    const anchor=this.state.calAnchor||this.calMonday(new Date());
+    const todayISO=this.isoDate(this.state.now);
+    const weekMon=this.calMonday(anchor);
+    const calDays=Array.from({length:6},(_,i)=>{
+      const d=new Date(weekMon); d.setDate(weekMon.getDate()+i);
+      const iso=this.isoDate(d);
+      return {l:CAL_DAY_S[i],d:String(d.getDate()).padStart(2,'0'),dateISO:iso,date:d,hoy:iso===todayISO};
+    });
+    const ld=calDays[calDays.length-1];
+    const sameM=calDays[0].date.getMonth()===ld.date.getMonth();
+    // day/agenda label (follows anchor)
+    const dayISO=this.isoDate(anchor);
+    const dayDow=(anchor.getDay()+6)%7;
+    const calDayLabel=`${CAL_DAY_L[dayDow].charAt(0).toUpperCase()+CAL_DAY_L[dayDow].slice(1)} ${anchor.getDate()} de ${CAL_MONTH_L[anchor.getMonth()]}`;
+    const calDayIsToday=dayISO===todayISO;
+    const cv=this.state.calView;
+    const calRangeLabel=
+      cv==='mes'
+        ?`${CAL_MONTH_L[anchor.getMonth()].charAt(0).toUpperCase()+CAL_MONTH_L[anchor.getMonth()].slice(1)} ${anchor.getFullYear()}`
+      :(cv==='dia'||cv==='agenda')
+        ?calDayLabel
+      :sameM
+        ?`${calDays[0].d}–${ld.d} ${CAL_MONTH[calDays[0].date.getMonth()]} ${calDays[0].date.getFullYear()}`
+        :`${calDays[0].d} ${CAL_MONTH[calDays[0].date.getMonth()]}–${ld.d} ${CAL_MONTH[ld.date.getMonth()]} ${calDays[0].date.getFullYear()}`;
+
+    // sessions indexed by ISO date
+    const byISO={};
+    filteredSessions.forEach(s=>{
+      let iso=s.fechaISO;
+      if(!iso&&s.fecha){const p=s.fecha.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);if(p)iso=`${p[3]}-${p[2]}-${p[1]}`;}
+      if(iso){if(!byISO[iso])byISO[iso]=[];byISO[iso].push(s);}
+    });
+
     const buildBlocks=(list)=>{
       const sorted=list.slice().sort((a,b)=>toMin(a.hi)-toMin(b.hi));
       const laneEnd=[]; const items=sorted.map(s=>{ const st=toMin(s.hi),en=toMin(s.hf); let lane=laneEnd.findIndex(e=>e<=st); if(lane<0)lane=laneEnd.length; laneEnd[lane]=en; return {s,st,en,lane}; });
@@ -2229,28 +2314,32 @@ class Component extends DCLogic {
     const calHeight=(HEND-HSTART)*ROW;
     const nowTop=((this.state.now.getHours()*60+this.state.now.getMinutes())-HSTART*60)/60*ROW;
     const showNowLine = nowTop>0 && nowTop<calHeight;
-    const calColumns=calDays.map((day,di)=>({ ...day, blocks:buildBlocks(byDay[di]),
+    const calColumns=calDays.map((day)=>({ ...day, blocks:buildBlocks(byISO[day.dateISO]||[]),
       headStyle:`font-size:17px;font-weight:700;margin-top:2px;${day.hoy?'color:#fff;background:#F5841F;width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin:2px auto 0':'color:var(--text)'}`,
       bg: day.hoy?'var(--alt)':'var(--surface)',
-      nowLine: (day.hoy && showNowLine) ? `position:absolute;left:0;right:0;top:${nowTop}px;height:2px;background:#F5841F;z-index:5` : null }));
+      nowLine: (day.hoy&&showNowLine)?`position:absolute;left:0;right:0;top:${nowTop}px;height:2px;background:#F5841F;z-index:5`:null }));
 
-    // swimlane por simulador
+    // día view column (follows anchor day)
+    const calDayCol={ blocks:buildBlocks(byISO[dayISO]||[]),
+      nowLine:(calDayIsToday&&showNowLine)?`position:absolute;left:0;right:0;top:${nowTop}px;height:2px;background:#F5841F;z-index:5`:null };
+
+    // swimlane (por simulador / instructor) — shows anchor day
     const totalMin=(HEND-HSTART)*60;
-    const swim=(resources, keyFn)=>resources.map(res=>({
+    const swim=(resources,keyFn)=>resources.map(res=>({
       name:res,
-      blocks: buildBlocks(this.sessions.filter(s=>keyFn(s)===res && place[s.code]===5)).map(b=>b),
-      lanes: this.sessions.filter(s=>keyFn(s)===res && place[s.code]===5).sort((a,b)=>toMin(a.hi)-toMin(b.hi)).map(s=>{
+      blocks:buildBlocks((byISO[dayISO]||[]).filter(s=>keyFn(s)===res)),
+      lanes:(byISO[dayISO]||[]).filter(s=>keyFn(s)===res).sort((a,b)=>toMin(a.hi)-toMin(b.hi)).map(s=>{
         const em=this.estadoMeta(s.estado); const pxd=s.serv==='pxd'; const st=toMin(s.hi),en=toMin(s.hf);
         return { code:s.code, cliente:s.cliente, hi:s.hi, sim:s.sim,
-          style:`position:absolute;top:8px;bottom:8px;left:${(st-HSTART*60)/totalMin*100}%;width:${(en-st)/totalMin*100}%;background:${pxd?'#FEF4EA':'#EBF1F7'};border-left:3px solid ${em.rail};border-radius:7px;padding:6px 9px;overflow:hidden;cursor:pointer`,
-          servColor: pxd?'#b5630a':'#2c5070', onClick:()=>this.openDrawer(s.code) };
+          style:`position:absolute;top:8px;bottom:8px;left:${(st-HSTART*60)/totalMin*100}%;width:${Math.max((en-st)/totalMin*100,2)}%;background:${pxd?'#FEF4EA':'#EBF1F7'};border-left:3px solid ${em.rail};border-radius:7px;padding:6px 9px;overflow:hidden;cursor:pointer`,
+          servColor:pxd?'#b5630a':'#2c5070', onClick:()=>this.openDrawer(s.code) };
       })
     }));
-    const simLanes=swim(['King Air B200','A320'], s=>s.sim);
-    const instLanes=swim(this.instList, s=>s.instructor);
+    const simLanes=swim(['King Air B200','A320'],s=>s.sim);
+    const instLanes=swim(this.instList,s=>s.instructor);
 
-    // agenda list (hoy)
-    const agendaList = this.sessions.filter(s=>place[s.code]===5).sort((a,b)=>toMin(a.hi)-toMin(b.hi)).map(s=>{
+    // agenda list (anchor day)
+    const agendaList=(byISO[dayISO]||[]).sort((a,b)=>toMin(a.hi)-toMin(b.hi)).map(s=>{
       const em=this.estadoMeta(s.estado), sm=this.servMeta(s.serv);
       return { code:s.code, cliente:s.cliente, hi:s.hi, hf:s.hf, sim:s.sim, instructor:s.instructor, regalo:s.regalo,
         rail:`width:4px;border-radius:4px;background:${em.rail};align-self:stretch`,
@@ -2259,20 +2348,31 @@ class Component extends DCLogic {
         onClick:()=>this.openDrawer(s.code) };
     });
 
-    // month grid June 2026 (Mon start, 30 days)
-    const monthDots={12:['#F5841F','#355C7D'],13:['#F5841F','#F5841F','#355C7D'],14:['#F5841F'],15:['#F5841F','#355C7D']};
-    const monthCells=[]; for(let d=1; d<=30; d++){ const hoy=d===13; const dom=(d%7===0); monthCells.push({ day:d, hoy, dom, cellBg: hoy?'var(--alt)':(dom?'var(--alt)':'var(--surface)'),
-      numStyle:`font-size:12px;font-weight:600;${hoy?'color:#fff;background:#F5841F;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center':dom?'color:#c2c2ba':'color:var(--text2)'}`,
-      dots:(monthDots[d]||[]).map(c=>`width:5px;height:5px;border-radius:50%;background:${c}`) }); }
-    for(let i=0;i<5;i++) monthCells.push({blank:true, cellBg:'var(--alt)'});
+    // month grid (dynamic, based on anchor)
+    const mYear=anchor.getFullYear(), mMonth=anchor.getMonth();
+    const firstDay=new Date(mYear,mMonth,1); const daysInMonth=new Date(mYear,mMonth+1,0).getDate();
+    const firstDow=(firstDay.getDay()+6)%7;
     const weekDayNames=['LUN','MAR','MIÉ','JUE','VIE','SÁB','DOM'];
-
+    const monthCells=[];
+    for(let i=0;i<firstDow;i++) monthCells.push({blank:true,cellBg:'var(--alt)'});
+    for(let d=1;d<=daysInMonth;d++){
+      const dt=new Date(mYear,mMonth,d); const iso=this.isoDate(dt);
+      const hoy=iso===todayISO; const dow=(dt.getDay()+6)%7; const dom=dow===6;
+      const ds=byISO[iso]||[];
+      monthCells.push({ day:d, hoy, dom, blank:false, cellBg:hoy?'var(--alt)':dom?'var(--alt)':'var(--surface)',
+        numStyle:`font-size:12px;font-weight:600;${hoy?'color:#fff;background:#F5841F;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center':dom?'color:#c2c2ba':'color:var(--text2)'}`,
+        dots:ds.map(s=>`width:5px;height:5px;border-radius:50%;background:${s.serv==='pxd'?'#F5841F':'#355C7D'}`),
+        cursor:'pointer', hoverStyle:'filter:brightness(.97)',
+        onClick:(()=>{const _dt=dt;return ()=>{this.setState({calAnchor:_dt,calView:'dia'});this.fetchCalSessions(_dt,'dia');};})() });
+    }
+    while(monthCells.length%7!==0) monthCells.push({blank:true,cellBg:'var(--alt)',cursor:'default',hoverStyle:'',onClick:null});
     const calViews=[['semana','Semana','calendar_view_week'],['dia','Día','calendar_view_day'],['mes','Mes','calendar_month'],['agenda','Agenda','view_agenda'],['sim','Por simulador','flight'],['inst','Por instructor','co_present']];
-    const cv=this.state.calView;
-    const calTabs=calViews.map(([id,label,icon])=>({id,label,icon,onClick:()=>this.setState({calView:id}),
+    const calTabs=calViews.map(([id,label,icon])=>({id,label,icon,
+      onClick:()=>{this.setState({calView:id});this.fetchCalSessions(this.state.calAnchor||new Date(),id);},
       style:`display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:7px 12px;border-radius:8px;cursor:pointer;border:none;white-space:nowrap;${cv===id?'background:var(--btnsolid);color:#fff':'background:transparent;color:var(--muted)'}`}));
-    const calFilterChips=['Piloto por un Día','Hold Short Pilotos','Regalos','King Air B200','A320'].map((l,i)=>({label:l,
-      style:`font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:20px;cursor:pointer;border:1px solid ${i<2?'var(--border)':'var(--border)'};background:var(--surface);color:var(--text2)`}));
+    const calFilterChips=['Piloto por un Día','Hold Short Pilotos','Regalos','King Air B200','A320'].map(l=>({label:l,
+      onClick:()=>this.toggleCalFilter(l),
+      style:`font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:20px;cursor:pointer;border:1px solid ${activeFilters.includes(l)?'#F5841F':'var(--border)'};background:${activeFilters.includes(l)?'#FEF4EA':'var(--surface)'};color:${activeFilters.includes(l)?'#b5630a':'var(--text2)'}`}));
 
     // ---------- MODAL: form / doc / confirm ----------
     const m = this.state.modal;
@@ -2715,9 +2815,12 @@ class Component extends DCLogic {
       // calendario
       calTabs, calView:cv,
       calIsSemana:cv==='semana', calIsDia:cv==='dia', calIsMes:cv==='mes', calIsAgenda:cv==='agenda', calIsSim:cv==='sim', calIsInst:cv==='inst',
-      calHours, calColumns, calHeight:calHeight+'px', calDayCol:calColumns[5],
+      calHours, calColumns, calHeight:calHeight+'px', calDayCol,
       nowTop:nowTop+'px', showNowLine,
       simLanes, instLanes, agendaList, monthCells, weekDayNames, calFilterChips,
+      calRangeLabel, calDayLabel, calDayIsToday, calAgendaCount:agendaList.length,
+      calLoading:this.state.calLoading,
+      calPrev:()=>this.calPrev(), calNext:()=>this.calNext(), calToday:()=>this.calToday(),
       // sesiones
       sesRows, sesCount:sesRows.length, sesTotal:this.sessions.length,
       sesEmpty: sesRows.length===0,
