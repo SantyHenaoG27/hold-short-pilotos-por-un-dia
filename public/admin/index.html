@@ -1601,70 +1601,80 @@
 
               <!-- ===== CERTIFICADO DE PARTICIPACIÓN ===== -->
               <sc-if value="{{ doc.isCert }}" hint-placeholder-val="">
-                <div id="hs-cert" style="width:880px;max-width:100%;margin:0 auto;background:#F3EFE7;box-shadow:0 16px 44px rgba(0,0,0,.3);font-family:'Space Grotesk';position:relative;padding:7px">
-                  <!-- ornamental frame -->
-                  <div style="border:2px solid #0C0D10;position:relative;padding:0">
-                    <div style="position:absolute;inset:5px;border:1px solid #C99A2E;pointer-events:none"></div>
-                    <!-- top bar -->
-                    <div style="background:#0C0D10;padding:13px 26px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #F5841F">
-                      <img src="/assets/logo.png" alt="Hold Short" style="height:26px">
-                      <span class="mono" style="font-size:10px;letter-spacing:.2em;color:#F5841F;font-weight:600">CERTIFICADO DE PARTICIPACIÓN</span>
+                <div id="hs-cert" style="width:880px;max-width:100%;display:flex;font-family:'Space Grotesk',sans-serif;box-shadow:0 16px 44px rgba(0,0,0,.3)">
+                  <div style="width:29%;background:#0C0D10;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:22px 18px;position:relative;overflow:hidden;flex-shrink:0;border-right:4px solid #F5841F">
+                    <img src="/assets/avion.png" alt="" style="position:absolute;opacity:.06;width:150%;filter:grayscale(1);top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);pointer-events:none">
+                    <div style="position:relative;text-align:center">
+                      <img src="/assets/logo.png" alt="Hold Short" style="height:28px;margin-bottom:14px;display:block;margin-left:auto;margin-right:auto">
+                      <div class="mono" style="font-size:7.5px;letter-spacing:.18em;color:#F5841F;font-weight:600">PILOTO POR UN DÍA</div>
+                      <div class="mono" style="font-size:6.5px;letter-spacing:.12em;color:#62666d;margin-top:4px">EXPERIENCIA DE AVIACIÓN</div>
                     </div>
-                    <!-- watermark plane -->
-                    <img src="/assets/avion.png" alt="" style="position:absolute;top:38%;left:50%;transform:translate(-50%,-50%);width:430px;max-width:78%;opacity:.07;filter:grayscale(1);pointer-events:none;mix-blend-mode:multiply">
-                    <!-- body -->
-                    <div style="padding:24px 44px 26px;text-align:center;position:relative">
-                      <!-- biplane centerpiece -->
-                      <div style="display:flex;justify-content:center;margin-bottom:10px">
-                        <div style="position:relative;width:230px;height:115px;display:flex;align-items:center;justify-content:center">
-                          <span style="position:absolute;left:0;top:50%;height:1px;width:46px;background:linear-gradient(90deg,transparent,#C99A2E)"></span>
-                          <img src="/assets/avion.png" alt="Biplano Wright" style="height:104px;width:auto;filter:sepia(.55) contrast(1.05) brightness(1.02);mix-blend-mode:multiply">
-                          <span style="position:absolute;right:0;top:50%;height:1px;width:46px;background:linear-gradient(90deg,#C99A2E,transparent)"></span>
+                    <div style="position:relative;text-align:center">
+                      <div style="display:flex;align-items:center;gap:6px;justify-content:center;margin-bottom:10px">
+                        <span style="height:1px;width:22px;background:linear-gradient(90deg,transparent,#C99A2E)"></span>
+                        <span class="ms" style="font-size:11px;color:#C99A2E">star</span>
+                        <span class="ms" style="font-size:11px;color:#C99A2E">star</span>
+                        <span style="height:1px;width:22px;background:linear-gradient(90deg,#C99A2E,transparent)"></span>
+                      </div>
+                      <div style="width:60px;height:60px;border-radius:50%;border:2px solid #F5841F;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;background:rgba(245,132,31,.08)">
+                        <span class="ms" style="font-size:26px;color:#F5841F">verified</span>
+                      </div>
+                      <div class="mono" style="font-size:7px;letter-spacing:.13em;color:#C99A2E">HOLD SHORT</div>
+                      <div class="mono" style="font-size:7px;letter-spacing:.13em;color:#9a9ea5;margin-top:2px">AVIATION · SKPE</div>
+                    </div>
+                    <div style="position:relative;text-align:center;width:100%">
+                      <div style="height:1px;background:linear-gradient(90deg,transparent,#F5841F,transparent);margin-bottom:10px"></div>
+                      <div class="disp" style="font-size:9.5px;font-weight:700;color:#F5841F;font-style:italic;letter-spacing:.04em">CLEARED FOR TAKEOFF</div>
+                      <div class="mono" style="font-size:6.5px;letter-spacing:.1em;color:#62666d;margin-top:5px">PEREIRA · COLOMBIA</div>
+                    </div>
+                  </div>
+                  <div style="flex:1;background:#F3EFE7;display:flex;flex-direction:column;padding:7px 7px 7px 0">
+                    <div style="flex:1;border:2px solid #0C0D10;display:flex;flex-direction:column;position:relative">
+                      <div style="position:absolute;inset:5px;border:1px solid #C99A2E;pointer-events:none;z-index:0"></div>
+                      <img src="/assets/avion.png" alt="" style="position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);width:52%;opacity:.05;filter:grayscale(1);pointer-events:none;mix-blend-mode:multiply;z-index:0">
+                      <div style="background:#0C0D10;padding:10px 26px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #F5841F;position:relative;z-index:1">
+                        <div style="display:flex;align-items:center;gap:7px"><span class="ms" style="font-size:13px;color:#C99A2E">star</span><span class="ms" style="font-size:13px;color:#C99A2E">star</span></div>
+                        <span class="mono" style="font-size:10px;letter-spacing:.24em;color:#F5841F;font-weight:600">CERTIFICADO DE PARTICIPACIÓN</span>
+                        <div style="display:flex;align-items:center;gap:7px"><span class="ms" style="font-size:13px;color:#C99A2E">star</span><span class="ms" style="font-size:13px;color:#C99A2E">star</span></div>
+                      </div>
+                      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px 44px 10px;position:relative;z-index:1">
+                        <div class="mono" style="font-size:8.5px;letter-spacing:.28em;color:#9a917f;font-weight:600;margin-bottom:8px">HOLD SHORT AVIATION · PEREIRA · COLOMBIA</div>
+                        <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
+                          <span style="height:1px;width:44px;background:linear-gradient(90deg,transparent,#C99A2E)"></span>
+                          <span class="ms" style="font-size:13px;color:#C99A2E">star</span>
+                          <span class="ms" style="font-size:17px;color:#F5841F">flight</span>
+                          <span class="ms" style="font-size:13px;color:#C99A2E">star</span>
+                          <span style="height:1px;width:44px;background:linear-gradient(90deg,#C99A2E,transparent)"></span>
+                        </div>
+                        <div style="font-family:Inter;font-size:10px;color:#7a7264;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px">Se otorga el presente certificado a</div>
+                        <div class="disp" style="font-size:38px;font-weight:700;color:#15171b;letter-spacing:-.02em;line-height:1.05;margin-bottom:5px">{{ doc.nombre }}</div>
+                        <div style="width:220px;height:1.5px;background:linear-gradient(90deg,transparent,#C99A2E 30%,#F5841F 50%,#C99A2E 70%,transparent);margin:0 auto 10px"></div>
+                        <p style="font-family:Inter;font-size:11px;color:#3a3530;line-height:1.6;max-width:440px;margin:0 auto">Ha completado satisfactoriamente la experiencia <strong>Piloto por un Día</strong> en el paquete <strong style="color:#b5630a">{{ doc.paquete }}</strong>, demostrando entrega, disciplina y pasión por la aviación a bordo del simulador <strong>{{ doc.sim }}</strong>.</p>
+                      </div>
+                      <div style="display:flex;margin:0 24px;border:1px solid #ddd4c4;border-radius:7px;overflow:hidden;background:#EDE8DE;position:relative;z-index:1">
+                        <div style="flex:1;text-align:center;padding:8px;border-right:1px solid #ddd4c4"><div class="mono" style="font-size:7px;letter-spacing:.12em;color:#9a917f">FECHA</div><div style="font-size:11px;font-weight:700;color:#15171b;margin-top:2px">{{ doc.fecha }}</div></div>
+                        <div style="flex:1;text-align:center;padding:8px;border-right:1px solid #ddd4c4"><div class="mono" style="font-size:7px;letter-spacing:.12em;color:#9a917f">DURACIÓN</div><div style="font-size:11px;font-weight:700;color:#15171b;margin-top:2px">{{ doc.dur }}</div></div>
+                        <div style="flex:1;text-align:center;padding:8px;border-right:1px solid #ddd4c4"><div class="mono" style="font-size:7px;letter-spacing:.12em;color:#9a917f">SIMULADOR</div><div style="font-size:11px;font-weight:700;color:#15171b;margin-top:2px">{{ doc.sim }}</div></div>
+                        <div style="flex:1;text-align:center;padding:8px"><div class="mono" style="font-size:7px;letter-spacing:.12em;color:#9a917f">CERTIFICADO N.º</div><div class="mono" style="font-size:10px;font-weight:700;color:#b5630a;margin-top:2px">{{ doc.certNo }}</div></div>
+                      </div>
+                      <div style="display:flex;align-items:flex-end;justify-content:space-between;padding:12px 32px 14px;position:relative;z-index:1">
+                        <div style="flex:1;text-align:center">
+                          <div class="disp" style="font-size:14px;color:#15171b;font-style:italic;border-bottom:1px solid #15171b;padding-bottom:4px;margin-bottom:4px">{{ doc.instructor }}</div>
+                          <div class="mono" style="font-size:7.5px;letter-spacing:.08em;color:#7a7264">PILOTO INSTRUCTOR</div>
+                        </div>
+                        <div style="width:56px;height:56px;flex-shrink:0;border-radius:50%;border:2px solid #F5841F;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--surface);margin:0 18px;box-shadow:0 2px 8px rgba(0,0,0,.1)">
+                          <span class="ms" style="font-size:20px;color:#F5841F">verified</span>
+                          <span class="mono" style="font-size:5px;letter-spacing:.1em;color:#7a7264;margin-top:1px">HOLD SHORT</span>
+                        </div>
+                        <div style="flex:1;text-align:center">
+                          <div class="disp" style="font-size:14px;color:#15171b;font-style:italic;border-bottom:1px solid #15171b;padding-bottom:4px;margin-bottom:4px">Cap. Mateo Ríos</div>
+                          <div class="mono" style="font-size:7.5px;letter-spacing:.08em;color:#7a7264">JEFE DE OPERACIONES</div>
                         </div>
                       </div>
-                      <div class="mono" style="font-size:10px;letter-spacing:.32em;color:#9a917f;font-weight:600;margin-bottom:6px">HOLD SHORT AVIATION · PEREIRA · COLOMBIA</div>
-                      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px">
-                        <span style="height:1px;width:60px;background:linear-gradient(90deg,transparent,#C99A2E)"></span>
-                        <span class="ms" style="font-size:16px;color:#C99A2E">star</span>
-                        <span class="ms" style="font-size:20px;color:#F5841F">flight</span>
-                        <span class="ms" style="font-size:16px;color:#C99A2E">star</span>
-                        <span style="height:1px;width:60px;background:linear-gradient(90deg,#C99A2E,transparent)"></span>
+                      <div style="background:#0C0D10;padding:8px 24px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1">
+                        <span class="mono" style="font-size:8.5px;color:var(--muted)">@HOLDSHORTPEI · 316 724 91 39 · Pereira</span>
+                        <span class="disp" style="font-size:10px;font-weight:700;color:#F5841F;font-style:italic">CLEARED FOR TAKEOFF</span>
                       </div>
-                      <div style="font-family:Inter;font-size:11.5px;color:#7a7264;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Certifica que</div>
-                      <div class="disp" style="font-size:44px;font-weight:700;color:#15171b;letter-spacing:-.02em;margin:0 0 6px;line-height:1.05">{{ doc.nombre }}</div>
-                      <div style="width:280px;height:1.5px;background:linear-gradient(90deg,transparent,#C99A2E 30%,#F5841F 50%,#C99A2E 70%,transparent);margin:0 auto 16px"></div>
-                      <p style="font-family:Inter;font-size:12.5px;color:#3a3530;line-height:1.65;max-width:520px;margin:0 auto 6px">
-                        Ha completado satisfactoriamente la experiencia <strong style="color:#15171b">Piloto por un Día</strong> en el paquete <strong style="color:#b5630a">{{ doc.paquete }}</strong>, demostrando entrega, disciplina y pasión por la aviación a bordo del simulador de vuelo <strong style="color:#15171b">{{ doc.sim }}</strong>.
-                      </p>
-                    </div>
-                    <!-- detail chips -->
-                    <div style="display:flex;align-items:stretch;justify-content:center;gap:0;margin:0 36px;border:1px solid #ddd4c4;border-radius:10px;overflow:hidden;background:#EDE8DE">
-                      <div style="flex:1;text-align:center;padding:11px 8px;border-right:1px solid #ddd4c4"><div class="mono" style="font-size:7.5px;letter-spacing:.12em;color:#9a917f;text-transform:uppercase">Fecha</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:3px">{{ doc.fecha }}</div></div>
-                      <div style="flex:1;text-align:center;padding:11px 8px;border-right:1px solid #ddd4c4"><div class="mono" style="font-size:7.5px;letter-spacing:.12em;color:#9a917f;text-transform:uppercase">Duración</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:3px">{{ doc.dur }}</div></div>
-                      <div style="flex:1;text-align:center;padding:11px 8px;border-right:1px solid #ddd4c4"><div class="mono" style="font-size:7.5px;letter-spacing:.12em;color:#9a917f;text-transform:uppercase">Simulador</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:3px">{{ doc.sim }}</div></div>
-                      <div style="flex:1;text-align:center;padding:11px 8px"><div class="mono" style="font-size:7.5px;letter-spacing:.12em;color:#9a917f;text-transform:uppercase">Certificado N.º</div><div class="mono" style="font-size:11px;font-weight:700;color:#b5630a;margin-top:3px">{{ doc.certNo }}</div></div>
-                    </div>
-                    <!-- signatures -->
-                    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:26px 44px 24px">
-                      <div style="flex:1;text-align:center">
-                        <div class="disp" style="font-size:17px;color:#15171b;font-style:italic;border-bottom:1px solid #15171b;padding-bottom:6px;margin-bottom:6px">{{ doc.instructor }}</div>
-                        <div class="mono" style="font-size:9px;letter-spacing:.08em;color:#7a7264">PILOTO INSTRUCTOR</div>
-                      </div>
-                      <!-- seal -->
-                      <div style="width:78px;height:78px;flex-shrink:0;border-radius:50%;border:2px solid #F5841F;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.1)">
-                        <span class="ms" style="font-size:26px;color:#F5841F">verified</span>
-                        <span class="mono" style="font-size:6.5px;letter-spacing:.1em;color:#7a7264;margin-top:1px">HOLD SHORT</span>
-                        <span class="mono" style="font-size:6.5px;letter-spacing:.1em;color:#7a7264">SKPE</span>
-                      </div>
-                      <div style="flex:1;text-align:center">
-                        <div class="disp" style="font-size:17px;color:#15171b;font-style:italic;border-bottom:1px solid #15171b;padding-bottom:6px;margin-bottom:6px">Cap. Mateo Ríos</div>
-                        <div class="mono" style="font-size:9px;letter-spacing:.08em;color:#7a7264">JEFE DE OPERACIONES</div>
-                      </div>
-                    </div>
-                    <!-- footer -->
-                    <div style="background:#0C0D10;padding:10px 26px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
-                      <span class="mono" style="font-size:9.5px;color:var(--muted)">@HOLDSHORTPEI · 316 724 91 39 · Pereira</span>
-                      <span class="disp" style="font-size:11px;font-weight:700;color:#F5841F;font-style:italic;letter-spacing:.02em">CLEARED FOR TAKEOFF</span>
                     </div>
                   </div>
                 </div>
@@ -1967,10 +1977,9 @@ class Component extends DCLogic {
     if(!el){ this.toast('El documento aún no está visible'); return; }
     const clone = el.cloneNode(true);
     clone.style.cssText += ';width:100%!important;max-width:100%!important;border-radius:0!important;box-shadow:none!important;margin:0!important;';
-    const isCert = kind==='certificado';
     const isConf = kind==='confirmacion';
-    const pageW = isCert?'210mm':'297mm';
-    const pageH = isCert?'297mm':'210mm';
+    const pageW = '297mm';
+    const pageH = '210mm';
     const docBg = isConf?'#0C0D10':'#F3EFE7';
     const iframe = document.createElement('iframe');
     iframe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:0;border:none;visibility:hidden';
