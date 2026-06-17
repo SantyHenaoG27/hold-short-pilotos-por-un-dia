@@ -885,35 +885,44 @@
               <div class="mono" style="font-size:11px;letter-spacing:.1em;color:#C99A2E;font-weight:600;margin-bottom:5px">// EXPERIENCIAS REGALO</div>
               <h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Regalos</h1>
             </div>
-            <button onClick="{{ newRegalo }}" style="display:flex;align-items:center;gap:7px;height:38px;padding:0 15px;background:#C99A2E;border:none;border-radius:9px;cursor:pointer;font-family:'Space Grotesk';font-size:13px;font-weight:600;color:#fff" style-hover="background:#b3851f"><span class="ms" style="font-size:19px">card_giftcard</span>Nuevo regalo</button>
+            <sc-if value="{{ regLoading }}" hint-placeholder-val=""><span style="font-size:12px;color:var(--muted)">Cargando…</span></sc-if>
           </div>
-          <!-- pipeline -->
-          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px" data-r="kpi">
-            <sc-for list="{{ regPipeline }}" as="p" hint-placeholder-count="5">
+          <!-- KPIs -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px" data-r="kpi">
+            <sc-for list="{{ regPipeline }}" as="p" hint-placeholder-count="4">
               <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 15px;display:flex;align-items:center;gap:12px">
                 <div style="{{ p.iconWrap }}"><span class="ms" style="font-size:20px">{{ p.ic }}</span></div>
                 <div><div class="disp" style="font-size:22px;font-weight:700;line-height:1">{{ p.n }}</div><div style="font-size:11px;color:var(--muted);margin-top:3px">{{ p.label }}</div></div>
               </div>
             </sc-for>
           </div>
-          <!-- table -->
+          <!-- tabla -->
           <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden">
-            <div style="overflow-x:auto"><div style="min-width:900px">
-              <div class="mono" style="display:grid;grid-template-columns:96px 1.2fr 1.2fr 1fr 110px 120px 120px;align-items:center;gap:10px;padding:11px 18px;border-bottom:1.5px solid var(--border);background:var(--alt);font-size:10px;letter-spacing:.06em;color:var(--muted);font-weight:600;text-transform:uppercase">
-                <span>Código</span><span>De</span><span>Para</span><span>Paquete</span><span>Valor</span><span>Estado</span><span style="text-align:right">Acción</span>
-              </div>
-              <sc-for list="{{ regList }}" as="g" hint-placeholder-count="6">
-                <div onClick="{{ g.onClick }}" style="display:grid;grid-template-columns:96px 1.2fr 1.2fr 1fr 110px 120px 120px;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--divider);cursor:pointer;font-size:12.5px" style-hover="background:var(--alt)">
-                  <span class="mono" style="font-size:11.5px;font-weight:600;color:#b5630a">{{ g.code }}</span>
-                  <div style="min-width:0"><div style="font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ g.de }}</div><div class="mono" style="font-size:10px;color:var(--faint)">{{ g.deTel }}</div></div>
-                  <div style="min-width:0;display:flex;align-items:center;gap:6px"><span class="ms" style="font-size:15px;color:#C99A2E">redeem</span><span style="font-weight:500;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ g.para }}</span></div>
-                  <div style="font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ g.paquete }}</div>
-                  <span class="mono" style="font-size:12px;font-weight:600;color:var(--text)">{{ g.valorF }}</span>
-                  <div><span style="{{ g.estStyle }}"><span class="ms" style="font-size:13px">{{ g.estIcon }}</span>{{ g.estLabel }}</span></div>
-                  <div style="display:flex;justify-content:flex-end"><button onClick="{{ g.onInvit }}" style="display:flex;align-items:center;gap:5px;height:30px;padding:0 11px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:11.5px;font-weight:600;color:var(--text2);cursor:pointer" style-hover="border-color:#C99A2E;color:#9a6f12"><span class="ms" style="font-size:15px">visibility</span>Invitación</button></div>
+            <sc-if value="{{ regEmpty }}" hint-placeholder-val="">
+              <div style="padding:32px;text-align:center;color:var(--faint);font-size:13px">No hay reservas de regalo registradas aún.</div>
+            </sc-if>
+            <sc-if value="{{ regHasRows }}" hint-placeholder-val="x">
+              <div style="overflow-x:auto"><div style="min-width:860px">
+                <div class="mono" style="display:grid;grid-template-columns:96px 1.3fr 1.3fr 1fr 110px 130px 120px;align-items:center;gap:10px;padding:11px 18px;border-bottom:1.5px solid var(--border);background:var(--alt);font-size:10px;letter-spacing:.06em;color:var(--muted);font-weight:600;text-transform:uppercase">
+                  <span>Código</span><span>De</span><span>Para</span><span>Paquete</span><span>Valor</span><span>Estado</span><span style="text-align:right">Acción</span>
                 </div>
-              </sc-for>
-            </div></div>
+                <sc-for list="{{ regList }}" as="g" hint-placeholder-count="4">
+                  <div onClick="{{ g.onClick }}" style="display:grid;grid-template-columns:96px 1.3fr 1.3fr 1fr 110px 130px 120px;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid var(--divider);cursor:pointer;font-size:12.5px" style-hover="background:var(--alt)">
+                    <div>
+                      <div class="mono" style="font-size:11px;font-weight:600;color:#b5630a">{{ g.code }}</div>
+                      <div class="mono" style="font-size:10px;color:var(--faint);margin-top:1px">{{ g.fecha }}</div>
+                    </div>
+                    <div style="min-width:0"><div style="font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ g.de }}</div><div class="mono" style="font-size:10px;color:var(--faint)">{{ g.deTel }}</div></div>
+                    <div style="min-width:0;display:flex;align-items:center;gap:6px"><span class="ms" style="font-size:15px;color:#C99A2E;flex-shrink:0">redeem</span><span style="font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ g.para }}</span></div>
+                    <div style="font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ g.paquete }}</div>
+                    <span class="mono" style="font-size:12px;font-weight:600;color:var(--text)">{{ g.valorF }}</span>
+                    <div><span style="{{ g.estStyle }}">{{ g.estLabel }}</span></div>
+                    <div style="display:flex;justify-content:flex-end"><button onClick="{{ g.onInvit }}" style="display:flex;align-items:center;gap:5px;height:30px;padding:0 11px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:11.5px;font-weight:600;color:var(--text2);cursor:pointer" style-hover="border-color:#C99A2E;color:#9a6f12"><span class="ms" style="font-size:15px">redeem</span>Invitación</button></div>
+                  </div>
+                </sc-for>
+                <div style="padding:11px 18px;border-top:1px solid var(--divider)"><span class="mono" style="font-size:11px;color:var(--muted)">{{ regCount }} reservas como regalo</span></div>
+              </div></div>
+            </sc-if>
           </div>
         </div>
       </sc-if>
@@ -1818,6 +1827,9 @@ class Component extends DCLogic {
     clientesData: null,
     clientesLoading: false,
     clienteDrawer: null,
+    // regalos
+    regalosData: null,
+    regalosLoading: false,
     // calendario
     calView: 'semana',
     calAnchor: null,
@@ -1881,6 +1893,14 @@ class Component extends DCLogic {
     }catch(e){ this.setState({calLoading:false}); }
   }
 
+  async fetchRegalosData(){
+    this.setState({regalosLoading:true});
+    try{
+      const{data,error}=await supabaseClient.from('reservations').select('*').eq('servicio','simulador').eq('book_for','regalo').order('fecha',{ascending:false}).order('hora_inicio');
+      if(!error&&data){ this.setState({regalosData:data.map(r=>this.mapRsvToSession(hsMapReservation(r))),regalosLoading:false}); }
+      else{ this.setState({regalosLoading:false}); }
+    }catch(e){ this.setState({regalosLoading:false}); }
+  }
   async fetchClientesData(){
     this.setState({clientesLoading:true});
     try{
@@ -1929,6 +1949,7 @@ class Component extends DCLogic {
     if(route==='calendario') this.fetchCalSessions(this.state.calAnchor||new Date(), this.state.calView);
     if(route==='pxd') this.fetchPxdData();
     if(route==='certificados') this.fetchCertData();
+    if(route==='regalos') this.fetchRegalosData();
     if(route==='clientes') this.fetchClientesData();
   }
   reload(){
@@ -2841,21 +2862,29 @@ class Component extends DCLogic {
     const cliDrawerClose = ()=>this.setState({clienteDrawer:null});
 
     // ---------- REGALOS ----------
-    const regList = this.regalos.map(g=>{
-      const em=this.regaloEstadoMeta(g.estado);
-      return { ...g, valorF:this.cop(g.valor),
-        estLabel:em.label, estIcon:em.ic, estStyle:`display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;color:${em.c};background:${em.bg};padding:3px 10px;border-radius:20px`,
-        envioLabel: g.envio?({whatsapp:'WhatsApp',correo:'Correo',descarga:'Descarga',enlace:'Enlace'}[g.envio]):'—',
-        onInvit:()=>this.openDoc('invitacion', g.sesion||'HS-2263'),
-        onClick:()=>this.toast('Detalle de regalo '+g.code),
+    const _regSrc = this.state.regalosData || [];
+    const _regLoaded = this.state.regalosData !== null;
+    const regList = _regSrc.map(s=>{
+      const em=this.estadoMeta(s.estado);
+      return { code:s.code, de:s.cliente||'—', deTel:s.tel||'—',
+        para:s.segundo||'—', paquete:s.paquete, fecha:s.fecha, hi:s.hi,
+        valorF:this.cop(s.total||0),
+        estLabel:em.label, estStyle:`display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;color:${em.c};background:${em.bg};padding:3px 10px;border-radius:20px`,
+        onInvit:()=>this.openDoc('invitacion', s.code),
+        onClick:()=>this.openDrawer(s.code),
       };
     });
+    const _regActivos=_regSrc.filter(s=>['solicitud','confirmada','checkin','curso'].includes(s.estado)).length;
+    const _regCompletos=_regSrc.filter(s=>s.estado==='completada').length;
+    const _regCancelados=_regSrc.filter(s=>s.estado==='cancelada').length;
+    const regLoading = this.state.regalosLoading;
+    const regEmpty = !regLoading && _regSrc.length===0;
+    const regHasRows = _regSrc.length>0;
     const regPipeline=[
-      {label:'Por enviar', n:1, c:'#9a6f0a', bg:'#FBF0D5', ic:'pending'},
-      {label:'Enviados', n:1, c:'#2c5070', bg:'#E9F0F6', ic:'send'},
-      {label:'Programados', n:2, c:'#5848c0', bg:'#EEEBFB', ic:'event_available'},
-      {label:'Fecha abierta', n:1, c:'#0c7a82', bg:'#DDF1F2', ic:'event'},
-      {label:'Canjeados', n:1, c:'#227a45', bg:'#E6F4EC', ic:'task_alt'},
+      {label:'Total regalos', n:_regLoaded?String(_regSrc.length):'…', c:'#C99A2E', bg:'#FBF0D5', ic:'card_giftcard'},
+      {label:'Por realizar', n:_regLoaded?String(_regActivos):'…', c:'#2c5070', bg:'#E9F0F6', ic:'event_available'},
+      {label:'Completados', n:_regLoaded?String(_regCompletos):'…', c:'#227a45', bg:'#E6F4EC', ic:'task_alt'},
+      {label:'Cancelados', n:_regLoaded?String(_regCancelados):'…', c:'#b13838', bg:'#FBEAEA', ic:'block'},
     ].map(p=>({...p, iconWrap:`width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:${p.c};background:${p.bg}`}));
 
     // ---------- PAGOS ----------
@@ -3174,7 +3203,7 @@ class Component extends DCLogic {
       searchRows, searchOpen, setSearch, onSearchFocus, onSearchBlur, globalSearch:this.state.globalSearch,
       clienteDrawerData, cliDrawerOpen, cliDrawerClose,
       // regalos
-      regList, regPipeline, regCount:regList.length,
+      regList, regPipeline, regCount:regList.length, regLoading, regEmpty, regHasRows,
       // pagos
       pagRows, pagKpis, metodoBreak,
       // reportes
