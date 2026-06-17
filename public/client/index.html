@@ -273,14 +273,15 @@ class Component extends DCLogic {
   componentWillUnmount(){ clearInterval(this._t); clearTimeout(this._toastT); }
 
   loadSimMant(){
-    // Lee todos los keys que empiecen con simulator_maintenance (old y new format)
-    supabaseClient.from('settings').select('key,value').like('key','simulator_maintenance%')
-      .then(({data})=>{
-        if(!data||!data.length) return;
-        const active = data.map(r=>r.value).filter(v=>v&&v.activo&&v.desde&&v.hasta);
+    supabaseClient.from('settings').select('key,value')
+      .then(({data,error})=>{
+        if(error||!data||!data.length) return;
+        const active = data
+          .filter(r=>r.key==='simulator_maintenance'||r.key.startsWith('simulator_maintenance_'))
+          .map(r=>r.value)
+          .filter(v=>v&&v.activo&&v.desde&&v.hasta);
         if(!active.length) return;
-        // Usar el rango con la fecha de fin más tardía para bloquear al cliente
-        const merged = active.reduce((acc,v)=> acc.hasta>=v.hasta ? acc : v);
+        const merged = active.reduce((acc,v)=>acc.hasta>=v.hasta?acc:v);
         this.setState({simMant:merged});
       });
   }
