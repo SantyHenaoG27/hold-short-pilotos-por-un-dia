@@ -1029,9 +1029,9 @@
               </div>
             </div>
             <div style="display:flex;gap:10px">
-              <button onClick="{{ simMantSave }}" disabled="{{ simMantSaving }}" style="flex:1;height:40px;background:#C2410C;border:none;border-radius:9px;color:#fff;font-weight:700;font-size:13px;cursor:pointer">{{ simMantSaving ? 'Guardando…' : 'Guardar mantenimiento' }}</button>
+              <button onClick="{{ simMantSave }}" disabled="{{ simMantSaving }}" style="flex:1;height:40px;background:#C2410C;border:none;border-radius:9px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><span class="ms" style="font-size:17px">build</span>{{ simMantSaving ? 'Guardando…' : 'Programar bloqueo' }}</button>
               <sc-if value="{{ simMantActivo }}" hint-placeholder-val="{{ false }}">
-                <button onClick="{{ simMantClear }}" style="height:40px;padding:0 14px;background:var(--chip);border:1px solid var(--border);border-radius:9px;color:var(--text2);font-weight:600;font-size:12px;cursor:pointer">Cancelar período</button>
+                <button onClick="{{ simMantClear }}" style="height:40px;padding:0 14px;background:var(--chip);border:1px solid var(--border);border-radius:9px;color:#b13838;font-weight:600;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px"><span class="ms" style="font-size:16px">delete</span>Eliminar bloqueo</button>
               </sc-if>
             </div>
           </div>
@@ -3020,11 +3020,14 @@ class Component extends DCLogic {
     // ---------- SIMULADORES ----------
     const _sm=this.state.simMant||{};
     const _smLabel=_sm.activo&&_sm.desde&&_sm.hasta?`${_sm.desde} → ${_sm.hasta}`:'Ninguno programado';
+    const _today = this.isoDate(new Date());
+    const _enMantHoy = _sm.activo && _sm.desde && _sm.hasta && _today >= _sm.desde && _today <= _sm.hasta;
     const simCards = this.simuladores.map(s=>{
-      const em=this.simEstadoMeta(s.estado);
+      const estadoEfectivo = _enMantHoy ? 'mantenimiento' : s.estado;
+      const em=this.simEstadoMeta(estadoEfectivo);
       return { ...s, estLabel:em.label, estIcon:em.ic,
         estStyle:`display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:${em.c};background:${em.bg};padding:4px 11px;border-radius:20px`,
-        barStyle:`height:100%;width:${s.ocup}%;background:${s.estado==='operativo'?'linear-gradient(90deg,#F5841F,#e8780f)':'linear-gradient(90deg,#C99A2E,#b3851f)'};border-radius:6px`,
+        barStyle:`height:100%;width:${s.ocup}%;background:${estadoEfectivo==='operativo'?'linear-gradient(90deg,#F5841F,#e8780f)':'linear-gradient(90deg,#C99A2E,#b3851f)'};border-radius:6px`,
         mant:_smLabel,
         onClick:()=>this.toast('Ficha de '+s.name), onMant:()=>this.openMantModal(), onBloq:()=>this.toast('Bloquear '+s.name) };
     });
