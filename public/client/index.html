@@ -209,7 +209,12 @@
             </div>
             <div style="flex:1">
               <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">Hora preferida (opcional)</label>
-              <input type="time" value="{{ fHoraInicio }}" onChange="{{ setHoraInicio }}" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13.5px;color:var(--text);background:var(--surface)"/>
+              <sc-if value="{{ simMantFechaFueraRango }}" hint-placeholder-val="">
+                <input type="time" value="{{ fHoraInicio }}" onChange="{{ setHoraInicio }}" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13.5px;color:var(--text);background:var(--surface)"/>
+              </sc-if>
+              <sc-if value="{{ simMantFechaEnRango2 }}" hint-placeholder-val="">
+                <div style="width:100%;border:1px solid #F59E0B;border-radius:8px;padding:10px 12px;font-size:11.5px;color:#92400E;background:#FEF3C7;line-height:1.4;box-sizing:border-box">Selecciona a partir del <strong>{{ simMantHastaLabel }}</strong></div>
+              </sc-if>
             </div>
           </div>
 
@@ -451,6 +456,8 @@ class Component extends DCLogic {
       simMantActivo: !!(s.simMant&&s.simMant.activo&&s.simMant.desde&&s.simMant.hasta),
       simMantHastaLabel: (s.simMant&&s.simMant.activo&&s.simMant.hasta)?this.fechaLarga(s.simMant.hasta):'',
       simMantFechaEnRango: !!(s.simMant&&s.simMant.activo&&s.fFecha&&s.fFecha>=s.simMant.desde&&s.fFecha<=s.simMant.hasta),
+      simMantFechaEnRango2: !!(s.simMant&&s.simMant.activo&&s.fFecha&&s.fFecha>=s.simMant.desde&&s.fFecha<=s.simMant.hasta),
+      simMantFechaFueraRango: !(s.simMant&&s.simMant.activo&&s.fFecha&&s.fFecha>=s.simMant.desde&&s.fFecha<=s.simMant.hasta),
     };
   }
 }
