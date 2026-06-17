@@ -2041,6 +2041,8 @@ class Component extends DCLogic {
   getSession(code){
     return (this.state.pxdData||[]).find(s=>s.code===code)
       || (this.state.certData||[]).find(s=>s.code===code)
+      || (this.state.docsData||[]).find(s=>s.code===code)
+      || (this.state.regalosData||[]).find(s=>s.code===code)
       || (this.state.dbSessions||[]).find(s=>s.code===code)
       || this.sessions.find(s=>s.code===code);
   }
