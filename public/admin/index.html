@@ -2293,17 +2293,16 @@ class Component extends DCLogic {
         ];
         if (s.segundo) drawerRows.splice(1,0,{icon:'group', label:'2º participante', value:s.segundo});
         const flowSteps = ['solicitud','confirmada','checkin','curso','completada'];
-        const flowLabels = {solicitud:'Reserva recibida',confirmada:'Confirmada · pago registrado',checkin:'Check-in / asistencia',curso:'En simulador',completada:'Experiencia completada'};
+        const flowLabels = {solicitud:'Reserva recibida',confirmada:'Confirmada',checkin:'Check-in / asistencia',curso:'En simulador',completada:'Experiencia completada'};
         const order = ['solicitud','pendiente','confirmada','proxima','checkin','curso','completada'];
         const cur = order.indexOf(s.estado);
         drawerFlow = flowSteps.map((fs)=>{
           const idx = order.indexOf(fs);
           const done = cur>=idx && cur>=0;
-          const isNow = s.estado===fs;
           return { label:flowLabels[fs], icon: done?'check_circle':'radio_button_unchecked',
-            color: isNow?'#F5841F':done?'#2E9E5B':'var(--border)',
-            textColor: isNow?'#16181c':done?'#3a3d42':'#a4a8ae',
-            weight: isNow?'700':'500' };
+            color: done?'#2E9E5B':'var(--border)',
+            textColor: done?'#3a3d42':'#a4a8ae',
+            weight: done?'600':'500' };
         });
         const ab = (icon,label,color,onClick)=>({icon,label,color, style:'display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;background:var(--surface);border:1px solid var(--border);border-radius:9px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;justify-content:center', onClick});
         drawerActions = [
@@ -2314,7 +2313,7 @@ class Component extends DCLogic {
           ab('task_alt','Completar','#227a45',          ()=>this.setEstado(s.code,'completada')),
           ab('event_repeat','Reprogramar','#6D5AE0',    ()=>this.setEstado(s.code,'reprogramada')),
         ];
-        const flowEstados=[['solicitud','Reserva recibida'],['confirmada','Confirmada · pago registrado'],['checkin','Check-in / asistencia'],['curso','En simulador'],['completada','Experiencia completada']];
+        const flowEstados=[['solicitud','Reserva recibida'],['confirmada','Confirmada'],['checkin','Check-in / asistencia'],['curso','En simulador'],['completada','Experiencia completada']];
         drawerEstados = flowEstados.map(([est,label])=>{
           const em2=this.estadoMeta(est); const isA=s.estado===est;
           return { label, onClick:()=>this.setEstado(s.code,est),
