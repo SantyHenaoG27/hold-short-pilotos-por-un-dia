@@ -163,6 +163,16 @@
 
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:22px;max-width:520px;display:flex;flex-direction:column;gap:16px">
 
+          <sc-if value="{{ simMantActivo }}" hint-placeholder-val="">
+            <div style="background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;padding:11px 14px;display:flex;gap:9px;align-items:flex-start">
+              <span style="font-size:17px;flex-shrink:0;margin-top:1px">🔧</span>
+              <div>
+                <div style="font-size:12.5px;font-weight:700;color:#78350F">Simulador en mantenimiento</div>
+                <div style="font-size:12px;color:#92400E;margin-top:2px;line-height:1.4">No disponible hasta el <strong>{{ simMantHastaLabel }}</strong>. Por favor elige una fecha posterior.</div>
+              </div>
+            </div>
+          </sc-if>
+
           <div>
             <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">Servicio</label>
             <select value="{{ fServicio }}" onChange="{{ setServicio }}" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13.5px;color:var(--text);background:var(--surface)">
@@ -193,6 +203,9 @@
             <div style="flex:1">
               <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">Fecha</label>
               <input type="date" value="{{ fFecha }}" onChange="{{ setFecha }}" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13.5px;color:var(--text);background:var(--surface)"/>
+              <sc-if value="{{ simMantFechaEnRango }}" hint-placeholder-val="">
+                <div style="font-size:11.5px;color:#92400E;margin-top:5px;display:flex;align-items:center;gap:5px"><span style="font-size:13px">⚠️</span>Simulador en mantenimiento hasta el {{ simMantHastaLabel }}</div>
+              </sc-if>
             </div>
             <div style="flex:1">
               <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">Hora preferida (opcional)</label>
@@ -240,6 +253,7 @@ class Component extends DCLogic {
     fNotas: '',
     formError: '',
     formSubmitting: false,
+    simMant: null,
   };
 
   componentDidMount(){
@@ -247,10 +261,16 @@ class Component extends DCLogic {
     hsGetSession().then(data => {
       if (!data.authenticated || data.user.role !== 'client') { window.location.href = '/'; return; }
       this.setState({ authReady: true, me: data.user });
+      this.loadSimMant();
       return this.loadReservas();
     });
   }
   componentWillUnmount(){ clearInterval(this._t); clearTimeout(this._toastT); }
+
+  loadSimMant(){
+    supabaseClient.from('settings').select('value').eq('key','simulator_maintenance').single()
+      .then(({data})=>{ if(data&&data.value) this.setState({simMant:data.value}); });
+  }
 
   loadReservas(){
     this.setState({ loading: true });
@@ -289,6 +309,11 @@ class Component extends DCLogic {
   submitSolicitud(){
     const { fServicio, fPaquete, fSimulador, fFecha, fHoraInicio, fNotas } = this.state;
     if (!fFecha) { this.setState({ formError: 'Selecciona una fecha para tu experiencia.' }); return; }
+    const _sm = this.state.simMant;
+    if (_sm && _sm.activo && fFecha >= _sm.desde && fFecha <= _sm.hasta) {
+      this.setState({ formError: 'Simulador en mantenimiento hasta el ' + this.fechaLarga(_sm.hasta) + '. Por favor elige otra fecha.' });
+      return;
+    }
     this.setState({ formSubmitting: true, formError: '' });
     supabaseClient.from('reservations').insert({
       client_id: this.state.me.id,
@@ -414,6 +439,10 @@ class Component extends DCLogic {
       formSubmitting: s.formSubmitting,
       submitLabel: s.formSubmitting ? 'Enviando…' : 'Enviar solicitud',
       submitSolicitud: () => this.submitSolicitud(),
+      // mantenimiento simulador
+      simMantActivo: !!(s.simMant&&s.simMant.activo&&s.simMant.desde&&s.simMant.hasta),
+      simMantHastaLabel: (s.simMant&&s.simMant.activo&&s.simMant.hasta)?this.fechaLarga(s.simMant.hasta):'',
+      simMantFechaEnRango: !!(s.simMant&&s.simMant.activo&&s.fFecha&&s.fFecha>=s.simMant.desde&&s.fFecha<=s.simMant.hasta),
     };
   }
 }

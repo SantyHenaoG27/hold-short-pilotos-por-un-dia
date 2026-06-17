@@ -1003,10 +1003,51 @@
         </div>
       </sc-if>
 
+      <!-- ===== MANTENIMIENTO MODAL ===== -->
+      <sc-if value="{{ simMantModal }}" hint-placeholder-val="{{ false }}">
+        <div style="position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9000;display:flex;align-items:center;justify-content:center" onClick="{{ simMantClose }}">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:28px;width:420px;max-width:94vw;box-shadow:0 24px 60px rgba(0,0,0,.35)" onClick="{{ (e)=>e.stopPropagation() }}">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+              <div>
+                <div class="mono" style="font-size:10px;letter-spacing:.12em;color:#C2410C;font-weight:600;margin-bottom:3px">SIMULADOR · MANTENIMIENTO</div>
+                <div class="disp" style="font-size:17px;font-weight:700">Programar período bloqueado</div>
+              </div>
+              <button onClick="{{ simMantClose }}" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--chip);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center"><span class="ms" style="font-size:17px">close</span></button>
+            </div>
+            <div style="background:rgba(194,65,12,.07);border:1px solid rgba(194,65,12,.2);border-radius:10px;padding:11px 14px;font-size:12.5px;color:#7a3010;margin-bottom:20px;display:flex;gap:9px;align-items:flex-start">
+              <span class="ms" style="font-size:17px;color:#C2410C;flex-shrink:0;margin-top:1px">info</span>
+              <span>Durante este período el simulador aparecerá como no disponible en el formulario de reserva. Los clientes verán «Simulador en mantenimiento hasta [fecha fin]».</span>
+            </div>
+            <div style="display:flex;gap:12px;margin-bottom:20px">
+              <div style="flex:1">
+                <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">Fecha de inicio</label>
+                <input type="date" value="{{ simMantDesde }}" onChange="{{ simMantSetDesde }}" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13.5px;color:var(--text);background:var(--surface)">
+              </div>
+              <div style="flex:1">
+                <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">Fecha de fin</label>
+                <input type="date" value="{{ simMantHasta }}" onChange="{{ simMantSetHasta }}" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13.5px;color:var(--text);background:var(--surface)">
+              </div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button onClick="{{ simMantSave }}" disabled="{{ simMantSaving }}" style="flex:1;height:40px;background:#C2410C;border:none;border-radius:9px;color:#fff;font-weight:700;font-size:13px;cursor:pointer">{{ simMantSaving ? 'Guardando…' : 'Guardar mantenimiento' }}</button>
+              <sc-if value="{{ simMantActivo }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ simMantClear }}" style="height:40px;padding:0 14px;background:var(--chip);border:1px solid var(--border);border-radius:9px;color:var(--text2);font-weight:600;font-size:12px;cursor:pointer">Cancelar período</button>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
       <!-- ===== SIMULADORES ===== -->
       <sc-if value="{{ isSimuladores }}" hint-placeholder-val="">
         <div>
           <div style="margin-bottom:18px"><div class="mono" style="font-size:11px;letter-spacing:.1em;color:#F5841F;font-weight:600;margin-bottom:5px">// RECURSOS</div><h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Simuladores</h1></div>
+          <sc-if value="{{ simMantActivoBanner }}" hint-placeholder-val="{{ false }}">
+            <div style="background:rgba(194,65,12,.08);border:1px solid rgba(194,65,12,.25);border-radius:12px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px">
+              <span class="ms" style="font-size:20px;color:#C2410C">build</span>
+              <div><div style="font-size:13px;font-weight:700;color:#7a3010">Mantenimiento activo</div><div style="font-size:11.5px;color:#9a5030;margin-top:1px">{{ simMantDesde }} → {{ simMantHasta }} · Los clientes no pueden reservar estas fechas</div></div>
+            </div>
+          </sc-if>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" data-r="panelcols">
             <sc-for list="{{ simCards }}" as="s" hint-placeholder-count="2">
               <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden">
@@ -1803,6 +1844,12 @@ class Component extends DCLogic {
     regalosLoading: false,
     // reprogramar modal
     reprModal: null,
+    // mantenimiento simulador
+    simMant: null,
+    simMantModal: false,
+    simMantDesde: '',
+    simMantHasta: '',
+    simMantSaving: false,
     // calendario
     calView: 'semana',
     calAnchor: null,
@@ -1829,9 +1876,42 @@ class Component extends DCLogic {
       const anchor = this.calMonday(new Date());
       this.setState({ authReady: true, me: data.user, calAnchor: anchor });
       this.fetchCalSessions(anchor, 'semana');
+      this.loadSimMant();
     });
   }
   componentWillUnmount(){ clearInterval(this._t); }
+
+  async loadSimMant(){
+    try{
+      const{data}=await supabaseClient.from('settings').select('value').eq('key','simulator_maintenance').single();
+      if(data) this.setState({simMant:data.value});
+    }catch(e){}
+  }
+  openMantModal(){
+    const m=this.state.simMant||{};
+    this.setState({simMantModal:true, simMantDesde:m.activo?m.desde:'', simMantHasta:m.activo?m.hasta:''});
+  }
+  async saveSimMant(){
+    const{simMantDesde,simMantHasta}=this.state;
+    if(!simMantDesde||!simMantHasta){this.toast('Selecciona ambas fechas');return;}
+    if(simMantDesde>simMantHasta){this.toast('La fecha de inicio debe ser anterior al fin');return;}
+    this.setState({simMantSaving:true});
+    const value={activo:true,desde:simMantDesde,hasta:simMantHasta};
+    const{error}=await supabaseClient.from('settings').upsert({key:'simulator_maintenance',value,updated_at:new Date().toISOString()});
+    if(!error){
+      this.setState({simMant:value,simMantModal:false,simMantSaving:false});
+      this.toast('Mantenimiento programado');
+    }else{
+      this.setState({simMantSaving:false});
+      this.toast('Error al guardar');
+    }
+  }
+  async clearSimMant(){
+    const value={activo:false,desde:null,hasta:null};
+    await supabaseClient.from('settings').upsert({key:'simulator_maintenance',value,updated_at:new Date().toISOString()});
+    this.setState({simMant:value,simMantModal:false});
+    this.toast('Mantenimiento cancelado');
+  }
 
   calMonday(d){ const dt=new Date(d); const day=dt.getDay(); const diff=day===0?-6:1-day; dt.setDate(dt.getDate()+diff); dt.setHours(0,0,0,0); return dt; }
   isoDate(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
@@ -2938,12 +3018,15 @@ class Component extends DCLogic {
     ].map(i=>({...i, barStyle:`height:6px;border-radius:4px;background:#F5841F;width:${i.pct}%`}));
 
     // ---------- SIMULADORES ----------
+    const _sm=this.state.simMant||{};
+    const _smLabel=_sm.activo&&_sm.desde&&_sm.hasta?`${_sm.desde} → ${_sm.hasta}`:'Ninguno programado';
     const simCards = this.simuladores.map(s=>{
       const em=this.simEstadoMeta(s.estado);
       return { ...s, estLabel:em.label, estIcon:em.ic,
         estStyle:`display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:${em.c};background:${em.bg};padding:4px 11px;border-radius:20px`,
         barStyle:`height:100%;width:${s.ocup}%;background:${s.estado==='operativo'?'linear-gradient(90deg,#F5841F,#e8780f)':'linear-gradient(90deg,#C99A2E,#b3851f)'};border-radius:6px`,
-        onClick:()=>this.toast('Ficha de '+s.name), onMant:()=>this.toast('Programar mantenimiento · '+s.name), onBloq:()=>this.toast('Bloquear '+s.name) };
+        mant:_smLabel,
+        onClick:()=>this.toast('Ficha de '+s.name), onMant:()=>this.openMantModal(), onBloq:()=>this.toast('Bloquear '+s.name) };
     });
 
     // ---------- INSTRUCTORES ----------
@@ -3240,6 +3323,17 @@ class Component extends DCLogic {
       ph,
       // nuevos módulos
       simCards, instCards, pilRows, pilKpis, comList, certRows, certLoading, certEmpty, certHasRows,
+      simMantModal: this.state.simMantModal,
+      simMantDesde: this.state.simMantDesde,
+      simMantHasta: this.state.simMantHasta,
+      simMantSaving: this.state.simMantSaving,
+      simMantActivo: _sm.activo||false,
+      simMantActivoBanner: _sm.activo||false,
+      simMantSetDesde:(e)=>this.setState({simMantDesde:e.target.value}),
+      simMantSetHasta:(e)=>this.setState({simMantHasta:e.target.value}),
+      simMantSave:()=>this.saveSimMant(),
+      simMantClear:()=>this.clearSimMant(),
+      simMantClose:()=>this.setState({simMantModal:false}),
       cfgPaquetes, cfgMetodos, cfgRoles,
       pxdRows, pxdPaquetes, pxdKpis, pxdDateBtns, pxdSetCustom, pxdCustomDate:_pxdCd,
       pxdLoading: this.state.pxdLoading,

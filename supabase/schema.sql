@@ -190,7 +190,31 @@ create policy "reservations_admin_all" on public.reservations
   for all using (public.is_admin());
 
 -- ----------------------------------------------------------------------------
--- 4. Seed de roles (ejecutar DESPUÉS de crear los usuarios desde la app /
+-- 4. settings — configuración global (mantenimiento de simulador, etc.)
+-- ----------------------------------------------------------------------------
+create table public.settings (
+  key text primary key,
+  value jsonb not null default '{}',
+  updated_at timestamptz not null default now()
+);
+
+alter table public.settings enable row level security;
+
+-- Cualquiera (incluyendo anónimo) puede leer settings
+create policy "settings_read_public" on public.settings
+  for select using (true);
+
+-- Solo admins pueden crear o modificar settings
+create policy "settings_admin_write" on public.settings
+  for all using (public.is_admin());
+
+-- Registro inicial: mantenimiento inactivo
+insert into public.settings (key, value) values
+  ('simulator_maintenance', '{"activo": false, "desde": null, "hasta": null}')
+on conflict do nothing;
+
+-- ----------------------------------------------------------------------------
+-- 5. Seed de roles (ejecutar DESPUÉS de crear los usuarios desde la app /
 --    Supabase Auth con sus emails reales). Ejemplo:
 -- ----------------------------------------------------------------------------
 -- update public.profiles set role = 'admin'      where email = 'admin@holdshort.com';
