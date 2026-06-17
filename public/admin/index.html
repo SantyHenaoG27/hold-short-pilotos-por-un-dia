@@ -1109,17 +1109,62 @@
       <!-- ===== DOCUMENTOS (centro) ===== -->
       <sc-if value="{{ isDocumentos }}" hint-placeholder-val="">
         <div>
-          <div style="margin-bottom:16px"><div class="mono" style="font-size:11px;letter-spacing:.1em;color:#F5841F;font-weight:600;margin-bottom:5px">// CENTRO DE DOCUMENTOS</div><h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Confirmaciones e invitaciones</h1></div>
-          <div style="display:flex;gap:9px;margin-bottom:16px;flex-wrap:wrap"><sc-for list="{{ docTabs }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.onClick }}" style="{{ t.style }}"><span class="ms" style="font-size:17px">{{ t.icon }}</span>{{ t.label }}</button></sc-for></div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px">
-            <sc-for list="{{ docItems }}" as="d" hint-placeholder-count="6">
-              <div onClick="{{ d.onOpen }}" style="background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden;cursor:pointer;transition:all .15s" style-hover="border-color:#d6d6cf;box-shadow:0 6px 16px rgba(20,20,20,.07)">
-                <div style="padding:14px 16px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--divider)"><div style="width:36px;height:36px;border-radius:9px;background:var(--chip);display:flex;align-items:center;justify-content:center"><span class="ms" style="font-size:19px;color:{{ d.tipoColor }}">{{ d.tipoIcon }}</span></div><div style="min-width:0;flex:1"><div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ d.cliente }}</div><div class="mono" style="font-size:10px;color:var(--faint)">{{ d.code }}</div></div><span style="{{ d.estStyle }}">{{ d.estLabel }}</span></div>
-                <div style="padding:12px 16px"><div style="font-size:11.5px;color:var(--muted);margin-bottom:3px">{{ d.tipoLabel }}</div><div class="mono" style="font-size:11px;color:var(--faint)">{{ d.fecha }} · {{ d.hi }} · {{ d.paquete }}</div></div>
-                <div style="padding:10px 16px;border-top:1px solid var(--divider);display:flex;gap:7px"><button onClick="{{ d.onOpen }}" style="flex:1;height:32px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:11.5px;font-weight:600;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px"><span class="ms" style="font-size:15px">visibility</span>Ver</button><button onClick="{{ d.onWa }}" style="height:32px;width:32px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:#227a45;cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="background:#E6F4EC"><span class="ms" style="font-size:15px">chat</span></button></div>
-              </div>
-            </sc-for>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px">
+            <div><div class="mono" style="font-size:11px;letter-spacing:.1em;color:#F5841F;font-weight:600;margin-bottom:5px">// CENTRO DE DOCUMENTOS</div><h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Confirmaciones e invitaciones</h1></div>
+            <sc-if value="{{ docLoading }}" hint-placeholder-val=""><span style="font-size:12px;color:var(--muted)">Cargando…</span></sc-if>
           </div>
+
+          <!-- filtros de fecha -->
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span class="ms" style="font-size:19px;color:var(--muted)">calendar_month</span>
+            <sc-for list="{{ docFilterBtns }}" as="f" hint-placeholder-count="3">
+              <button onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.label }}</button>
+            </sc-for>
+            <div style="height:24px;width:1px;background:var(--border);margin:0 2px"></div>
+            <input type="date" value="{{ docCustomDate }}" onInput="{{ docSetCustom }}" style="height:34px;border:1px solid var(--border);border-radius:8px;background:var(--chip);color:var(--text);font-family:Inter;font-size:12.5px;padding:0 10px;outline:none;cursor:pointer" style-focus="border-color:#F5841F">
+            <sc-if value="{{ docHasItems }}" hint-placeholder-val="">
+              <span style="margin-left:auto;font-size:12px;color:var(--muted)">{{ docCount }} sesiones · {{ docDateLabel }}</span>
+            </sc-if>
+          </div>
+
+          <!-- estado vacío -->
+          <sc-if value="{{ docEmpty }}" hint-placeholder-val="">
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:48px 24px;text-align:center">
+              <span class="ms" style="font-size:36px;color:var(--faint)">description</span>
+              <div class="disp" style="font-size:16px;font-weight:600;color:var(--text2);margin-top:12px">Sin sesiones para este período</div>
+              <div style="font-size:12.5px;color:var(--faint);margin-top:6px">Selecciona otro día o usa el calendario para elegir una fecha específica.</div>
+            </div>
+          </sc-if>
+
+          <!-- tarjetas -->
+          <sc-if value="{{ docHasItems }}" hint-placeholder-val="x">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:13px">
+              <sc-for list="{{ docItems }}" as="d" hint-placeholder-count="4">
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden">
+                  <div style="padding:14px 16px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--divider)">
+                    <div style="{{ d.avatarStyle }}">{{ d.initials }}</div>
+                    <div style="min-width:0;flex:1">
+                      <div style="font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ d.cliente }}</div>
+                      <div class="mono" style="font-size:10px;color:var(--faint)">{{ d.code }}</div>
+                    </div>
+                    <span style="{{ d.estStyle }}">{{ d.estLabel }}</span>
+                  </div>
+                  <div style="padding:11px 16px;border-bottom:1px solid var(--divider)">
+                    <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ d.paquete }}</div>
+                    <div class="mono" style="font-size:11px;color:var(--muted)">{{ d.fecha }} · {{ d.hi }}–{{ d.hf }}</div>
+                    <sc-if value="{{ d.regalo }}" hint-placeholder-val="">
+                      <div style="display:inline-flex;align-items:center;gap:4px;margin-top:5px;font-size:10.5px;color:#C99A2E;font-weight:600"><span class="ms" style="font-size:13px">redeem</span>Reserva de regalo</div>
+                    </sc-if>
+                  </div>
+                  <div style="padding:10px 16px;display:flex;gap:7px;flex-wrap:wrap">
+                    <sc-for list="{{ d.docBtns }}" as="b">
+                      <button onClick="{{ b.onClick }}" style="flex:1;min-width:0;height:32px;padding:0 10px;background:{{ b.bg }};border:none;border-radius:8px;font-size:11px;font-weight:600;color:{{ b.color }};cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap" style-hover="opacity:.85"><span class="ms" style="font-size:14px">{{ b.icon }}</span>{{ b.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
         </div>
       </sc-if>
 
@@ -1722,6 +1767,11 @@ class Component extends DCLogic {
     // certificados
     certData: null,
     certLoading: false,
+    // documentos
+    docsData: null,
+    docsLoading: false,
+    docDateFilter: 'hoy',
+    docCustomDate: '',
     // clientes
     clientesData: null,
     clientesLoading: false,
@@ -1834,6 +1884,14 @@ class Component extends DCLogic {
       else{ this.setState({clientesLoading:false}); }
     }catch(e){ this.setState({clientesLoading:false}); }
   }
+  async fetchDocsData(){
+    this.setState({docsLoading:true});
+    try{
+      const{data,error}=await supabaseClient.from('reservations').select('*').eq('servicio','simulador').order('fecha',{ascending:false}).order('hora_inicio');
+      if(!error&&data){ this.setState({docsData:data.map(r=>this.mapRsvToSession(hsMapReservation(r))),docsLoading:false}); }
+      else{ this.setState({docsLoading:false}); }
+    }catch(e){ this.setState({docsLoading:false}); }
+  }
   async fetchCertData(){
     this.setState({certLoading:true});
     try{
@@ -1875,6 +1933,7 @@ class Component extends DCLogic {
     if(route==='pxd') this.fetchPxdData();
     if(route==='certificados') this.fetchCertData();
     if(route==='regalos') this.fetchRegalosData();
+    if(route==='documentos') this.fetchDocsData();
     if(route==='clientes') this.fetchClientesData();
   }
   reload(){
@@ -2951,24 +3010,46 @@ class Component extends DCLogic {
     ].map(k=>({...k, iconWrap:`width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:${k.c};background:${k.bg}`}));
 
     // ---------- DOCUMENTOS (centro) ----------
-    const dt=this.state.docTab;
-    const docTabs=[['confirmaciones','Confirmaciones','confirmation_number'],['invitaciones','Invitaciones de regalo','redeem'],['historial','Historial de envíos','history']].map(([id,label,icon])=>({
-      id,label,icon, onClick:()=>this.setState({docTab:id}),
-      style:`display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer;border:none;${dt===id?'background:var(--btnsolid);color:#fff':'background:var(--surface);color:var(--muted);border:1px solid var(--border)'}`}));
-    const docItems = (dt==='invitaciones'
-      ? this.sessions.filter(s=>s.regalo)
-      : this.sessions
-    ).slice(0,8).map(s=>{
-      const isInv = dt==='invitaciones';
-      return { code:s.code, cliente:s.cliente, fecha:s.fecha, hi:s.hi, paquete:s.paquete,
-        tipoLabel: isInv?'Invitación de regalo':'Confirmación de reserva',
-        tipoIcon: isInv?'redeem':'confirmation_number',
-        tipoColor: isInv?'#C99A2E':'#355C7D',
-        estLabel: dt==='historial'?'Enviado':'Generado', 
-        estStyle: dt==='historial'?'font-size:10px;font-weight:600;color:#227a45;background:#E6F4EC;padding:3px 9px;border-radius:20px':'font-size:10px;font-weight:600;color:#2c5070;background:#E9F0F6;padding:3px 9px;border-radius:20px',
-        onOpen:()=>this.openDoc(isInv?'invitacion':'confirmacion', s.code),
-        onWa:()=>this.toast('Enviar por WhatsApp · '+s.cliente) };
+    const _docSrc = this.state.docsData || this.sessions.filter(s=>s.serv==='pxd');
+    const _docLoaded = this.state.docsData !== null;
+    const _docFilter = this.state.docDateFilter;
+    const _docCustom = this.state.docCustomDate;
+    const _today = this.isoDate(new Date());
+    const _tomorrow = this.isoDate(new Date(Date.now()+86400000));
+    const _weekMon = (()=>{ const d=new Date(); d.setDate(d.getDate()-((d.getDay()+6)%7)); return this.isoDate(d); })();
+    const _weekSun = (()=>{ const d=new Date(); d.setDate(d.getDate()+(6-((d.getDay()+6)%7))); return this.isoDate(d); })();
+    const _docFiltered = _docSrc.filter(s=>{
+      if(!s.fechaISO) return false;
+      if(_docFilter==='hoy')    return s.fechaISO===_today;
+      if(_docFilter==='manana') return s.fechaISO===_tomorrow;
+      if(_docFilter==='semana') return s.fechaISO>=_weekMon && s.fechaISO<=_weekSun;
+      if(_docFilter==='custom') return s.fechaISO===_docCustom;
+      return true;
     });
+    const docFilterBtns=[
+      {id:'hoy',   label:'Hoy'},
+      {id:'manana',label:'Mañana'},
+      {id:'semana',label:'Esta semana'},
+    ].map(b=>({...b, onClick:()=>this.setState({docDateFilter:b.id,docCustomDate:''}),
+      style:`height:34px;padding:0 14px;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;border:${_docFilter===b.id?'none':'1px solid var(--border)'};background:${_docFilter===b.id?'var(--btnsolid)':'var(--surface)'};color:${_docFilter===b.id?'#fff':'var(--muted)'}`}));
+    const docSetCustom=(e)=>this.setState({docDateFilter:'custom',docCustomDate:e.target.value});
+    const docItems=_docFiltered.map(s=>{
+      const em=this.estadoMeta(s.estado);
+      const initials=(s.cliente||'?').split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'?';
+      const docBtns=[];
+      docBtns.push({icon:'confirmation_number',label:'Confirmación',color:'#355C7D',bg:'#E9F0F6',onClick:()=>this.openDoc('confirmacion',s.code)});
+      if(s.regalo) docBtns.push({icon:'redeem',label:'Invitación',color:'#C99A2E',bg:'#FBF0D5',onClick:()=>this.openDoc('invitacion',s.code)});
+      if(s.estado==='completada') docBtns.push({icon:'workspace_premium',label:'Certificado',color:'#227a45',bg:'#E6F4EC',onClick:()=>this.openDoc('certificado',s.code)});
+      return { code:s.code, cliente:s.cliente||'—', initials, fecha:s.fecha, hi:s.hi, hf:s.hf, paquete:s.paquete, regalo:s.regalo,
+        estLabel:em.label, estStyle:`font-size:10px;font-weight:600;color:${em.c};background:${em.bg};padding:2px 9px;border-radius:10px`,
+        avatarStyle:`width:38px;height:38px;border-radius:10px;background:${em.bg};color:${em.c};display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:14px;flex-shrink:0`,
+        docBtns };
+    });
+    const docEmpty=_docFiltered.length===0;
+    const docHasItems=_docFiltered.length>0;
+    const docLoading=this.state.docsLoading;
+    const docDateLabel=_docFilter==='hoy'?_today:_docFilter==='manana'?_tomorrow:_docFilter==='semana'?`${_weekMon} → ${_weekSun}`:_docCustom;
+    const docCount=_docFiltered.length;
 
     // ---------- PERFILES ----------
     let profile=null;
@@ -3110,7 +3191,8 @@ class Component extends DCLogic {
       pxdLoading: this.state.pxdLoading,
       pxdEmpty: !this.state.pxdLoading && pxdRows.length===0,
       pxdHasRows: pxdRows.length>0,
-      docTabs, docItems, docTab:dt,
+      docItems, docFilterBtns, docSetCustom, docCustomDate:_docCustom,
+      docEmpty, docHasItems, docLoading, docCount, docDateLabel,
       cfgLocal:{ nombre:'Hold Short Aviation', ciudad:'Pereira, Risaralda · SKPE', tel:'316 724 91 39', ig:'@HOLDSHORTPEI', horario:'Lun – Sáb · 9:00 a. m. y 2:00 p. m.' },
       // perfiles
       profile,
