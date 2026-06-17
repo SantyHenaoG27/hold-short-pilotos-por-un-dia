@@ -1299,6 +1299,16 @@
             </sc-for>
           </div>
 
+          <!-- cambiar estado -->
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px 16px;margin-bottom:14px">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:11px"><span class="ms" style="font-size:18px;color:var(--muted)">tune</span><span class="disp" style="font-size:13px;font-weight:600">Estado de la reserva</span></div>
+            <div style="display:flex;flex-wrap:wrap;gap:7px">
+              <sc-for list="{{ drawerEstados }}" as="e" hint-placeholder-count="5">
+                <button onClick="{{ e.onClick }}" style="{{ e.style }}" style-hover="opacity:.8">{{ e.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+
           <!-- acciones -->
           <div class="disp" style="font-size:11px;letter-spacing:.05em;color:var(--muted);font-weight:600;margin-bottom:9px;text-transform:uppercase">Acciones rápidas</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
@@ -1863,7 +1873,22 @@ class Component extends DCLogic {
     const s = this.state.selected.includes(code) ? this.state.selected.filter(c=>c!==code) : [...this.state.selected, code];
     this.setState({ selected: s });
   }
-  getSession(code){ return this.sessions.find(s=>s.code===code); }
+  getSession(code){
+    return (this.state.pxdData||[]).find(s=>s.code===code)
+      || (this.state.dbSessions||[]).find(s=>s.code===code)
+      || this.sessions.find(s=>s.code===code);
+  }
+  async setEstado(code, newEstado){
+    const em = this.estadoMeta(newEstado);
+    try{
+      const{error}=await supabaseClient.from('reservations').update({estado:newEstado}).eq('code',code);
+      if(error){ this.toast('Error al actualizar estado'); return; }
+      const upd = s=>s.code===code?{...s,estado:newEstado}:s;
+      if(this.state.pxdData) this.setState({pxdData:this.state.pxdData.map(upd)});
+      if(this.state.dbSessions) this.setState({dbSessions:this.state.dbSessions.map(upd)});
+      this.toast('Estado actualizado: '+em.label);
+    }catch(e){ this.toast('Error al actualizar estado'); }
+  }
   duracion(hi, hf){
     const [a,b]=hi.split(':').map(Number), [c,d]=hf.split(':').map(Number);
     let m=(c*60+d)-(a*60+b); return Math.floor(m/60)+'h '+(m%60).toString().padStart(2,'0')+'m';
@@ -2250,7 +2275,7 @@ class Component extends DCLogic {
     }));
 
     // ---------- DRAWER (detalle sesión) ----------
-    let drawer = null, drawerRows=[], drawerFlow=[], drawerActions=[];
+    let drawer = null, drawerRows=[], drawerFlow=[], drawerActions=[], drawerEstados=[];
     if (this.state.drawer) {
       const s = this.getSession(this.state.drawer.code);
       if (s) {
@@ -2280,15 +2305,21 @@ class Component extends DCLogic {
             textColor: isNow?'#16181c':done?'#3a3d42':'#a4a8ae',
             weight: isNow?'700':'500' };
         });
-        const ab = (icon,label,color,onClick)=>({icon,label,color, style:'display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;background:var(--surface);border:1px solid var(--border);border-radius:9px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;justify-content:center', onClick: onClick||(()=>this.toast(label+' · '+s.code))});
+        const ab = (icon,label,color,onClick)=>({icon,label,color, style:'display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;background:var(--surface);border:1px solid var(--border);border-radius:9px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;justify-content:center', onClick});
         drawerActions = [
-          ab('check_circle','Confirmar','#2E9E5B'),
-          ab('notifications_active','Recordatorio','#355C7D'),
-          ab('how_to_reg','Registrar llegada','#0E9AA3'),
-          ab('play_circle','Iniciar','#2563B0'),
-          ab('task_alt','Completar','#227a45'),
-          ab('event_repeat','Reprogramar','#6D5AE0', ()=>this.openConfirm('reprogramar', s.code)),
+          ab('check_circle','Confirmar','#2E9E5B',     ()=>this.setEstado(s.code,'confirmada')),
+          ab('notifications_active','Recordatorio','#355C7D', ()=>this.toast('Recordatorio · '+s.code)),
+          ab('how_to_reg','Registrar llegada','#0E9AA3',()=>this.setEstado(s.code,'checkin')),
+          ab('play_circle','Iniciar','#2563B0',         ()=>this.setEstado(s.code,'curso')),
+          ab('task_alt','Completar','#227a45',          ()=>this.setEstado(s.code,'completada')),
+          ab('event_repeat','Reprogramar','#6D5AE0',    ()=>this.setEstado(s.code,'reprogramada')),
         ];
+        const allEstados=['solicitud','pendiente','confirmada','proxima','checkin','curso','completada','reprogramada','noasistio','cancelada'];
+        drawerEstados = allEstados.map(est=>{
+          const em2=this.estadoMeta(est); const isA=s.estado===est;
+          return { label:em2.label, onClick:()=>this.setEstado(s.code,est),
+            style:`padding:5px 13px;border-radius:20px;font-size:11.5px;font-weight:600;cursor:pointer;border:${isA?'none':'1px solid var(--border)'};${isA?`color:${em2.c};background:${em2.bg}`:'color:var(--muted);background:var(--chip)'}` };
+        });
         drawer = {
           docBtn: s.regalo ? 'Generar invitación de regalo' : 'Generar confirmación',
           code:s.code, cliente:s.cliente, segundo:s.segundo, tel:s.tel, regalo:s.regalo,
@@ -2960,9 +2991,9 @@ class Component extends DCLogic {
       massRemind:()=>this.toast('Recordatorio enviado a '+sel.length+' clientes'),
       massExport:()=>this.toast('Exportadas '+sel.length+' sesiones (visual)'),
       // drawer / modal
-      drawer, drawerRows, drawerFlow, drawerActions,
+      drawer, drawerRows, drawerFlow, drawerActions, drawerEstados,
       closeDrawer:()=>this.closeDrawer(),
-      drawerCancel:()=> this.state.drawer && this.openConfirm('cancelar', this.state.drawer.code),
+      drawerCancel:()=>{ const c=this.state.drawer?.code; if(c) this.setEstado(c,'cancelada'); },
       hasModal: !!this.state.modal,
       modalIsForm, modalIsDoc, modalIsConfirm, form, doc, confirm,
       docHeadIcon: doc ? (doc.isInv?'redeem':doc.isCert?'workspace_premium':'confirmation_number') : 'description',
