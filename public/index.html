@@ -1958,11 +1958,19 @@ portalDownloadConfirm(r){
   </div>
   <div style="background:#F5841F;padding:11px 24px;text-align:center"><span class="disp" style="font-size:14px;font-weight:700;color:#15171b;letter-spacing:.02em">NOS VEMOS EN CABINA · <span style="font-style:italic">CLEARED FOR TAKEOFF</span></span></div>
 </div>`;
-  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Confirmación '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+confHtml+'<button id="hs-p" class="hs-pbtn" onclick="window.print()" disabled style="opacity:.6;cursor:wait">Cargando…</button>\x3Cscript>(function(){var b=document.getElementById("hs-p"),imgs=Array.from(document.images).filter(function(i){return !i.complete;}),n=imgs.length,d=0;function ok(){document.fonts.ready.then(function(){b.innerHTML="&#x2913; Imprimir / Guardar PDF";b.style.opacity="";b.style.cursor="";b.removeAttribute("disabled");});}if(!n){ok();}else{imgs.forEach(function(i){function cb(){if(++d>=n)ok();}i.addEventListener("load",cb);i.addEventListener("error",cb);});}})()\x3C/script></body></html>';
-  var w=window.open('','_blank','width=980,height=820');
-  if(!w){alert('Activa ventanas emergentes para descargar.');return;}
-  w.document.write(full);
-  w.document.close();
+  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Confirmación '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+confHtml+'</body></html>';
+  var iframe=document.createElement('iframe');
+  iframe.style.cssText='position:fixed;top:0;left:0;width:0;height:0;border:none;visibility:hidden';
+  document.body.appendChild(iframe);
+  var iDoc=iframe.contentWindow.document;
+  iDoc.write(full);
+  iDoc.close();
+  iDoc.fonts.ready.then(function(){
+    var imgs=Array.from(iDoc.images).filter(function(i){return !i.complete;});
+    var n=imgs.length,d=0;
+    function go(){setTimeout(function(){iframe.contentWindow.print();setTimeout(function(){document.body.removeChild(iframe);},2000);},500);}
+    if(!n){go();}else{imgs.forEach(function(i){function cb(){if(++d>=n)go();}i.addEventListener('load',cb);i.addEventListener('error',cb);});}
+  });
 }
 portalDownloadInvitacion(r){
   var base=window.location.origin;
@@ -2014,11 +2022,19 @@ portalDownloadInvitacion(r){
     <span class="disp" style="font-size:13px;font-weight:700;color:#fff;letter-spacing:.02em">TU EXPERIENCIA TE ESPERA · <span style="color:#F5841F;font-style:italic">CLEARED FOR TAKEOFF</span></span>
   </div>
 </div>`;
-  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Invitación '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+invHtml+'<button id="hs-p" class="hs-pbtn" onclick="window.print()" disabled style="opacity:.6;cursor:wait">Cargando…</button>\x3Cscript>(function(){var b=document.getElementById("hs-p"),imgs=Array.from(document.images).filter(function(i){return !i.complete;}),n=imgs.length,d=0;function ok(){document.fonts.ready.then(function(){b.innerHTML="&#x2913; Imprimir / Guardar PDF";b.style.opacity="";b.style.cursor="";b.removeAttribute("disabled");});}if(!n){ok();}else{imgs.forEach(function(i){function cb(){if(++d>=n)ok();}i.addEventListener("load",cb);i.addEventListener("error",cb);});}})()\x3C/script></body></html>';
-  var w=window.open('','_blank','width=980,height=820');
-  if(!w){alert('Activa ventanas emergentes para descargar.');return;}
-  w.document.write(full);
-  w.document.close();
+  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Invitación '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+invHtml+'</body></html>';
+  var iframe=document.createElement('iframe');
+  iframe.style.cssText='position:fixed;top:0;left:0;width:0;height:0;border:none;visibility:hidden';
+  document.body.appendChild(iframe);
+  var iDoc=iframe.contentWindow.document;
+  iDoc.write(full);
+  iDoc.close();
+  iDoc.fonts.ready.then(function(){
+    var imgs=Array.from(iDoc.images).filter(function(i){return !i.complete;});
+    var n=imgs.length,d=0;
+    function go(){setTimeout(function(){iframe.contentWindow.print();setTimeout(function(){document.body.removeChild(iframe);},2000);},500);}
+    if(!n){go();}else{imgs.forEach(function(i){function cb(){if(++d>=n)go();}i.addEventListener('load',cb);i.addEventListener('error',cb);});}
+  });
 }
 portalDownloadCert(r){
   var base=window.location.origin;
@@ -2078,11 +2094,19 @@ portalDownloadCert(r){
     </div>
   </div>
 </div>`;
-  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Certificado '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+certHtml+'<button id="hs-p" class="hs-pbtn" onclick="window.print()" disabled style="opacity:.6;cursor:wait">Cargando…</button>\x3Cscript>(function(){var b=document.getElementById("hs-p"),imgs=Array.from(document.images).filter(function(i){return !i.complete;}),n=imgs.length,d=0;function ok(){document.fonts.ready.then(function(){b.innerHTML="&#x2913; Imprimir / Guardar PDF";b.style.opacity="";b.style.cursor="";b.removeAttribute("disabled");});}if(!n){ok();}else{imgs.forEach(function(i){function cb(){if(++d>=n)ok();}i.addEventListener("load",cb);i.addEventListener("error",cb);});}})()\x3C/script></body></html>';
-  var w=window.open('','_blank','width=820,height=1060');
-  if(!w){alert('Activa ventanas emergentes para descargar.');return;}
-  w.document.write(full);
-  w.document.close();
+  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Certificado '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+certHtml+'</body></html>';
+  var iframe=document.createElement('iframe');
+  iframe.style.cssText='position:fixed;top:0;left:0;width:0;height:0;border:none;visibility:hidden';
+  document.body.appendChild(iframe);
+  var iDoc=iframe.contentWindow.document;
+  iDoc.write(full);
+  iDoc.close();
+  iDoc.fonts.ready.then(function(){
+    var imgs=Array.from(iDoc.images).filter(function(i){return !i.complete;});
+    var n=imgs.length,d=0;
+    function go(){setTimeout(function(){iframe.contentWindow.print();setTimeout(function(){document.body.removeChild(iframe);},2000);},500);}
+    if(!n){go();}else{imgs.forEach(function(i){function cb(){if(++d>=n)go();}i.addEventListener('load',cb);i.addEventListener('error',cb);});}
+  });
 }
   async downloadTicket(){
     const el=document.querySelector('[data-ticket-card]');
