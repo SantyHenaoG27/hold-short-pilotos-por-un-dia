@@ -1279,7 +1279,7 @@ const I18N = {
     fases: {
       badge:'// Experiencia paso a paso', h2:'Tu vuelo, fase por fase.', p:'Recórrelo de arriba abajo. Cada estación es una parada en tu preparación — todo a la vista, sin prisa.',
       f1:{ tag:'01', quote:'La aviación es la unión de tecnología y humanidad. Hoy te pondrás en la silla del capitán y pondrás a prueba tu capacidad multitarea y de toma de decisiones.' },
-      f2:{ tag:'FASE 02 · AERODINÁMICA', quote:'“El avión no vuela por magia. Vuela por física. Y hoy vas a entenderla.”',
+      f2:{ tag:'FASE 02 · AERODINÁMICA', quote:'“El avión no vuela por magia. Vuela por física. Y hoy vas a entenderla.”',
         wingLabel:'PERFIL ALAR · FLUJO LAMINAR', liftLabel:'SUSTENTACIÓN', windLabel:'VIENTO →',
         forcesLabel:'EQUILIBRIO · 4 FUERZAS DEL VUELO', weightLabel:'PESO', thrustLabel:'EMPUJE →', dragLabel:'← RESISTENCIA',
         cardinals:{ N:{label:'NORTE · 360°', txt:'El cero de la brújula. Toda navegación empieza preguntándote: ¿hacia dónde es el norte?'},
@@ -1459,34 +1459,29 @@ class Component extends DCLogic {
     const now=new Date(); this.setState({calY:now.getFullYear(), calM:now.getMonth()});
     this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const root = this.rootEl || document;
-    const reveal=()=>{
-      root.querySelectorAll('[data-rev]:not([data-rev="in"])').forEach(el=>{
-        if(this.reduced || el.getBoundingClientRect().top < window.innerHeight*0.92){ el.setAttribute('data-rev','in'); }
-      });
-    };
-    this._reveal=reveal;
-    window.addEventListener('scroll', reveal, {passive:true});
-    window.addEventListener('resize', reveal);
-    reveal();
-    // safety net for anchor jumps / late layout: poll briefly then stop
-    this._revInt=setInterval(reveal, 350);
-    setTimeout(()=>{ if(this._revInt){ clearInterval(this._revInt); this._revInt=null; } }, 9000);
-    this.startChat();
-    if(!this.reduced && 'IntersectionObserver' in window){
+    if(this.reduced){
+      root.querySelectorAll('[data-rev]:not([data-rev="in"])').forEach(el=>el.setAttribute('data-rev','in'));
+    } else {
+      const io = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.setAttribute('data-rev','in'); io.unobserve(e.target); } });
+      }, {rootMargin:'0px 0px -8% 0px', threshold:0});
+      root.querySelectorAll('[data-rev]:not([data-rev="in"])').forEach(el=>io.observe(el));
+      this._io=io;
+    }
+    if(!this.reduced){
       this._animObs = new IntersectionObserver(entries=>{
         entries.forEach(e=>{ e.target.classList.toggle('paused', !e.isIntersecting); });
       },{rootMargin:'200px 0px'});
       (this.rootEl||document).querySelectorAll('section[id]').forEach(s=>this._animObs.observe(s));
     }
-  
+    this.startChat();
     // Handle browser back button from ticket
     window.addEventListener('popstate',()=>{ if(this.state.booked) this.resetBooking(); });
     var _rq=new URLSearchParams(window.location.search).get('reserva');
     if(_rq){ setTimeout(()=>{ this.setState({portalOpen:true,portalEmail:'',portalError:'',portalReservas:[],portalFound:false,portalSelectedId:null}); this.lookupByCode(_rq.trim().toUpperCase()); },300); }
   }
   componentWillUnmount(){
-    if(this._reveal){ window.removeEventListener('scroll', this._reveal); window.removeEventListener('resize', this._reveal); }
-    if(this._revInt) clearInterval(this._revInt);
+    if(this._io){ this._io.disconnect(); this._io=null; }
     clearTimeout(this._ct);
     if(this._animObs) this._animObs.disconnect();
   }

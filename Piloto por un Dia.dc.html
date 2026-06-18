@@ -970,23 +970,19 @@ class Component extends DCLogic {
     const now=new Date(); this.setState({calY:now.getFullYear(), calM:now.getMonth()});
     this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const root = this.rootEl || document;
-    const reveal=()=>{
-      root.querySelectorAll('[data-rev]:not([data-rev="in"])').forEach(el=>{
-        if(this.reduced || el.getBoundingClientRect().top < window.innerHeight*0.92){ el.setAttribute('data-rev','in'); }
-      });
-    };
-    this._reveal=reveal;
-    window.addEventListener('scroll', reveal, {passive:true});
-    window.addEventListener('resize', reveal);
-    reveal();
-    // safety net for anchor jumps / late layout: poll briefly then stop
-    this._revInt=setInterval(reveal, 350);
-    setTimeout(()=>{ if(this._revInt){ clearInterval(this._revInt); this._revInt=null; } }, 9000);
+    if(this.reduced){
+      root.querySelectorAll('[data-rev]:not([data-rev="in"])').forEach(el=>el.setAttribute('data-rev','in'));
+    } else {
+      const io = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.setAttribute('data-rev','in'); io.unobserve(e.target); } });
+      }, {rootMargin:'0px 0px -8% 0px', threshold:0});
+      root.querySelectorAll('[data-rev]:not([data-rev="in"])').forEach(el=>io.observe(el));
+      this._io=io;
+    }
     this.startChat();
   }
   componentWillUnmount(){
-    if(this._reveal){ window.removeEventListener('scroll', this._reveal); window.removeEventListener('resize', this._reveal); }
-    if(this._revInt) clearInterval(this._revInt);
+    if(this._io){ this._io.disconnect(); this._io=null; }
     clearTimeout(this._ct);
   }
 
