@@ -1436,7 +1436,7 @@
             <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;letter-spacing:.04em">ÁREAS DE ESPECIALIDAD</label>
             <div style="display:flex;flex-wrap:wrap;gap:8px">
               <sc-for list="{{ instAreaChecks }}" as="a" hint-placeholder-count="6">
-                <button onClick="{{ a.onToggle }}" style="padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid {{ a.checked ? '#F5841F' : 'var(--border)' }};background:{{ a.checked ? 'rgba(245,132,31,.12)' : 'var(--chip)' }};color:{{ a.checked ? '#F5841F' : 'var(--text2)' }}">{{ a.label }}</button>
+                <button onClick="{{ a.onToggle }}" style="{{ a.chipStyle }}">{{ a.label }}</button>
               </sc-for>
             </div>
           </div>
@@ -1446,12 +1446,12 @@
           </div>
           <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--alt);border-radius:9px">
             <span style="font-size:13px;font-weight:600;color:var(--text);flex:1">Instructor activo</span>
-            <button onClick="{{ instToggleActivo }}" style="width:42px;height:24px;border-radius:20px;border:none;cursor:pointer;position:relative;background:{{ instFormActivo ? '#F5841F' : 'var(--border)' }}">
-              <span style="position:absolute;top:3px;width:18px;height:18px;background:#fff;border-radius:50%;left:{{ instFormActivo ? '21px' : '3px' }}"></span>
+            <button onClick="{{ instToggleActivo }}" style="{{ instToggleStyle }}">
+              <span style="{{ instToggleDotStyle }}"></span>
             </button>
           </div>
           <div style="display:flex;gap:10px;margin-top:4px">
-            <button onClick="{{ instSave }}" disabled="{{ instSaving }}" style="flex:1;height:42px;background:#F5841F;border:none;border-radius:10px;color:#0C0D10;font-weight:700;font-size:13.5px;cursor:pointer">{{ instSaving ? 'Guardando…' : 'Guardar' }}</button>
+            <button onClick="{{ instSave }}" disabled="{{ instSaving }}" style="flex:1;height:42px;background:#F5841F;border:none;border-radius:10px;color:#0C0D10;font-weight:700;font-size:13.5px;cursor:pointer">{{ instSaveLabel }}</button>
             <button onClick="{{ instModalClose }}" style="height:42px;padding:0 18px;background:var(--chip);border:1px solid var(--border);border-radius:10px;color:var(--text2);font-weight:600;font-size:13px;cursor:pointer">Cancelar</button>
           </div>
         </div>
@@ -3256,8 +3256,17 @@ class Component extends DCLogic {
     });
     // variables para modal de instructor
     const _iF=this.state.instForm;
-    const instAreaChecks=this.instAreas.map(a=>({...a,checked:(_iF.areas||[]).includes(a.key),onToggle:()=>this.instToggleArea(a.key)}));
+    const instAreaChecks=this.instAreas.map(a=>{
+      const checked=(_iF.areas||[]).includes(a.key);
+      return {...a,checked,onToggle:()=>this.instToggleArea(a.key),
+        chipStyle:checked
+          ?'padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:2px solid #F5841F;background:rgba(245,132,31,.12);color:#F5841F'
+          :'padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--chip);color:var(--text2)'};
+    });
     const instModalTitle=this.state.instEdit?'Editar instructor':'Nuevo instructor';
+    const instSaveLabel=this.state.instSaving?'Guardando…':'Guardar';
+    const instToggleStyle=`width:44px;height:26px;border-radius:20px;border:none;cursor:pointer;position:relative;background:${_iF.activo?'#F5841F':'#ccc'}`;
+    const instToggleDotStyle=`position:absolute;top:4px;width:18px;height:18px;background:#fff;border-radius:50%;left:${_iF.activo?'22px':'4px'}`;
     // variables para el picker de instructor en drawer
     const _drDbId=this.state.drawer?.code?(this.getSession(this.state.drawer.code)?.dbId||null):null;
     const _assignedIds=new Set((this.state.drawerResInst||[]).map(ri=>ri.instructor?.id));
@@ -3567,7 +3576,8 @@ class Component extends DCLogic {
       instFormEmail:_iF.email, instSetEmail:(e)=>this.setState({instForm:{..._iF,email:e.target.value}}),
       instFormBio:_iF.bio, instSetBio:(e)=>this.setState({instForm:{..._iF,bio:e.target.value}}),
       instFormActivo:_iF.activo, instToggleActivo:()=>this.setState({instForm:{..._iF,activo:!_iF.activo}}),
-      instAreaChecks, instSave:()=>this.saveInstructor(), instModalClose:()=>this.setState({instModal:false}),
+      instAreaChecks, instSaveLabel, instToggleStyle, instToggleDotStyle,
+      instSave:()=>this.saveInstructor(), instModalClose:()=>this.setState({instModal:false}),
       openInstModal:()=>this.openInstModal(),
       drawerResInstRows, drawerResInstHas:drawerResInstRows.length>0,
       drawerInstPicker:this.state.drawerInstPicker, drawerInstOptions, drawerInstHasOptions:drawerInstOptions.length>0,
