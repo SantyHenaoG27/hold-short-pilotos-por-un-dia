@@ -214,7 +214,59 @@ insert into public.settings (key, value) values
 on conflict do nothing;
 
 -- ----------------------------------------------------------------------------
--- 5. Seed de roles (ejecutar DESPUÉS de crear los usuarios desde la app /
+-- 5. instructors — perfiles de instructores (no necesitan cuenta en la app)
+-- ----------------------------------------------------------------------------
+create table public.instructors (
+  id bigint generated always as identity primary key,
+  nombre text not null,
+  email text,
+  telefono text,
+  areas text[] not null default '{}',
+  bio text,
+  foto_url text,
+  activo boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+alter table public.instructors enable row level security;
+
+-- Todos los usuarios autenticados pueden leer instructores (para el picker)
+create policy "instructors_read_auth" on public.instructors
+  for select using (auth.role() = 'authenticated');
+
+-- Solo admins pueden crear / modificar / eliminar
+create policy "instructors_admin_all" on public.instructors
+  for all using (public.is_admin());
+
+-- ----------------------------------------------------------------------------
+-- 6. reservation_instructors — asignación de instructores a reservas (N:M)
+-- ----------------------------------------------------------------------------
+create table public.reservation_instructors (
+  id bigint generated always as identity primary key,
+  reservation_id bigint not null references public.reservations(id) on delete cascade,
+  instructor_id bigint not null references public.instructors(id) on delete cascade,
+  rol text not null default 'apoyo' check (rol in ('lider', 'apoyo', 'observador')),
+  created_at timestamptz not null default now(),
+  unique(reservation_id, instructor_id)
+);
+
+alter table public.reservation_instructors enable row level security;
+
+-- Admin: control total
+create policy "res_inst_admin_all" on public.reservation_instructors
+  for all using (public.is_admin());
+
+-- Cliente: solo puede leer los instructores de sus propias reservas
+create policy "res_inst_client_select" on public.reservation_instructors
+  for select using (
+    exists (
+      select 1 from public.reservations r
+      where r.id = reservation_id and r.client_id = auth.uid()
+    )
+  );
+
+-- ----------------------------------------------------------------------------
+-- 7. Seed de roles (ejecutar DESPUÉS de crear los usuarios desde la app /
 --    Supabase Auth con sus emails reales). Ejemplo:
 -- ----------------------------------------------------------------------------
 -- update public.profiles set role = 'admin'      where email = 'admin@holdshort.com';

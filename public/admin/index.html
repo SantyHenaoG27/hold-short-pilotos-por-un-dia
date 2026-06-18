@@ -1078,23 +1078,27 @@
       <!-- ===== INSTRUCTORES ===== -->
       <sc-if value="{{ isInstructores }}" hint-placeholder-val="">
         <div>
-          <div style="margin-bottom:18px"><div class="mono" style="font-size:11px;letter-spacing:.1em;color:#F5841F;font-weight:600;margin-bottom:5px">// RECURSOS</div><h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Instructores</h1></div>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px">
+            <div><div class="mono" style="font-size:11px;letter-spacing:.1em;color:#F5841F;font-weight:600;margin-bottom:5px">// RECURSOS</div><h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Instructores</h1></div>
+            <button onClick="{{ openInstModal }}" style="display:flex;align-items:center;gap:7px;height:40px;padding:0 16px;background:#F5841F;border:none;border-radius:10px;color:#0C0D10;font-weight:700;font-size:13px;cursor:pointer"><span class="ms" style="font-size:18px">person_add</span>Nuevo instructor</button>
+          </div>
+          <sc-if value="{{ instLoading }}" hint-placeholder-val=""><div style="font-size:13px;color:var(--muted);padding:20px 0">Cargando instructores…</div></sc-if>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:15px">
             <sc-for list="{{ instCards }}" as="i" hint-placeholder-count="3">
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px">
-                <div style="display:flex;align-items:center;gap:13px;margin-bottom:16px">
-                  <div class="disp" style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#0C0D10,#26282d);color:#F5841F;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px">{{ i.initials }}</div>
-                  <div style="min-width:0;flex:1"><div class="disp" style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.name }}</div><div style="font-size:11px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.esp }}</div></div>
+              <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;opacity:{{ i.activo ? 1 : 0.55 }}">
+                <div style="display:flex;align-items:center;gap:13px;margin-bottom:14px">
+                  <div class="disp" style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#0C0D10,#26282d);color:#F5841F;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0">{{ i.initials }}</div>
+                  <div style="min-width:0;flex:1">
+                    <div style="display:flex;align-items:center;gap:7px;margin-bottom:2px">
+                      <div class="disp" style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.nombre }}</div>
+                    </div>
+                    <div style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.areaChips }}</div>
+                  </div>
                 </div>
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="{{ i.estStyle }}">{{ i.estLabel }}</span><span class="mono" style="font-size:11px;color:var(--muted)">Sig. {{ i.sigSesion }}</span></div>
-                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center;background:var(--alt);border-radius:10px;padding:11px;margin-bottom:14px">
-                  <div><div class="disp" style="font-size:17px;font-weight:700">{{ i.sesionesHoy }}</div><div style="font-size:9.5px;color:var(--faint);margin-top:2px">hoy</div></div>
-                  <div><div class="disp" style="font-size:17px;font-weight:700">{{ i.horasMes }}</div><div style="font-size:9.5px;color:var(--faint);margin-top:2px">mes</div></div>
-                  <div><div class="disp" style="font-size:17px;font-weight:700">{{ i.total }}</div><div style="font-size:9.5px;color:var(--faint);margin-top:2px">total</div></div>
-                </div>
+                <div style="font-size:11.5px;color:var(--text2);background:var(--alt);border-radius:8px;padding:8px 11px;margin-bottom:13px;min-height:28px">{{ i.bio || '—' }}</div>
                 <div style="display:flex;gap:8px">
-                  <button onClick="{{ i.onCal }}" style="flex:1;height:36px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px" style-hover="background:var(--alt)"><span class="ms" style="font-size:16px;color:var(--muted)">calendar_month</span>Calendario</button>
-                  <button onClick="{{ i.onBloq }}" style="height:36px;width:36px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="background:var(--alt)"><span class="ms" style="font-size:16px">event_busy</span></button>
+                  <button onClick="{{ i.onEdit }}" style="flex:1;height:36px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px" style-hover="background:var(--alt)"><span class="ms" style="font-size:16px;color:var(--muted)">edit</span>Editar</button>
+                  <button onClick="{{ i.onToggle }}" style="height:36px;padding:0 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:11.5px;font-weight:600;color:var(--muted);cursor:pointer" style-hover="background:var(--alt)">{{ i.activo ? 'Desactivar' : 'Activar' }}</button>
                 </div>
               </div>
             </sc-for>
@@ -1338,6 +1342,45 @@
             <div style="margin-top:10px;font-size:10.5px;color:var(--faint);display:flex;align-items:center;gap:6px"><span class="ms" style="font-size:14px">info</span>Registro manual · sin pasarela de pagos</div>
           </div>
 
+          <!-- equipo instructor -->
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px 16px;margin-bottom:14px">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:12px">
+              <span class="ms" style="font-size:18px;color:var(--muted)">co_present</span>
+              <span class="disp" style="font-size:13px;font-weight:600;flex:1">Equipo instructor</span>
+              <button onClick="{{ drawerOpenPicker }}" style="display:flex;align-items:center;gap:5px;height:28px;padding:0 10px;background:var(--chip);border:1px solid var(--border);border-radius:7px;font-size:11.5px;font-weight:600;color:var(--text2);cursor:pointer" style-hover="background:var(--alt)"><span class="ms" style="font-size:15px">add</span>Agregar</button>
+            </div>
+            <sc-if value="{{ drawerResInstHas }}" hint-placeholder-val="">
+              <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px">
+                <sc-for list="{{ drawerResInstRows }}" as="ri" hint-placeholder-count="2">
+                  <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--alt);border-radius:9px">
+                    <div style="width:30px;height:30px;border-radius:8px;background:#0C0D10;color:#F5841F;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:11px;flex-shrink:0">{{ ri.nombre.split(' ').slice(0,2).map(w=>w[0]).join('') }}</div>
+                    <div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ri.nombre }}</div><span style="{{ ri.rolStyle }}">{{ ri.rolLabel }}</span></div>
+                    <button onClick="{{ ri.onRemove }}" style="width:28px;height:28px;background:transparent;border:none;border-radius:6px;cursor:pointer;color:var(--muted);display:flex;align-items:center;justify-content:center" style-hover="background:var(--chip);color:#b13838"><span class="ms" style="font-size:16px">remove_circle_outline</span></button>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <!-- picker de instructor -->
+            <sc-if value="{{ drawerInstPicker }}" hint-placeholder-val="">
+              <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:6px">
+                <div style="padding:8px 12px;background:var(--alt);font-size:11.5px;font-weight:600;color:var(--muted);display:flex;align-items:center;justify-content:space-between">
+                  <span>Selecciona instructor</span>
+                  <span class="ms" onClick="{{ drawerClosePicker }}" style="font-size:18px;cursor:pointer;color:var(--faint)" style-hover="color:var(--text)">close</span>
+                </div>
+                <sc-if value="{{ drawerInstHasOptions }}" hint-placeholder-val="">
+                  <sc-for list="{{ drawerInstOptions }}" as="opt" hint-placeholder-count="3">
+                    <div style="padding:10px 12px;border-top:1px solid var(--divider);display:flex;align-items:center;gap:10px">
+                      <div style="width:32px;height:32px;border-radius:8px;background:#0C0D10;color:#F5841F;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:12px;flex-shrink:0">{{ opt.initials }}</div>
+                      <div style="flex:1;font-size:12.5px;font-weight:600">{{ opt.nombre }}</div>
+                      <button onClick="{{ opt.onAssignLider }}" disabled="{{ drawerInstSaving }}" style="height:28px;padding:0 10px;background:#C2410C;border:none;border-radius:6px;color:#fff;font-size:11px;font-weight:700;cursor:pointer">Líder</button>
+                      <button onClick="{{ opt.onAssignApoyo }}" disabled="{{ drawerInstSaving }}" style="height:28px;padding:0 10px;background:var(--chip);border:1px solid var(--border);border-radius:6px;color:var(--text2);font-size:11px;font-weight:600;cursor:pointer">Apoyo</button>
+                    </div>
+                  </sc-for>
+                </sc-if>
+              </div>
+            </sc-if>
+          </div>
+
           <!-- flujo operativo -->
           <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px 16px;margin-bottom:16px">
             <div style="display:flex;align-items:center;gap:7px;margin-bottom:13px"><span class="ms" style="font-size:18px;color:var(--muted)">conversion_path</span><span class="disp" style="font-size:13px;font-weight:600">Flujo operativo</span></div>
@@ -1365,6 +1408,57 @@
             <sc-for list="{{ drawerActions }}" as="b" hint-placeholder-count="6">
               <button onClick="{{ b.onClick }}" style="{{ b.style }}" style-hover="background:var(--alt);border-color:#cfcfc8"><span class="ms" style="font-size:17px;color:{{ b.color }}">{{ b.icon }}</span>{{ b.label }}</button>
             </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ INSTRUCTOR MODAL ============ -->
+  <sc-if value="{{ instModal }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:18px;width:480px;max-width:96vw;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+        <div style="padding:20px 24px;border-bottom:1px solid var(--divider);display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--surface);z-index:1">
+          <span class="ms" style="font-size:22px;color:#F5841F">co_present</span>
+          <h2 class="disp" style="margin:0;font-size:17px;font-weight:700;flex:1">{{ instModalTitle }}</h2>
+          <span class="ms" onClick="{{ instModalClose }}" style="font-size:22px;color:var(--faint);cursor:pointer;padding:4px;border-radius:7px" style-hover="background:var(--chip)">close</span>
+        </div>
+        <div style="padding:20px 24px;display:flex;flex-direction:column;gap:15px">
+          <div>
+            <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">NOMBRE COMPLETO *</label>
+            <input type="text" value="{{ instFormNombre }}" onInput="{{ instSetNombre }}" placeholder="Cap. Juan Pérez" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13.5px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#F5841F"/>
+          </div>
+          <div style="display:flex;gap:12px">
+            <div style="flex:1">
+              <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">CORREO</label>
+              <input type="email" value="{{ instFormEmail }}" onInput="{{ instSetEmail }}" placeholder="instructor@email.com" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13.5px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#F5841F"/>
+            </div>
+            <div style="flex:1">
+              <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">TELÉFONO</label>
+              <input type="tel" value="{{ instFormTel }}" onInput="{{ instSetTel }}" placeholder="310 000 0000" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13.5px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#F5841F"/>
+            </div>
+          </div>
+          <div>
+            <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;letter-spacing:.04em">ÁREAS DE ESPECIALIDAD</label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <sc-for list="{{ instAreaChecks }}" as="a" hint-placeholder-count="6">
+                <button onClick="{{ a.onToggle }}" style="padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid {{ a.checked ? '#F5841F' : 'var(--border)' }};background:{{ a.checked ? 'rgba(245,132,31,.12)' : 'var(--chip)' }};color:{{ a.checked ? '#F5841F' : 'var(--text2)' }}">{{ a.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+          <div>
+            <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">BIO CORTA (aparece en certificados)</label>
+            <textarea value="{{ instFormBio }}" onInput="{{ instSetBio }}" rows="2" placeholder="Piloto comercial con 10 años de experiencia en simulación…" style="width:100%;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13px;padding:10px 12px;outline:none;resize:vertical;box-sizing:border-box;font-family:Inter" style-focus="border-color:#F5841F"></textarea>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--alt);border-radius:9px">
+            <span style="font-size:13px;font-weight:600;color:var(--text);flex:1">Instructor activo</span>
+            <button onClick="{{ instToggleActivo }}" style="width:42px;height:24px;border-radius:20px;border:none;cursor:pointer;position:relative;background:{{ instFormActivo ? '#F5841F' : 'var(--border)' }}">
+              <span style="position:absolute;top:3px;width:18px;height:18px;background:#fff;border-radius:50%;left:{{ instFormActivo ? '21px' : '3px' }}"></span>
+            </button>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:4px">
+            <button onClick="{{ instSave }}" disabled="{{ instSaving }}" style="flex:1;height:42px;background:#F5841F;border:none;border-radius:10px;color:#0C0D10;font-weight:700;font-size:13.5px;cursor:pointer">{{ instSaving ? 'Guardando…' : 'Guardar' }}</button>
+            <button onClick="{{ instModalClose }}" style="height:42px;padding:0 18px;background:var(--chip);border:1px solid var(--border);border-radius:10px;color:var(--text2);font-weight:600;font-size:13px;cursor:pointer">Cancelar</button>
           </div>
         </div>
       </div>
@@ -1844,6 +1938,18 @@ class Component extends DCLogic {
     regalosLoading: false,
     // reprogramar modal
     reprModal: null,
+    // instructores
+    instList: [],
+    instLoading: false,
+    instModal: false,
+    instEdit: null,
+    instForm: { nombre:'', email:'', telefono:'', areas:[], bio:'', activo:true },
+    instSaving: false,
+    // asignación instructor en drawer
+    drawerResInst: [],
+    drawerInstPicker: false,
+    drawerInstPickerRol: 'lider',
+    drawerInstSaving: false,
     // mantenimiento simulador
     simMant: {},
     simMantId: null,
@@ -1878,6 +1984,7 @@ class Component extends DCLogic {
       this.setState({ authReady: true, me: data.user, calAnchor: anchor });
       this.fetchCalSessions(anchor, 'semana');
       this.loadSimMant();
+      this.loadInstructores();
     });
   }
   componentWillUnmount(){ clearInterval(this._t); }
@@ -1925,6 +2032,98 @@ class Component extends DCLogic {
     this.toast('Mantenimiento cancelado');
   }
 
+  // ---- INSTRUCTORES ----
+  instAreas = [
+    {key:'sim_b200',label:'Sim King Air B200'},
+    {key:'sim_a320',label:'Sim Airbus A320'},
+    {key:'psicologia',label:'Psicología aeronáutica'},
+    {key:'ingles',label:'Inglés aeronáutico'},
+    {key:'meteorologia',label:'Meteorología'},
+    {key:'procedimientos',label:'Procedimientos'},
+  ];
+  async loadInstructores(){
+    this.setState({instLoading:true});
+    try{
+      const{data,error}=await supabaseClient.from('instructors').select('*').order('nombre');
+      if(!error&&data) this.setState({instList:data,instLoading:false});
+      else this.setState({instLoading:false});
+    }catch(e){this.setState({instLoading:false});}
+  }
+  openInstModal(inst=null){
+    if(inst){
+      this.setState({instModal:true,instEdit:inst,instForm:{nombre:inst.nombre,email:inst.email||'',telefono:inst.telefono||'',areas:inst.areas||[],bio:inst.bio||'',activo:inst.activo}});
+    }else{
+      this.setState({instModal:true,instEdit:null,instForm:{nombre:'',email:'',telefono:'',areas:[],bio:'',activo:true}});
+    }
+  }
+  instToggleArea(area){
+    const areas=this.state.instForm.areas||[];
+    const next=areas.includes(area)?areas.filter(a=>a!==area):[...areas,area];
+    this.setState({instForm:{...this.state.instForm,areas:next}});
+  }
+  async saveInstructor(){
+    const{instForm,instEdit}=this.state;
+    if(!instForm.nombre.trim()){this.toast('El nombre es obligatorio');return;}
+    this.setState({instSaving:true});
+    const payload={nombre:instForm.nombre.trim(),email:instForm.email.trim()||null,telefono:instForm.telefono.trim()||null,areas:instForm.areas,bio:instForm.bio.trim()||null,activo:instForm.activo};
+    let error;
+    if(instEdit){
+      ({error}=await supabaseClient.from('instructors').update(payload).eq('id',instEdit.id));
+    }else{
+      ({error}=await supabaseClient.from('instructors').insert(payload));
+    }
+    if(!error){
+      await this.loadInstructores();
+      this.setState({instModal:false,instSaving:false});
+      this.toast(instEdit?'Instructor actualizado':'Instructor creado');
+    }else{
+      this.setState({instSaving:false});
+      this.toast('Error al guardar');
+    }
+  }
+  async toggleInstActivo(inst){
+    await supabaseClient.from('instructors').update({activo:!inst.activo}).eq('id',inst.id);
+    await this.loadInstructores();
+    this.toast(inst.activo?'Instructor desactivado':'Instructor activado');
+  }
+
+  // ---- ASIGNACIÓN INSTRUCTOR EN DRAWER ----
+  async loadDrawerResInst(reservationId){
+    if(!reservationId){this.setState({drawerResInst:[]});return;}
+    try{
+      const{data}=await supabaseClient.from('reservation_instructors').select('id,rol,instructor:instructor_id(id,nombre,areas)').eq('reservation_id',reservationId);
+      this.setState({drawerResInst:data||[]});
+    }catch(e){this.setState({drawerResInst:[]});}
+  }
+  async assignInstructor(reservationId, instructorId, rol){
+    if(!reservationId||!instructorId){return;}
+    this.setState({drawerInstSaving:true});
+    // Enforce single leader: downgrade existing leader to apoyo
+    if(rol==='lider'){
+      await supabaseClient.from('reservation_instructors').update({rol:'apoyo'}).eq('reservation_id',reservationId).eq('rol','lider');
+    }
+    // Upsert: if instructor already assigned, update rol; else insert
+    const{error}=await supabaseClient.from('reservation_instructors').upsert({reservation_id:reservationId,instructor_id:instructorId,rol},{onConflict:'reservation_id,instructor_id'});
+    if(!error){
+      // If leader, sync reservation.instructor_nombre for certificate backward compat
+      if(rol==='lider'){
+        const inst=this.state.instList.find(i=>i.id===instructorId);
+        if(inst) await supabaseClient.from('reservations').update({instructor_nombre:inst.nombre}).eq('id',reservationId);
+      }
+      await this.loadDrawerResInst(reservationId);
+      this.setState({drawerInstPicker:false,drawerInstSaving:false});
+      this.toast('Instructor asignado');
+    }else{
+      this.setState({drawerInstSaving:false});
+      this.toast('Error al asignar');
+    }
+  }
+  async removeResInstructor(resInstId, reservationId){
+    await supabaseClient.from('reservation_instructors').delete().eq('id',resInstId);
+    await this.loadDrawerResInst(reservationId);
+    this.toast('Instructor removido');
+  }
+
   calMonday(d){ const dt=new Date(d); const day=dt.getDay(); const diff=day===0?-6:1-day; dt.setDate(dt.getDate()+diff); dt.setHours(0,0,0,0); return dt; }
   isoDate(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
   calPrev(){ const cv=this.state.calView; const a=new Date(this.state.calAnchor||new Date()); if(cv==='dia'||cv==='agenda') a.setDate(a.getDate()-1); else if(cv==='mes') a.setMonth(a.getMonth()-1); else a.setDate(a.getDate()-7); this.setState({calAnchor:a}); this.fetchCalSessions(a,cv); }
@@ -1935,7 +2134,7 @@ class Component extends DCLogic {
     const fStr=r.fecha||''; let fechaDisplay=fStr,fechaISO=null;
     if(fStr.match(/^\d{4}-\d{2}-\d{2}$/)){ const[y,m,d]=fStr.split('-'); fechaDisplay=`${d}/${m}/${y}`; fechaISO=fStr; }
     else if(fStr.match(/^\d{2}\/\d{2}\/\d{4}$/)){ const[d,m,y]=fStr.split('/'); fechaISO=`${y}-${m}-${d}`; }
-    return { code:r.code, fecha:fechaDisplay, fechaISO, hoy:fechaISO===this.isoDate(new Date()),
+    return { dbId:r.id, code:r.code, fecha:fechaDisplay, fechaISO, hoy:fechaISO===this.isoDate(new Date()),
       hi:(r.horaInicio||'').slice(0,5), hf:(r.horaFin||'').slice(0,5),
       cliente:r.clienteNombre||'', email:r.clienteEmail||'', segundo:r.giftFor||null, tel:r.clientePhone||'',
       serv:r.servicio==='simulador'?'pxd':r.servicio==='hs_simulador'?'hs':(r.servicio||'pxd'), paquete:r.paquete||'', sim:r.simulador||'',
@@ -2058,7 +2257,11 @@ class Component extends DCLogic {
   openProfile(type, id){ this.setState({ profile: { type, id }, profileTab:'historial', drawer:null }); window.scrollTo&&window.scrollTo(0,0); }
   closeProfile(){ this.setState({ profile: null }); }
 
-  openDrawer(code){ this.setState({ drawer: { code } }); }
+  openDrawer(code){
+    this.setState({ drawer: { code }, drawerResInst:[], drawerInstPicker:false });
+    const s = this.getSession(code);
+    if(s?.dbId) this.loadDrawerResInst(s.dbId);
+  }
   closeDrawer(){ this.setState({ drawer: null }); }
   openForm(tipo){ const t=tipo||'pxd'; const paq=(this.paquetes[t]||[])[0]||{}; this.setState({ modal:{type:'form'}, formStep:1, formTipo:t, formModalidad:'personal', formPago:'pendiente', formFecha:'', formHoraInicio:'', formPaqueteIdx:0, formSim:'King Air B200', formInstructor:this.instList[0]||'', formOrigen:'Registro manual', formNombre:'', formPhone:'', formEmail:'', formSegundo:'', formGiftNombre:'', formGiftPhone:'', formGiftDest:'', formGiftDestPhone:'', formGiftMsg:'', formTotal:String(paq.price||''), formAbono:'0', formMetodo:'Transferencia', formRef:'', formFechaPago:'', formSubmitting:false }); }
   openDoc(kind, code){ this.setState({ modal: { type:'doc', kind, code } }); }
@@ -2617,7 +2820,7 @@ class Component extends DCLogic {
         });
         drawer = {
           docBtn: s.regalo ? 'Generar invitación de regalo' : 'Generar confirmación',
-          code:s.code, cliente:s.cliente, segundo:s.segundo, tel:s.tel, regalo:s.regalo,
+          dbId:s.dbId, code:s.code, cliente:s.cliente, segundo:s.segundo, tel:s.tel, regalo:s.regalo,
           fecha:s.fecha, hi:s.hi, hf:s.hf, dur:this.duracion(s.hi,s.hf),
           sim:s.sim, instructor:s.instructor, paquete:s.paquete, origen:s.origen, creada:s.creada,
           servLabel:sm.label, servStyle:`font-size:11px;font-weight:600;color:${sm.c};background:${sm.bg};padding:3px 10px;border-radius:6px`,
@@ -3046,12 +3249,38 @@ class Component extends DCLogic {
     });
 
     // ---------- INSTRUCTORES ----------
-    const instCards = this.instructores.map(i=>{
-      const em=this.instEstadoMeta(i.estado);
-      const initials=i.name.replace('Cap. ','').split(' ').map(w=>w[0]).join('').toUpperCase();
+    const instCards = this.state.instList.map(i=>{
+      const initials=i.nombre.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+      const areaLabels=(i.areas||[]).map(a=>(this.instAreas.find(x=>x.key===a)||{label:a}).label);
       return { ...i, initials,
-        estLabel:em.label, estStyle:`font-size:10.5px;font-weight:600;color:${em.c};background:${em.bg};padding:3px 10px;border-radius:20px`,
-        onClick:()=>this.toast('Perfil de '+i.name), onBloq:()=>this.toast('Bloquear disponibilidad · '+i.name), onCal:()=>this.nav('calendario') };
+        areaChips: areaLabels.slice(0,3).join(' · ')+(areaLabels.length>3?' +':''),
+        inactivoStyle: i.activo?'display:none':'opacity:.5',
+        activoBadge: i.activo?'display:none':'font-size:10px;font-weight:600;color:#b13838;background:#FBEAEA;padding:2px 8px;border-radius:5px',
+        onEdit:()=>this.openInstModal(i),
+        onToggle:()=>this.toggleInstActivo(i),
+      };
+    });
+    // variables para modal de instructor
+    const _iF=this.state.instForm;
+    const instAreaChecks=this.instAreas.map(a=>({...a,checked:(_iF.areas||[]).includes(a.key),onToggle:()=>this.instToggleArea(a.key)}));
+    const instModalTitle=this.state.instEdit?'Editar instructor':'Nuevo instructor';
+    // variables para el picker de instructor en drawer
+    const _drDbId=this.state.drawer?.code?(this.getSession(this.state.drawer.code)?.dbId||null):null;
+    const _assignedIds=new Set((this.state.drawerResInst||[]).map(ri=>ri.instructor?.id));
+    const drawerInstOptions=this.state.instList.filter(i=>i.activo&&!_assignedIds.has(i.id)).map(i=>({
+      id:i.id, nombre:i.nombre,
+      initials:i.nombre.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase(),
+      onAssignLider:()=>this.assignInstructor(_drDbId,i.id,'lider'),
+      onAssignApoyo:()=>this.assignInstructor(_drDbId,i.id,'apoyo'),
+    }));
+    const drawerResInstRows=(this.state.drawerResInst||[]).map(ri=>{
+      const inst=ri.instructor||{};
+      const rolMeta={lider:{label:'Líder',c:'#C2410C',bg:'rgba(194,65,12,.1)'},apoyo:{label:'Apoyo',c:'#1d5fb0',bg:'#E3EEFB'},observador:{label:'Observador',c:'#6b6356',bg:'#EFECE5'}};
+      const rm=rolMeta[ri.rol]||rolMeta.apoyo;
+      return { id:ri.id, nombre:inst.nombre||'', rol:ri.rol,
+        rolLabel:rm.label, rolStyle:`font-size:10px;font-weight:700;color:${rm.c};background:${rm.bg};padding:2px 8px;border-radius:5px`,
+        onRemove:()=>this.removeResInstructor(ri.id,_drDbId),
+      };
     });
 
     // ---------- PILOTOS ----------
@@ -3338,7 +3567,21 @@ class Component extends DCLogic {
       skeletonRows: [1,2,3,4,5],
       ph,
       // nuevos módulos
-      simCards, instCards, pilRows, pilKpis, comList, certRows, certLoading, certEmpty, certHasRows,
+      simCards, instCards, instLoading:this.state.instLoading, instHasData:this.state.instList.length>0,
+      instModal:this.state.instModal, instModalTitle, instSaving:this.state.instSaving,
+      instFormNombre:_iF.nombre, instSetNombre:(e)=>this.setState({instForm:{..._iF,nombre:e.target.value}}),
+      instFormEmail:_iF.email, instSetEmail:(e)=>this.setState({instForm:{..._iF,email:e.target.value}}),
+      instFormTel:_iF.telefono, instSetTel:(e)=>this.setState({instForm:{..._iF,telefono:e.target.value}}),
+      instFormBio:_iF.bio, instSetBio:(e)=>this.setState({instForm:{..._iF,bio:e.target.value}}),
+      instFormActivo:_iF.activo, instToggleActivo:()=>this.setState({instForm:{..._iF,activo:!_iF.activo}}),
+      instAreaChecks, instSave:()=>this.saveInstructor(), instModalClose:()=>this.setState({instModal:false}),
+      openInstModal:()=>this.openInstModal(),
+      drawerResInstRows, drawerResInstHas:drawerResInstRows.length>0,
+      drawerInstPicker:this.state.drawerInstPicker, drawerInstOptions, drawerInstHasOptions:drawerInstOptions.length>0,
+      drawerInstSaving:this.state.drawerInstSaving,
+      drawerOpenPicker:()=>this.setState({drawerInstPicker:true}),
+      drawerClosePicker:()=>this.setState({drawerInstPicker:false}),
+      pilRows, pilKpis, comList, certRows, certLoading, certEmpty, certHasRows,
       simMantModal: this.state.simMantModal,
       simMantDesde: this.state.simMantDesde,
       simMantHasta: this.state.simMantHasta,
