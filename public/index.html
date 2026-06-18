@@ -724,7 +724,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
             </button>
             <div style="{{ panel3 }}">
               <div style="padding-top:16px">
-                <p style="font-size:15px;line-height:1.8;color:#d8e0ea;margin:0 0 16px;max-width:760px">{{ t.fases.f3.p }}</p>
+                
                 <div class="hs-6pack" style="grid-template-columns:repeat(3,minmax(0,1fr))">
 
                   <div onClick="{{ i0Flip }}" class="hs-6pack-card" style="perspective:1000px;height:212px;cursor:pointer">
@@ -893,7 +893,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
             </button>
             <div style="{{ panel4 }}">
               <div style="padding-top:16px;max-width:600px">
-                <p style="font-size:15px;line-height:1.8;color:#d8e0ea;margin:0 0 20px">{{ t.fases.f4.p }}</p>
+                
                 <div style="background:#0b1220;border:1px solid rgba(139,151,166,.2);border-radius:12px;overflow:hidden">
                   <div style="display:flex;align-items:center;gap:8px;padding:11px 16px;background:rgba(245,197,66,.07);border-bottom:1px solid rgba(245,197,66,.14)">
                     <span style="width:8px;height:8px;border-radius:50%;background:#f5c542" data-anim="blink-a"></span>
@@ -920,7 +920,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
             </button>
             <div style="{{ panel5 }}">
               <div id="vuelo" style="padding-top:16px">
-                <p style="font-size:15px;line-height:1.8;color:#d8e0ea;margin:0 0 20px;max-width:760px">{{ t.fases.f5.p }}</p>
+                
                 <div style="display:flex;flex-wrap:wrap;align-items:center;gap:24px;background:radial-gradient(120% 150% at 18% 0%,#0d1a30,#080f1e);border:1px solid rgba(245,197,66,.2);border-radius:10px;padding:20px 22px;overflow:hidden">
                   <div style="flex:1;min-width:220px">
                     <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#f5c542;margin-bottom:8px">{{ t.fases.f5.destinoLibre }}</div>
@@ -1292,7 +1292,6 @@ const I18N = {
                      S:{label:'SUR · 180°', txt:'Exactamente opuesto al norte. La mitad del círculo: fácil de recordar.'},
                      W:{label:'OESTE · 270°', txt:'Por donde se oculta el sol. Cierra la rosa de los vientos.'} } },
       f3:{ tag:'FASE 03 · EL SIX PACK', quote:'“Seis instrumentos. Toda la información que necesitas para volar.”',
-        p:'Cada instrumento está vivo. Tócalo para girarlo y descubrir qué te dice en pleno vuelo.',
         tapCard:'Toca el instrumento',
         i0:{ name:'Velocímetro', code:'ASI · VELOCÍMETRO', fn:'Mide tu velocidad respecto al aire, no al suelo.', fact:'Demasiado lento y el ala deja de sostenerte: eso es un stall.' },
         i1:{ name:'Horizonte Artificial', code:'ADI · HORIZONTE', fn:'Muestra si subes, bajas o te inclinas cuando no ves afuera.', fact:'Dentro de una nube, es tu único horizonte real.' },
@@ -1301,10 +1300,8 @@ const I18N = {
         i4:{ name:'Girodireccional', code:'HDG · RUMBO', fn:'Hacia qué punto cardinal apunta la nariz del avión.', fact:'Más estable que la brújula durante los virajes.' },
         i5:{ name:'Velocidad Vertical', code:'VSI · ASCENSO', fn:'Cuántos pies por minuto subes o bajas.', fact:'Un buen piloto desciende suave: el pasajero ni lo siente.' } },
       f4:{ tag:'FASE 04 · PREGUNTAS ABIERTAS', quote:'“No hay preguntas estúpidas en cabina.”',
-        p:'El espacio es tuyo antes de subir. El instructor responde todo.', briefing:'BRIEFING · PREGUNTAS DEL ALUMNO',
         chat:[ {who:'q',text:'¿Cómo sabe el piloto dónde está si hay nubes?'}, {who:'q',text:'¿Qué pasa si se apaga un motor?'}, {who:'q',text:'¿Es difícil aprender a volar?'}, {who:'a',text:'Hoy lo vas a descubrir.'} ] },
       f5:{ tag:'FASE 05 · LA PRÁCTICA EN SIMULADOR', quote:'“Ahora sí. Tu turno de volar.”',
-        p:'Subes al simulador. Los instrumentos se encienden. El instructor está a tu lado. Potencia, flaps, aviónica — paso a paso, a tu ritmo. Y el destino lo eliges tú.',
         destinoLibre:'DESTINO LIBRE', eligesTitulo:'Tú eliges a dónde volar.',
         eligesP:'Operamos cualquier ruta de Colombia: desde un circuito local sobre tu ciudad hasta una travesía entre destinos. Lo definimos juntos antes de despegar.',
         tuDestino:'TU DESTINO' }
