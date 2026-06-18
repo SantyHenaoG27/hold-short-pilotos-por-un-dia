@@ -601,8 +601,6 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
             </button>
             <div style="{{ panel2 }}">
               <div style="padding-top:16px">
-                <p style="font-size:15px;line-height:1.8;color:#d8e0ea;margin:0 0 20px;max-width:760px">{{ t.fases.f2.p1Pre }}<strong style="color:#fbfcff">{{ t.fases.f2.liftWord }}</strong>{{ t.fases.f2.p1Post }}</p>
-                <p style="font-size:15px;line-height:1.8;color:#d8e0ea;margin:0 0 24px;max-width:760px">{{ t.fases.f2.p2Pre }}<strong style="color:#fbfcff">{{ t.fases.f2.dragRoseWord }}</strong>{{ t.fases.f2.p2Post }}</p>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;align-items:center">
                   <div style="position:relative;background:radial-gradient(130% 150% at 28% 0%,#0d1a30,#080f1e);border:1px solid rgba(245,197,66,.18);border-radius:10px;overflow:hidden;height:100%">
                     <div style="position:absolute;left:14px;top:12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#a8b5c7;z-index:2">{{ t.fases.f2.wingLabel }}</div>
@@ -1264,9 +1262,7 @@ const I18N = {
     fases: {
       badge:'// Experiencia paso a paso', h2:'Tu vuelo, fase por fase.', p:'Recórrelo de arriba abajo. Cada estación es una parada en tu preparación — todo a la vista, sin prisa.',
       f1:{ tag:'01', quote:'La aviación es la unión de tecnología y humanidad. Hoy te pondrás en la silla del capitán y pondrás a prueba tu capacidad multitarea y de toma de decisiones.' },
-      f2:{ tag:'FASE 02 · AERODINÁMICA', quote:'“El avión no vuela por magia. Vuela por física. Y hoy vas a entenderla.”',
-        p1Pre:'No es el motor el que levanta 80 toneladas — es el ala. El aire que pasa por encima viaja más rápido que el de abajo, y esa diferencia de presión crea la ', liftWord:'sustentación', p1Post:' que te mantiene en el cielo.',
-        p2Pre:'Luego vienen los rumbos: la rosa de los vientos, 360 grados, puntos cardinales. ', dragRoseWord:'Arrastra la rosa', p2Post:' para girarla, o toca un punto cardinal.',
+      f2:{ tag:'FASE 02 · AERODINÁMICA', quote:'“El avión no vuela por magia. Vuela por física. Y hoy vas a entenderla.”',
         wingLabel:'PERFIL ALAR · FLUJO LAMINAR', liftLabel:'SUSTENTACIÓN', windLabel:'VIENTO →',
         forcesLabel:'EQUILIBRIO · 4 FUERZAS DEL VUELO', weightLabel:'PESO', thrustLabel:'EMPUJE →', dragLabel:'← RESISTENCIA',
         tapCardinal:'TOCA UN PUNTO CARDINAL',
@@ -1347,8 +1343,6 @@ const I18N = {
       badge:'// Step-by-step experience', h2:'Your flight, phase by phase.', p:'Go through it from top to bottom. Each station is a stop in your preparation — everything in view, no rush.',
       f1:{ tag:'01', quote:'Aviation is the union of technology and humanity. Today you?ll sit in the captain?s seat and put your multitasking and decision-making to the test.' },
       f2:{ tag:'PHASE 02 · AERODYNAMICS', quote:'“The aircraft doesn’t fly by magic. It flies by physics. And today you’re going to understand it.”',
-        p1Pre:'It’s not the engine that lifts 80 tons — it’s the wing. The air flowing over the top travels faster than the air below, and that pressure difference creates the ', liftWord:'lift', p1Post:' that keeps you in the sky.',
-        p2Pre:'Next come headings: the compass rose, 360 degrees, cardinal points. ', dragRoseWord:'Drag the rose', p2Post:' to spin it, or tap a cardinal point.',
         wingLabel:'WING PROFILE · LAMINAR FLOW', liftLabel:'LIFT', windLabel:'WIND →',
         forcesLabel:'BALANCE · 4 FORCES OF FLIGHT', weightLabel:'WEIGHT', thrustLabel:'THRUST →', dragLabel:'← DRAG',
         tapCardinal:'TAP A CARDINAL POINT',
