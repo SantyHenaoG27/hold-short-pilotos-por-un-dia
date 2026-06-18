@@ -1603,7 +1603,7 @@ class Component extends DCLogic {
       {k:'S',deg:180,label:c.S.label,txt:c.S.txt},
       {k:'W',deg:270,label:c.W.label,txt:c.W.txt},
     ];
-    return data.map(d=>{ const sel=this.state.cSel===d.k; return {...d, sel, onSel:()=>this.setState({cSel:d.k, compass:-d.deg}), btnStyle:{flex:1,padding:'9px 0',borderRadius:'4px',fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:'17px',cursor:'pointer',border:'1px solid '+(sel?'#f5c542':'rgba(139,151,166,.3)'),background:sel?'#f5c542':'transparent',color:sel?'#160f05':'#a8b5c7',transition:'all .2s'}}; });
+    return data.map(d=>{ const sel=this.state.cSel===d.k; return {...d, sel, onSel:()=>this.setState({cSel:d.k, compass:-d.deg}), btnStyle:{flex:1,padding:'9px 0',borderRadius:'4px',fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:'17px',cursor:'pointer',border:'1px solid '+(sel?'rgba(245,197,66,.45)':'rgba(139,151,166,.2)'),background:sel?'rgba(245,197,66,.1)':'transparent',color:sel?'rgba(245,197,66,.9)':'#7f8fa3',transition:'all .25s'}}; });
   }
   faqs(){
     const data=I18N[this.state.lang].faq.items;
