@@ -579,34 +579,9 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
             <div style="flex:1;width:2px;background:linear-gradient(rgba(245,197,66,.4),rgba(245,197,66,.08))"></div>
           </div>
           <div style="flex:1;padding-bottom:34px;min-width:0">
-            <button onClick="{{ tp1 }}" style="width:100%;text-align:left;background:none;border:0;cursor:default;padding:6px 0;display:flex;align-items:flex-start;gap:14px;justify-content:space-between">
-              <span style="min-width:0">
-                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#a8b5c7">{{ t.fases.f1.tag }}</span>
-                <span style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#fbfcff;margin-top:3px;line-height:1.15">{{ t.fases.f1.quote }}</span>
-              </span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="{{ chev1 }}" data-anim-x><path d="M6 9l6 6 6-6"/></svg>
-            </button>
-            <div style="{{ panel1 }}">
-              <div style="padding-top:16px;max-width:760px">
-                <p style="font-size:15px;line-height:1.8;color:#d8e0ea;margin:0 0 22px">{{ t.fases.f1.pPre }}<strong style="color:#fbfcff">CRM</strong>{{ t.fases.f1.pPost }}</p>
-                <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:12px">
-                  <div style="background:#0b1420;border:1px solid rgba(139,151,166,.22);border-radius:8px;padding:20px;transition:all .3s" style-hover="border-color:#f5c542;background:rgba(245,197,66,.06);box-shadow:0 0 30px rgba(245,197,66,.12)">
-                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#f5c542">PF</div>
-                    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;margin:4px 0 8px">Pilot Flying</div>
-                    <p style="font-size:13px;line-height:1.6;color:#a8b5c7;margin:0">{{ t.fases.f1.pfDesc }}</p>
-                  </div>
-                  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;color:#f5c542;font-size:24px;font-weight:700;gap:4px">
-                    <span data-anim="blink-a">↔</span>
-                    <span style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#a8b5c7;writing-mode:vertical-rl;transform:rotate(180deg)">CRM</span>
-                  </div>
-                  <div style="background:#0b1420;border:1px solid rgba(139,151,166,.22);border-radius:8px;padding:20px;transition:all .3s" style-hover="border-color:#f5c542;background:rgba(245,197,66,.06);box-shadow:0 0 30px rgba(245,197,66,.12)">
-                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#f5c542">PM</div>
-                    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;margin:4px 0 8px">Pilot Monitoring</div>
-                    <p style="font-size:13px;line-height:1.6;color:#a8b5c7;margin:0">{{ t.fases.f1.pmDesc }}</p>
-                  </div>
-                </div>
-                <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#f5c542;margin-top:18px;text-align:center;letter-spacing:.08em">{{ t.fases.f1.crmLine }}</div>
-              </div>
+            <div style="padding:6px 0">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#a8b5c7">{{ t.fases.f1.tag }}</span>
+              <p style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(18px,2.4vw,24px);color:#fbfcff;margin:4px 0 0;line-height:1.3">{{ t.fases.f1.quote }}</p>
             </div>
           </div>
         </div>
@@ -1288,11 +1263,7 @@ const I18N = {
 },
     fases: {
       badge:'// Experiencia paso a paso', h2:'Tu vuelo, fase por fase.', p:'Recórrelo de arriba abajo. Cada estación es una parada en tu preparación — todo a la vista, sin prisa.',
-      f1:{ tag:'FASE 01 · FACTOR HUMANO', quote:'“Lo más importante no está en los instrumentos. Está entre los dos pilotos.”',
-        pPre:'El error humano no discrimina. Sin importar cuánto sabes — eres humano. Aquí aprendes qué es el ', pPost:': el arte de operar en equipo. Pasa el cursor sobre cada asiento.',
-        pfDesc:'Quien vuela el avión. Manos en los controles, ejecuta la maniobra.',
-        pmDesc:'Quien verifica y respalda. Vigila instrumentos, detecta el error antes de que crezca.',
-        crmLine:'Dos personas. Un sistema. Cero margen para el ego.' },
+      f1:{ tag:'01', quote:'La aviación es la unión de tecnología y humanidad. Hoy te pondrás en la silla del capitán y pondrás a prueba tu capacidad multitarea y de toma de decisiones.' },
       f2:{ tag:'FASE 02 · AERODINÁMICA', quote:'“El avión no vuela por magia. Vuela por física. Y hoy vas a entenderla.”',
         p1Pre:'No es el motor el que levanta 80 toneladas — es el ala. El aire que pasa por encima viaja más rápido que el de abajo, y esa diferencia de presión crea la ', liftWord:'sustentación', p1Post:' que te mantiene en el cielo.',
         p2Pre:'Luego vienen los rumbos: la rosa de los vientos, 360 grados, puntos cardinales. ', dragRoseWord:'Arrastra la rosa', p2Post:' para girarla, o toca un punto cardinal.',
@@ -1374,11 +1345,7 @@ const I18N = {
 },
     fases: {
       badge:'// Step-by-step experience', h2:'Your flight, phase by phase.', p:'Go through it from top to bottom. Each station is a stop in your preparation — everything in view, no rush.',
-      f1:{ tag:'PHASE 01 · HUMAN FACTOR', quote:'“The most important thing isn’t in the instruments. It’s between the two pilots.”',
-        pPre:'Human error doesn’t discriminate. No matter how much you know — you’re human. Here you’ll learn what ', pPost:' is: the art of operating as a team. Hover over each seat.',
-        pfDesc:'The one flying the aircraft. Hands on the controls, executing the maneuver.',
-        pmDesc:'The one verifying and backing up. Monitors instruments, catches the error before it grows.',
-        crmLine:'Two people. One system. Zero room for ego.' },
+      f1:{ tag:’01’, quote:’Aviation is the union of technology and humanity. Today you’ll sit in the captain’s seat and put your multitasking and decision-making skills to the test.’ },
       f2:{ tag:'PHASE 02 · AERODYNAMICS', quote:'“The aircraft doesn’t fly by magic. It flies by physics. And today you’re going to understand it.”',
         p1Pre:'It’s not the engine that lifts 80 tons — it’s the wing. The air flowing over the top travels faster than the air below, and that pressure difference creates the ', liftWord:'lift', p1Post:' that keeps you in the sky.',
         p2Pre:'Next come headings: the compass rose, 360 degrees, cardinal points. ', dragRoseWord:'Drag the rose', p2Post:' to spin it, or tap a cardinal point.',
