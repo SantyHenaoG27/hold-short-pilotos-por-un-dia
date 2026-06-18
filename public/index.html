@@ -139,6 +139,16 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
 .hs-pkg-card:hover::after{transform:translateX(220%) skewX(-10deg)}
 @media(prefers-reduced-motion:reduce){.hs-shine::after,.hs-pkg-card::after,.hs-hist-img::after,.hs-avchart,.hs-vor-g,.hs-ils-g{animation:none!important;transition:none!important}.hs-hist-card{transition:none!important}}
 @media(max-width:560px){.hero-stats>div:nth-child(4),.hero-stats>div:nth-child(5){display:none!important}}
+
+.hs-6pack{display:grid;gap:14px}
+.hs-6pack-back{display:flex;flex-direction:column;overflow:hidden}
+@media(max-width:540px){
+  .hs-6pack{grid-template-columns:repeat(2,1fr)!important}
+  .hs-6pack-back{padding:10px!important;gap:4px!important;justify-content:flex-start!important}
+  .hs-6pack-fn{font-size:10.5px!important;line-height:1.4!important}
+  .hs-6pack-fact{font-size:9.5px!important;line-height:1.35!important;padding-top:5px!important}
+  .hs-6pack-card{height:190px!important}
+}
 </style>
 </helmet>
 <div ref="{{ rootRef }}" style="background:#080f1e;color:#fbfcff;font-family:Inter,system-ui,sans-serif;min-height:100vh;overflow-x:hidden;position:relative">
@@ -704,9 +714,9 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
             <div style="{{ panel3 }}">
               <div style="padding-top:16px">
                 <p style="font-size:15px;line-height:1.8;color:#d8e0ea;margin:0 0 16px;max-width:760px">{{ t.fases.f3.p }}</p>
-                <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
+                <div class="hs-6pack" style="grid-template-columns:repeat(3,minmax(0,1fr))">
 
-                  <div onClick="{{ i0Flip }}" style="perspective:1000px;height:212px;cursor:pointer">
+                  <div onClick="{{ i0Flip }}" class="hs-6pack-card" style="perspective:1000px;height:212px;cursor:pointer">
                     <div style="{{ i0Style }}">
                       <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(139,151,166,.22);border-radius:10px;background:#0d1a30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
                         <svg viewBox="0 0 120 120" style="display:block;width:100%;max-width:94px;height:auto;margin:0 auto">
@@ -719,15 +729,15 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                         <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#fbfcff;line-height:1.05">{{ t.fases.f3.i0.name }}</div>
                         <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#7f8fa3;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:0s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0a1525);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
+                      <div class="hs-6pack-back" style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0a1525);justify-content:flex-start;gap:6px;padding:12px">
                         <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f3.i0.code }}</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i0.fn }}</div>
-                        <div style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i0.fact }}</div>
+                        <div class="hs-6pack-fn" style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i0.fn }}</div>
+                        <div class="hs-6pack-fact" style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i0.fact }}</div>
                       </div>
                     </div>
                   </div>
 
-                  <div onClick="{{ i1Flip }}" style="perspective:1000px;height:212px;cursor:pointer">
+                  <div onClick="{{ i1Flip }}" class="hs-6pack-card" style="perspective:1000px;height:212px;cursor:pointer">
                     <div style="{{ i1Style }}">
                       <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(139,151,166,.22);border-radius:10px;background:#0d1a30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
                         <svg viewBox="0 0 120 120" style="display:block;width:100%;max-width:94px;height:auto;margin:0 auto">
@@ -747,15 +757,15 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                         <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#fbfcff;line-height:1.05">{{ t.fases.f3.i1.name }}</div>
                         <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#7f8fa3;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.15s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0a1525);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
+                      <div class="hs-6pack-back" style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0a1525);justify-content:flex-start;gap:6px;padding:12px">
                         <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f3.i1.code }}</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i1.fn }}</div>
-                        <div style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i1.fact }}</div>
+                        <div class="hs-6pack-fn" style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i1.fn }}</div>
+                        <div class="hs-6pack-fact" style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i1.fact }}</div>
                       </div>
                     </div>
                   </div>
 
-                  <div onClick="{{ i2Flip }}" style="perspective:1000px;height:212px;cursor:pointer">
+                  <div onClick="{{ i2Flip }}" class="hs-6pack-card" style="perspective:1000px;height:212px;cursor:pointer">
                     <div style="{{ i2Style }}">
                       <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(139,151,166,.22);border-radius:10px;background:#0d1a30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
                         <svg viewBox="0 0 120 120" style="display:block;width:100%;max-width:94px;height:auto;margin:0 auto">
@@ -768,15 +778,15 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                         <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#fbfcff;line-height:1.05">{{ t.fases.f3.i2.name }}</div>
                         <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#7f8fa3;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.3s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0a1525);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
+                      <div class="hs-6pack-back" style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0a1525);justify-content:flex-start;gap:6px;padding:12px">
                         <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f3.i2.code }}</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i2.fn }}</div>
-                        <div style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i2.fact }}</div>
+                        <div class="hs-6pack-fn" style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i2.fn }}</div>
+                        <div class="hs-6pack-fact" style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i2.fact }}</div>
                       </div>
                     </div>
                   </div>
 
-                  <div onClick="{{ i3Flip }}" style="perspective:1000px;height:212px;cursor:pointer">
+                  <div onClick="{{ i3Flip }}" class="hs-6pack-card" style="perspective:1000px;height:212px;cursor:pointer">
                     <div style="{{ i3Style }}">
                       <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(139,151,166,.22);border-radius:10px;background:#0d1a30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
                         <svg viewBox="0 0 120 120" style="display:block;width:100%;max-width:94px;height:auto;margin:0 auto">
@@ -794,15 +804,15 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                         <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#fbfcff;line-height:1.05">{{ t.fases.f3.i3.name }}</div>
                         <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#7f8fa3;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.45s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0a1525);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
+                      <div class="hs-6pack-back" style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0a1525);justify-content:flex-start;gap:6px;padding:12px">
                         <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f3.i3.code }}</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i3.fn }}</div>
-                        <div style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i3.fact }}</div>
+                        <div class="hs-6pack-fn" style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i3.fn }}</div>
+                        <div class="hs-6pack-fact" style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i3.fact }}</div>
                       </div>
                     </div>
                   </div>
 
-                  <div onClick="{{ i4Flip }}" style="perspective:1000px;height:212px;cursor:pointer">
+                  <div onClick="{{ i4Flip }}" class="hs-6pack-card" style="perspective:1000px;height:212px;cursor:pointer">
                     <div style="{{ i4Style }}">
                       <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(139,151,166,.22);border-radius:10px;background:#0d1a30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
                         <svg viewBox="0 0 120 120" style="display:block;width:100%;max-width:94px;height:auto;margin:0 auto">
@@ -820,15 +830,15 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                         <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#fbfcff;line-height:1.05">{{ t.fases.f3.i4.name }}</div>
                         <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#7f8fa3;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.6s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0a1525);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
+                      <div class="hs-6pack-back" style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0a1525);justify-content:flex-start;gap:6px;padding:12px">
                         <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f3.i4.code }}</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i4.fn }}</div>
-                        <div style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i4.fact }}</div>
+                        <div class="hs-6pack-fn" style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i4.fn }}</div>
+                        <div class="hs-6pack-fact" style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i4.fact }}</div>
                       </div>
                     </div>
                   </div>
 
-                  <div onClick="{{ i5Flip }}" style="perspective:1000px;height:212px;cursor:pointer">
+                  <div onClick="{{ i5Flip }}" class="hs-6pack-card" style="perspective:1000px;height:212px;cursor:pointer">
                     <div style="{{ i5Style }}">
                       <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(139,151,166,.22);border-radius:10px;background:#0d1a30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center">
                         <svg viewBox="0 0 120 120" style="display:block;width:100%;max-width:94px;height:auto;margin:0 auto">
@@ -843,10 +853,10 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                         <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:17px;color:#fbfcff;line-height:1.05">{{ t.fases.f3.i5.name }}</div>
                         <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#7f8fa3;display:flex;align-items:center;gap:5px"><span style="display:inline-block;animation-delay:.75s" data-anim="tapHint">👆</span>{{ t.fases.f3.tapCard }}</div>
                       </div>
-                      <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0a1525);display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px">
+                      <div class="hs-6pack-back" style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);border:1px solid rgba(245,197,66,.4);border-radius:10px;background:linear-gradient(160deg,#142b49,#0a1525);justify-content:flex-start;gap:6px;padding:12px">
                         <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f3.i5.code }}</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i5.fn }}</div>
-                        <div style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i5.fact }}</div>
+                        <div class="hs-6pack-fn" style="font-size:12.5px;line-height:1.5;color:#fbfcff">{{ t.fases.f3.i5.fn }}</div>
+                        <div class="hs-6pack-fact" style="font-size:11px;line-height:1.5;color:#f5c542;border-top:1px solid rgba(245,197,66,.2);padding-top:8px">{{ t.fases.f3.i5.fact }}</div>
                       </div>
                     </div>
                   </div>
