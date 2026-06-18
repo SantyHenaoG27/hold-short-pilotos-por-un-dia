@@ -12,7 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="./support.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/supabase-client.js"></script>
+<script src="/supabase-client.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 </head>
 <body>
@@ -689,10 +689,6 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                         </div>
                       </div>
                     </div>
-                    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px">
-                      <span style="font-size:18px;display:inline-block" data-anim="tapHint">👆</span>
-                      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#f5c542">{{ t.fases.f2.tapCardinal }}</span>
-                    </div>
                     <div style="display:flex;gap:8px;margin-bottom:16px">
                       <sc-for list="{{ cardinals }}" as="c" hint-placeholder-count="4">
                         <button onClick="{{ c.onSel }}" style="{{ c.btnStyle }}">{{ c.k }}</button>
@@ -1283,10 +1279,9 @@ const I18N = {
     fases: {
       badge:'// Experiencia paso a paso', h2:'Tu vuelo, fase por fase.', p:'Recórrelo de arriba abajo. Cada estación es una parada en tu preparación — todo a la vista, sin prisa.',
       f1:{ tag:'01', quote:'La aviación es la unión de tecnología y humanidad. Hoy te pondrás en la silla del capitán y pondrás a prueba tu capacidad multitarea y de toma de decisiones.' },
-      f2:{ tag:'FASE 02 · AERODINÁMICA', quote:'“El avión no vuela por magia. Vuela por física. Y hoy vas a entenderla.”',
+      f2:{ tag:'FASE 02 · AERODINÁMICA', quote:'“El avión no vuela por magia. Vuela por física. Y hoy vas a entenderla.”',
         wingLabel:'PERFIL ALAR · FLUJO LAMINAR', liftLabel:'SUSTENTACIÓN', windLabel:'VIENTO →',
         forcesLabel:'EQUILIBRIO · 4 FUERZAS DEL VUELO', weightLabel:'PESO', thrustLabel:'EMPUJE →', dragLabel:'← RESISTENCIA',
-        tapCardinal:'TOCA UN PUNTO CARDINAL',
         cardinals:{ N:{label:'NORTE · 360°', txt:'El cero de la brújula. Toda navegación empieza preguntándote: ¿hacia dónde es el norte?'},
                      E:{label:'ESTE · 090°', txt:'Por donde sale el sol. Nemotecnia clásica: girar a la derecha desde el norte.'},
                      S:{label:'SUR · 180°', txt:'Exactamente opuesto al norte. La mitad del círculo: fácil de recordar.'},
@@ -1363,7 +1358,7 @@ const I18N = {
       f2:{ tag:'PHASE 02 · AERODYNAMICS', quote:'“The aircraft doesn’t fly by magic. It flies by physics. And today you’re going to understand it.”',
         wingLabel:'WING PROFILE · LAMINAR FLOW', liftLabel:'LIFT', windLabel:'WIND →',
         forcesLabel:'BALANCE · 4 FORCES OF FLIGHT', weightLabel:'WEIGHT', thrustLabel:'THRUST →', dragLabel:'← DRAG',
-        tapCardinal:'TAP A CARDINAL POINT',
+        
         cardinals:{ N:{label:'NORTH · 360°', txt:'The zero point of the compass. All navigation starts by asking: which way is north?'},
                      E:{label:'EAST · 090°', txt:'Where the sun rises. Classic mnemonic: turn right from north.'},
                      S:{label:'SOUTH · 180°', txt:'Exactly opposite north. Half the circle: easy to remember.'},
