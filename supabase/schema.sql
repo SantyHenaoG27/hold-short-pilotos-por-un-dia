@@ -220,7 +220,6 @@ create table public.instructors (
   id bigint generated always as identity primary key,
   nombre text not null,
   email text,
-  telefono text,
   areas text[] not null default '{}',
   bio text,
   foto_url text,

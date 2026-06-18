@@ -1428,15 +1428,9 @@
             <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">NOMBRE COMPLETO *</label>
             <input type="text" value="{{ instFormNombre }}" onInput="{{ instSetNombre }}" placeholder="Cap. Juan Pérez" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13.5px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#F5841F"/>
           </div>
-          <div style="display:flex;gap:12px">
-            <div style="flex:1">
-              <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">CORREO</label>
-              <input type="email" value="{{ instFormEmail }}" onInput="{{ instSetEmail }}" placeholder="instructor@email.com" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13.5px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#F5841F"/>
-            </div>
-            <div style="flex:1">
-              <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">TELÉFONO</label>
-              <input type="tel" value="{{ instFormTel }}" onInput="{{ instSetTel }}" placeholder="310 000 0000" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13.5px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#F5841F"/>
-            </div>
+          <div>
+            <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">CORREO</label>
+            <input type="email" value="{{ instFormEmail }}" onInput="{{ instSetEmail }}" placeholder="instructor@email.com" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13.5px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#F5841F"/>
           </div>
           <div>
             <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;letter-spacing:.04em">ÁREAS DE ESPECIALIDAD</label>
@@ -1943,7 +1937,7 @@ class Component extends DCLogic {
     instLoading: false,
     instModal: false,
     instEdit: null,
-    instForm: { nombre:'', email:'', telefono:'', areas:[], bio:'', activo:true },
+    instForm: { nombre:'', email:'', areas:[], bio:'', activo:true },
     instSaving: false,
     // asignación instructor en drawer
     drawerResInst: [],
@@ -2051,9 +2045,9 @@ class Component extends DCLogic {
   }
   openInstModal(inst=null){
     if(inst){
-      this.setState({instModal:true,instEdit:inst,instForm:{nombre:inst.nombre,email:inst.email||'',telefono:inst.telefono||'',areas:inst.areas||[],bio:inst.bio||'',activo:inst.activo}});
+      this.setState({instModal:true,instEdit:inst,instForm:{nombre:inst.nombre,email:inst.email||'',areas:inst.areas||[],bio:inst.bio||'',activo:inst.activo}});
     }else{
-      this.setState({instModal:true,instEdit:null,instForm:{nombre:'',email:'',telefono:'',areas:[],bio:'',activo:true}});
+      this.setState({instModal:true,instEdit:null,instForm:{nombre:'',email:'',areas:[],bio:'',activo:true}});
     }
   }
   instToggleArea(area){
@@ -2065,7 +2059,7 @@ class Component extends DCLogic {
     const{instForm,instEdit}=this.state;
     if(!instForm.nombre.trim()){this.toast('El nombre es obligatorio');return;}
     this.setState({instSaving:true});
-    const payload={nombre:instForm.nombre.trim(),email:instForm.email.trim()||null,telefono:instForm.telefono.trim()||null,areas:instForm.areas,bio:instForm.bio.trim()||null,activo:instForm.activo};
+    const payload={nombre:instForm.nombre.trim(),email:instForm.email.trim()||null,areas:instForm.areas,bio:instForm.bio.trim()||null,activo:instForm.activo};
     let error;
     if(instEdit){
       ({error}=await supabaseClient.from('instructors').update(payload).eq('id',instEdit.id));
@@ -3571,7 +3565,6 @@ class Component extends DCLogic {
       instModal:this.state.instModal, instModalTitle, instSaving:this.state.instSaving,
       instFormNombre:_iF.nombre, instSetNombre:(e)=>this.setState({instForm:{..._iF,nombre:e.target.value}}),
       instFormEmail:_iF.email, instSetEmail:(e)=>this.setState({instForm:{..._iF,email:e.target.value}}),
-      instFormTel:_iF.telefono, instSetTel:(e)=>this.setState({instForm:{..._iF,telefono:e.target.value}}),
       instFormBio:_iF.bio, instSetBio:(e)=>this.setState({instForm:{..._iF,bio:e.target.value}}),
       instFormActivo:_iF.activo, instToggleActivo:()=>this.setState({instForm:{..._iF,activo:!_iF.activo}}),
       instAreaChecks, instSave:()=>this.saveInstructor(), instModalClose:()=>this.setState({instModal:false}),
