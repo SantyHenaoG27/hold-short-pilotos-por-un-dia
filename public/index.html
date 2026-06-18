@@ -674,7 +674,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                     </div>
                     <div style="display:flex;gap:8px;margin-bottom:16px">
                       <sc-for list="{{ cardinals }}" as="c" hint-placeholder-count="4">
-                        <button onClick="{{ c.onSel }}" style="{{ c.btnStyle }}" data-anim="cta">{{ c.k }}</button>
+                        <button onClick="{{ c.onSel }}" style="{{ c.btnStyle }}">{{ c.k }}</button>
                       </sc-for>
                     </div>
                     <div style="background:#0b1420;border:1px solid rgba(245,197,66,.2);border-radius:8px;padding:18px 20px;min-height:120px">
