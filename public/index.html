@@ -251,11 +251,11 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
         <button onClick="{{ closePortal }}" style="position:absolute;top:14px;right:14px;background:none;border:0;color:#a8b5c7;font-size:22px;cursor:pointer;line-height:1">×</button>
         <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#f5c542;margin-bottom:4px">// BOARDING STATUS</div>
         <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;color:#fbfcff;letter-spacing:.05em;margin-bottom:6px">MANEJA TU RESERVA</div>
-        <div style="font-family:Inter,sans-serif;font-size:13px;color:#6b7a8d;margin-bottom:22px;line-height:1.4">Ingresa el correo con el que hiciste tu reserva y verás el estado de tu vuelo.</div>
+        <div style="font-family:Inter,sans-serif;font-size:13px;color:#6b7a8d;margin-bottom:22px;line-height:1.4">Ingresa tu correo o código de reserva (ej. HS-XXXX) para ver el estado de tu vuelo.</div>
 
         <sc-if value="{{ portalShowSearch }}" hint-placeholder-val="{{ false }}">
           <div style="display:flex;flex-direction:column;gap:10px">
-            <input type="email" value="{{ portalEmail }}" onChange="{{ setPortalEmail }}" placeholder="tu@correo.com" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)"/>
+            <input type="text" value="{{ portalEmail }}" onChange="{{ setPortalEmail }}" onKeyDown="{{ portalKeyDown }}" placeholder="tu@correo.com  o  HS-XXXX" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px;color:#fbfcff;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)"/>
             <button onClick="{{ lookupReserva }}" style="background:#f5c542;color:#160f05;border:0;border-radius:8px;padding:13px;font-weight:700;font-size:16px;font-family:'Barlow Condensed',sans-serif;letter-spacing:.08em;cursor:pointer">{{ portalBtnLabel }}</button>
             <sc-if value="{{ hasPortalError }}" hint-placeholder-val="{{ false }}">
               <div style="color:#fca5a5;font-size:12.5px;text-align:center;font-family:Inter,sans-serif;line-height:1.4">{{ portalError }}</div>
@@ -1730,8 +1730,10 @@ class Component extends DCLogic {
     this.setState({portalLoading:false, portalReservas:mapped, portalFound:true, portalSelectedId:mapped[0].id});
   }
     async lookupReserva(){
-    const email=this.state.portalEmail.trim().toLowerCase();
-    if(!email) return;
+    const raw=this.state.portalEmail.trim();
+    if(!raw) return;
+    if(/^hs/i.test(raw)){ this.lookupByCode(raw.toUpperCase()); return; }
+    const email=raw.toLowerCase();
     this.setState({portalLoading:true, portalError:'', portalReservas:[], portalFound:false});
     const { data, error } = await supabaseClient.from('reservations').select('*').ilike('cliente_email',email).order('created_at',{ascending:false});
     if(error){ this.setState({portalLoading:false, portalError:'Error al buscar: '+error.message}); return; }
@@ -2300,6 +2302,7 @@ portalDownloadCert(r){
       resetPortal:()=>this.resetPortal(),
       portalEmail:s.portalEmail,
       setPortalEmail:(e)=>this.setState({portalEmail:e.target.value}),
+      portalKeyDown:(e)=>{ if(e.key==='Enter') this.lookupReserva(); },
       portalLoading:s.portalLoading,
       portalError:s.portalError, hasPortalError:!!(s.portalError),
       portalFound:s.portalFound, portalShowSearch:!s.portalFound,
