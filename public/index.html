@@ -1265,7 +1265,10 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                 </div>
                 <button onClick="{{ resetBooking }}" style="width:100%;background:none;border:1px solid rgba(139,151,166,.25);color:#7f8fa3;border-radius:8px;padding:11px 20px;font-size:13px;cursor:pointer;font-family:Inter,sans-serif">{{ t.pkgs.ticket.nuevaReserva }}</button>
               </div>
-              
+              <div style="margin-top:18px;background:rgba(245,197,66,.07);border:1px solid rgba(245,197,66,.18);border-radius:10px;padding:14px 18px;display:flex;gap:12px;align-items:flex-start">
+                <span style="font-size:18px;flex-shrink:0;margin-top:1px">✉️</span>
+                <p style="font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.7;color:#a8b5c7;margin:0">Te enviamos un correo a <span style="color:#f5c542;font-weight:700">{{ ticket.email }}</span> con el resumen de tu solicitud. Uno de nuestros administradores se pondrá en contacto contigo a la brevedad posible para coordinar los detalles y confirmar tu vuelo.</p>
+              </div>
             </div>
           </sc-if>
         </div>
@@ -1786,29 +1789,34 @@ class Component extends DCLogic {
     const p=this.PKGS[this.state.bPkg];
     const seed=this.hashCode(this.state.bName+this.selDateStr()+p.key);
     const totalMap={aventurero:280000, comandante:370000};
-    const { data, error } = await supabaseClient.from('reservations').insert({
-      cliente_nombre: this.state.bName.trim(),
-      cliente_email:  this.state.bEmail.trim(),
-      cliente_phone:  this.state.bPhone.trim(),
-      paquete: {aventurero:'Aviador Express',comandante:'Aviador Completo'}[this.state.bPkg]||this.state.bPkg,
-      simulador: 'King Air B200',
-      fecha, servicio: 'simulador',
-      estado: 'pendiente', pago: 'pendiente',
-      total: totalMap[this.state.bPkg]||280000,
-      book_for: this.state.bookFor||'me',
-      gift_for: (this.state.bookFor==='regalo'&&this.state.bGiftName.trim())?this.state.bGiftName.trim():(this.state.bGiftFor||null),
-      notas: (this.state.bookFor==='regalo'&&this.state.bGiftMsg.trim())?this.state.bGiftMsg.trim():null,
-      hora_inicio: this.state.selSlot?this.state.selSlot.start:null,
-      hora_fin: this.state.selSlot?this.state.selSlot.end:null,
-      regalo_nombre: (this.state.bookFor==='regalo'&&this.state.bGiftName.trim())?this.state.bGiftName.trim():null,
-      participante_2_nombre: this.state.bParticipant2.trim()||null
-    }).select('code, qr_token').single();
-    if(error){
-      this.setState({bookLoading:false, bookError:error.message||'Error al guardar. Intenta de nuevo.'});
+    const _bookRes = await fetch('/api/reservations',{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify({
+        cliente_nombre: this.state.bName.trim(),
+        cliente_email:  this.state.bEmail.trim(),
+        cliente_phone:  this.state.bPhone.trim(),
+        paquete: {aventurero:'Aviador Express',comandante:'Aviador Completo'}[this.state.bPkg]||this.state.bPkg,
+        simulador: 'King Air B200',
+        fecha, servicio: 'simulador',
+        estado: 'pendiente', pago: 'pendiente',
+        total: totalMap[this.state.bPkg]||280000,
+        book_for: this.state.bookFor||'me',
+        gift_for: (this.state.bookFor==='regalo'&&this.state.bGiftName.trim())?this.state.bGiftName.trim():(this.state.bGiftFor||null),
+        notas: (this.state.bookFor==='regalo'&&this.state.bGiftMsg.trim())?this.state.bGiftMsg.trim():null,
+        hora_inicio: this.state.selSlot?this.state.selSlot.start:null,
+        hora_fin: this.state.selSlot?this.state.selSlot.end:null,
+        regalo_nombre: (this.state.bookFor==='regalo'&&this.state.bGiftName.trim())?this.state.bGiftName.trim():null,
+        participante_2_nombre: this.state.bParticipant2.trim()||null
+      })
+    }).catch(()=>null);
+    const _bookData = _bookRes ? await _bookRes.json().catch(()=>({})) : {};
+    if(!_bookRes||!_bookRes.ok){
+      this.setState({bookLoading:false, bookError:_bookData.error||'Error al guardar. Intenta de nuevo.'});
       return;
     }
-    const flight=data.code;
-    const qrToken=data.qr_token;
+    const flight=_bookData.code;
+    const qrToken=_bookData.qr_token;
     const seat=(1+seed%30)+['A','B','C','D'][seed%4];
     const gate=String(1+seed%18).padStart(2,'0');
     this.setState({ bookLoading:false, booked:true, ticket:{ name:this.state.bName.trim().toUpperCase(), phone:this.state.bPhone.trim(),
@@ -2249,7 +2257,7 @@ portalDownloadCert(r){
           <span class="mono" style="font-size:5px;letter-spacing:.1em;color:#7a7264;margin-top:1px">HOLD SHORT</span>
         </div>
         <div style="flex:1;text-align:center">
-          <div class="disp" style="font-size:14px;color:#15171b;font-style:italic;border-bottom:1px solid #15171b;padding-bottom:4px;margin-bottom:4px">Cap. Mateo Ríos</div>
+          <div class="disp" style="font-size:14px;color:#15171b;font-style:italic;border-bottom:1px solid #15171b;padding-bottom:4px;margin-bottom:4px">Cap. Juan Camilo Carvajal</div>
           <div class="mono" style="font-size:7.5px;letter-spacing:.08em;color:#7a7264">JEFE DE OPERACIONES</div>
         </div>
       </div>

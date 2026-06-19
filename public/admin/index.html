@@ -1449,6 +1449,11 @@
                 <input type="password" value="{{ instResetPassword }}" onInput="{{ instSetResetPassword }}" placeholder="Nueva contraseña (mín. 8 caracteres)" style="flex:1;height:38px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;padding:0 11px;outline:none;box-sizing:border-box" style-focus="border-color:#F5841F"/>
                 <button onClick="{{ instDoResetPassword }}" disabled="{{ instResetSaving }}" style="flex-shrink:0;height:38px;padding:0 14px;background:var(--btnsolid);border:none;border-radius:8px;color:#fff;font-weight:600;font-size:12.5px;cursor:pointer;white-space:nowrap">{{ instResetLabel }}</button>
               </div>
+              <sc-if value="{{ instResetMsg }}" hint-placeholder-val="">
+                <div style="display:flex;align-items:center;gap:8px;margin-top:9px;padding:8px 11px;border-radius:8px;font-size:12px;font-weight:600;{{ instResetMsgStyle }}">
+                  <span class="ms" style="font-size:16px">{{ instResetMsgIcon }}</span>{{ instResetMsg }}
+                </div>
+              </sc-if>
               <div style="font-size:11px;color:var(--faint);margin-top:7px;line-height:1.4">Úsalo si el instructor olvidó su contraseña. No afecta sus datos ni sesiones asignadas.</div>
             </div>
           </sc-if>
@@ -1823,7 +1828,7 @@
                           <span class="mono" style="font-size:5px;letter-spacing:.1em;color:#7a7264;margin-top:1px">HOLD SHORT</span>
                         </div>
                         <div style="flex:1;text-align:center">
-                          <div class="disp" style="font-size:14px;color:#15171b;font-style:italic;border-bottom:1px solid #15171b;padding-bottom:4px;margin-bottom:4px">Cap. Mateo Ríos</div>
+                          <div class="disp" style="font-size:14px;color:#15171b;font-style:italic;border-bottom:1px solid #15171b;padding-bottom:4px;margin-bottom:4px">Cap. Juan Camilo Carvajal</div>
                           <div class="mono" style="font-size:7.5px;letter-spacing:.08em;color:#7a7264">JEFE DE OPERACIONES</div>
                         </div>
                       </div>
@@ -1882,7 +1887,7 @@
 
   <!-- ============ TOAST ============ -->
   <sc-if value="{{ toast }}" hint-placeholder-val="">
-    <div style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:120;background:var(--btnsolid);color:#f0f0ec;padding:11px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;box-shadow:0 10px 34px rgba(0,0,0,.28);animation:hs-fade .25s">
+    <div style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:10000;background:var(--btnsolid);color:#f0f0ec;padding:11px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;box-shadow:0 10px 34px rgba(0,0,0,.28);animation:hs-fade .25s">
       <span class="ms" style="font-size:18px;color:#F5841F">info</span>{{ toast }}
     </div>
   </sc-if>
@@ -2074,9 +2079,9 @@ class Component extends DCLogic {
   }
   openInstModal(inst=null){
     if(inst){
-      this.setState({instModal:true,instEdit:inst,instForm:{nombre:inst.nombre,email:inst.email||'',password:'',areas:inst.areas||[],bio:inst.bio||'',activo:inst.activo},instResetPassword:''});
+      this.setState({instModal:true,instEdit:inst,instForm:{nombre:inst.nombre,email:inst.email||'',password:'',areas:inst.areas||[],bio:inst.bio||'',activo:inst.activo},instResetPassword:'',instResetMsg:null});
     }else{
-      this.setState({instModal:true,instEdit:null,instForm:{nombre:'',email:'',password:'',areas:[],bio:'',activo:true},instResetPassword:''});
+      this.setState({instModal:true,instEdit:null,instForm:{nombre:'',email:'',password:'',areas:[],bio:'',activo:true},instResetPassword:'',instResetMsg:null});
     }
   }
   instToggleArea(area){
@@ -2126,9 +2131,9 @@ class Component extends DCLogic {
   }
   async resetInstructorPassword(){
     const{instEdit,instResetPassword}=this.state;
-    if(!instEdit||!instEdit.email){this.toast('Este instructor no tiene correo asociado');return;}
-    if((instResetPassword||'').length<8){this.toast('La contraseña debe tener mínimo 8 caracteres');return;}
-    this.setState({instResetSaving:true});
+    if(!instEdit||!instEdit.email){this.setState({instResetMsg:{ok:false,text:'Este instructor no tiene correo asociado'}});return;}
+    if((instResetPassword||'').length<8){this.setState({instResetMsg:{ok:false,text:'La contraseña debe tener mínimo 8 caracteres'}});return;}
+    this.setState({instResetSaving:true,instResetMsg:null});
     const{data:sess}=await supabaseClient.auth.getSession();
     const token=sess&&sess.session&&sess.session.access_token;
     try{
@@ -2139,12 +2144,10 @@ class Component extends DCLogic {
       });
       const out=await res.json();
       this.setState({instResetSaving:false});
-      if(!res.ok){ this.toast(out.error||'No se pudo actualizar la contraseña'); return; }
-      this.setState({instResetPassword:''});
-      this.toast('Contraseña actualizada');
+      if(!res.ok){ this.setState({instResetMsg:{ok:false,text:out.error||'No se pudo actualizar la contraseña'}}); return; }
+      this.setState({instResetPassword:'',instResetMsg:{ok:true,text:'Contraseña actualizada correctamente'}});
     }catch(e){
-      this.setState({instResetSaving:false});
-      this.toast('Error de red al actualizar la contraseña');
+      this.setState({instResetSaving:false,instResetMsg:{ok:false,text:'Error de red al actualizar la contraseña'}});
     }
   }
   async toggleInstActivo(inst){
@@ -3652,6 +3655,9 @@ class Component extends DCLogic {
       instResetPassword:this.state.instResetPassword||'', instSetResetPassword:(e)=>this.setState({instResetPassword:e.target.value}),
       instResetSaving:this.state.instResetSaving, instResetLabel:this.state.instResetSaving?'Guardando…':'Actualizar',
       instDoResetPassword:()=>this.resetInstructorPassword(),
+      instResetMsg:this.state.instResetMsg?this.state.instResetMsg.text:'',
+      instResetMsgIcon:(this.state.instResetMsg&&this.state.instResetMsg.ok)?'check_circle':'error',
+      instResetMsgStyle:(this.state.instResetMsg&&this.state.instResetMsg.ok)?'color:#227a45;background:#E6F4EC':'color:#b13838;background:#FBEAEA',
       instFormBio:_iF.bio, instSetBio:(e)=>this.setState({instForm:{..._iF,bio:e.target.value}}),
       instFormActivo:_iF.activo, instToggleActivo:()=>this.setState({instForm:{..._iF,activo:!_iF.activo}}),
       instAreaChecks, instSaveLabel, instToggleStyle, instToggleDotStyle,

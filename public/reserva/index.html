@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estado de mi reserva · Hold Short Aviation</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%;background:#F4F4F1;color:#16181c;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 16px}
+  .card{width:100%;max-width:440px;background:#fff;border-radius:16px;border:1px solid #e6e4dd;overflow:hidden}
+  .card-header{background:#0C0D10;padding:20px 24px;display:flex;align-items:center;gap:10px}
+  .logo-icon{font-size:22px}
+  .logo-text{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;letter-spacing:.08em;color:#fff}
+  .card-body{padding:28px 24px}
+  h1{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:#16181c;margin-bottom:6px}
+  .hint{font-size:13px;color:#73777e;margin-bottom:22px;line-height:1.5}
+  label{display:block;font-size:12px;font-weight:600;color:#3a3d42;letter-spacing:.04em;margin-bottom:6px}
+  input{width:100%;border:1.5px solid #e6e4dd;border-radius:9px;padding:11px 14px;font-size:14px;font-family:'Inter',sans-serif;color:#16181c;background:#fff;outline:none;transition:border-color .15s}
+  input:focus{border-color:#16181c}
+  input::placeholder{color:#b0b3b8}
+  .sep{display:flex;align-items:center;gap:10px;margin:14px 0;color:#9a9ea5;font-size:12px}
+  .sep-line{flex:1;height:1px;background:#edecea}
+  .btn{width:100%;background:#16181c;color:#fff;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity .15s;margin-top:18px}
+  .btn:hover{opacity:.88}
+  .btn:disabled{opacity:.5;cursor:default}
+  .error-msg{background:#fff1f1;border:1px solid #fcc;border-radius:8px;padding:11px 14px;font-size:13px;color:#c0392b;margin-top:14px}
+  /* Result card */
+  .result{display:none;border-top:1px solid #edecea;margin-top:22px;padding-top:22px}
+  .result.show{display:block}
+  .result-code{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;color:#b5630a;margin-bottom:4px}
+  .result-name{font-size:15px;font-weight:600;color:#16181c;margin-bottom:16px}
+  .detail-row{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px solid #f0f0ea}
+  .detail-row:last-child{border-bottom:none}
+  .detail-label{font-size:12px;color:#73777e;font-weight:500}
+  .detail-val{font-size:13px;color:#16181c;font-weight:600;text-align:right}
+  .status-badge{display:inline-flex;align-items:center;gap:6px;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;letter-spacing:.04em}
+  .status-dot{width:7px;height:7px;border-radius:50%}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="card-header">
+      <span class="logo-icon">✈</span>
+      <span class="logo-text">HOLD SHORT AVIATION</span>
+    </div>
+    <div class="card-body">
+      <h1>Estado de mi reserva</h1>
+      <p class="hint">Ingresa tu código de reserva o tu correo electrónico para consultar el estado de tu vuelo.</p>
+
+      <label>Código de reserva</label>
+      <input id="inpCode" type="text" placeholder="HS-XXXXXX" autocomplete="off" spellcheck="false">
+
+      <div class="sep"><div class="sep-line"></div><span>o</span><div class="sep-line"></div></div>
+
+      <label>Correo electrónico</label>
+      <input id="inpEmail" type="email" placeholder="tu@correo.com" autocomplete="email">
+
+      <button class="btn" id="btnBuscar" onclick="buscar()">Consultar reserva</button>
+      <div class="error-msg" id="errMsg" style="display:none"></div>
+
+      <div class="result" id="resultBox">
+        <div class="result-code" id="rCode"></div>
+        <div class="result-name" id="rName"></div>
+        <div id="rRows"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ESTADOS = {
+  pendiente:    { label:'Pendiente de confirmación', bg:'#FBF0D5', color:'#7a5c10', dot:'#D9920A' },
+  confirmada:   { label:'Confirmada',                bg:'#E6F4EC', color:'#1a5c30', dot:'#2E9E5B' },
+  checkin:      { label:'Check-in realizado',        bg:'#E3EEFB', color:'#1a3d6b', dot:'#3B82C4' },
+  curso:        { label:'En simulador',              bg:'#E8E3FB', color:'#3a1a6b', dot:'#7C5CBF' },
+  completada:   { label:'Experiencia completada',    bg:'#E6F4EC', color:'#1a5c30', dot:'#2E9E5B' },
+  cancelada:    { label:'Cancelada',                 bg:'#fff1f1', color:'#8b1a1a', dot:'#e74c3c' },
+  reprogramada: { label:'Reprogramada',              bg:'#FBF0D5', color:'#7a5c10', dot:'#D9920A' },
+  noasistio:    { label:'No asistió',                bg:'#f5f5f5', color:'#555',    dot:'#aaa'    },
+};
+
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+function fechaFmt(str) {
+  if (!str) return '—';
+  const [y,m,d] = str.split('-');
+  return `${parseInt(d)} de ${MESES[parseInt(m)-1]} de ${y}`;
+}
+
+async function buscar() {
+  const code  = document.getElementById('inpCode').value.trim().toUpperCase();
+  const email = document.getElementById('inpEmail').value.trim().toLowerCase();
+  const errEl = document.getElementById('errMsg');
+  const btn   = document.getElementById('btnBuscar');
+
+  errEl.style.display = 'none';
+  document.getElementById('resultBox').classList.remove('show');
+
+  if (!code && !email) {
+    errEl.textContent = 'Ingresa tu código de reserva o correo electrónico.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Consultando…';
+
+  try {
+    const params = new URLSearchParams();
+    if (code)  params.set('code', code);
+    if (email) params.set('email', email);
+
+    const res  = await fetch('/api/reserva-status?' + params.toString());
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok || !data.code) {
+      errEl.textContent = data.error || 'No encontramos ninguna reserva con esos datos.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    const est = ESTADOS[data.estado] || ESTADOS.pendiente;
+    document.getElementById('rCode').textContent = data.code;
+    document.getElementById('rName').textContent = data.cliente_nombre || '';
+
+    const rows = [
+      { label: 'Estado',   val: `<span class="status-badge" style="background:${est.bg};color:${est.color}"><span class="status-dot" style="background:${est.dot}"></span>${est.label}</span>` },
+      { label: 'Paquete',  val: data.paquete || '—' },
+      { label: 'Fecha',    val: fechaFmt(data.fecha) },
+      { label: 'Horario',  val: data.hora_inicio && data.hora_fin ? `${data.hora_inicio} – ${data.hora_fin}` : data.hora_inicio || '—' },
+    ];
+
+    document.getElementById('rRows').innerHTML = rows.map(r =>
+      `<div class="detail-row"><span class="detail-label">${r.label}</span><span class="detail-val">${r.val}</span></div>`
+    ).join('');
+
+    document.getElementById('resultBox').classList.add('show');
+  } catch(e) {
+    errEl.textContent = 'Error de conexión. Intenta de nuevo.';
+    errEl.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Consultar reserva';
+  }
+}
+
+document.getElementById('inpCode').addEventListener('keydown', e => { if (e.key === 'Enter') buscar(); });
+document.getElementById('inpEmail').addEventListener('keydown', e => { if (e.key === 'Enter') buscar(); });
+</script>
+</body>
+</html>

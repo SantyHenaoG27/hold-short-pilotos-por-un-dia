@@ -127,44 +127,35 @@
         </div>
       </div>
 
-      <!-- HOY -->
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <h2 class="disp" style="margin:0;font-size:18px;font-weight:700">Hoy</h2>
+      <!-- FILTER BAR -->
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:20px">
+        <button style="{{ pillTodos }}" onClick="{{ doFilterTodos }}">Todos</button>
+        <button style="{{ pillHoy }}" onClick="{{ doFilterHoy }}">Hoy</button>
+        <button style="{{ pillManana }}" onClick="{{ doFilterManana }}">Mañana</button>
+        <button style="{{ pillSemana }}" onClick="{{ doFilterSemana }}">Esta semana</button>
+        <button style="{{ pillDia }}" onClick="{{ doFilterDia }}"><span class="ms" style="font-size:14px;vertical-align:-3px;margin-right:4px">calendar_today</span>Fecha</button>
+        <button style="{{ pillMes }}" onClick="{{ doFilterMes }}"><span class="ms" style="font-size:14px;vertical-align:-3px;margin-right:4px">calendar_month</span>Mes</button>
+        <sc-if value="{{ showCustomDay }}" hint-placeholder-val="">
+          <input type="date" value="{{ customDay }}" onInput="{{ onCustomDay }}" style="height:32px;padding:0 10px;border:1px solid #F5841F;border-radius:20px;background:var(--surface);color:var(--text);font-size:12.5px;cursor:pointer;outline:none;font-family:inherit">
+        </sc-if>
+        <sc-if value="{{ showCustomMes }}" hint-placeholder-val="">
+          <input type="month" value="{{ customMonth }}" onInput="{{ onCustomMonth }}" style="height:32px;padding:0 10px;border:1px solid #F5841F;border-radius:20px;background:var(--surface);color:var(--text);font-size:12.5px;cursor:pointer;outline:none;font-family:inherit">
+        </sc-if>
       </div>
-      <sc-if value="{{ hasHoy }}" hint-placeholder-val="">
-        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:30px">
-          <sc-for list="{{ sesionesHoy }}" as="s" hint-placeholder-count="2">
-            <div onClick="{{ s.onClick }}" style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px 16px;display:flex;align-items:center;gap:14px;cursor:pointer" style-hover="border-color:#cfcfc8">
-              <div style="width:4px;height:38px;border-radius:3px;background:{{ s.railColor }};flex-shrink:0"></div>
-              <div class="mono" style="font-size:13px;font-weight:600;color:var(--text);min-width:84px">{{ s.horario }}</div>
-              <div style="min-width:0;flex:1">
-                <div style="font-size:13.5px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.cliente }}</div>
-                <div style="font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.paquete }} · {{ s.simulador }}</div>
-              </div>
-              <span class="mono" style="font-size:11px;font-weight:700;color:{{ s.estadoColor }};background:{{ s.estadoBg }};padding:4px 10px;border-radius:7px;flex-shrink:0">{{ s.estadoLabel }}</span>
-              <span class="ms" style="font-size:20px;color:var(--faint);flex-shrink:0">chevron_right</span>
-            </div>
-          </sc-for>
-        </div>
-      </sc-if>
-      <sc-if value="{{ !hasHoy }}" hint-placeholder-val="">
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:28px;text-align:center;color:var(--muted);font-size:13px;margin-bottom:30px">
-          <span class="ms" style="font-size:28px;color:var(--faint);display:block;margin-bottom:6px">event_available</span>
-          No tienes sesiones programadas para hoy.
-        </div>
-      </sc-if>
 
-      <!-- PRÓXIMAS -->
+      <!-- SESIONES -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <h2 class="disp" style="margin:0;font-size:18px;font-weight:700">Próximas sesiones</h2>
+        <h2 class="disp" style="margin:0;font-size:18px;font-weight:700">{{ seccionTitulo }}</h2>
+        <span class="mono" style="font-size:11.5px;color:var(--muted)">{{ totalLabel }}</span>
       </div>
-      <sc-if value="{{ hasProximas }}" hint-placeholder-val="">
+      <sc-if value="{{ hasSesiones }}" hint-placeholder-val="">
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden;margin-bottom:30px">
-          <sc-for list="{{ sesionesProximas }}" as="s" hint-placeholder-count="3">
-            <div onClick="{{ s.onClick }}" style="display:flex;align-items:center;gap:14px;padding:13px 16px;border-bottom:1px solid var(--divider);cursor:pointer" style-hover="background:var(--alt)">
-              <div style="width:64px;flex-shrink:0">
+          <sc-for list="{{ sesiones }}" as="s" hint-placeholder-count="3">
+            <div onClick="{{ s.onClick }}" style="display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--divider);cursor:pointer" style-hover="background:var(--alt)">
+              <div style="width:4px;height:40px;border-radius:3px;background:{{ s.railColor }};flex-shrink:0"></div>
+              <div style="width:72px;flex-shrink:0">
                 <div class="mono" style="font-size:11.5px;font-weight:700;color:var(--text)">{{ s.fechaCorta }}</div>
-                <div class="mono" style="font-size:10.5px;color:var(--muted)">{{ s.hi }}</div>
+                <div class="mono" style="font-size:11px;color:var(--muted)">{{ s.hi }}</div>
               </div>
               <div style="min-width:0;flex:1">
                 <div style="font-size:13.5px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.cliente }}</div>
@@ -176,10 +167,10 @@
           </sc-for>
         </div>
       </sc-if>
-      <sc-if value="{{ !hasProximas }}" hint-placeholder-val="">
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:28px;text-align:center;color:var(--muted);font-size:13px;margin-bottom:30px">
-          <span class="ms" style="font-size:28px;color:var(--faint);display:block;margin-bottom:6px">flight</span>
-          No tienes próximas sesiones asignadas.
+      <sc-if value="{{ !hasSesiones }}" hint-placeholder-val="">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:32px;text-align:center;color:var(--muted);font-size:13px;margin-bottom:30px">
+          <span class="ms" style="font-size:32px;color:var(--faint);display:block;margin-bottom:8px">event_available</span>
+          {{ emptyMsg }}
         </div>
       </sc-if>
 
@@ -228,6 +219,21 @@
             <div style="font-size:13.5px;color:var(--text2);line-height:1.5">{{ drawerSesion.notas }}</div>
           </div>
         </sc-if>
+        <sc-if value="{{ drawerSesion.canChangeEstado }}" hint-placeholder-val="">
+          <div style="border-top:1px solid var(--divider);padding-top:14px">
+            <div class="mono" style="font-size:10px;letter-spacing:.12em;color:var(--faint);margin-bottom:10px">REGISTRAR ESTADO</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <button onClick="{{ drawerSesion.doCheckin }}" disabled="{{ drawerSesion.saving }}" style="{{ drawerSesion.btnCheckin }}"><span class="ms" style="font-size:18px;flex-shrink:0">how_to_reg</span>Check-in / Asistencia</button>
+              <button onClick="{{ drawerSesion.doEnSimulador }}" disabled="{{ drawerSesion.saving }}" style="{{ drawerSesion.btnCurso }}"><span class="ms" style="font-size:18px;flex-shrink:0">flight_takeoff</span>En simulador</button>
+              <button onClick="{{ drawerSesion.doCompletada }}" disabled="{{ drawerSesion.saving }}" style="{{ drawerSesion.btnCompletada }}"><span class="ms" style="font-size:18px;flex-shrink:0">task_alt</span>Experiencia completada</button>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ drawerSesion.hasMsg }}" hint-placeholder-val="">
+          <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:9px;font-size:13px;font-weight:500;background:{{ drawerSesion.msgBg }};color:{{ drawerSesion.msgColor }}">
+            <span class="ms" style="font-size:17px;flex-shrink:0">{{ drawerSesion.msgIcon }}</span>{{ drawerSesion.msgText }}
+          </div>
+        </sc-if>
       </div>
     </div>
   </sc-if>
@@ -244,7 +250,12 @@ class Component extends DCLogic {
     loading: true,
     error: '',
     drawer: null,
+    drawerSaving: false,
+    drawerMsg: null,
     now: new Date(),
+    filter: 'todos',
+    customDay: '',
+    customMonth: '',
   };
 
   componentDidMount(){
@@ -257,36 +268,61 @@ class Component extends DCLogic {
   }
   componentWillUnmount(){ clearInterval(this._t); }
 
-  // Las sesiones de un instructor son las que tiene asignadas en
-  // reservation_instructors, enlazado por correo a su fila en `instructors`
-  // (no por id de auth — instructors.email es la llave compartida).
   async loadReservations(){
     this.setState({ loading: true });
-    const email = (this.state.me && this.state.me.email || '').toLowerCase();
-    const { data: inst, error: instErr } = await supabaseClient
-      .from('instructors').select('id').ilike('email', email).maybeSingle();
-    if (instErr || !inst) {
-      this.setState({ loading: false, error: 'No encontramos un perfil de instructor asociado a tu cuenta. Contacta al administrador.', reservations: [] });
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    const token = session?.access_token;
+    if (!token) {
+      this.setState({ loading: false, error: 'Sesión expirada. Recarga la página.', reservations: [] });
       return;
     }
-    const { data, error } = await supabaseClient
-      .from('reservation_instructors')
-      .select('reservation:reservation_id(*)')
-      .eq('instructor_id', inst.id);
-    if (error) { this.setState({ loading: false, error: 'No se pudieron cargar tus sesiones. Intenta de nuevo.' }); return; }
-    const rows = (data || []).map(r => r.reservation).filter(Boolean);
-    rows.sort((a, b) => (b.fecha || '').localeCompare(a.fecha || ''));
-    this.setState({ reservations: rows.map(hsMapReservation), loading: false, error: '' });
+    try {
+      const res = await fetch('/api/instructor/sessions', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        this.setState({ loading: false, error: out.error || 'No se pudieron cargar las sesiones.', reservations: [] });
+        return;
+      }
+      this.setState({ reservations: (out.sessions || []).map(hsMapReservation), loading: false, error: '' });
+    } catch(e) {
+      this.setState({ loading: false, error: 'Error de red al cargar las sesiones.', reservations: [] });
+    }
   }
   reload(){ this.loadReservations(); }
 
-  logout(){
-    hsLogout();
-  }
+  logout(){ hsLogout(); }
+  openPerfil(){}
+  openDrawer(id){ this.setState({ drawer: { id }, drawerMsg: null, drawerSaving: false }); }
+  closeDrawer(){ this.setState({ drawer: null, drawerMsg: null, drawerSaving: false }); }
 
-  openPerfil(){ /* perfil del instructor — disponible en una fase posterior */ }
-  openDrawer(id){ this.setState({ drawer: { id } }); }
-  closeDrawer(){ this.setState({ drawer: null }); }
+  async updateEstado(estado){
+    const id = this.state.drawer?.id;
+    if (!id) return;
+    this.setState({ drawerSaving: true, drawerMsg: null });
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    const token = session?.access_token;
+    try {
+      const res = await fetch('/api/instructor/reservation-estado', {
+        method: 'PATCH',
+        headers: { 'content-type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ reservationId: id, estado }),
+      });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        this.setState({ drawerSaving: false, drawerMsg: { ok: false, text: out.error || 'Error al actualizar el estado' } });
+        return;
+      }
+      this.setState(prev => ({
+        drawerSaving: false,
+        drawerMsg: { ok: true, text: 'Estado actualizado correctamente' },
+        reservations: prev.reservations.map(r => r.id === id ? { ...r, estado } : r),
+      }));
+    } catch(e) {
+      this.setState({ drawerSaving: false, drawerMsg: { ok: false, text: 'Error de red al actualizar' } });
+    }
+  }
 
   initialsOf(name){
     return (name || '').trim().split(/\s+/).map(p => p[0]).join('').slice(0, 2).toUpperCase();
@@ -294,16 +330,16 @@ class Component extends DCLogic {
 
   estadoMeta(e){
     const m = {
-      solicitud:    { label: 'Solicitud', c: '#7a6033', bg: '#F5EEDD' },
-      pendiente:    { label: 'Pendiente', c: '#9a6f0a', bg: '#FBF0D5' },
-      confirmada:   { label: 'Confirmada', c: '#2c5070', bg: '#E9F0F6' },
-      proxima:      { label: 'Próxima', c: '#2c5070', bg: '#E9F0F6' },
-      checkin:      { label: 'Check-in', c: '#0c7a82', bg: '#DDF1F2' },
-      curso:        { label: 'En curso', c: '#1d5fb0', bg: '#E3EEFB' },
-      completada:   { label: 'Completada', c: '#227a45', bg: '#E6F4EC' },
-      cancelada:    { label: 'Cancelada', c: '#b13838', bg: '#FBEAEA' },
+      solicitud:    { label: 'Solicitud',    c: '#7a6033', bg: '#F5EEDD' },
+      pendiente:    { label: 'Pendiente',    c: '#9a6f0a', bg: '#FBF0D5' },
+      confirmada:   { label: 'Confirmada',   c: '#2c5070', bg: '#E9F0F6' },
+      proxima:      { label: 'Próxima',      c: '#2c5070', bg: '#E9F0F6' },
+      checkin:      { label: 'Check-in',     c: '#0c7a82', bg: '#DDF1F2' },
+      curso:        { label: 'En curso',     c: '#1d5fb0', bg: '#E3EEFB' },
+      completada:   { label: 'Completada',   c: '#227a45', bg: '#E6F4EC' },
+      cancelada:    { label: 'Cancelada',    c: '#b13838', bg: '#FBEAEA' },
       reprogramada: { label: 'Reprogramada', c: '#5848c0', bg: '#EEEBFB' },
-      noasistio:    { label: 'No asistió', c: '#6b6356', bg: '#EFECE5' },
+      noasistio:    { label: 'No asistió',   c: '#6b6356', bg: '#EFECE5' },
     };
     return m[e] || m.pendiente;
   }
@@ -315,14 +351,27 @@ class Component extends DCLogic {
     const m = { pendiente:'Pago pendiente', abono:'Abono registrado', pagado:'Pagado', vencido:'Pago vencido', reembolso:'Reembolso' };
     return m[p] || p;
   }
-  servicioLabel(s){
-    return s === 'hs' ? 'Hold Short Service' : 'Piloto por un Día';
-  }
+  servicioLabel(s){ return s === 'hs' ? 'Hold Short Service' : 'Piloto por un Día'; }
   cop(n){ return '$' + new Intl.NumberFormat('es-CO').format(n || 0); }
 
   todayISO(){
     const d = new Date();
     return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  tomorrowISO(){
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  weekBounds(){
+    const now = new Date();
+    const day = now.getDay();
+    const toMon = day === 0 ? -6 : 1 - day;
+    const toSun = day === 0 ? 0 : 7 - day;
+    const mon = new Date(now); mon.setDate(now.getDate() + toMon);
+    const sun = new Date(now); sun.setDate(now.getDate() + toSun);
+    const fmt = d => d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    return { start: fmt(mon), end: fmt(sun) };
   }
   fechaCorta(iso){
     const d = new Date(iso + 'T00:00:00');
@@ -343,7 +392,7 @@ class Component extends DCLogic {
     return {
       id: r.id,
       cliente: r.clienteNombre || 'Cliente',
-      paquete: r.paquete,
+      paquete: r.paquete || '—',
       simulador: r.simulador || '—',
       horario: this.horario(r),
       hi: r.horaInicio || '—',
@@ -359,11 +408,26 @@ class Component extends DCLogic {
   renderVals(){
     const s = this.state;
     const today = this.todayISO();
-    const all = [...s.reservations].sort((a,b) => (a.fecha+a.horaInicio).localeCompare(b.fecha+b.horaInicio));
+    const tomorrow = this.tomorrowISO();
+    const { start: weekStart, end: weekEnd } = this.weekBounds();
 
-    const hoyList = all.filter(r => r.fecha === today);
-    const proximasList = all.filter(r => r.fecha > today);
-    const completadasMes = all.filter(r => r.estado === 'completada' && r.fecha.slice(0,7) === today.slice(0,7));
+    const allSorted = [...s.reservations].sort((a,b) =>
+      (a.fecha + (a.horaInicio||'')).localeCompare(b.fecha + (b.horaInicio||''))
+    );
+
+    let filtered;
+    switch(s.filter){
+      case 'hoy':    filtered = allSorted.filter(r => r.fecha === today); break;
+      case 'manana': filtered = allSorted.filter(r => r.fecha === tomorrow); break;
+      case 'semana': filtered = allSorted.filter(r => r.fecha >= weekStart && r.fecha <= weekEnd); break;
+      case 'dia':    filtered = s.customDay ? allSorted.filter(r => r.fecha === s.customDay) : []; break;
+      case 'mes':    filtered = s.customMonth ? allSorted.filter(r => r.fecha.startsWith(s.customMonth)) : []; break;
+      default:       filtered = allSorted;
+    }
+
+    const hoyList = allSorted.filter(r => r.fecha === today);
+    const proximasList = allSorted.filter(r => r.fecha > today);
+    const completadasMes = allSorted.filter(r => r.estado === 'completada' && r.fecha.slice(0,7) === today.slice(0,7));
 
     const hours = s.now.getHours();
     const saludo = hours < 12 ? 'Buenos días' : hours < 19 ? 'Buenas tardes' : 'Buenas noches';
@@ -371,11 +435,39 @@ class Component extends DCLogic {
     const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
     const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
 
-    let drawerSesion = { code:'', cliente:'', paquete:'', simulador:'', servicioLabel:'', fechaLarga:'', horario:'', estadoLabel:'', estadoColor:'', estadoBg:'', pagoLabel:'', totalFmt:'', abonoFmt:'', notas:'', hasNotas:false };
+    const PA = 'height:32px;padding:0 14px;border-radius:20px;border:1px solid #16181c;background:#16181c;color:#fff;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit';
+    const PI = 'height:32px;padding:0 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit';
+
+    const titulos = { todos:'Todas las sesiones', hoy:'Sesiones de hoy', manana:'Sesiones de mañana', semana:'Esta semana', dia:'Sesiones del día', mes:'Sesiones del mes' };
+    const emptyMsgs = {
+      todos:  'No tienes sesiones asignadas.',
+      hoy:    'No tienes sesiones programadas para hoy.',
+      manana: 'No tienes sesiones para mañana.',
+      semana: 'No tienes sesiones esta semana.',
+      dia:    s.customDay    ? 'No hay sesiones para esta fecha.' : 'Selecciona una fecha.',
+      mes:    s.customMonth  ? 'No hay sesiones para este mes.'   : 'Selecciona un mes.',
+    };
+
+    const TERMINAL_ESTADOS = ['cancelada', 'reprogramada', 'noasistio'];
+    const BB = 'width:100%;height:42px;padding:0 14px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:10px;font-family:inherit;text-align:left';
+    const btnFor = (active, color, bg) => active
+      ? `${BB};background:${bg};border:2px solid ${color};color:${color}`
+      : `${BB};background:var(--chip);border:1px solid var(--border);color:var(--text2)`;
+
+    const msg = s.drawerMsg;
+    let drawerSesion = {
+      code:'', cliente:'', paquete:'', simulador:'', servicioLabel:'', fechaLarga:'', horario:'',
+      estadoLabel:'', estadoColor:'', estadoBg:'', pagoLabel:'', totalFmt:'', abonoFmt:'', notas:'', hasNotas:false,
+      canChangeEstado: false, saving: false,
+      btnCheckin: btnFor(false,'',''), btnCurso: btnFor(false,'',''), btnCompletada: btnFor(false,'',''),
+      doCheckin:()=>{}, doEnSimulador:()=>{}, doCompletada:()=>{},
+      hasMsg: false, msgBg:'', msgColor:'', msgIcon:'', msgText:'',
+    };
     if (s.drawer) {
       const r = s.reservations.find(x => x.id === s.drawer.id);
       if (r) {
         const em = this.estadoMeta(r.estado);
+        const canChange = !TERMINAL_ESTADOS.includes(r.estado);
         drawerSesion = {
           code: r.code,
           cliente: r.clienteNombre || 'Cliente',
@@ -390,9 +482,24 @@ class Component extends DCLogic {
           abonoFmt: this.cop(r.abono),
           notas: r.notas || '',
           hasNotas: !!r.notas,
+          canChangeEstado: canChange,
+          saving: s.drawerSaving,
+          btnCheckin:    btnFor(r.estado === 'checkin',    '#0c7a82', '#DDF1F2'),
+          btnCurso:      btnFor(r.estado === 'curso',      '#1d5fb0', '#E3EEFB'),
+          btnCompletada: btnFor(r.estado === 'completada', '#227a45', '#E6F4EC'),
+          doCheckin:     () => this.updateEstado('checkin'),
+          doEnSimulador: () => this.updateEstado('curso'),
+          doCompletada:  () => this.updateEstado('completada'),
+          hasMsg: !!msg,
+          msgBg:    msg?.ok ? '#E6F4EC' : '#FBEAEA',
+          msgColor: msg?.ok ? '#227a45' : '#b13838',
+          msgIcon:  msg?.ok ? 'check_circle' : 'error',
+          msgText:  msg?.text || '',
         };
       }
     }
+
+    const n = filtered.length;
 
     return {
       authReady: s.authReady,
@@ -411,10 +518,31 @@ class Component extends DCLogic {
       kpiHoy: hoyList.length,
       kpiProximas: proximasList.length,
       kpiCompletadas: completadasMes.length,
-      hasHoy: hoyList.length > 0,
-      sesionesHoy: hoyList.map(r => this.buildItem(r)),
-      hasProximas: proximasList.length > 0,
-      sesionesProximas: proximasList.map(r => this.buildItem(r)),
+      // Filter bar
+      pillTodos:  s.filter === 'todos'  ? PA : PI,
+      pillHoy:    s.filter === 'hoy'    ? PA : PI,
+      pillManana: s.filter === 'manana' ? PA : PI,
+      pillSemana: s.filter === 'semana' ? PA : PI,
+      pillDia:    s.filter === 'dia'    ? PA : PI,
+      pillMes:    s.filter === 'mes'    ? PA : PI,
+      doFilterTodos:  () => this.setState({ filter: 'todos' }),
+      doFilterHoy:    () => this.setState({ filter: 'hoy' }),
+      doFilterManana: () => this.setState({ filter: 'manana' }),
+      doFilterSemana: () => this.setState({ filter: 'semana' }),
+      doFilterDia:    () => this.setState({ filter: 'dia' }),
+      doFilterMes:    () => this.setState({ filter: 'mes' }),
+      showCustomDay: s.filter === 'dia',
+      showCustomMes: s.filter === 'mes',
+      customDay:   s.customDay,
+      customMonth: s.customMonth,
+      onCustomDay:   (e) => this.setState({ customDay: e.target.value }),
+      onCustomMonth: (e) => this.setState({ customMonth: e.target.value }),
+      // Session list
+      seccionTitulo: titulos[s.filter] || 'Sesiones',
+      totalLabel: n === 1 ? '1 sesión' : n > 1 ? `${n} sesiones` : '',
+      hasSesiones: n > 0,
+      sesiones: filtered.map(r => this.buildItem(r)),
+      emptyMsg: emptyMsgs[s.filter] || 'No hay sesiones.',
       drawerOpen: !!s.drawer,
       closeDrawer: () => this.closeDrawer(),
       drawerSesion,
