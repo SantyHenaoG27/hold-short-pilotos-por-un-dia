@@ -257,16 +257,26 @@ class Component extends DCLogic {
   }
   componentWillUnmount(){ clearInterval(this._t); }
 
-  loadReservations(){
+  // Las sesiones de un instructor son las que tiene asignadas en
+  // reservation_instructors, enlazado por correo a su fila en `instructors`
+  // (no por id de auth — instructors.email es la llave compartida).
+  async loadReservations(){
     this.setState({ loading: true });
-    return supabaseClient
-      .from('reservations')
-      .select('*')
-      .order('fecha', { ascending: false })
-      .then(({ data, error }) => {
-        if (error) { this.setState({ loading: false, error: 'No se pudieron cargar tus sesiones. Intenta de nuevo.' }); return; }
-        this.setState({ reservations: (data || []).map(hsMapReservation), loading: false, error: '' });
-      });
+    const email = (this.state.me && this.state.me.email || '').toLowerCase();
+    const { data: inst, error: instErr } = await supabaseClient
+      .from('instructors').select('id').ilike('email', email).maybeSingle();
+    if (instErr || !inst) {
+      this.setState({ loading: false, error: 'No encontramos un perfil de instructor asociado a tu cuenta. Contacta al administrador.', reservations: [] });
+      return;
+    }
+    const { data, error } = await supabaseClient
+      .from('reservation_instructors')
+      .select('reservation:reservation_id(*)')
+      .eq('instructor_id', inst.id);
+    if (error) { this.setState({ loading: false, error: 'No se pudieron cargar tus sesiones. Intenta de nuevo.' }); return; }
+    const rows = (data || []).map(r => r.reservation).filter(Boolean);
+    rows.sort((a, b) => (b.fecha || '').localeCompare(a.fecha || ''));
+    this.setState({ reservations: rows.map(hsMapReservation), loading: false, error: '' });
   }
   reload(){ this.loadReservations(); }
 

@@ -1,8 +1,26 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="assets/hangar-emblem-nobg.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/hangar-emblem-nobg.png">
+<title>Hangar 1903 | Hold Short: sé piloto por un día en simulador profesional</title>
+<meta name="description" content="Hangar 1903 te invita a vivir Hold Short: la experiencia de ser piloto por un día en un simulador profesional. Sin experiencia, sin licencia. Solo atrévete a sentarte en la cabina.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.hangar1903.com/">
+<meta name="theme-color" content="#09101f">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hangar 1903">
+<meta property="og:locale" content="es_CO">
+<meta property="og:url" content="https://www.hangar1903.com/">
+<meta property="og:title" content="Hangar 1903 | Hold Short: sé piloto por un día en simulador profesional">
+<meta property="og:description" content="Hangar 1903 te invita a vivir Hold Short: la experiencia de ser piloto por un día en un simulador profesional. Sin experiencia, sin licencia. Solo atrévete a sentarte en la cabina.">
+<meta property="og:image" content="https://www.hangar1903.com/assets/sim-b200.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hangar 1903 | Hold Short: sé piloto por un día en simulador profesional">
+<meta name="twitter:description" content="Hangar 1903 te invita a vivir Hold Short: la experiencia de ser piloto por un día en un simulador profesional. Sin experiencia, sin licencia. Solo atrévete a sentarte en la cabina.">
+<meta name="twitter:image" content="https://www.hangar1903.com/assets/sim-b200.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -14,6 +32,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/supabase-client.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 </head>
 <body>
 <x-dc>
@@ -160,6 +179,13 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
   .hs-tagline-wrap{gap:6px!important}
   .hs-tagline-text{font-size:8.5px!important;letter-spacing:.11em!important}
 }
+
+.hs-wa-float{position:fixed;right:24px;bottom:24px;z-index:150;width:58px;height:58px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.4);animation:hs-wa-pulse 2.6s ease-out infinite;transition:transform .2s}
+.hs-wa-float:hover{transform:scale(1.07)}
+.hs-wa-float svg{width:30px;height:30px;display:block}
+@keyframes hs-wa-pulse{0%{box-shadow:0 6px 18px rgba(0,0,0,.4),0 0 0 0 rgba(37,211,102,.55)}70%{box-shadow:0 6px 18px rgba(0,0,0,.4),0 0 0 14px rgba(37,211,102,0)}100%{box-shadow:0 6px 18px rgba(0,0,0,.4),0 0 0 0 rgba(37,211,102,0)}}
+@media(prefers-reduced-motion:reduce){.hs-wa-float{animation:none}}
+@media(max-width:560px){.hs-wa-float{right:14px;bottom:calc(14px + env(safe-area-inset-bottom));width:52px;height:52px}.hs-wa-float svg{width:27px;height:27px}}
 </style>
 </helmet>
 <div ref="{{ rootRef }}" style="background:#080f1e;color:#fbfcff;font-family:Inter,system-ui,sans-serif;min-height:100vh;overflow-x:hidden;position:relative">
@@ -191,6 +217,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
   </nav>
 
   <div role="dialog" aria-modal="true" aria-label="Menú de navegación" style="{{ mobilePanelStyle }}">
+    <button onClick="{{ closeMenu }}" aria-label="Cerrar menú" style="position:absolute;top:18px;right:18px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(248,81,73,.12);border:1.5px solid rgba(248,81,73,.45);border-radius:50%;color:#f85149;font-size:24px;line-height:1;cursor:pointer">×</button>
     <div style="display:flex;flex-direction:column;gap:4px;padding:90px 28px 28px">
       <div style="font-family:'JetBrains Mono',monospace;color:#a8b5c7;font-size:10px;letter-spacing:.18em;margin-bottom:14px">// INSTRUMENT PANEL</div>
       <a href="#simuladores" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.experiencia }}</a>
@@ -360,6 +387,36 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
         <div style="text-align:center;margin-top:22px;padding-top:16px;border-top:1px solid rgba(139,151,166,.07)">
           <button onClick="{{ openAdminLogin }}" style="background:none;border:0;color:#2a3a4a;font-size:11px;cursor:pointer;font-family:Inter,sans-serif">Acceso instructor / admin</button>
         </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ docPreviewOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeDocPreview }}" style="position:fixed;inset:0;z-index:250;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(5,9,18,.92);backdrop-filter:blur(8px)">
+      <div onClick="{{ stopProp }}" style="position:relative;width:100%;max-width:560px;max-height:92vh;display:flex;flex-direction:column;background:#0b1420;border:1px solid rgba(245,197,66,.25);border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.7)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(245,197,66,.12);flex-shrink:0">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;color:#fbfcff;letter-spacing:.02em">{{ docPreviewTitle }}</div>
+          <button onClick="{{ closeDocPreview }}" style="background:none;border:0;color:#a8b5c7;font-size:22px;cursor:pointer;line-height:1;padding:0 4px">×</button>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:16px;display:flex;align-items:center;justify-content:center;background:#070d16">
+          <sc-if value="{{ docPreviewLoading }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center;padding:40px 0;font-family:Inter,sans-serif;font-size:13px;color:#a8b5c7">Generando documento…</div>
+          </sc-if>
+          <sc-if value="{{ docPreviewReady }}" hint-placeholder-val="{{ false }}">
+            <img src="{{ docPreviewImg }}" style="max-width:100%;display:block;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.4)"/>
+          </sc-if>
+        </div>
+        <sc-if value="{{ docPreviewReady }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;padding:14px 16px;border-top:1px solid rgba(245,197,66,.12);flex-shrink:0">
+            <sc-if value="{{ canShare }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ shareDocPreview }}" style="flex:1 1 130px;display:flex;align-items:center;justify-content:center;gap:7px;background:rgba(245,197,66,.07);border:1px solid rgba(245,197,66,.25);color:#f5c542;padding:11px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">↗ Compartir / Guardar</button>
+            </sc-if>
+            <button onClick="{{ downloadDocPreview }}" style="flex:1 1 130px;display:flex;align-items:center;justify-content:center;gap:7px;background:#f5c542;color:#160f05;border:0;padding:11px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif">⬇ Descargar imagen</button>
+            <sc-if value="{{ docPreviewAllowPdf }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ downloadPdfPreview }}" style="flex:1 1 130px;display:flex;align-items:center;justify-content:center;gap:7px;background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.3);color:#60a5fa;padding:11px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif">📄 Descargar PDF</button>
+            </sc-if>
+          </div>
+        </sc-if>
       </div>
     </div>
   </sc-if>
@@ -578,10 +635,10 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:16px">
-          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-1" shape="rect" placeholder="{{ t.sims.slotCabin }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(245,197,66,.12)"></image-slot></div>
-          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-2" shape="rect" placeholder="{{ t.sims.slotInstruments }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(245,197,66,.12)"></image-slot></div>
-          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-3" shape="rect" placeholder="{{ t.sims.slotInstructor }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(245,197,66,.12)"></image-slot></div>
-          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-4" shape="rect" placeholder="{{ t.sims.slotAmbiente }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(245,197,66,.12)"></image-slot></div>
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-1" src="assets/sim-cabina.webp" fit="cover" shape="rect" placeholder="{{ t.sims.slotCabin }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(245,197,66,.12)"></image-slot></div>
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-2" src="assets/sim-instrumentos.webp" fit="cover" shape="rect" placeholder="{{ t.sims.slotInstruments }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(245,197,66,.12)"></image-slot></div>
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-3" src="assets/sim-instructor.webp" fit="cover" shape="rect" placeholder="{{ t.sims.slotInstructor }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(245,197,66,.12)"></image-slot></div>
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="sim-4" src="assets/sim-ambiente.webp" fit="cover" shape="rect" placeholder="{{ t.sims.slotAmbiente }}" style="position:absolute;inset:0;width:100%;height:100%;border-radius:7px;background:#101010;border:1px solid rgba(245,197,66,.12)"></image-slot></div>
         </div>
       </div>
     </section>
@@ -1105,6 +1162,9 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                         </sc-for>
                       </div>
                     </sc-if>
+                    <sc-if value="{{ dateIsBlocked }}" hint-placeholder-val="{{ false }}">
+                      <div style="font-family:Inter,sans-serif;font-size:12.5px;color:#fca5a5;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.25);border-radius:7px;padding:10px 12px;line-height:1.5">⚠ El simulador no está disponible esta fecha por mantenimiento programado. Elige otro día.</div>
+                    </sc-if>
                   </div>
                 </sc-if>
                 <div>
@@ -1118,15 +1178,21 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                   <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>{{ t.pkgs.booking.whatsappContacto }}</label>
                   <div style="position:relative">
                     <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">📱</span>
-                    <input type="tel" value="{{ bPhone }}" onChange="{{ setPhone }}" placeholder="+57 300 000 0000" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:16px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
+                    <input type="tel" value="{{ bPhone }}" onChange="{{ setPhone }}" placeholder="+57 300 000 0000" style="width:100%;background:#050a10;border:1.5px solid {{ phoneBorderColor }};border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:16px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
                   </div>
+                  <sc-if value="{{ phoneInvalid }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-family:Inter,sans-serif;font-size:11.5px;color:#fca5a5;margin-top:6px">Ingresa un número de WhatsApp válido (mínimo 7 dígitos).</div>
+                  </sc-if>
                 </div>
                 <div>
                   <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>Correo electrónico</label>
                   <div style="position:relative">
                     <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;line-height:1">✉️</span>
-                    <input type="email" value="{{ bEmail }}" onChange="{{ setEmail }}" placeholder="tu@correo.com" style="width:100%;background:#050a10;border:1.5px solid rgba(139,151,166,.2);border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:16px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
+                    <input type="email" value="{{ bEmail }}" onChange="{{ setEmail }}" placeholder="tu@correo.com" style="width:100%;background:#050a10;border:1.5px solid {{ emailBorderColor }};border-radius:8px;padding:13px 14px 13px 44px;color:#fbfcff;font-size:16px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#f5c542;box-shadow:0 0 0 3px rgba(245,197,66,.1)" />
                   </div>
+                  <sc-if value="{{ emailInvalid }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-family:Inter,sans-serif;font-size:11.5px;color:#fca5a5;margin-top:6px">Ingresa un correo electrónico válido (ej. tu@correo.com).</div>
+                  </sc-if>
                 </div>
                 <div>
                   <label style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;color:#c8d4e0;text-transform:uppercase;margin-bottom:7px"><span style="width:2px;height:11px;background:#f5c542;border-radius:1px;flex-shrink:0;opacity:.85"></span>Segundo participante <span style="color:#405060;font-weight:400;font-size:8px">(opcional)</span></label>
@@ -1136,6 +1202,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                   </div>
                 </div>
                 <button onClick="{{ submitBooking }}" style="{{ submitStyle }}">{{ submitLabel }}</button>
+                <div style="font-family:Inter,sans-serif;font-size:11px;color:#5a6b80;line-height:1.5;text-align:center;margin-top:-4px">Al reservar aceptas nuestra <a href="/privacidad/" target="_blank" style="color:#7f8fa3;text-decoration:underline">Política de Privacidad</a></div>
                 <sc-if value="{{ hasBookError }}" hint-placeholder-val="{{ false }}">
                   <div style="background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.3);border-radius:6px;padding:12px 14px;font-size:13px;color:#fca5a5;line-height:1.5;margin-top:-8px">⚠ {{ bookError }}</div>
                 </sc-if>
@@ -1246,7 +1313,8 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
   <footer style="border-top:1px solid rgba(245,197,66,.18);background:linear-gradient(180deg,#0c1628,#080f1e);padding:clamp(40px,6vw,72px) clamp(20px,5vw,64px)">
     <div style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;align-items:flex-start">
       <div style="max-width:360px">
-        <img src="assets/logo-lockup.jpg" alt="Hold Short Aviation" style="height:42px;width:auto;display:block;margin-bottom:18px"/>
+        <img src="assets/hangar-emblem-nobg.png" alt="HANGAR 1903" style="height:62px;width:auto;display:block;margin-bottom:10px;filter:invert(1) sepia(1) saturate(6) hue-rotate(-10deg) brightness(1.1) contrast(1.1)"/>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:18px"><span style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#7f8fa3;text-transform:uppercase">Powered by</span><img src="assets/logo.png" alt="Hold Short" style="height:13px"/></div>
         <p style="font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:#a8b5c7;margin:0">{{ t.footer.about }}</p>
       </div>
       <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1;color:#d8e0ea;display:grid;gap:16px">
@@ -1254,11 +1322,16 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
         <a href="https://www.instagram.com/holdshortpei/" target="_blank" style="color:#d8e0ea;text-decoration:none;display:flex;gap:14px" style-hover="color:#f5c542"><span style="color:#a8b5c7;width:84px;display:inline-block">Instagram</span> @holdshortpei</a>
       </div>
     </div>
-    <div style="max-width:1100px;margin:40px auto 0;padding-top:22px;border-top:1px solid rgba(245,197,66,.12);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#7f8fa3;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between">
-      <span>© 2026 HOLD SHORT AVIATION</span>
+    <div style="max-width:1100px;margin:40px auto 0;padding-top:22px;border-top:1px solid rgba(245,197,66,.12);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#7f8fa3;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center">
+      <span>© 2026 HANGAR 1903</span>
+      <a href="/privacidad/" style="color:#7f8fa3;text-decoration:underline">Política de Privacidad</a>
       <span style="color:#f5c542">BE: AIRLINE MINDED</span>
     </div>
   </footer>
+
+  <a href="{{ waGeneral }}" target="_blank" rel="noopener" class="hs-wa-float" aria-label="Chatear por WhatsApp">
+    <svg viewBox="0 0 32 32" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M16.004 3C9.06 3 3.43 8.62 3.43 15.56c0 2.45.71 4.73 1.93 6.66L3 29l6.98-2.32a12.6 12.6 0 0 0 6.02 1.53h.01c6.94 0 12.57-5.62 12.57-12.56C28.58 8.7 22.95 3 16.004 3Zm7.39 17.83c-.31.87-1.8 1.66-2.48 1.76-.63.1-1.43.14-2.3-.15-.53-.17-1.21-.4-2.08-.78-3.66-1.58-6.05-5.28-6.24-5.53-.18-.25-1.48-1.97-1.48-3.76s.93-2.66 1.26-3.02c.32-.36.71-.45.94-.45.24 0 .47 0 .68.01.22.01.51-.08.8.62.31.74 1.04 2.56 1.13 2.75.1.18.16.4.03.64-.13.24-.2.39-.39.6-.2.21-.4.47-.57.63-.2.19-.4.4-.18.79.23.4 1.02 1.7 2.2 2.75 1.51 1.35 2.79 1.77 3.2 1.96.31.15.51.13.7-.07.2-.21.84-.97 1.07-1.31.22-.33.45-.27.75-.16.31.11 1.98.93 2.31 1.1.34.17.56.25.65.39.08.14.08.81-.23 1.68Z"/></svg>
+  </a>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
@@ -1274,7 +1347,7 @@ const I18N = {
       p3:'Hoy tú vas a empezar a desarrollarlas también.' },
     sims: { badge:'// Paseo por los simuladores', h2:'Antes de volar, conoce tu cabina.',
       pPre:'Cuando llegas, lo primero es recorrer el simulador. Verás la cabina del ', pPost:' — los mismos equipos de los pilotos profesionales. Sentirás el cockpit, los instrumentos encendidos. Entenderás por primera vez por qué esta profesión engancha para siempre.',
-      placeholderMain:'Arrastra una foto del simulador', slotCabin:'Cabina A320', slotInstruments:'Instrumentos encendidos', slotInstructor:'Instructor en cabina', slotAmbiente:'Ambiente de vuelo',
+      placeholderMain:'Arrastra una foto del simulador', slotCabin:'Cabina King Air B200', slotInstruments:'Instrumentos encendidos', slotInstructor:'Instructor en cabina', slotAmbiente:'Ambiente de vuelo',
 },
     fases: {
       badge:'// Experiencia paso a paso', h2:'Tu vuelo, fase por fase.', p:'Recórrelo de arriba abajo. Cada estación es una parada en tu preparación — todo a la vista, sin prisa.',
@@ -1350,7 +1423,7 @@ const I18N = {
       p3:'Today, you’re going to start developing them too.' },
     sims: { badge:'// A walk through our simulators', h2:'Before you fly, meet your cockpit.',
       pPre:'When you arrive, the first thing we do is walk through the simulator. You’ll see the cockpit of the ', pPost:' — the same equipment professional pilots use. You’ll feel the cockpit, the instruments powered on. You’ll understand for the first time why this profession hooks you for life.',
-      placeholderMain:'Drag a simulator photo here', slotCabin:'A320 cockpit', slotInstruments:'Instruments powered on', slotInstructor:'Instructor in cockpit', slotAmbiente:'Flight atmosphere',
+      placeholderMain:'Drag a simulator photo here', slotCabin:'King Air B200 cockpit', slotInstruments:'Instruments powered on', slotInstructor:'Instructor in cockpit', slotAmbiente:'Flight atmosphere',
 },
     fases: {
       badge:'// Step-by-step experience', h2:'Your flight, phase by phase.', p:'Go through it from top to bottom. Each station is a stop in your preparation — everything in view, no rush.',
@@ -1439,9 +1512,10 @@ function hsOpenPrint(body,label,code){
 }
 class Component extends DCLogic {
   state = { menu:false, openPhase:1, route:'express', openFaq:0, flip:{}, compass:0, cSel:'N', chatLines:[],
-            calY:0, calM:0, selDate:null, bName:'', bPhone:'', bEmail:'', bGiftFor:'', bGiftName:'', bGiftMsg:'', bPkg:'aventurero', booked:false, ticket:null, bookFor:null, bookLoading:false, bookError:null, selSlot:null, availSlots:[], slotsLoading:false, bParticipant2:'',
+            calY:0, calM:0, selDate:null, bName:'', bPhone:'', bEmail:'', bGiftFor:'', bGiftName:'', bGiftMsg:'', bPkg:'aventurero', booked:false, ticket:null, bookFor:null, bookLoading:false, bookError:null, selSlot:null, availSlots:[], slotsLoading:false, bParticipant2:'', simMaintenance:null,
             lang:(typeof localStorage!=='undefined' && localStorage.getItem('hs_lang')==='en')?'en':'es',
-            authOpen:false, authMode:'login', authEmail:'', authPassword:'', authName:'', authPhone:'', authError:'', authLoading:false, portalOpen:false, portalEmail:'', portalLoading:false, portalError:'', portalReservas:[], portalFound:false, portalSelectedId:null };
+            authOpen:false, authMode:'login', authEmail:'', authPassword:'', authName:'', authPhone:'', authError:'', authLoading:false, portalOpen:false, portalEmail:'', portalLoading:false, portalError:'', portalReservas:[], portalFound:false, portalSelectedId:null,
+            docPreviewOpen:false, docPreviewLoading:false, docPreviewImg:null, docPreviewTitle:'', docPreviewFilename:'', docPreviewAllowPdf:false, docPreviewImgW:0, docPreviewImgH:0 };
 
   PKGS = {
     aventurero:{ key:'aventurero', tag:'EXPRESS', cop:'280.000', dur:'1 h 20 min' },
@@ -1475,6 +1549,7 @@ class Component extends DCLogic {
       (this.rootEl||document).querySelectorAll('section[id]').forEach(s=>this._animObs.observe(s));
     }
     this.startChat();
+    this.loadSimMaintenance();
     // Handle browser back button from ticket
     window.addEventListener('popstate',()=>{ if(this.state.booked) this.resetBooking(); });
     var _rq=new URLSearchParams(window.location.search).get('reserva');
@@ -1619,14 +1694,26 @@ class Component extends DCLogic {
   }
 
   // ---- Booking ----
+  async loadSimMaintenance(){
+    try{
+      const {data}=await supabaseClient.from('settings').select('value').eq('key','simulator_maintenance_SIM-01').maybeSingle();
+      if(data && data.value && data.value.activo) this.setState({simMaintenance:data.value});
+    }catch(e){ console.warn('loadSimMaintenance failed', e); }
+  }
+  // fecha en formato YYYY-MM-DD
+  isDateBlocked(fecha){
+    const m=this.state.simMaintenance;
+    return !!(m && m.activo && fecha>=m.desde && fecha<=m.hasta);
+  }
   todayMid(){ const t=new Date(); t.setHours(0,0,0,0); return t; }
   canPrev(){ const n=this.todayMid(); return (this.state.calY>n.getFullYear())||(this.state.calY===n.getFullYear()&&this.state.calM>n.getMonth()); }
   prevMonth(){ if(!this.canPrev())return; let m=this.state.calM-1,y=this.state.calY; if(m<0){m=11;y--;} this.setState({calM:m,calY:y}); }
   nextMonth(){ let m=this.state.calM+1,y=this.state.calY; if(m>11){m=0;y++;} this.setState({calM:m,calY:y}); }
   async selectDate(y,m,d,pkg){
     const p=pkg||this.state.bPkg;
-    this.setState({selDate:{y,m,d},selSlot:null,availSlots:[],slotsLoading:true});
     const fecha=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    if(this.isDateBlocked(fecha)){ this.setState({selDate:{y,m,d},selSlot:null,availSlots:[],slotsLoading:false}); return; }
+    this.setState({selDate:{y,m,d},selSlot:null,availSlots:[],slotsLoading:true});
     try{
       const {data}=await supabaseClient.from('v_availability').select('hora_inicio,hora_fin').eq('fecha',fecha).eq('simulador','King Air B200');
       const booked=data||[];
@@ -1653,16 +1740,20 @@ class Component extends DCLogic {
     for(let i=0;i<lead;i++) cells.push({key:'b'+i,empty:true,day:'',style:{aspectRatio:'1'}});
     for(let d=1;d<=days;d++){
       const dt=new Date(y,m,d); dt.setHours(0,0,0,0);
-      const past=dt<today;
+      const fecha=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+      const blocked=this.isDateBlocked(fecha);
+      const past=dt<today||blocked;
       const isSel=sel&&sel.y===y&&sel.m===m&&sel.d===d;
       const isToday=dt.getTime()===today.getTime();
       cells.push({ key:'d'+d, empty:false, day:d, past, isSel, isToday,
         onClick: past?null:()=>this.selectDate(y,m,d),
+        title: blocked?'No disponible · simulador en mantenimiento':'',
         style:{ aspectRatio:'1', minHeight:'40px', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'7px',
           fontFamily:"'JetBrains Mono',monospace", fontSize:'13px', fontWeight:isSel?700:500,
           cursor:past?'not-allowed':'pointer',
-          color: isSel?'#160f05': past?'#394657':'#f2f5f9',
-          background: isSel?'#f5c542': 'transparent',
+          color: isSel?'#160f05': blocked?'#7a3a3a': dt<today?'#394657':'#f2f5f9',
+          background: isSel?'#f5c542': blocked?'rgba(220,38,38,.08)':'transparent',
+          textDecoration: blocked?'line-through':'none',
           border:'1px solid '+(isSel?'#f5c542': isToday?'rgba(245,197,66,.5)':'transparent'),
           transition:'all .15s' } });
     }
@@ -1681,14 +1772,19 @@ class Component extends DCLogic {
     return this.dateLongFor(s, this.state.lang);
   }
   hashCode(str){ let h=0; for(let i=0;i<str.length;i++){ h=((h<<5)-h+str.charCodeAt(i))|0; } return Math.abs(h); }
+  isValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
+  isValidPhone(v){ const digits=v.replace(/\D/g,''); return digits.length>=7 && digits.length<=15; }
   async submitBooking(){
     if(!(this.state.bName.trim()&&this.state.bPhone.trim()&&this.state.bEmail.trim()&&this.state.selDate&&this.state.selSlot)) return;
+    if(!this.isValidEmail(this.state.bEmail)){ this.setState({bookError:'Ingresa un correo electrónico válido.'}); return; }
+    if(!this.isValidPhone(this.state.bPhone)){ this.setState({bookError:'Ingresa un número de WhatsApp válido.'}); return; }
+    const sd=this.state.selDate;
+    const fecha=sd.y+'-'+String(sd.m+1).padStart(2,'0')+'-'+String(sd.d).padStart(2,'0');
+    if(this.isDateBlocked(fecha)){ this.setState({bookError:'Esa fecha ya no está disponible (mantenimiento del simulador). Elige otro día.', selSlot:null, availSlots:[]}); return; }
     if(this.state.bookLoading) return;
     this.setState({bookLoading:true, bookError:null});
     const p=this.PKGS[this.state.bPkg];
     const seed=this.hashCode(this.state.bName+this.selDateStr()+p.key);
-    const sd=this.state.selDate;
-    const fecha=sd.y+'-'+String(sd.m+1).padStart(2,'0')+'-'+String(sd.d).padStart(2,'0');
     const totalMap={aventurero:280000, comandante:370000};
     const { data, error } = await supabaseClient.from('reservations').insert({
       cliente_nombre: this.state.bName.trim(),
@@ -1716,9 +1812,23 @@ class Component extends DCLogic {
     const seat=(1+seed%30)+['A','B','C','D'][seed%4];
     const gate=String(1+seed%18).padStart(2,'0');
     this.setState({ bookLoading:false, booked:true, ticket:{ name:this.state.bName.trim().toUpperCase(), phone:this.state.bPhone.trim(),
-      pkgKey:p.key, selDate:{...this.state.selDate}, flight, seat, gate, email:this.state.bEmail.trim(), qrToken, timeSlot:this.state.selSlot?this.state.selSlot.start+' – '+this.state.selSlot.end:'', companion:this.state.bParticipant2.trim() } }); history.pushState({hsTicket:true},''); setTimeout(function(){var el=document.querySelector('[data-ticket-anchor]');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120);
+      pkgKey:p.key, selDate:{...this.state.selDate}, flight, seat, gate, email:this.state.bEmail.trim(), qrToken, timeSlot:this.state.selSlot?this.state.selSlot.start+' – '+this.state.selSlot.end:'', companion:this.state.bParticipant2.trim() } }); history.pushState({hsTicket:true},''); this._scrollToWhenReady('[data-ticket-anchor]');
   }
-  resetBooking(){ this.setState({booked:false, bookFor:null, bookError:null, selSlot:null, availSlots:[], bParticipant2:'', bGiftMsg:''}); setTimeout(function(){var el=document.getElementById('reservar');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120); }
+  // setTimeout(…,120) raced ahead of the framework's re-render on slower
+  // mobile devices, so the anchor wasn't in the DOM yet and scrollIntoView
+  // silently no-op'd — the user stayed on the booking form instead of
+  // landing on the freshly generated ticket. Poll via rAF instead, capped
+  // so a genuinely missing anchor doesn't loop forever.
+  _scrollToWhenReady(selector, maxMs){
+    var deadline = Date.now() + (maxMs||2000);
+    function tick(){
+      var el = document.querySelector(selector);
+      if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); return; }
+      if(Date.now() < deadline) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  resetBooking(){ this.setState({booked:false, bookFor:null, bookError:null, selSlot:null, availSlots:[], bParticipant2:'', bGiftMsg:''}); this._scrollToWhenReady('#reservar'); }
   openPortal(){ this.setState({portalOpen:true, portalEmail:'', portalError:'', portalReservas:[], portalFound:false}); }
   closePortal(){ this.setState({portalOpen:false}); }
   resetPortal(){ this.setState({portalEmail:'', portalError:'', portalReservas:[], portalFound:false, portalSelectedId:null}); }
@@ -1774,15 +1884,99 @@ class Component extends DCLogic {
       dlCert:this.portalDownloadCert.bind(this,r),
     });
   }
+  // Renders an off-DOM HTML snippet to a PNG and opens it in the preview
+  // modal, instead of the old print()-an-iframe approach — mobile browsers
+  // frequently failed to produce a real PDF from that and users ended up
+  // screenshotting the print preview by hand.
+  // Returns a promise that resolves once the doc-snapshot fonts have
+  // actually loaded — cached so repeat calls in the same session resolve
+  // instantly instead of re-requesting the stylesheets.
+  _ensureDocFonts(){
+    if(this._docFontsP) return this._docFontsP;
+    var href=[
+      'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap',
+      'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap'
+    ];
+    var loads=href.map(function(h){
+      return new Promise(function(res){
+        var l=document.createElement('link'); l.rel='stylesheet'; l.href=h;
+        l.addEventListener('load',res); l.addEventListener('error',res);
+        document.head.appendChild(l);
+      });
+    });
+    var s=document.createElement('style');
+    s.textContent='.ms{font-family:"Material Symbols Outlined";font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;font-feature-settings:"liga";-webkit-font-smoothing:antialiased;font-variation-settings:"opsz" 24,"wght" 400;-webkit-user-select:none;user-select:none}'+
+      '.mono{font-family:"JetBrains Mono",monospace}.disp{font-family:"Space Grotesk",sans-serif}';
+    document.head.appendChild(s);
+    this._docFontsP = Promise.all(loads).then(function(){ return document.fonts.ready; });
+    return this._docFontsP;
+  }
+  async snapshotToPreview(innerHtml, bg, title, filename, allowPdf, width){
+    if(!window.html2canvas){ alert('Cargando... intenta de nuevo en unos segundos.'); return; }
+    this.setState({docPreviewOpen:true, docPreviewLoading:true, docPreviewImg:null, docPreviewTitle:title, docPreviewFilename:filename, docPreviewAllowPdf:!!allowPdf, docPreviewImgW:0, docPreviewImgH:0});
+    var wrap=document.createElement('div');
+    wrap.style.cssText='position:fixed;top:-9999px;left:-9999px;z-index:-1;width:'+(width||1000)+'px;background:'+bg+';';
+    wrap.innerHTML=innerHtml;
+    document.body.appendChild(wrap);
+    try{
+      await this._ensureDocFonts();
+      var imgs=Array.from(wrap.querySelectorAll('img')).filter(function(i){return !i.complete;});
+      if(imgs.length){
+        await Promise.all(imgs.map(function(i){return new Promise(function(res){ i.addEventListener('load',res); i.addEventListener('error',res); });}));
+      }
+      var canvas=await html2canvas(wrap,{scale:2,useCORS:true,logging:false,backgroundColor:bg});
+      var png=canvas.toDataURL('image/png');
+      this.setState({docPreviewLoading:false, docPreviewImg:png, docPreviewImgW:canvas.width, docPreviewImgH:canvas.height});
+    }catch(e){
+      console.error('snapshot error',e);
+      this.setState({docPreviewOpen:false, docPreviewLoading:false});
+      alert('No se pudo generar el documento. Intenta de nuevo.');
+    }finally{
+      document.body.removeChild(wrap);
+    }
+  }
+  closeDocPreview(){
+    if(this.state.docPreviewLoading) return;
+    this.setState({docPreviewOpen:false, docPreviewImg:null});
+  }
+  downloadDocPreview(){
+    var img=this.state.docPreviewImg;
+    if(!img) return;
+    var a=document.createElement('a');
+    a.href=img; a.download=this.state.docPreviewFilename||'documento.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  }
+  downloadPdfPreview(){
+    var img=this.state.docPreviewImg, w=this.state.docPreviewImgW, h=this.state.docPreviewImgH;
+    if(!img||!w||!h) return;
+    if(!window.jspdf||!window.jspdf.jsPDF){ alert('Cargando... intenta de nuevo en unos segundos.'); return; }
+    var orientation = w>=h ? 'landscape' : 'portrait';
+    var doc=new window.jspdf.jsPDF({orientation:orientation, unit:'px', format:[w,h]});
+    doc.addImage(img, 'PNG', 0, 0, w, h);
+    var name=(this.state.docPreviewFilename||'documento.png').replace(/\.png$/i,'.pdf');
+    doc.save(name);
+  }
+  async shareDocPreview(){
+    var img=this.state.docPreviewImg;
+    if(!img) return;
+    try{
+      if(navigator.share && navigator.canShare){
+        var res=await fetch(img); var blob=await res.blob();
+        var file=new File([blob], this.state.docPreviewFilename||'documento.png', {type:'image/png'});
+        if(navigator.canShare({files:[file]})){
+          await navigator.share({files:[file], title:this.state.docPreviewTitle||'Hangar 1903'});
+          return;
+        }
+      }
+    }catch(e){ console.warn('share failed, falling back to download', e); }
+    this.downloadDocPreview();
+  }
 portalDownloadTicket(r){
-  if(!window.html2canvas){ alert('Cargando... intenta de nuevo en unos segundos.'); return; }
   var qr='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(window.location.origin+'/?reserva='+r.code);
   var time=(r.horaInicio&&r.horaFin)?r.horaInicio+' – '+r.horaFin:'–';
-  var wrap=document.createElement('div');
-  wrap.style.cssText='position:fixed;top:-9999px;left:-9999px;z-index:-1;padding:28px;background:#070d1c;';
-  var card=document.createElement('div');
-  card.style.cssText='position:relative;width:380px;background:linear-gradient(170deg,#142b49 0%,#0c1e38 55%,#080f1e 100%);border:1.5px solid rgba(245,197,66,.65);border-radius:18px;overflow:hidden;font-family:sans-serif;';
-  card.innerHTML=`<div style="position:absolute;inset:0;background-image:repeating-linear-gradient(125deg,rgba(255,255,255,.04) 0 1px,transparent 1px 10px);pointer-events:none;z-index:0"></div>
+  var ticketHtml=`<div style="padding:28px;box-sizing:border-box;display:flex;justify-content:center">
+<div style="position:relative;width:380px;background:linear-gradient(170deg,#142b49 0%,#0c1e38 55%,#080f1e 100%);border:1.5px solid rgba(245,197,66,.65);border-radius:18px;overflow:hidden;font-family:sans-serif;">
+<div style="position:absolute;inset:0;background-image:repeating-linear-gradient(125deg,rgba(255,255,255,.04) 0 1px,transparent 1px 10px);pointer-events:none;z-index:0"></div>
 <div style="position:relative;z-index:1;padding:16px 22px 13px;border-bottom:1px solid rgba(245,197,66,.2)">
   <div style="display:flex;align-items:center;justify-content:space-between">
     <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.22em;color:#f5c542">HOLD SHORT · BOARDING PASS</div>
@@ -1817,16 +2011,9 @@ portalDownloadTicket(r){
     <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#7f8fa3;margin-bottom:2px;text-transform:uppercase">Estado</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#4ade80">ACTIVO</div></div>
   </div>
   <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.14em;color:#7f8fa3">${r.code} · HANGAR 1903 · PEREIRA</div>
-</div>`;
-  wrap.appendChild(card);
-  document.body.appendChild(wrap);
-  html2canvas(card,{scale:3,useCORS:true,logging:false,backgroundColor:'#080f1e',allowTaint:false}).then(function(canvas){
-    var png=canvas.toDataURL('image/png');
-    var a=document.createElement('a');
-    a.href=png; a.download='ticket-'+r.code+'.png';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    document.body.removeChild(wrap);
-  }).catch(function(e){ document.body.removeChild(wrap); console.error('ticket-dl',e); });
+</div>
+</div></div>`;
+  this.snapshotToPreview(ticketHtml, '#070d1c', 'Boarding pass', 'ticket-'+r.code+'.png', false, 436);
 }
 
 portalDownloadConfirm(r){
@@ -1840,16 +2027,17 @@ portalDownloadConfirm(r){
   var hora=r.horaInicio||'–';
   var timeRange=(r.horaInicio&&r.horaFin)?(r.horaInicio+' – '+r.horaFin):hora;
   var sim=r.simulador||'King Air B200';
-  var instructor=r.instructorNombre||'Cap. Mateo Ríos';
+  var instructor=r.instructorNombre||'Pendiente de asignación';
   var msg=r.notas||'¡Que disfrutes esta experiencia única de aviación!';
   var qr='https://api.qrserver.com/v1/create-qr-code/?size=140x140&data='+encodeURIComponent(base+'/?reserva='+r.code);
-  var FONTS='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">';
-  var CSS=':root{--surface:#ffffff;--muted:#9a9ea5}*{box-sizing:border-box;margin:0;padding:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}html,body{margin:0;padding:0;background:#0C0D10;font-family:"Space Grotesk",sans-serif}.ms{font-family:"Material Symbols Outlined";font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;font-feature-settings:"liga";-webkit-font-smoothing:antialiased;font-variation-settings:"opsz" 24,"wght" 400;-webkit-user-select:none;user-select:none}.mono{font-family:"JetBrains Mono",monospace}.disp{font-family:"Space Grotesk",sans-serif}.hs-pbtn{position:fixed;bottom:20px;right:20px;background:#F5841F;color:#15171b;border:none;border-radius:8px;padding:10px 22px;font-weight:700;font-size:13px;cursor:pointer;font-family:"Space Grotesk",sans-serif;letter-spacing:.04em;box-shadow:0 4px 16px rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;gap:7px}@page{size:A4 landscape;margin:0}@media print{.hs-pbtn{display:none!important}}';
   var invHtml=isGift ? `
 <div style="width:880px;max-width:100%;margin:0 auto 20px;background:#F3EFE7;border-radius:8px;overflow:hidden;box-shadow:0 16px 44px rgba(0,0,0,.28);font-family:'Space Grotesk',sans-serif">
   <div style="background:#0C0D10;display:flex;align-items:center;justify-content:space-between;padding:12px 22px;border-bottom:3px solid #F5841F">
     <span class="mono" style="font-size:11px;letter-spacing:.18em;color:#F5841F;font-weight:600">PILOTO POR UN DÍA · INVITACIÓN</span>
-    <img src="${base}/assets/logo.png" alt="Hold Short" style="height:26px">
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+      <img src="${base}/assets/hangar-emblem-nobg.png" alt="HANGAR 1903" style="height:54px;filter:invert(1) sepia(1) saturate(6) hue-rotate(-10deg) brightness(1.1) contrast(1.1)">
+      <div style="display:flex;align-items:center;gap:5px"><span class="mono" style="font-size:7px;letter-spacing:.1em;color:#7f8fa3;text-transform:uppercase">Powered by</span><img src="${base}/assets/logo.png" alt="Hold Short" style="height:11px"></div>
+    </div>
   </div>
   <div style="display:flex;align-items:stretch">
     <div style="width:188px;flex-shrink:0;position:relative;display:flex;align-items:flex-end;padding:14px;overflow:hidden;background:linear-gradient(160deg,#e8e2d4,#cbc3b2)">
@@ -1887,7 +2075,10 @@ portalDownloadConfirm(r){
 <div style="width:100%;background:#0C0D10;overflow:hidden;font-family:'Space Grotesk',sans-serif;border-bottom:1px solid #26282d">
   <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid #1d1f24">
     <div><div class="mono" style="font-size:10px;letter-spacing:.2em;color:#F5841F;font-weight:600">RESERVA CONFIRMADA</div><div class="disp" style="font-size:13px;color:#9a9ea5;margin-top:2px">HOLD SHORT · BOARDING PASS</div></div>
-    <img src="${base}/assets/logo.png" alt="Hold Short" style="height:26px">
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+      <img src="${base}/assets/hangar-emblem-nobg.png" alt="HANGAR 1903" style="height:54px;filter:invert(1) sepia(1) saturate(6) hue-rotate(-10deg) brightness(1.1) contrast(1.1)">
+      <div style="display:flex;align-items:center;gap:5px"><span class="mono" style="font-size:7px;letter-spacing:.1em;color:#7f8fa3;text-transform:uppercase">Powered by</span><img src="${base}/assets/logo.png" alt="Hold Short" style="height:11px"></div>
+    </div>
   </div>
   <div style="position:relative;height:76px;overflow:hidden">
     <img src="${base}/assets/avion.png" alt="" aria-hidden="true" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);min-width:100%;min-height:100%;object-fit:cover;object-position:center 38%;filter:sepia(.6) brightness(.38) contrast(1.18);pointer-events:none">
@@ -1929,19 +2120,7 @@ portalDownloadConfirm(r){
   </div>
   <div style="background:#F5841F;padding:11px 24px;text-align:center"><span class="disp" style="font-size:14px;font-weight:700;color:#15171b;letter-spacing:.02em">NOS VEMOS EN CABINA · <span style="font-style:italic">CLEARED FOR TAKEOFF</span></span></div>
 </div>`;
-  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Confirmación '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+confHtml+'</body></html>';
-  var iframe=document.createElement('iframe');
-  iframe.style.cssText='position:fixed;top:0;left:0;width:0;height:0;border:none;visibility:hidden';
-  document.body.appendChild(iframe);
-  var iDoc=iframe.contentWindow.document;
-  iDoc.write(full);
-  iDoc.close();
-  iDoc.fonts.ready.then(function(){
-    var imgs=Array.from(iDoc.images).filter(function(i){return !i.complete;});
-    var n=imgs.length,d=0;
-    function go(){setTimeout(function(){iframe.contentWindow.print();setTimeout(function(){document.body.removeChild(iframe);},2000);},500);}
-    if(!n){go();}else{imgs.forEach(function(i){function cb(){if(++d>=n)go();}i.addEventListener('load',cb);i.addEventListener('error',cb);});}
-  });
+  this.snapshotToPreview(confHtml, '#0C0D10', 'Confirmación de reserva', 'confirmacion-'+r.code+'.png');
 }
 portalDownloadInvitacion(r){
   var base=window.location.origin;
@@ -1953,13 +2132,14 @@ portalDownloadInvitacion(r){
   var hora=r.horaInicio||'–';
   var msg=r.notas||'¡Que disfrutes esta experiencia única de aviación!';
   var qr='https://api.qrserver.com/v1/create-qr-code/?size=140x140&data='+encodeURIComponent(base+'/?reserva='+r.code);
-  var FONTS='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">';
-  var CSS=':root{--surface:#ffffff;--muted:#9a9ea5}*{box-sizing:border-box;margin:0;padding:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}html,body{margin:0;padding:0;background:#F3EFE7;font-family:"Space Grotesk",sans-serif}.ms{font-family:"Material Symbols Outlined";font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;font-feature-settings:"liga";-webkit-font-smoothing:antialiased;font-variation-settings:"opsz" 24,"wght" 400;-webkit-user-select:none;user-select:none}.mono{font-family:"JetBrains Mono",monospace}.disp{font-family:"Space Grotesk",sans-serif}.hs-pbtn{position:fixed;bottom:20px;right:20px;background:#F5841F;color:#15171b;border:none;border-radius:8px;padding:10px 22px;font-weight:700;font-size:13px;cursor:pointer;font-family:"Space Grotesk",sans-serif;letter-spacing:.04em;box-shadow:0 4px 16px rgba(0,0,0,.3);z-index:9999;display:flex;align-items:center;gap:7px}@page{size:A4 landscape;margin:0}@media print{.hs-pbtn{display:none!important}}';
   var invHtml=`
 <div style="width:100%;background:#F3EFE7;overflow:hidden;font-family:'Space Grotesk',sans-serif">
   <div style="background:#0C0D10;display:flex;align-items:center;justify-content:space-between;padding:12px 22px;border-bottom:3px solid #F5841F">
     <span class="mono" style="font-size:11px;letter-spacing:.18em;color:#F5841F;font-weight:600">PILOTO POR UN DÍA · INVITACIÓN</span>
-    <img src="${base}/assets/logo.png" alt="Hold Short" style="height:26px">
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+      <img src="${base}/assets/hangar-emblem-nobg.png" alt="HANGAR 1903" style="height:54px;filter:invert(1) sepia(1) saturate(6) hue-rotate(-10deg) brightness(1.1) contrast(1.1)">
+      <div style="display:flex;align-items:center;gap:5px"><span class="mono" style="font-size:7px;letter-spacing:.1em;color:#7f8fa3;text-transform:uppercase">Powered by</span><img src="${base}/assets/logo.png" alt="Hold Short" style="height:11px"></div>
+    </div>
   </div>
   <div style="display:flex;align-items:stretch">
     <div style="width:188px;flex-shrink:0;position:relative;display:flex;align-items:flex-end;padding:14px;overflow:hidden;background:linear-gradient(160deg,#e8e2d4,#cbc3b2)">
@@ -1993,35 +2173,22 @@ portalDownloadInvitacion(r){
     <span class="disp" style="font-size:13px;font-weight:700;color:#fff;letter-spacing:.02em">TU EXPERIENCIA TE ESPERA · <span style="color:#F5841F;font-style:italic">CLEARED FOR TAKEOFF</span></span>
   </div>
 </div>`;
-  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Invitación '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+invHtml+'</body></html>';
-  var iframe=document.createElement('iframe');
-  iframe.style.cssText='position:fixed;top:0;left:0;width:0;height:0;border:none;visibility:hidden';
-  document.body.appendChild(iframe);
-  var iDoc=iframe.contentWindow.document;
-  iDoc.write(full);
-  iDoc.close();
-  iDoc.fonts.ready.then(function(){
-    var imgs=Array.from(iDoc.images).filter(function(i){return !i.complete;});
-    var n=imgs.length,d=0;
-    function go(){setTimeout(function(){iframe.contentWindow.print();setTimeout(function(){document.body.removeChild(iframe);},2000);},500);}
-    if(!n){go();}else{imgs.forEach(function(i){function cb(){if(++d>=n)go();}i.addEventListener('load',cb);i.addEventListener('error',cb);});}
-  });
+  this.snapshotToPreview(invHtml, '#F3EFE7', 'Invitación de regalo', 'invitacion-'+r.code+'.png');
 }
 portalDownloadCert(r){
   var base=window.location.origin;
   var recipient=(r.bookFor==='regalo'&&r.giftFor)?r.giftFor:r.clienteNombre;
   var paquete=r.paquete||'–';
   var fecha=r.fecha||'–';
-  var instructor=r.instructorNombre||'Cap. Mateo Ríos';
+  var instructor=r.instructorNombre||'Pendiente de asignación';
   var certNo='HS-'+r.code;
-  var FONTS='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">';
-  var CSS=':root{--surface:#ffffff;--muted:#9a9ea5}*{box-sizing:border-box;margin:0;padding:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}html,body{margin:0;padding:0;background:#0C0D10;font-family:"Space Grotesk",sans-serif}.ms{font-family:"Material Symbols Outlined";font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;font-feature-settings:"liga";-webkit-font-smoothing:antialiased;font-variation-settings:"opsz" 24,"wght" 400;-webkit-user-select:none;user-select:none}.mono{font-family:"JetBrains Mono",monospace}.disp{font-family:"Space Grotesk",sans-serif}@page{size:A4 landscape;margin:0}';
   var certHtml=`
-<div style="width:100%;min-height:100vh;display:flex;font-family:'Space Grotesk',sans-serif">
+<div style="width:100%;display:flex;font-family:'Space Grotesk',sans-serif">
   <div style="width:29%;background:#0C0D10;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:22px 18px;position:relative;overflow:hidden;flex-shrink:0;border-right:4px solid #F5841F">
     <img src="${base}/assets/avion.png" alt="" style="position:absolute;opacity:.06;width:150%;filter:grayscale(1);top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);pointer-events:none">
     <div style="position:relative;text-align:center">
-      <img src="${base}/assets/logo.png" alt="Hold Short" style="height:28px;margin-bottom:14px;display:block;margin-left:auto;margin-right:auto">
+      <img src="${base}/assets/hangar-emblem-nobg.png" alt="HANGAR 1903" style="height:92px;margin-bottom:10px;display:block;margin-left:auto;margin-right:auto;filter:invert(1) sepia(1) saturate(6) hue-rotate(-10deg) brightness(1.1) contrast(1.1)">
+      <div style="display:flex;align-items:center;justify-content:center;gap:5px;margin-bottom:12px"><span class="mono" style="font-size:7px;letter-spacing:.1em;color:#7f8fa3;text-transform:uppercase">Powered by</span><img src="${base}/assets/logo.png" alt="Hold Short" style="height:12px"></div>
       <div class="mono" style="font-size:7.5px;letter-spacing:.18em;color:#F5841F;font-weight:600">PILOTO POR UN DÍA</div>
       <div class="mono" style="font-size:6.5px;letter-spacing:.12em;color:#62666d;margin-top:4px">EXPERIENCIA DE AVIACIÓN</div>
     </div>
@@ -2093,19 +2260,7 @@ portalDownloadCert(r){
     </div>
   </div>
 </div>`;
-  var full='<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Certificado '+r.code+'</title>'+FONTS+'<style>'+CSS+'</style></head><body>'+certHtml+'</body></html>';
-  var iframe=document.createElement('iframe');
-  iframe.style.cssText='position:fixed;top:0;left:0;width:0;height:0;border:none;visibility:hidden';
-  document.body.appendChild(iframe);
-  var iDoc=iframe.contentWindow.document;
-  iDoc.write(full);
-  iDoc.close();
-  iDoc.fonts.ready.then(function(){
-    var imgs=Array.from(iDoc.images).filter(function(i){return !i.complete;});
-    var n=imgs.length,d=0;
-    function go(){setTimeout(function(){iframe.contentWindow.print();setTimeout(function(){document.body.removeChild(iframe);},2000);},500);}
-    if(!n){go();}else{imgs.forEach(function(i){function cb(){if(++d>=n)go();}i.addEventListener('load',cb);i.addEventListener('error',cb);});}
-  });
+  this.snapshotToPreview(certHtml, '#F3EFE7', 'Certificado de participación', 'certificado-'+r.code+'.png', true);
 }
   async downloadTicket(){
     const el=document.querySelector('[data-ticket-card]');
@@ -2139,7 +2294,7 @@ portalDownloadCert(r){
       menuOpen:s.menu,
       toggleMenu:()=>this.setState(x=>({menu:!x.menu})),
       closeMenu:()=>this.setState({menu:false}),
-      mobilePanelStyle:{position:'fixed',inset:0,zIndex:80,background:'rgba(7,13,28,.97)',backdropFilter:'blur(8px)',transform:s.menu?'translateX(0)':'translateX(100%)',transition:'transform .4s cubic-bezier(.2,.8,.2,1)',borderLeft:'2px solid #f5c542'},
+      mobilePanelStyle:{position:'fixed',inset:0,zIndex:95,background:'rgba(7,13,28,.97)',backdropFilter:'blur(8px)',transform:s.menu?'translateX(0)':'translateX(100%)',transition:'transform .4s cubic-bezier(.2,.8,.2,1)',borderLeft:'2px solid #f5c542'},
       t, lang:s.lang,
       setLangEs:()=>this.setLang('es'),
       setLangEn:()=>this.setLang('en'),
@@ -2212,7 +2367,11 @@ portalDownloadCert(r){
       selDateLong:this.selDateLong()||t.pkgs.booking.elegirFecha,
       formPkgName:t.pkgs[s.bPkg].name,
       formPkgPrice:'$'+this.PKGS[s.bPkg].cop+' COP',
-      canSubmit:!!(s.bName.trim()&&s.bPhone.trim()&&s.bEmail.trim()&&s.selDate&&s.selSlot),
+      emailInvalid:!!(s.bEmail.trim() && !this.isValidEmail(s.bEmail)),
+      phoneInvalid:!!(s.bPhone.trim() && !this.isValidPhone(s.bPhone)),
+      emailBorderColor:(s.bEmail.trim() && !this.isValidEmail(s.bEmail))?'#dc2626':'rgba(139,151,166,.2)',
+      phoneBorderColor:(s.bPhone.trim() && !this.isValidPhone(s.bPhone))?'#dc2626':'rgba(139,151,166,.2)',
+      canSubmit:!!(s.bName.trim()&&s.bPhone.trim()&&s.bEmail.trim()&&s.selDate&&s.selSlot&&this.isValidEmail(s.bEmail)&&this.isValidPhone(s.bPhone)),
       submitStyle:{width:'100%',marginTop:'4px',background:(!s.bookLoading&&s.bName.trim()&&s.bPhone.trim()&&s.bEmail.trim()&&s.selDate&&s.selSlot)?'#f5c542':'rgba(245,197,66,.15)',color:(!s.bookLoading&&s.bName.trim()&&s.bPhone.trim()&&s.bEmail.trim()&&s.selDate&&s.selSlot)?'#160f05':'#b89642',border:'0',borderRadius:'6px',padding:'15px',fontWeight:700,fontSize:'15px',cursor:(!s.bookLoading&&s.bName.trim()&&s.bPhone.trim()&&s.selDate&&s.selSlot)?'pointer':'not-allowed',letterSpacing:'.01em',transition:'all .25s',fontFamily:'Inter,sans-serif'},
       submitBooking:()=>this.submitBooking(),
       submitLabel:s.bookLoading?(s.lang==='es'?'Enviando...':'Sending...'):t.pkgs.booking.generarTicket+' →',
@@ -2220,6 +2379,7 @@ portalDownloadCert(r){
       slotsLoading:s.slotsLoading,
       hasSelDate:!!s.selDate,
       hasSlots:s.availSlots.length>0,
+      dateIsBlocked:!!(s.selDate && !s.slotsLoading && this.isDateBlocked(s.selDate.y+'-'+String(s.selDate.m+1).padStart(2,'0')+'-'+String(s.selDate.d).padStart(2,'0'))),
       availSlots:s.availSlots.map((sl,i)=>{
         const isSel=!!(s.selSlot&&s.selSlot.start===sl.start);
         return {
@@ -2300,6 +2460,18 @@ portalDownloadCert(r){
       openPortal:()=>this.openPortal(),
       closePortal:()=>this.closePortal(),
       resetPortal:()=>this.resetPortal(),
+      // ---- Document preview (confirmación / invitación / certificado) ----
+      docPreviewOpen:s.docPreviewOpen,
+      docPreviewLoading:s.docPreviewLoading,
+      docPreviewReady:!!(s.docPreviewOpen && !s.docPreviewLoading && s.docPreviewImg),
+      docPreviewImg:s.docPreviewImg||'',
+      docPreviewTitle:s.docPreviewTitle,
+      closeDocPreview:()=>this.closeDocPreview(),
+      downloadDocPreview:()=>this.downloadDocPreview(),
+      downloadPdfPreview:()=>this.downloadPdfPreview(),
+      docPreviewAllowPdf:s.docPreviewAllowPdf,
+      shareDocPreview:()=>this.shareDocPreview(),
+      canShare:(typeof navigator!=='undefined' && !!navigator.canShare),
       portalEmail:s.portalEmail,
       setPortalEmail:(e)=>this.setState({portalEmail:e.target.value}),
       portalKeyDown:(e)=>{ if(e.key==='Enter') this.lookupReserva(); },

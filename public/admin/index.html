@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../assets/hangar-emblem-nobg.png" type="image/png">
+<title>Panel Admin | Hangar 1903</title>
+<meta name="robots" content="noindex, nofollow">
 <script src="./support.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/supabase-client.js"></script>
@@ -712,7 +715,7 @@
                       <div style="{{ c.avatarStyle }}">{{ c.initials }}</div>
                       <div style="min-width:0">
                         <div style="font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.nombre }}</div>
-                        <div class="mono" style="font-size:10px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.email }}</div>
+                        <div class="mono" style="font-size:10px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.email }} · {{ c.tel }}</div>
                       </div>
                     </div>
                     <div class="disp" style="font-size:16px;font-weight:700;color:var(--text)">{{ c.numReservas }}</div>
@@ -1432,6 +1435,23 @@
             <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">CORREO</label>
             <input type="email" value="{{ instFormEmail }}" onInput="{{ instSetEmail }}" placeholder="instructor@email.com" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13.5px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#F5841F"/>
           </div>
+          <sc-if value="{{ instIsNew }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">CONTRASEÑA DE ACCESO *</label>
+              <input type="password" value="{{ instFormPassword }}" onInput="{{ instSetPassword }}" placeholder="Mínimo 8 caracteres" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13.5px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#F5841F"/>
+              <div style="font-size:11px;color:var(--faint);margin-top:6px;line-height:1.4">Con este correo y contraseña el instructor podrá ingresar a /instructor/ y ver sus sesiones asignadas.</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ instEdit }}" hint-placeholder-val="">
+            <div style="background:var(--alt);border:1px solid var(--border);border-radius:10px;padding:14px">
+              <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;letter-spacing:.04em">RESTABLECER CONTRASEÑA</label>
+              <div style="display:flex;gap:8px">
+                <input type="password" value="{{ instResetPassword }}" onInput="{{ instSetResetPassword }}" placeholder="Nueva contraseña (mín. 8 caracteres)" style="flex:1;height:38px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;padding:0 11px;outline:none;box-sizing:border-box" style-focus="border-color:#F5841F"/>
+                <button onClick="{{ instDoResetPassword }}" disabled="{{ instResetSaving }}" style="flex-shrink:0;height:38px;padding:0 14px;background:var(--btnsolid);border:none;border-radius:8px;color:#fff;font-weight:600;font-size:12.5px;cursor:pointer;white-space:nowrap">{{ instResetLabel }}</button>
+              </div>
+              <div style="font-size:11px;color:var(--faint);margin-top:7px;line-height:1.4">Úsalo si el instructor olvidó su contraseña. No afecta sus datos ni sesiones asignadas.</div>
+            </div>
+          </sc-if>
           <div>
             <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;letter-spacing:.04em">ÁREAS DE ESPECIALIDAD</label>
             <div style="display:flex;flex-wrap:wrap;gap:8px">
@@ -1631,7 +1651,10 @@
                   <!-- header -->
                   <div style="background:#0C0D10;display:flex;align-items:center;justify-content:space-between;padding:12px 22px;border-bottom:3px solid #F5841F">
                     <span class="mono" style="font-size:11px;letter-spacing:.18em;color:#F5841F;font-weight:600">PILOTO POR UN DÍA · INVITACIÓN</span>
-                    <img src="/assets/logo.png" alt="Hold Short" style="height:26px">
+                    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+                      <img src="/assets/hangar-emblem-nobg.png" alt="HANGAR 1903" style="height:54px;filter:invert(1) sepia(1) saturate(6) hue-rotate(-10deg) brightness(1.1) contrast(1.1)">
+                      <div style="display:flex;align-items:center;gap:5px"><span class="mono" style="font-size:7px;letter-spacing:.1em;color:#7f8fa3;text-transform:uppercase">Powered by</span><img src="/assets/logo.png" alt="Hold Short" style="height:11px"></div>
+                    </div>
                   </div>
                   <div style="display:flex;align-items:stretch">
                     <!-- left plane -->
@@ -1685,7 +1708,10 @@
                 <div id="hs-conf" style="width:880px;max-width:100%;margin:0 auto;background:#0C0D10;border-radius:12px;overflow:hidden;box-shadow:0 16px 44px rgba(0,0,0,.34);font-family:'Space Grotesk';border:1px solid #26282d">
                   <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid #1d1f24">
                     <div><div class="mono" style="font-size:10px;letter-spacing:.2em;color:#F5841F;font-weight:600">RESERVA CONFIRMADA</div><div class="disp" style="font-size:13px;color:var(--muted);margin-top:2px">HOLD SHORT · BOARDING PASS</div></div>
-                    <img src="/assets/logo.png" alt="Hold Short" style="height:26px">
+                    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+                      <img src="/assets/hangar-emblem-nobg.png" alt="HANGAR 1903" style="height:54px;filter:invert(1) sepia(1) saturate(6) hue-rotate(-10deg) brightness(1.1) contrast(1.1)">
+                      <div style="display:flex;align-items:center;gap:5px"><span class="mono" style="font-size:7px;letter-spacing:.1em;color:#7f8fa3;text-transform:uppercase">Powered by</span><img src="/assets/logo.png" alt="Hold Short" style="height:11px"></div>
+                    </div>
                   </div>
                   <div style="display:flex;align-items:stretch">
                     <!-- main -->
@@ -1734,7 +1760,8 @@
                   <div style="width:29%;background:#0C0D10;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:22px 18px;position:relative;overflow:hidden;flex-shrink:0;border-right:4px solid #F5841F">
                     <img src="/assets/avion.png" alt="" style="position:absolute;opacity:.06;width:150%;filter:grayscale(1);top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);pointer-events:none">
                     <div style="position:relative;text-align:center">
-                      <img src="/assets/logo.png" alt="Hold Short" style="height:28px;margin-bottom:14px;display:block;margin-left:auto;margin-right:auto">
+                      <img src="/assets/hangar-emblem-nobg.png" alt="HANGAR 1903" style="height:92px;margin-bottom:10px;display:block;margin-left:auto;margin-right:auto;filter:invert(1) sepia(1) saturate(6) hue-rotate(-10deg) brightness(1.1) contrast(1.1)">
+                      <div style="display:flex;align-items:center;justify-content:center;gap:5px;margin-bottom:12px"><span class="mono" style="font-size:7px;letter-spacing:.1em;color:#7f8fa3;text-transform:uppercase">Powered by</span><img src="/assets/logo.png" alt="Hold Short" style="height:12px"></div>
                       <div class="mono" style="font-size:7.5px;letter-spacing:.18em;color:#F5841F;font-weight:600">PILOTO POR UN DÍA</div>
                       <div class="mono" style="font-size:6.5px;letter-spacing:.12em;color:#62666d;margin-top:4px">EXPERIENCIA DE AVIACIÓN</div>
                     </div>
@@ -1939,6 +1966,8 @@ class Component extends DCLogic {
     instEdit: null,
     instForm: { nombre:'', email:'', areas:[], bio:'', activo:true },
     instSaving: false,
+    instResetPassword: '',
+    instResetSaving: false,
     // asignación instructor en drawer
     drawerResInst: [],
     drawerInstPicker: false,
@@ -2045,9 +2074,9 @@ class Component extends DCLogic {
   }
   openInstModal(inst=null){
     if(inst){
-      this.setState({instModal:true,instEdit:inst,instForm:{nombre:inst.nombre,email:inst.email||'',areas:inst.areas||[],bio:inst.bio||'',activo:inst.activo}});
+      this.setState({instModal:true,instEdit:inst,instForm:{nombre:inst.nombre,email:inst.email||'',password:'',areas:inst.areas||[],bio:inst.bio||'',activo:inst.activo},instResetPassword:''});
     }else{
-      this.setState({instModal:true,instEdit:null,instForm:{nombre:'',email:'',areas:[],bio:'',activo:true}});
+      this.setState({instModal:true,instEdit:null,instForm:{nombre:'',email:'',password:'',areas:[],bio:'',activo:true},instResetPassword:''});
     }
   }
   instToggleArea(area){
@@ -2058,7 +2087,27 @@ class Component extends DCLogic {
   async saveInstructor(){
     const{instForm,instEdit}=this.state;
     if(!instForm.nombre.trim()){this.toast('El nombre es obligatorio');return;}
+    if(!instEdit){
+      if(!instForm.email.trim()){this.toast('El correo es obligatorio para crear el acceso');return;}
+      if((instForm.password||'').length<8){this.toast('La contraseña debe tener mínimo 8 caracteres');return;}
+    }
     this.setState({instSaving:true});
+    // Cuenta nueva primero: si esto falla no creamos un registro huérfano en instructors.
+    if(!instEdit){
+      const{data:sess}=await supabaseClient.auth.getSession();
+      const token=sess&&sess.session&&sess.session.access_token;
+      try{
+        const res=await fetch('/api/create-instructor',{
+          method:'POST',
+          headers:{'content-type':'application/json',Authorization:'Bearer '+token},
+          body:JSON.stringify({name:instForm.nombre.trim(),email:instForm.email.trim(),password:instForm.password}),
+        });
+        const out=await res.json();
+        if(!res.ok){ this.setState({instSaving:false}); this.toast(out.error||'No se pudo crear la cuenta'); return; }
+      }catch(e){
+        this.setState({instSaving:false}); this.toast('Error de red al crear la cuenta'); return;
+      }
+    }
     const payload={nombre:instForm.nombre.trim(),email:instForm.email.trim()||null,areas:instForm.areas,bio:instForm.bio.trim()||null,activo:instForm.activo};
     let error;
     if(instEdit){
@@ -2073,6 +2122,29 @@ class Component extends DCLogic {
     }else{
       this.setState({instSaving:false});
       this.toast('Error al guardar');
+    }
+  }
+  async resetInstructorPassword(){
+    const{instEdit,instResetPassword}=this.state;
+    if(!instEdit||!instEdit.email){this.toast('Este instructor no tiene correo asociado');return;}
+    if((instResetPassword||'').length<8){this.toast('La contraseña debe tener mínimo 8 caracteres');return;}
+    this.setState({instResetSaving:true});
+    const{data:sess}=await supabaseClient.auth.getSession();
+    const token=sess&&sess.session&&sess.session.access_token;
+    try{
+      const res=await fetch('/api/reset-instructor-password',{
+        method:'POST',
+        headers:{'content-type':'application/json',Authorization:'Bearer '+token},
+        body:JSON.stringify({email:instEdit.email,password:instResetPassword}),
+      });
+      const out=await res.json();
+      this.setState({instResetSaving:false});
+      if(!res.ok){ this.toast(out.error||'No se pudo actualizar la contraseña'); return; }
+      this.setState({instResetPassword:''});
+      this.toast('Contraseña actualizada');
+    }catch(e){
+      this.setState({instResetSaving:false});
+      this.toast('Error de red al actualizar la contraseña');
     }
   }
   async toggleInstActivo(inst){
@@ -3101,7 +3173,7 @@ class Component extends DCLogic {
         confSubtitle: _confSubtitle,
         fecha: s.fecha, hora:s.hi, dur:this.duracion(s.hi,s.hf),
         paquete: s.paquete, sim: s.sim||'King Air B200',
-        instructor: s.instructor, code: s.code,
+        instructor: s.instructor || 'Pendiente de asignación', code: s.code,
         certNo: s.code ? s.code.replace('HS-','HS-PXD-2026-') : 'HS-PXD-2026-001',
         mensaje: s.notas || '¡Feliz cumpleaños! Sé que siempre soñaste con volar. Hoy te toca.',
       };
@@ -3574,6 +3646,12 @@ class Component extends DCLogic {
       instModal:this.state.instModal, instModalTitle, instSaving:this.state.instSaving,
       instFormNombre:_iF.nombre, instSetNombre:(e)=>this.setState({instForm:{..._iF,nombre:e.target.value}}),
       instFormEmail:_iF.email, instSetEmail:(e)=>this.setState({instForm:{..._iF,email:e.target.value}}),
+      instIsNew:!this.state.instEdit,
+      instEdit:this.state.instEdit,
+      instFormPassword:_iF.password||'', instSetPassword:(e)=>this.setState({instForm:{..._iF,password:e.target.value}}),
+      instResetPassword:this.state.instResetPassword||'', instSetResetPassword:(e)=>this.setState({instResetPassword:e.target.value}),
+      instResetSaving:this.state.instResetSaving, instResetLabel:this.state.instResetSaving?'Guardando…':'Actualizar',
+      instDoResetPassword:()=>this.resetInstructorPassword(),
       instFormBio:_iF.bio, instSetBio:(e)=>this.setState({instForm:{..._iF,bio:e.target.value}}),
       instFormActivo:_iF.activo, instToggleActivo:()=>this.setState({instForm:{..._iF,activo:!_iF.activo}}),
       instAreaChecks, instSaveLabel, instToggleStyle, instToggleDotStyle,
