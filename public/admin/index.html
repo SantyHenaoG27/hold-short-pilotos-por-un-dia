@@ -1929,7 +1929,7 @@ class Component extends DCLogic {
     formModalidad: 'personal',
     formPago: 'pendiente',
     formFecha: '', formHoraInicio: '', formPaqueteIdx: 0,
-    formSim: 'King Air B200', formInstructor: 'Cap. Andrés Villa', formOrigen: 'Registro manual',
+    formSim: 'King Air B200', formInstructor: '— Sin asignar —', formOrigen: 'Registro manual',
     formNombre: '', formPhone: '', formEmail: '', formSegundo: '',
     formGiftNombre: '', formGiftPhone: '', formGiftDest: '', formGiftDestPhone: '', formGiftMsg: '',
     formTotal: '', formAbono: '0', formMetodo: 'Transferencia', formRef: '', formFechaPago: '', formSubmitting: false,
@@ -2384,6 +2384,7 @@ class Component extends DCLogic {
         paquete:paq.name||'', simulador:s.formSim, fecha:s.formFecha,
         hora_inicio:s.formHoraInicio?(s.formHoraInicio+':00'):null,
         hora_fin:horaFin?(horaFin+':00'):null,
+        instructor:(s.formInstructor&&s.formInstructor!=='— Sin asignar —')?s.formInstructor:null,
         estado:'confirmada', pago:s.formPago, total, abono,
         book_for:s.formModalidad,
         gift_for:s.formModalidad==='regalo'?(s.formGiftDest.trim()||null):null,
@@ -3078,7 +3079,7 @@ class Component extends DCLogic {
           done: step>i+1,
         })),
         paquetes: (this.paquetes[tipo]||[]).map((p,i)=>({name:p.name, price:this.cop(p.price), dur:p.dur, idx:String(i)})),
-        sims:this.simsList, instructores:this.instList, origenes:this.origenList, metodos:this.metodoList,
+        sims:this.simsList, instructores:['— Sin asignar —',...this.state.instList.filter(i=>i.activo).map(i=>i.nombre)], origenes:this.origenList, metodos:this.metodoList,
         pickPxd:()=>{ const paq=(this.paquetes.pxd||[])[0]||{}; this.setState({formTipo:'pxd',formPaqueteIdx:0,formHoraInicio:'',formTotal:String(paq.price||'')}); },
         pickHs:()=>{ const paq=(this.paquetes.hs||[])[0]||{}; this.setState({formTipo:'hs',formPaqueteIdx:0,formHoraInicio:'',formTotal:String(paq.price||'')}); },
         pickPersonal:()=>this.setState({formModalidad:'personal'}),
@@ -3119,7 +3120,7 @@ class Component extends DCLogic {
         horaFin:(()=>{ const paq=(this.paquetes[tipo]||[])[this.state.formPaqueteIdx]; return (paq&&this.state.formHoraInicio)?this.addMinutes(this.state.formHoraInicio,this.durToMins(paq.dur)):'—'; })(),
         horaOpciones:(()=>{
           if(tipo==='pxd'){
-            const PXDSLOTS={express:['08:00','09:30','11:00','14:00','15:30'],completo:['08:00','11:00','14:00']};
+            const PXDSLOTS={express:['09:00','10:30','12:00','14:00','16:00'],completo:['09:00','12:00','16:00']};
             const key=this.state.formPaqueteIdx===1?'completo':'express';
             return (PXDSLOTS[key]).map(h=>({v:h,label:h}));
           }
