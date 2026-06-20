@@ -2561,14 +2561,46 @@ class Component extends DCLogic {
     }else{
       ({error}=await supabaseClient.from('instructors').insert(payload));
     }
-    if(!error){
-      await this.loadInstructores();
-      this.setState({instModal:false,instSaving:false});
-      this.toast(instEdit?'Instructor actualizado':'Instructor creado');
-    }else{
+    if(error){
       this.setState({instSaving:false});
       this.toast('Error al guardar');
+      return;
     }
+    // Si había una contraseña nueva escrita, aplicarla también al guardar
+    const{instResetPassword}=this.state;
+    if(instEdit && instResetPassword && instResetPassword.trim().length>0){
+      if(instResetPassword.length<8){
+        await this.loadInstructores();
+        this.setState({instModal:false,instSaving:false});
+        this.toast('Datos guardados. Contraseña NO actualizada: debe tener mínimo 8 caracteres');
+        return;
+      }
+      const{data:sess2}=await supabaseClient.auth.getSession();
+      const token2=sess2&&sess2.session&&sess2.session.access_token;
+      try{
+        const res2=await fetch('/api/reset-instructor-password',{
+          method:'POST',
+          headers:{'content-type':'application/json',Authorization:'Bearer '+token2},
+          body:JSON.stringify({email:instEdit.email,password:instResetPassword}),
+        });
+        const out2=await res2.json();
+        await this.loadInstructores();
+        this.setState({instModal:false,instSaving:false,instResetPassword:''});
+        if(!res2.ok){
+          this.toast('Datos guardados, pero la contraseña no se actualizó: '+(out2.error||'error desconocido'));
+        }else{
+          this.toast('Instructor actualizado y contraseña cambiada');
+        }
+      }catch(e){
+        await this.loadInstructores();
+        this.setState({instModal:false,instSaving:false});
+        this.toast('Datos guardados, pero error de red al cambiar contraseña');
+      }
+      return;
+    }
+    await this.loadInstructores();
+    this.setState({instModal:false,instSaving:false});
+    this.toast(instEdit?'Instructor actualizado':'Instructor creado');
   }
   async resetInstructorPassword(){
     const{instEdit,instResetPassword}=this.state;
