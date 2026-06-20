@@ -1751,7 +1751,7 @@
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px 14px">
                 <div style="grid-column:1/3"><div class="disp" style="font-size:13px;font-weight:600;margin-bottom:9px;color:var(--muted)">Datos generales</div></div>
                 <label style="{{ form.lbl }}">Fecha<input type="date" value="{{ form.fecha }}" onChange="{{ form.setFecha }}" style="{{ form.inp }}"></label>
-                <label style="{{ form.lbl }}">Hora inicial<select value="{{ form.horaInicio }}" onChange="{{ form.setHoraInicio }}" style="{{ form.inp }}"><option value="">-- seleccionar --</option><sc-for list="{{ form.horaOpciones }}" as="h" hint-placeholder-count="5"><option value="{{ h.v }}">{{ h.label }}</option></sc-for></select></label>
+                <label style="{{ form.lbl }}">Hora inicial<select value="{{ form.horaInicio }}" onChange="{{ form.setHoraInicio }}" style="{{ form.inp }}"><option value="">{{ form.slotsPlaceholder }}</option><sc-for list="{{ form.horaOpciones }}" as="h" hint-placeholder-count="5"><option value="{{ h.v }}">{{ h.label }}</option></sc-for></select></label>
                 <label style="{{ form.lbl }}">Paquete<select value="{{ form.paqueteIdx }}" onChange="{{ form.setPaqueteIdx }}" style="{{ form.inp }}"><sc-for list="{{ form.paquetes }}" as="p" hint-placeholder-count="2"><option value="{{ p.idx }}">{{ p.name }} · {{ p.price }}</option></sc-for></select></label>
                 <label style="{{ form.lbl }}">Hora final (calculada)<input value="{{ form.horaFin }}" readonly style="{{ form.inpRO }}"></label>
                 <label style="{{ form.lbl }}">Simulador<select value="{{ form.sim }}" onChange="{{ form.setSim }}" style="{{ form.inp }}"><sc-for list="{{ form.sims }}" as="s" hint-placeholder-count="2"><option>{{ s }}</option></sc-for></select></label>
@@ -2186,6 +2186,7 @@ class Component extends DCLogic {
     formNombre: '', formPhone: '', formEmail: '', formSegundo: '',
     formGiftNombre: '', formGiftPhone: '', formGiftDest: '', formGiftDestPhone: '', formGiftMsg: '',
     formTotal: '', formAbono: '0', formMetodo: 'Transferencia', formRef: '', formFechaPago: '', formSubmitting: false,
+    formSlotsOcupados: [], formSlotsLoading: false,
     // documentos
     docTab: 'confirmaciones',
     globalSearch: '',
@@ -2761,7 +2762,7 @@ class Component extends DCLogic {
     if(s?.dbId) this.loadDrawerResInst(s.dbId);
   }
   closeDrawer(){ this.setState({ drawer: null }); }
-  openForm(tipo){ const t=tipo||'pxd'; const paq=(this.paquetes[t]||[])[0]||{}; this.setState({ modal:{type:'form'}, formStep:1, formTipo:t, formModalidad:'personal', formPago:'pendiente', formFecha:'', formHoraInicio:'', formPaqueteIdx:0, formSim:'King Air B200', formInstructor:this.instList[0]||'', formOrigen:'Registro manual', formNombre:'', formPhone:'', formEmail:'', formSegundo:'', formGiftNombre:'', formGiftPhone:'', formGiftDest:'', formGiftDestPhone:'', formGiftMsg:'', formTotal:String(paq.price||''), formAbono:'0', formMetodo:'Transferencia', formRef:'', formFechaPago:'', formSubmitting:false }); }
+  openForm(tipo){ const t=tipo||'pxd'; const paq=(this.paquetes[t]||[])[0]||{}; this.setState({ modal:{type:'form'}, formStep:1, formTipo:t, formModalidad:'personal', formPago:'pendiente', formFecha:'', formHoraInicio:'', formPaqueteIdx:0, formSim:'King Air B200', formInstructor:this.instList[0]||'', formOrigen:'Registro manual', formNombre:'', formPhone:'', formEmail:'', formSegundo:'', formGiftNombre:'', formGiftPhone:'', formGiftDest:'', formGiftDestPhone:'', formGiftMsg:'', formTotal:String(paq.price||''), formAbono:'0', formMetodo:'Transferencia', formRef:'', formFechaPago:'', formSubmitting:false, formSlotsOcupados:[], formSlotsLoading:false }); }
   openDoc(kind, code){ this.setState({ modal: { type:'doc', kind, code } }); }
   printDoc(){
     const kind = this.state.modal?.kind;
@@ -2803,11 +2804,27 @@ class Component extends DCLogic {
   }
   addMinutes(hhmm,mins){ const[h,m]=(hhmm||'00:00').split(':').map(Number); const t=h*60+m+mins; return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'); }
   durToMins(dur){ const r=dur.match(/(\d+)h\s*(\d+)m/); if(r) return +r[1]*60+ +r[2]; const h=dur.match(/(\d+)h/); return h?+h[1]*60:60; }
+  async loadFormSlots(fecha, sim){
+    if(!fecha){ this.setState({formSlotsOcupados:[],formSlotsLoading:false}); return; }
+    this.setState({formSlotsLoading:true, formSlotsOcupados:[], formHoraInicio:''});
+    try{
+      const{data}=await supabaseClient.from('v_availability').select('hora_inicio,hora_fin').eq('fecha',fecha).eq('simulador',sim||'King Air B200');
+      this.setState({formSlotsOcupados:data||[],formSlotsLoading:false});
+    }catch(e){ this.setState({formSlotsOcupados:[],formSlotsLoading:false}); }
+  }
   async submitForm(){
     const s=this.state;
     const paq=(this.paquetes[s.formTipo]||[])[s.formPaqueteIdx]||{};
     const dur=this.durToMins(paq.dur||'1h 20m');
     const horaFin=s.formHoraInicio?this.addMinutes(s.formHoraInicio,dur):'';
+    // verificar conflicto de horario antes de guardar
+    if(s.formHoraInicio && s.formSlotsOcupados && s.formSlotsOcupados.length>0){
+      const toMin=t=>{const[h,mm]=(t||'00:00').slice(0,5).split(':').map(Number);return h*60+mm;};
+      const ss=toMin(s.formHoraInicio), se=ss+dur;
+      if(s.formSlotsOcupados.some(r=>toMin(r.hora_inicio)<se&&toMin(r.hora_fin)>ss)){
+        this.toast('Ese horario ya está ocupado — elige otra hora'); return;
+      }
+    }
     const total=parseInt((s.formTotal||'').replace(/\D/g,''))||paq.price||285000;
     const abono=parseInt((s.formAbono||'').replace(/\D/g,''))||0;
     const nombre=(s.formModalidad==='personal'?s.formNombre:s.formGiftNombre).trim()||'Sin nombre';
@@ -3611,17 +3628,39 @@ class Component extends DCLogic {
         giftMsg:this.state.formGiftMsg,
         horaFin:(()=>{ const paq=(this.paquetes[tipo]||[])[this.state.formPaqueteIdx]; return (paq&&this.state.formHoraInicio)?this.addMinutes(this.state.formHoraInicio,this.durToMins(paq.dur)):'—'; })(),
         horaOpciones:(()=>{
+          const _ocp=this.state.formSlotsOcupados||[];
+          const _paq=(this.paquetes[tipo]||[])[this.state.formPaqueteIdx];
+          const _dur=_paq?this.durToMins(_paq.dur||'1h 20m'):0;
+          const _toMin=t=>{const[h,mm]=(t||'00:00').slice(0,5).split(':').map(Number);return h*60+mm;};
+          let _slots;
           if(tipo==='pxd'){
             const PXDSLOTS={express:['09:00','10:30','12:00','14:00','16:00'],completo:['09:00','12:00','16:00']};
             const key=this.state.formPaqueteIdx===1?'completo':'express';
-            return (PXDSLOTS[key]).map(h=>({v:h,label:h}));
+            _slots=PXDSLOTS[key];
+          }else{
+            _slots=['08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00'];
           }
-          return ['08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00'].map(h=>({v:h,label:h}));
+          return _slots.map(h=>{
+            const ss=_toMin(h),se=ss+_dur;
+            const occ=_dur>0&&_ocp.length>0&&_ocp.some(r=>_toMin(r.hora_inicio)<se&&_toMin(r.hora_fin)>ss);
+            return {v:h, label:occ?h+' · Ocupado ✕':h, occ};
+          });
         })(),
-        setFecha:(e)=>this.setState({formFecha:e.target.value}),
-        setHoraInicio:(e)=>this.setState({formHoraInicio:e.target.value}),
+        formSlotsLoading: this.state.formSlotsLoading,
+        slotsPlaceholder: this.state.formSlotsLoading ? 'Cargando disponibilidad…' : (this.state.formFecha ? '-- seleccionar --' : '-- elige fecha primero --'),
+        setFecha:(e)=>{ const f=e.target.value; this.setState({formFecha:f}); if(f) this.loadFormSlots(f,this.state.formSim||'King Air B200'); },
+        setHoraInicio:(e)=>{
+          const val=e.target.value;
+          if(!val){this.setState({formHoraInicio:''});return;}
+          const _paq=(this.paquetes[this.state.formTipo]||[])[this.state.formPaqueteIdx];
+          const _dur=_paq?this.durToMins(_paq.dur||'1h 20m'):0;
+          const _toMin=t=>{const[h,mm]=(t||'00:00').slice(0,5).split(':').map(Number);return h*60+mm;};
+          const _ocp=this.state.formSlotsOcupados||[];
+          if(_dur>0&&_ocp.length>0){const ss=_toMin(val),se=ss+_dur;if(_ocp.some(r=>_toMin(r.hora_inicio)<se&&_toMin(r.hora_fin)>ss)){this.toast('Ese horario ya tiene una reserva — elige otro');return;}}
+          this.setState({formHoraInicio:val});
+        },
         setPaqueteIdx:(e)=>{ const idx=parseInt(e.target.value)||0; const paq=(this.paquetes[this.state.formTipo]||[])[idx]||{}; this.setState({formPaqueteIdx:idx,formHoraInicio:'',formTotal:String(paq.price||'')}); },
-        setSim:(e)=>this.setState({formSim:e.target.value}),
+        setSim:(e)=>{ const sim=e.target.value; this.setState({formSim:sim,formHoraInicio:''}); if(this.state.formFecha&&sim) this.loadFormSlots(this.state.formFecha,sim); },
         setInstructor:(e)=>this.setState({formInstructor:e.target.value}),
         setOrigen:(e)=>this.setState({formOrigen:e.target.value}),
         setNombre:(e)=>this.setState({formNombre:e.target.value}),
