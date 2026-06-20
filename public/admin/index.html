@@ -2697,7 +2697,8 @@ class Component extends DCLogic {
 
     const expanded = !this.state.collapsed;
     const hour = this.state.now.getHours();
-    const greeting = (hour<12?'Buenos días':hour<19?'Buenas tardes':'Buenas noches') + ', Cap. Mateo';
+    const _firstName = (this.state.me&&this.state.me.name||'').trim().split(' ')[0];
+    const greeting = (hour<12?'Buenos días':hour<19?'Buenas tardes':'Buenas noches') + (_firstName?', '+_firstName:'');
     const dateLine = this.state.now.toLocaleDateString('es-CO',{weekday:'short',day:'2-digit',month:'short',year:'numeric'}).replace('.','').toUpperCase();
     const timeStr = this.state.now.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
 
