@@ -1382,9 +1382,9 @@ const I18N = {
       badge:'// Reserva tu vuelo', h2:'Aparta tu fecha. Genera tu ticket.',
       p:'Elige tu experiencia, escoge un día en el calendario y déjanos tus datos. En segundos tendrás tu pase de abordar listo.',
       favorito:'FAVORITO',
-      aventurero:{ name:'AVIADOR EXPRESS', priceLine:'$280.000 COP · 00:30 teoría + 00:50 simulador · máx. 2 participantes',
+      aventurero:{ name:'AVIADOR EXPRESS', priceLine:'$285.000 COP · 00:30 teoría + 00:50 simulador · máx. 2 participantes',
         perks:['⏱️ 00:30 minutos de teoría — Aprende el conocimiento básico para volar tu avión: todo lo que debes hacer antes de subirte al avión y comandar el vuelo','🕹️ 00:50 minutos de vuelo en simulador — ¡Despega, vuela y relájate! Descubre tus habilidades: ¿podrás encontrar la pista de regreso y aterrizar?','👥 Máximo de participantes (2)','🎓 Certificado “Piloto por un Día”'] },
-      comandante:{ name:'AVIADOR COMPLETO', priceLine:'$370.000 COP · 01:00 teoría + 01:30 simulador · máx. 2 participantes',
+      comandante:{ name:'AVIADOR COMPLETO', priceLine:'$375.000 COP · 01:00 teoría + 01:30 simulador · máx. 2 participantes',
         perks:['🌍 01:00 hora de teoría — Démonos un viaje por la historia de la aviación: ¿cómo fue que llegamos a donde está la industria hoy?','✈️ Entiende en detalle la técnica del vuelo','⚙️ La evolución tecnológica','🧠 Los factores humanos detrás de la máquina','🕹️ 01:30 horas de vuelo en simulador — ¡Sube al simulador y pon en práctica todo lo que aprendiste! Despega, controla la máquina y lleva al límite tus habilidades','🗺️ Navega de una ciudad a otra — ¿podrás sortear una situación de emergencia?','👥 Máximo participantes (2)','🎓 Certificado “Piloto por un Día”'] },
       booking:{ fechaSeleccionadaLegend:'fecha seleccionada', boardingData:'PASE DE ABORDAR · DATOS', fechaElegida:'FECHA ELEGIDA', elegirFecha:'Elige una fecha en el calendario',
         paqueteLabel:'PAQUETE', tocaCambiar:'toca una tarjeta arriba para cambiar', nombreCompleto:'NOMBRE COMPLETO', nombrePlaceholder:'Tu nombre',
@@ -1522,8 +1522,8 @@ class Component extends DCLogic {
             docPreviewOpen:false, docPreviewLoading:false, docPreviewImg:null, docPreviewTitle:'', docPreviewFilename:'', docPreviewAllowPdf:false, docPreviewImgW:0, docPreviewImgH:0 };
 
   PKGS = {
-    aventurero:{ key:'aventurero', tag:'EXPRESS', cop:'280.000', dur:'1 h 20 min' },
-    comandante:{ key:'comandante', tag:'COMPLETO', cop:'370.000', dur:'2 h 30 min' }
+    aventurero:{ key:'aventurero', tag:'EXPRESS', cop:'285.000', dur:'1 h 20 min' },
+    comandante:{ key:'comandante', tag:'COMPLETO', cop:'375.000', dur:'2 h 30 min' }
   };
   SLOTS={
     aventurero:[{start:'09:00',end:'10:20'},{start:'10:30',end:'11:50'},{start:'12:00',end:'13:20'},{start:'14:00',end:'15:20'},{start:'16:00',end:'17:20'}],
@@ -1792,7 +1792,7 @@ class Component extends DCLogic {
     this.setState({bookLoading:true, bookError:null});
     const p=this.PKGS[this.state.bPkg];
     const seed=this.hashCode(this.state.bName+this.selDateStr()+p.key);
-    const totalMap={aventurero:280000, comandante:370000};
+    const totalMap={aventurero:285000, comandante:375000};
     const _bookRes = await fetch('/api/reservations',{
       method:'POST',
       headers:{'content-type':'application/json'},

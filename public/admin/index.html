@@ -1603,7 +1603,7 @@
             <sc-if value="{{ form.s4 }}" hint-placeholder-val="">
               <div style="display:flex;align-items:center;gap:8px;font-size:11.5px;color:#9a6f0a;background:#FBF0D5;padding:10px 13px;border-radius:9px;margin-bottom:16px"><span class="ms" style="font-size:17px">info</span>Los pagos se registran manualmente. Este sistema no procesa transacciones ni utiliza pasarela de pagos.</div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px 14px">
-                <label style="{{ form.lbl }}">Valor total<input value="{{ form.formTotal }}" onChange="{{ form.setFormTotal }}" placeholder="280000" style="{{ form.inp }}"></label>
+                <label style="{{ form.lbl }}">Valor total<input value="{{ form.formTotal }}" onChange="{{ form.setFormTotal }}" placeholder="285000" style="{{ form.inp }}"></label>
                 <label style="{{ form.lbl }}">Abono<input value="{{ form.formAbono }}" onChange="{{ form.setAbono }}" placeholder="0" style="{{ form.inp }}"></label>
                 <label style="{{ form.lbl }}">Estado del pago<select value="{{ form.pagoVal }}" onChange="{{ form.setPago }}" style="{{ form.inp }}"><option value="pendiente">Pendiente</option><option value="abono">Abono recibido</option><option value="pagado">Pagado</option><option value="vencido">Vencido</option></select></label>
                 <label style="{{ form.lbl }}">Método de pago<select value="{{ form.formMetodo }}" onChange="{{ form.setMetodo }}" style="{{ form.inp }}"><sc-for list="{{ form.metodos }}" as="mt" hint-placeholder-count="4"><option>{{ mt }}</option></sc-for></select></label>
@@ -2381,7 +2381,7 @@ class Component extends DCLogic {
     const paq=(this.paquetes[s.formTipo]||[])[s.formPaqueteIdx]||{};
     const dur=this.durToMins(paq.dur||'1h 20m');
     const horaFin=s.formHoraInicio?this.addMinutes(s.formHoraInicio,dur):'';
-    const total=parseInt((s.formTotal||'').replace(/\D/g,''))||paq.price||280000;
+    const total=parseInt((s.formTotal||'').replace(/\D/g,''))||paq.price||285000;
     const abono=parseInt((s.formAbono||'').replace(/\D/g,''))||0;
     const nombre=(s.formModalidad==='personal'?s.formNombre:s.formGiftNombre).trim()||'Sin nombre';
     const phone=(s.formModalidad==='personal'?s.formPhone:s.formGiftPhone).trim()||null;
@@ -2673,7 +2673,7 @@ class Component extends DCLogic {
   ];
 
   paquetes = {
-    pxd: [ {name:'Aviador Express', price:280000, dur:'1h 20m'}, {name:'Aviador Completo', price:370000, dur:'2h 30m'} ],
+    pxd: [ {name:'Aviador Express', price:285000, dur:'1h 20m'}, {name:'Aviador Completo', price:375000, dur:'2h 30m'} ],
     hs:  [ {name:'Sesión IFR · 1h30', price:270000, dur:'1h 30m'}, {name:'Navegación · 1h', price:180000, dur:'1h 00m'}, {name:'Aproximaciones · 1h', price:180000, dur:'1h 00m'}, {name:'Procedimientos · 1h30', price:270000, dur:'1h 30m'} ],
   };
   simsList = ['King Air B200','Airbus A320'];
