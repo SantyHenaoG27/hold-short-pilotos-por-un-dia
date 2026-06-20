@@ -816,54 +816,148 @@
         </div>
       </sc-if>
 
-      <!-- ===== PAGOS ===== -->
+      <!-- ===== PAGOS / COBROS ===== -->
       <sc-if value="{{ isPagos }}" hint-placeholder-val="">
         <div>
-          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:8px">
+          <!-- header -->
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px">
             <div>
-              <div class="mono" style="font-size:11px;letter-spacing:.1em;color:#F5841F;font-weight:600;margin-bottom:5px">// REGISTRO MANUAL</div>
-              <h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Pagos manuales</h1>
+              <div class="mono" style="font-size:11px;letter-spacing:.1em;color:#F5841F;font-weight:600;margin-bottom:5px">// COBROS & PAGOS</div>
+              <h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Gestión de cobros</h1>
             </div>
-            <button onClick="{{ toastNuevoPago }}" style="display:flex;align-items:center;gap:7px;height:38px;padding:0 15px;background:#F5841F;border:none;border-radius:9px;cursor:pointer;font-family:'Space Grotesk';font-size:13px;font-weight:600;color:#15171b" style-hover="background:#e8780f"><span class="ms" style="font-size:19px">add</span>Registrar pago</button>
           </div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:11.5px;color:#9a6f0a;background:#FBF0D5;padding:9px 13px;border-radius:9px;margin-bottom:18px"><span class="ms" style="font-size:16px">info</span>Hold Short no procesa transacciones ni utiliza pasarela de pagos. Todos los registros son manuales con fines de control interno.</div>
-          <div data-r="kpi" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px">
-            <sc-for list="{{ pagKpis }}" as="k" hint-placeholder-count="4">
+
+          <!-- KPIs -->
+          <div data-r="kpi" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+            <sc-for list="{{ cobrosKpis }}" as="k" hint-placeholder-count="3">
               <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:15px 16px">
-                <div style="{{ k.iconWrap }}"><span class="ms" style="font-size:20px">{{ k.icon }}</span></div>
-                <div class="disp" style="font-size:22px;font-weight:700;margin-top:11px;letter-spacing:-.02em">{{ k.value }}</div>
-                <div style="font-size:12px;color:var(--muted);margin-top:4px;font-weight:500">{{ k.label }}</div>
-                <div class="mono" style="font-size:10px;color:var(--faint);margin-top:3px">{{ k.sub }}</div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span class="ms" style="font-size:18px;color:{{ k.color }}">{{ k.icon }}</span><span style="font-size:11px;font-weight:600;color:var(--muted)">{{ k.label }}</span></div>
+                <div class="disp" style="font-size:22px;font-weight:700;letter-spacing:-.02em;color:{{ k.color }}">{{ k.value }}</div>
+                <div style="font-size:11px;color:var(--faint);margin-top:3px">{{ k.sub }}</div>
               </div>
             </sc-for>
           </div>
-          <div data-r="panelcols" style="display:grid;grid-template-columns:1.7fr 1fr;gap:16px">
-            <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden">
-              <div style="padding:14px 18px;border-bottom:1px solid var(--divider);display:flex;align-items:center;gap:8px"><span class="ms" style="font-size:19px;color:var(--muted)">receipt_long</span><h2 class="disp" style="margin:0;font-size:15px;font-weight:600">Movimientos recientes</h2></div>
-              <div style="overflow-x:auto"><div style="min-width:560px">
-                <sc-for list="{{ pagRows }}" as="p" hint-placeholder-count="7">
-                  <div onClick="{{ p.onClick }}" style="display:grid;grid-template-columns:1.4fr 1fr 1fr 110px;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--divider);cursor:pointer;font-size:12.5px" style-hover="background:var(--alt)">
-                    <div style="min-width:0"><div style="font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.cliente }}</div><div class="mono" style="font-size:10px;color:var(--faint)">{{ p.code }} · {{ p.fecha }}</div></div>
-                    <div><div style="font-size:11.5px;color:var(--text2)">{{ p.metodo }}</div><div class="mono" style="font-size:10px;color:var(--faint)">{{ p.ref }}</div></div>
-                    <div><span style="{{ p.estStyle }}"><span style="{{ p.dot }}"></span>{{ p.estLabel }}</span><div style="font-size:10px;color:var(--faint);margin-top:3px">{{ p.tipo }}</div></div>
-                    <div class="disp" style="font-size:14px;font-weight:700;text-align:right;color:{{ p.valorColor }}">{{ p.valorF }}</div>
-                  </div>
-                </sc-for>
-              </div></div>
-            </div>
-            <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:16px 18px">
-              <h3 class="disp" style="margin:0 0 16px;font-size:14.5px;font-weight:600">Métodos de pago</h3>
-              <div style="display:flex;flex-direction:column;gap:13px">
-                <sc-for list="{{ metodoBreak }}" as="m" hint-placeholder-count="5">
-                  <div>
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div style="display:flex;align-items:center;gap:7px"><span style="{{ m.dot }}"></span><span style="font-size:12px;color:var(--text2);font-weight:500">{{ m.label }}</span></div><span class="mono" style="font-size:12px;font-weight:600;color:var(--text)">{{ m.pct }}%</span></div>
-                    <div style="height:8px;background:var(--track);border-radius:5px;overflow:hidden"><div style="{{ m.barStyle }}"></div></div>
-                  </div>
-                </sc-for>
-              </div>
-              <div style="border-top:1px dashed var(--border);margin-top:16px;padding-top:13px"><div class="mono" style="font-size:10px;color:var(--faint);letter-spacing:.05em">REGISTRADO EN JUNIO</div><div class="disp" style="font-size:20px;font-weight:700;margin-top:4px">{{ ingresoMesF }}</div></div>
-            </div>
+
+          <!-- tabs -->
+          <div style="display:flex;gap:6px;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:0">
+            <button onClick="{{ cobrosSetPendiente }}" style="{{ cobrosTabPendiente }}">
+              <span class="ms" style="font-size:16px">pending</span>Sin pagar <sc-if value="{{ cobrosCountPendiente }}" hint-placeholder-val=""><span style="background:#D9920A;color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:9px;margin-left:4px">{{ cobrosCountPendiente }}</span></sc-if>
+            </button>
+            <button onClick="{{ cobrosSetAbono }}" style="{{ cobrosTabAbono }}">
+              <span class="ms" style="font-size:16px">payments</span>Abono recibido — restante pendiente <sc-if value="{{ cobrosCountAbono }}" hint-placeholder-val=""><span style="background:#2563B0;color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:9px;margin-left:4px">{{ cobrosCountAbono }}</span></sc-if>
+            </button>
+            <button onClick="{{ cobrosSetPagado }}" style="{{ cobrosTabPagado }}">
+              <span class="ms" style="font-size:16px">check_circle</span>Historial pagados
+            </button>
           </div>
+
+          <!-- TAB: SIN PAGAR -->
+          <sc-if value="{{ cobrosIsPendiente }}" hint-placeholder-val="">
+            <sc-if value="{{ cobrosNoPendientes }}" hint-placeholder-val="">
+              <div style="text-align:center;padding:48px 20px;color:var(--faint)">
+                <span class="ms" style="font-size:40px;display:block;margin-bottom:10px;color:#2E9E5B">check_circle</span>
+                <div style="font-size:14px;font-weight:600;color:var(--text2)">Sin cobros pendientes</div>
+                <div style="font-size:12px;margin-top:4px">Todos los clientes tienen pagos al día</div>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ cobrosPendientesList }}" as="c" hint-placeholder-count="4">
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:16px 18px">
+                  <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px">
+                    <div style="flex:1;min-width:0">
+                      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px">
+                        <span style="font-size:14px;font-weight:700;color:var(--text)">{{ c.cliente }}</span>
+                        <span style="font-size:11px;font-weight:600;color:#D9920A;background:rgba(217,146,10,.1);padding:2px 8px;border-radius:6px">Pendiente</span>
+                      </div>
+                      <div class="mono" style="font-size:11px;color:var(--faint)">REF: {{ c.code }} · {{ c.paquete }} · {{ c.fecha }}</div>
+                      <div style="font-size:11.5px;color:var(--muted);margin-top:2px">{{ c.tel }}</div>
+                    </div>
+                    <div style="text-align:right;flex-shrink:0">
+                      <div class="disp" style="font-size:20px;font-weight:700;color:#D9920A">{{ c.total }}</div>
+                      <div style="font-size:11px;color:var(--faint)">total a cobrar</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:7px;flex-wrap:wrap">
+                    <button onClick="{{ c.onWa }}" style="display:flex;align-items:center;gap:6px;height:34px;padding:0 13px;background:#25D366;border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer"><span class="ms" style="font-size:16px">chat</span>Enviar datos de pago</button>
+                    <button onClick="{{ c.onAbono }}" style="display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;background:rgba(37,99,176,.1);border:1px solid rgba(37,99,176,.3);border-radius:8px;color:#2563B0;font-size:12px;font-weight:600;cursor:pointer"><span class="ms" style="font-size:15px">payments</span>Marcar abono</button>
+                    <button onClick="{{ c.onPagado }}" style="display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;background:rgba(46,158,91,.1);border:1px solid rgba(46,158,91,.3);border-radius:8px;color:#2E9E5B;font-size:12px;font-weight:600;cursor:pointer"><span class="ms" style="font-size:15px">check_circle</span>Pagado</button>
+                    <button onClick="{{ c.onDrawer }}" style="display:flex;align-items:center;gap:5px;height:34px;padding:0 10px;background:var(--chip);border:1px solid var(--border);border-radius:8px;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer" style-hover="background:var(--alt)"><span class="ms" style="font-size:15px">open_in_new</span>Ver reserva</button>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <!-- TAB: ABONO RECIBIDO -->
+          <sc-if value="{{ cobrosIsAbono }}" hint-placeholder-val="">
+            <sc-if value="{{ cobrosNoAbono }}" hint-placeholder-val="">
+              <div style="text-align:center;padding:48px 20px;color:var(--faint)">
+                <span class="ms" style="font-size:40px;display:block;margin-bottom:10px">payments</span>
+                <div style="font-size:14px;font-weight:600;color:var(--text2)">Sin restantes pendientes</div>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ cobrosAbonoList }}" as="c" hint-placeholder-count="3">
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:16px 18px">
+                  <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px">
+                    <div style="flex:1;min-width:0">
+                      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px">
+                        <span style="font-size:14px;font-weight:700;color:var(--text)">{{ c.cliente }}</span>
+                        <span style="font-size:11px;font-weight:600;color:#2563B0;background:rgba(37,99,176,.1);padding:2px 8px;border-radius:6px">Abono recibido</span>
+                      </div>
+                      <div class="mono" style="font-size:11px;color:var(--faint)">REF: {{ c.code }} · {{ c.paquete }} · {{ c.fecha }}</div>
+                      <div style="font-size:11.5px;color:var(--muted);margin-top:2px">{{ c.tel }}</div>
+                    </div>
+                    <div style="text-align:right;flex-shrink:0">
+                      <div class="disp" style="font-size:20px;font-weight:700;color:#D9920A">{{ c.saldo }}</div>
+                      <div style="font-size:11px;color:var(--faint)">saldo pendiente</div>
+                    </div>
+                  </div>
+                  <!-- barra de progreso pago -->
+                  <div style="margin-bottom:12px">
+                    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--faint);margin-bottom:4px">
+                      <span>Abonado: {{ c.abono }}</span><span>Total: {{ c.total }}</span>
+                    </div>
+                    <div style="height:6px;background:var(--track);border-radius:4px;overflow:hidden">
+                      <div style="height:100%;background:#2563B0;border-radius:4px;width:{{ c.pct }}%"></div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:7px;flex-wrap:wrap">
+                    <button onClick="{{ c.onWa }}" style="display:flex;align-items:center;gap:6px;height:34px;padding:0 13px;background:#25D366;border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer"><span class="ms" style="font-size:16px">chat</span>Cobrar restante</button>
+                    <button onClick="{{ c.onPagado }}" style="display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;background:rgba(46,158,91,.1);border:1px solid rgba(46,158,91,.3);border-radius:8px;color:#2E9E5B;font-size:12px;font-weight:600;cursor:pointer"><span class="ms" style="font-size:15px">check_circle</span>Marcar pagado</button>
+                    <button onClick="{{ c.onDrawer }}" style="display:flex;align-items:center;gap:5px;height:34px;padding:0 10px;background:var(--chip);border:1px solid var(--border);border-radius:8px;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer" style-hover="background:var(--alt)"><span class="ms" style="font-size:15px">open_in_new</span>Ver reserva</button>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <!-- TAB: HISTORIAL PAGADOS -->
+          <sc-if value="{{ cobrosIsPagado }}" hint-placeholder-val="">
+            <sc-if value="{{ cobrosNoPagados }}" hint-placeholder-val="">
+              <div style="text-align:center;padding:48px 20px;color:var(--faint)">
+                <span class="ms" style="font-size:40px;display:block;margin-bottom:10px">history</span>
+                <div style="font-size:14px;font-weight:600;color:var(--text2)">Sin pagos completados aún</div>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ cobrosHistorialList }}" as="c" hint-placeholder-count="5">
+                <div onClick="{{ c.onClick }}" style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:13px;cursor:pointer" style-hover="background:var(--alt)">
+                  <div style="width:38px;height:38px;border-radius:10px;background:#0C0D10;color:#F5841F;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:13px;flex-shrink:0">{{ c.initials }}</div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:13.5px;font-weight:700;color:var(--text)">{{ c.cliente }}</div>
+                    <div class="mono" style="font-size:10.5px;color:var(--faint);margin-top:2px">REF: {{ c.code }} · {{ c.paquete }} · {{ c.fecha }}</div>
+                  </div>
+                  <div style="text-align:right;flex-shrink:0">
+                    <div class="disp" style="font-size:16px;font-weight:700;color:#2E9E5B">{{ c.total }}</div>
+                    <div style="font-size:10px;color:var(--faint)">pagado</div>
+                  </div>
+                  <span class="ms" style="font-size:18px;color:var(--faint)">chevron_right</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
         </div>
       </sc-if>
 
@@ -2065,6 +2159,8 @@ class Component extends DCLogic {
     // pago drawer
     drawerAbonoInput: '',
     drawerAbonoSaving: false,
+    // cobros
+    cobrosTab: 'pendiente',
     // bloqueo de fechas
     blockModal: false,
     blockDates: [],
@@ -2530,6 +2626,7 @@ class Component extends DCLogic {
     if(route==='regalos') this.fetchRegalosData();
     if(route==='documentos') this.fetchDocsData();
     if(route==='clientes') this.fetchClientesData();
+    if(route==='pagos') { if(!this.state.dashData) this.fetchDashboardData(); }
   }
   reload(){
     this.setState({ loading: true });
@@ -3537,28 +3634,36 @@ class Component extends DCLogic {
       {label:'Cancelados', n:_regLoaded?String(_regCancelados):'…', c:'#b13838', bg:'#FBEAEA', ic:'block'},
     ].map(p=>({...p, iconWrap:`width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:${p.c};background:${p.bg}`}));
 
-    // ---------- PAGOS ----------
-    const pagRows = this.pagos.map(p=>{
-      const pm=this.pagoMeta(p.estado);
-      const neg=p.valor<0;
-      return { ...p, valorF:(neg?'−':'')+this.cop(Math.abs(p.valor)),
-        valorColor: neg?'#b13838':'#16181c',
-        estLabel:pm.label, estStyle:`display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;color:${pm.c};background:${pm.c}1a;padding:3px 10px;border-radius:20px`,
-        dot:`width:7px;height:7px;border-radius:50%;background:${pm.c}`,
-        onClick:()=>this.openDrawer(p.code),
-      };
+    // ---------- COBROS / PAGOS (datos reales) ----------
+    const _cobrosAll = (this.state.dashData || []).filter(s=>!['cancelada','noasistio'].includes(s.estado)&&s.total>0);
+    const _cobrosPend  = _cobrosAll.filter(s=>s.pago==='pendiente');
+    const _cobrosAbon  = _cobrosAll.filter(s=>s.pago==='abono'&&(s.total-s.abono)>0);
+    const _cobrosPag   = (this.state.dashData||[]).filter(s=>s.pago==='pagado');
+    const _totalPend   = _cobrosPend.reduce((a,s)=>a+s.total,0);
+    const _totalRest   = _cobrosAbon.reduce((a,s)=>a+(s.total-s.abono),0);
+    const _totalRecaud = _cobrosPag.reduce((a,s)=>a+s.total,0);
+    const cobrosKpis=[
+      {icon:'pending_actions', label:'Sin pagar', value:this.cop(_totalPend), sub:`${_cobrosPend.length} reserva${_cobrosPend.length!==1?'s':''}`, color:'#D9920A'},
+      {icon:'payments', label:'Restante por cobrar', value:this.cop(_totalRest), sub:`${_cobrosAbon.length} con abono recibido`, color:'#2563B0'},
+      {icon:'check_circle', label:'Total recaudado', value:this.cop(_totalRecaud), sub:`${_cobrosPag.length} pagada${_cobrosPag.length!==1?'s':''}`, color:'#2E9E5B'},
+    ];
+    const _mkCard = s=>({
+      code:s.code, cliente:s.cliente, tel:s.tel||'—', fecha:s.fecha,
+      paquete:s.paquete, total:this.cop(s.total), abono:this.cop(s.abono),
+      saldo:this.cop(s.total-s.abono),
+      pct:s.total>0?Math.round(s.abono/s.total*100):0,
+      initials:(s.cliente||'?').split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase(),
+      onWa:()=>this.sendDatosPago(s),
+      onAbono:()=>this.setPago(s.code,'abono'),
+      onPagado:()=>this.setPago(s.code,'pagado'),
+      onDrawer:()=>this.openDrawer(s.code),
+      onClick:()=>this.openDrawer(s.code),
     });
-    const ingresoMes = 2960000, abonosMes = 525000, pendienteMes = 740000, reembolsoMes = 370000;
-    const pagKpis=[
-      {label:'Ingresos registrados · junio', value:this.cop(ingresoMes), icon:'trending_up', c:'#227a45', bg:'#E6F4EC', sub:'18 pagos manuales'},
-      {label:'Abonos recibidos', value:this.cop(abonosMes), icon:'savings', c:'#2563B0', bg:'#E3EEFB', sub:'5 reservas con abono'},
-      {label:'Saldos pendientes', value:this.cop(pendienteMes), icon:'pending_actions', c:'#9a6f0a', bg:'#FBF0D5', sub:'2 por cobrar'},
-      {label:'Reembolsos', value:this.cop(reembolsoMes), icon:'undo', c:'#b13838', bg:'#FBEAEA', sub:'1 cancelación'},
-    ].map(k=>({...k, iconWrap:`width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:${k.c};background:${k.bg}`}));
-    const metodoBreak=[
-      {label:'Transferencia', pct:42, c:'#F5841F'}, {label:'Nequi', pct:23, c:'#355C7D'},
-      {label:'Efectivo', pct:18, c:'#2E9E5B'}, {label:'Daviplata', pct:11, c:'#C99A2E'}, {label:'Otros', pct:6, c:'#9a9ea5'},
-    ].map(m=>({...m, barStyle:`height:100%;width:${m.pct}%;background:${m.c};border-radius:5px`, dot:`width:9px;height:9px;border-radius:3px;background:${m.c}`}));
+    const cobrosPendientesList = _cobrosPend.map(_mkCard);
+    const cobrosAbonoList      = _cobrosAbon.map(_mkCard);
+    const cobrosHistorialList  = _cobrosPag.map(_mkCard);
+    const _cobrosTab = this.state.cobrosTab;
+    const _tabBtn = (active)=>`display:flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:none;background:transparent;font-size:13px;font-weight:${active?700:500};color:${active?'var(--text)':'var(--muted)'};cursor:pointer;border-bottom:2px solid ${active?'#F5841F':'transparent'};margin-bottom:-1px`;
 
     // ---------- REPORTES ----------
     const repMonths=[['Ene',18],['Feb',22],['Mar',26],['Abr',24],['May',31],['Jun',28]];
@@ -4019,12 +4124,29 @@ class Component extends DCLogic {
       clienteDrawerData, cliDrawerOpen, cliDrawerClose,
       // regalos
       regList, regPipeline, regCount:regList.length, regLoading, regEmpty, regHasRows,
-      // pagos
-      pagRows, pagKpis, metodoBreak,
+      // cobros
+      cobrosKpis,
+      cobrosIsPendiente: _cobrosTab==='pendiente',
+      cobrosIsAbono:     _cobrosTab==='abono',
+      cobrosIsPagado:    _cobrosTab==='pagado',
+      cobrosTabPendiente: _tabBtn(_cobrosTab==='pendiente'),
+      cobrosTabAbono:     _tabBtn(_cobrosTab==='abono'),
+      cobrosTabPagado:    _tabBtn(_cobrosTab==='pagado'),
+      cobrosSetPendiente: ()=>this.setState({cobrosTab:'pendiente'}),
+      cobrosSetAbono:     ()=>this.setState({cobrosTab:'abono'}),
+      cobrosSetPagado:    ()=>this.setState({cobrosTab:'pagado'}),
+      cobrosCountPendiente: _cobrosPend.length>0 ? String(_cobrosPend.length) : '',
+      cobrosCountAbono:     _cobrosAbon.length>0 ? String(_cobrosAbon.length) : '',
+      cobrosNoPendientes: _cobrosPend.length===0,
+      cobrosNoAbono:      _cobrosAbon.length===0,
+      cobrosNoPagados:    _cobrosPag.length===0,
+      cobrosPendientesList,
+      cobrosAbonoList,
+      cobrosHistorialList,
       // reportes
       repBars, repKpis, repInstr,
       toastNuevoCliente:()=>this.toast('Nuevo cliente (formulario · próxima fase)'),
-      toastNuevoPago:()=>this.toast('Registrar pago manual (próxima fase)'),
+      toastNuevoPago:()=>{},
       ingresoMesF:this.cop(ingresoMes),
       // calendario
       calTabs, calView:cv,
