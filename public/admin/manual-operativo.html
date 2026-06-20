@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Manual Operativo · Hangar 1903</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --orange: #F5841F;
+    --dark: #0C0D10;
+    --text: #16181c;
+    --muted: #73777e;
+    --border: #E7E7E2;
+    --chip: #F4F4F1;
+    --green: #2E9E5B;
+    --blue: #2563B0;
+    --yellow: #D9920A;
+    --red: #D64545;
+  }
+  @page { size: A4; margin: 14mm 14mm 16mm 14mm; }
+  @media print {
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    body { font-size: 11px; }
+    h1.cover-title { font-size: 52px !important; }
+  }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #fff; font-size: 11.5px; line-height: 1.6; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .disp { font-family: 'Space Grotesk', sans-serif; }
+
+  /* ── PORTADA ── */
+  .cover {
+    background: var(--dark);
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 56px 52px 44px;
+    color: #fff;
+    position: relative; overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(245,132,31,.18) 0%, transparent 55%),
+                radial-gradient(ellipse at 20% 90%, rgba(37,99,176,.12) 0%, transparent 55%);
+  }
+  .cover-logo { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
+  .cover-logo-mark {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: var(--orange); display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 22px; color: #15171b;
+  }
+  .cover-logo-text { }
+  .cover-logo-name { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: .04em; color: #fff; }
+  .cover-logo-sub  { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .18em; color: #73777e; margin-top: 2px; }
+  .cover-body { position: relative; z-index: 1; }
+  .cover-kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .16em; color: var(--orange); font-weight: 600; margin-bottom: 16px; }
+  h1.cover-title { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 62px; line-height: 1.0; letter-spacing: -.02em; color: #fff; margin-bottom: 20px; }
+  .cover-title span { color: var(--orange); }
+  .cover-subtitle { font-size: 14px; color: #9a9ea5; line-height: 1.65; max-width: 520px; }
+  .cover-meta { display: flex; gap: 32px; position: relative; z-index: 1; }
+  .cover-meta-item { }
+  .cover-meta-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .12em; color: #52555b; margin-bottom: 3px; }
+  .cover-meta-val { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 12px; color: #d4d6da; }
+  .cover-strip { height: 4px; background: linear-gradient(90deg, var(--orange), #e8780f 40%, var(--blue) 100%); position: absolute; top: 0; left: 0; right: 0; }
+
+  /* ── CONTENIDO ── */
+  .page { padding: 36px 40px; }
+
+  /* secciones */
+  .section-header { margin-bottom: 22px; padding-bottom: 12px; border-bottom: 2px solid var(--dark); }
+  .section-kicker { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .16em; color: var(--orange); font-weight: 600; margin-bottom: 6px; }
+  h2.section-title { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -.01em; }
+  .section-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13.5px; margin: 18px 0 8px; color: var(--text); }
+  h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 12px; margin: 14px 0 6px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  p { margin-bottom: 8px; color: #3a3d42; }
+
+  /* flujo paso a paso */
+  .flow { display: flex; flex-direction: column; gap: 0; margin: 14px 0; }
+  .flow-step { display: flex; gap: 14px; }
+  .flow-left { display: flex; flex-direction: column; align-items: center; }
+  .flow-num { width: 26px; height: 26px; border-radius: 50%; background: var(--dark); color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .flow-line { width: 2px; background: #E7E7E2; flex: 1; margin: 3px 0; min-height: 12px; }
+  .flow-body { padding-bottom: 14px; flex: 1; }
+  .flow-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 12.5px; margin-bottom: 3px; }
+  .flow-desc { font-size: 11px; color: #3a3d42; line-height: 1.55; }
+  .flow-step:last-child .flow-line { display: none; }
+  .flow-step:last-child .flow-num { background: var(--green); }
+
+  /* badges */
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; font-family: 'JetBrains Mono', monospace; letter-spacing: .02em; }
+  .b-orange { background: #FEF1E2; color: #b5630a; }
+  .b-green  { background: #E6F4EC; color: #227a45; }
+  .b-blue   { background: #E9F0F6; color: #2c5070; }
+  .b-yellow { background: rgba(217,146,10,.12); color: #a56a00; }
+  .b-red    { background: #FBEAEA; color: #b13838; }
+  .b-purple { background: #EEEBFB; color: #5848c0; }
+  .b-dark   { background: var(--dark); color: #fff; }
+
+  /* tablas */
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 11px; }
+  th { background: var(--dark); color: #fff; padding: 7px 10px; text-align: left; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: .04em; }
+  td { padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #FAFAF8; }
+
+  /* cards grilla */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0; }
+  .cards-2 { grid-template-columns: repeat(2, 1fr); }
+  .card { border: 1px solid var(--border); border-radius: 10px; padding: 13px 14px; }
+  .card-icon { font-size: 18px; margin-bottom: 7px; }
+  .card-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 12px; margin-bottom: 4px; }
+  .card-desc { font-size: 10.5px; color: var(--muted); line-height: 1.5; }
+
+  /* nota / alerta */
+  .note { background: #FEF8ED; border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 10px 13px; margin: 10px 0; font-size: 11px; color: #3a3d42; line-height: 1.55; }
+  .note strong { color: var(--dark); }
+  .note-blue { background: #EEF4FF; border-left-color: var(--blue); }
+  .note-green { background: #EDFBF3; border-left-color: var(--green); }
+
+  /* TOC */
+  .toc-item { display: flex; align-items: baseline; gap: 6px; padding: 5px 0; border-bottom: 1px dotted #E7E7E2; }
+  .toc-num  { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--orange); font-weight: 600; flex-shrink: 0; width: 22px; }
+  .toc-label { font-size: 12px; font-weight: 500; flex: 1; }
+  .toc-dots { flex: 1; border-bottom: 1px dotted #c5c5bc; margin: 0 6px; position: relative; top: -3px; }
+  .toc-page { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+
+  /* inline code */
+  code { font-family: 'JetBrains Mono', monospace; font-size: 10px; background: var(--chip); padding: 1px 5px; border-radius: 4px; color: var(--dark); }
+
+  /* estado pills inline */
+  .pill { display: inline-block; padding: 1px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; }
+
+  /* ── print button ── */
+  .print-btn { position: fixed; bottom: 24px; right: 24px; background: var(--orange); color: #15171b; border: none; border-radius: 12px; padding: 13px 22px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 6px 20px rgba(245,132,31,.4); z-index: 999; }
+  .print-btn:hover { background: #e8780f; }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">⬇ Guardar PDF</button>
+
+<!-- ═══════════════════════════════════════════════════════════════ PORTADA -->
+<div class="cover">
+  <div class="cover-strip"></div>
+  <div class="cover-logo">
+    <div class="cover-logo-mark">H</div>
+    <div class="cover-logo-text">
+      <div class="cover-logo-name">HANGAR 1903</div>
+      <div class="cover-logo-sub">POWERED BY HOLD SHORT AVIATION</div>
+    </div>
+  </div>
+  <div class="cover-body">
+    <div class="cover-kicker">// DOCUMENTO INTERNO · USO OPERATIVO</div>
+    <h1 class="cover-title">Manual<br><span>Operativo</span><br>Completo</h1>
+    <p class="cover-subtitle">Guía paso a paso del flujo de reservas, gestión del panel de administrador, portal de instructores y sistema de pagos. Documento de referencia para el equipo de Hangar 1903.</p>
+  </div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">VERSIÓN</div>
+      <div class="cover-meta-val">1.0 · Junio 2026</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">PLATAFORMA</div>
+      <div class="cover-meta-val">hangar1903.com</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">ADMIN</div>
+      <div class="cover-meta-val">/admin/ (acceso protegido)</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">INSTRUCTOR</div>
+      <div class="cover-meta-val">/instructor/ (acceso protegido)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ ÍNDICE -->
+<div class="page page-break">
+  <div class="section-header">
+    <div class="section-kicker">// ÍNDICE</div>
+    <h2 class="section-title">Contenido</h2>
+  </div>
+
+  <div class="toc-item"><div class="toc-num">01</div><div class="toc-label">Arquitectura del sistema</div><div class="toc-dots"></div><div class="toc-page">3</div></div>
+  <div class="toc-item"><div class="toc-num">02</div><div class="toc-label">Flujo del cliente — Piloto por un Día (PxD)</div><div class="toc-dots"></div><div class="toc-page">4</div></div>
+  <div class="toc-item"><div class="toc-num">03</div><div class="toc-label">Flujo del cliente — Reserva de regalo</div><div class="toc-dots"></div><div class="toc-page">5</div></div>
+  <div class="toc-item"><div class="toc-num">04</div><div class="toc-label">Estados de una reserva</div><div class="toc-dots"></div><div class="toc-page">5</div></div>
+  <div class="toc-item"><div class="toc-num">05</div><div class="toc-label">Sistema de pagos y cobros</div><div class="toc-dots"></div><div class="toc-page">6</div></div>
+  <div class="toc-item"><div class="toc-num">06</div><div class="toc-label">Panel de administrador — Secciones</div><div class="toc-dots"></div><div class="toc-page">7</div></div>
+  <div class="toc-item"><div class="toc-num">07</div><div class="toc-label">Crear una sesión desde el admin</div><div class="toc-dots"></div><div class="toc-page">9</div></div>
+  <div class="toc-item"><div class="toc-num">08</div><div class="toc-label">Gestión de instructores</div><div class="toc-dots"></div><div class="toc-page">10</div></div>
+  <div class="toc-item"><div class="toc-num">09</div><div class="toc-label">Portal del instructor</div><div class="toc-dots"></div><div class="toc-page">11</div></div>
+  <div class="toc-item"><div class="toc-num">10</div><div class="toc-label">Documentos y certificados</div><div class="toc-dots"></div><div class="toc-page">12</div></div>
+  <div class="toc-item"><div class="toc-num">11</div><div class="toc-label">Bloqueo de fechas y mantenimiento</div><div class="toc-dots"></div><div class="toc-page">12</div></div>
+  <div class="toc-item"><div class="toc-num">12</div><div class="toc-label">Configuración del sistema</div><div class="toc-dots"></div><div class="toc-page">13</div></div>
+  <div class="toc-item"><div class="toc-num">13</div><div class="toc-label">Paquetes disponibles</div><div class="toc-dots"></div><div class="toc-page">14</div></div>
+  <div class="toc-item"><div class="toc-num">14</div><div class="toc-label">Correos automáticos</div><div class="toc-dots"></div><div class="toc-page">14</div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ ARQUITECTURA -->
+<div class="page page-break">
+  <div class="section-header">
+    <div class="section-kicker">// 01 · SISTEMA</div>
+    <h2 class="section-title">Arquitectura del sistema</h2>
+    <p class="section-sub">Tres capas independientes: sitio público, panel admin y portal instructor</p>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">🌐</div>
+      <div class="card-title">hangar1903.com</div>
+      <div class="card-desc">Sitio público de reservas. El cliente elige fecha, horario y paquete. Envía la solicitud y recibe confirmación por correo.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛠</div>
+      <div class="card-title">hangar1903.com/admin/</div>
+      <div class="card-desc">Panel privado del administrador. Gestiona sesiones, clientes, instructores, cobros, documentos y configuración.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎓</div>
+      <div class="card-title">hangar1903.com/instructor/</div>
+      <div class="card-desc">Portal privado de cada instructor. Consulta sus sesiones asignadas y avanza el estado (Check-in → En curso → Completada).</div>
+    </div>
+  </div>
+
+  <div class="cards cards-2" style="margin-top:10px">
+    <div class="card">
+      <div class="card-icon">⚙️</div>
+      <div class="card-title">Cloudflare Workers (API)</div>
+      <div class="card-desc">Maneja todas las peticiones del servidor: crear reservas, enviar correos, autenticar instructores, gestionar disponibilidad. URL: <code>hangar-1903.holdshortweb.workers.dev</code></div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🗄</div>
+      <div class="card-title">Supabase (Base de datos)</div>
+      <div class="card-desc">PostgreSQL en la nube. Tablas principales: <code>reservations</code>, <code>instructors</code>, <code>reservation_instructors</code>, <code>settings</code>, <code>profiles</code>. Vista: <code>v_availability</code>.</div>
+    </div>
+  </div>
+
+  <h3>Dominios y accesos</h3>
+  <table>
+    <tr><th>URL</th><th>Descripción</th><th>Acceso</th></tr>
+    <tr><td><code>hangar1903.com</code></td><td>Sitio público de reservas</td><td>Público</td></tr>
+    <tr><td><code>hangar1903.com/admin/</code></td><td>Panel administrador</td><td>Usuario admin (Supabase Auth)</td></tr>
+    <tr><td><code>hangar1903.com/instructor/</code></td><td>Portal instructores</td><td>Usuario instructor (Supabase Auth)</td></tr>
+    <tr><td><code>hangar1903.com/preflight/</code></td><td>Video de seguridad obligatorio</td><td>Público (enlace en correo)</td></tr>
+    <tr><td><code>hangar1903.com/privacidad/</code></td><td>Política de privacidad</td><td>Público</td></tr>
+    <tr><td><code>hangar1903.com/reserva?code=HS-XXXX</code></td><td>Consulta de reserva</td><td>Público (con código)</td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ FLUJO CLIENTE PxD -->
+<div class="page page-break">
+  <div class="section-header">
+    <div class="section-kicker">// 02 · CLIENTE</div>
+    <h2 class="section-title">Flujo del cliente — Piloto por un Día</h2>
+    <p class="section-sub">Desde que ingresa al sitio hasta que llega al hangar</p>
+  </div>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">1</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Ingresa al sitio — hangar1903.com</div>
+        <div class="flow-desc">El cliente llega desde Instagram, Google, WhatsApp o referido. Ve la landing page con la descripción del servicio "Piloto por un Día", precios y galería.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">2</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Elige paquete</div>
+        <div class="flow-desc">Selecciona entre <strong>Aviador Express</strong> (1h 20m · $285.000) o <strong>Aviador Completo</strong> (2h 30m · $375.000). Los precios son configurables desde el admin.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">3</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Selecciona fecha y hora</div>
+        <div class="flow-desc">El calendario muestra fechas disponibles. Las fechas bloqueadas por admin o en mantenimiento del simulador aparecen deshabilitadas. Al elegir fecha, el sistema consulta <code>v_availability</code> en Supabase en tiempo real y marca los horarios ya ocupados.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">4</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Completa el formulario de reserva</div>
+        <div class="flow-desc">Nombre completo, teléfono WhatsApp, correo electrónico. Opcionalmente: nombre de un segundo participante. Acepta política de privacidad antes de enviar.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">5</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">El sistema crea la reserva automáticamente</div>
+        <div class="flow-desc">Se genera un código único <code>HS-XXXX</code> (ej. <code>HS-2281</code>). La reserva inicia en estado <span class="badge b-dark">Confirmada</span>. Pago: <span class="badge b-yellow">Pendiente</span>.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">6</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Correos automáticos se envían simultáneamente</div>
+        <div class="flow-desc"><strong>Cliente:</strong> recibe confirmación con fecha, hora, paquete, código <code>HS-XXXX</code>, enlace al video de seguridad preflight y enlace para consultar su reserva.<br><strong>Admin:</strong> recibe alerta interna con todos los datos del cliente y botón "Ver en panel".</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">7</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Admin gestiona el pago</div>
+        <div class="flow-desc">Desde Cobros en el panel, el admin envía al cliente los datos de pago por WhatsApp (Nequi / Bancolombia) con el código como referencia. El cliente envía el comprobante del abono (mínimo 50% por defecto, configurable).</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">8</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Admin asigna instructor</div>
+        <div class="flow-desc">Desde el drawer de la reserva, el admin asigna uno o más instructores (con rol Líder o Apoyo). El instructor líder aparece en los documentos de la reserva.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">9</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Día de la sesión</div>
+        <div class="flow-desc">El instructor avanza el estado desde su portal: <span class="badge b-orange">Check-in</span> al llegar → <span class="badge b-blue">En curso</span> al empezar → <span class="badge b-green">Completada</span> al terminar. El cliente paga el saldo restante en efectivo al llegar.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">10</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Certificado y documentos</div>
+        <div class="flow-desc">Una vez en estado Completada, el admin puede generar el <strong>Certificado de participación</strong> en PDF desde la sección Certificados del panel.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ FLUJO REGALO -->
+<div class="page page-break">
+  <div class="section-header">
+    <div class="section-kicker">// 03 · RESERVA DE REGALO</div>
+    <h2 class="section-title">Flujo de reserva como regalo</h2>
+  </div>
+
+  <p>El formulario de reserva tiene dos modalidades: <strong>Personal</strong> y <strong>Regalo</strong>. Cuando se elige Regalo:</p>
+
+  <div class="flow" style="margin-top:14px">
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">1</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Quien regala llena sus datos</div>
+        <div class="flow-desc">Nombre del regalante, teléfono y correo. Escribe el nombre del destinatario del regalo y un mensaje personalizado (opcional).</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">2</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Generación de Invitación de regalo</div>
+        <div class="flow-desc">El admin genera una <strong>Invitación de regalo</strong> en PDF desde el panel (sección Documentos o desde el drawer de la reserva). Este documento muestra el nombre del destinatario con un diseño especial y el mensaje personalizado.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">3</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Sección Regalos del panel</div>
+        <div class="flow-desc">El panel tiene una sección dedicada a regalos donde se ven todas las reservas marcadas como regalo, permitiendo un seguimiento diferenciado.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ ESTADOS ═══════ -->
+  <div class="section-header" style="margin-top:28px">
+    <div class="section-kicker">// 04 · ESTADOS</div>
+    <h2 class="section-title">Estados de una reserva</h2>
+  </div>
+
+  <table>
+    <tr><th>Estado</th><th>Significado</th><th>¿Quién lo asigna?</th></tr>
+    <tr><td><span class="badge b-purple">Solicitud</span></td><td>Llegó una reserva desde la web, pendiente de revisión del admin</td><td>Sistema automático / Admin manual</td></tr>
+    <tr><td><span class="badge b-dark">Confirmada</span></td><td>Reserva validada, fecha y hora confirmadas</td><td>Sistema automático al crearse / Admin</td></tr>
+    <tr><td><span class="badge b-blue">Próxima</span></td><td>La sesión es inminente (días cercanos)</td><td>Admin</td></tr>
+    <tr><td><span class="badge b-orange">Check-in</span></td><td>El cliente llegó al hangar</td><td>Instructor desde su portal</td></tr>
+    <tr><td><span class="badge b-blue">En curso</span></td><td>La sesión está activa en el simulador</td><td>Instructor desde su portal</td></tr>
+    <tr><td><span class="badge b-green">Completada</span></td><td>Sesión finalizada exitosamente</td><td>Instructor desde su portal</td></tr>
+    <tr><td><span class="badge b-yellow">Pendiente</span></td><td>En espera de confirmación de pago u otro requisito</td><td>Admin</td></tr>
+    <tr><td><span class="badge b-red">Cancelada</span></td><td>Reserva cancelada</td><td>Admin</td></tr>
+    <tr><td><span class="badge b-purple">Reprogramada</span></td><td>Se cambió la fecha/hora original</td><td>Admin</td></tr>
+    <tr><td><span class="badge b-red">No asistió</span></td><td>Cliente no se presentó el día de la sesión</td><td>Admin</td></tr>
+  </table>
+
+  <div class="note">
+    <strong>Transiciones posibles:</strong> El admin puede mover una reserva a cualquier estado desde el drawer. El instructor solo puede avanzar entre Check-in → En curso → Completada y únicamente sobre reservas que le fueron asignadas.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ PAGOS -->
+<div class="page page-break">
+  <div class="section-header">
+    <div class="section-kicker">// 05 · COBROS</div>
+    <h2 class="section-title">Sistema de pagos y cobros</h2>
+    <p class="section-sub">Todo se gestiona desde la sección "Pagos" del panel admin</p>
+  </div>
+
+  <h3>Estados de pago</h3>
+  <table>
+    <tr><th>Estado</th><th>Significado</th><th>Efecto en Recaudado</th></tr>
+    <tr><td><span class="badge b-yellow">Pendiente abono</span></td><td>No se ha recibido ningún pago. El cliente aún no ha enviado el abono mínimo.</td><td>No suma</td></tr>
+    <tr><td><span class="badge b-blue">Abonado · restante pendiente</span></td><td>Se recibió un abono parcial. El saldo restante se debe pagar al llegar al hangar.</td><td>Suma el monto del abono</td></tr>
+    <tr><td><span class="badge b-green">Pagado</span></td><td>El cliente pagó el total completo.</td><td>Suma el total de la reserva</td></tr>
+  </table>
+
+  <h3>Flujo de cobro paso a paso</h3>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">1</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Admin abre sección Pagos → tab "Sin pagar"</div>
+        <div class="flow-desc">Ve todas las reservas con pago pendiente. Cada card muestra: cliente, fecha, código, total y botones de estado.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">2</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Envía datos de pago por WhatsApp</div>
+        <div class="flow-desc">Botón verde <strong>"Datos de pago"</strong> abre WhatsApp con plantilla prellenada: total, abono requerido (%), saldo, número Nequi, número Bancolombia, titular y código de referencia <code>HS-XXXX</code>.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">3</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Cliente envía el comprobante</div>
+        <div class="flow-desc">El cliente transfiere por Nequi o Bancolombia usando el código <code>HS-XXXX</code> como referencia y envía la captura por WhatsApp.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">4</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Admin registra el abono</div>
+        <div class="flow-desc">Toca <strong>"Abonado · restante pendiente"</strong> → aparece modal donde ingresa: monto exacto recibido y método de pago (Nequi / Bancolombia / Efectivo / Tarjeta). Toca "Guardar abono".</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">5</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Genera comprobante de pago (PDF)</div>
+        <div class="flow-desc">Desde la tab "Abono recibido — restante pendiente", botón <strong>"Comprobante"</strong> genera un PDF con: datos del cliente, código de reserva, paquete, monto abonado, saldo pendiente, método usado. <em>Incluye aclaración de que no es factura comercial (sin NIT).</em></div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">6</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Día de la sesión: pago del saldo restante</div>
+        <div class="flow-desc">El cliente llega al hangar y paga el saldo en efectivo o por transferencia. Admin marca la reserva como <strong>"Pagado"</strong> → el monto completo suma al total recaudado.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>KPIs del panel de cobros</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">⏳</div>
+      <div class="card-title">Sin pagar</div>
+      <div class="card-desc">Suma total de reservas en estado "Pendiente abono". No se ha recibido ningún dinero aún.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💳</div>
+      <div class="card-title">Restante por cobrar</div>
+      <div class="card-desc">Suma de saldos pendientes de reservas en estado "Abonado". Dinero que se cobrará el día de la sesión.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💰</div>
+      <div class="card-title">Recaudado</div>
+      <div class="card-desc">Abonos recibidos (parciales) + totales de reservas pagadas completamente. Representa el dinero ya en caja.</div>
+    </div>
+  </div>
+
+  <div class="note note-blue">
+    <strong>Los estados de pago son reversibles:</strong> Si un cliente está en "Abonado" y necesitas corregirlo, puedes volver a "Pendiente" — el monto del abono se descuenta automáticamente del recaudado.
+  </div>
+
+  <h3>Cuentas de cobro (configurables)</h3>
+  <table>
+    <tr><th>Canal</th><th>Número / Cuenta</th><th>Titular</th></tr>
+    <tr><td>💚 Nequi</td><td>Configurable en panel → Configuración → Cuentas de cobro</td><td>Configurable</td></tr>
+    <tr><td>🏦 Bancolombia Ahorros</td><td>Configurable en panel → Configuración → Cuentas de cobro</td><td>Configurable</td></tr>
+    <tr><td>💵 Efectivo</td><td>Al momento de llegar al hangar</td><td>—</td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ PANEL ADMIN -->
+<div class="page page-break">
+  <div class="section-header">
+    <div class="section-kicker">// 06 · ADMIN</div>
+    <h2 class="section-title">Panel de administrador — Secciones</h2>
+    <p class="section-sub">Acceso en hangar1903.com/admin/ · Requiere login con cuenta de rol admin</p>
+  </div>
+
+  <table>
+    <tr><th>Sección</th><th>Qué contiene</th><th>Funciones principales</th></tr>
+    <tr>
+      <td><strong>Panel principal</strong></td>
+      <td>Vista de control general</td>
+      <td>KPIs del día (sesiones, ingresos estimados, ocupación), agenda del día, alertas activas, gráfico de sesiones por servicio, estado de simuladores</td>
+    </tr>
+    <tr>
+      <td><strong>Calendario operativo</strong></td>
+      <td>Vista semanal/mensual de sesiones</td>
+      <td>Ver todas las reservas por día y hora, filtro por servicio/estado, crear reservas nuevas, swimlane por instructor</td>
+    </tr>
+    <tr>
+      <td><strong>Sesiones</strong></td>
+      <td>Tabla completa de todas las reservas</td>
+      <td>Búsqueda, filtros por estado/servicio/fecha, 3 vistas (tabla, tarjetas, calendario), cambio de estado, drawer de detalle</td>
+    </tr>
+    <tr>
+      <td><strong>Piloto por un Día</strong></td>
+      <td>Reservas del servicio PxD</td>
+      <td>Lista filtrable por fecha (hoy, mañana, semana), KPIs del servicio, detalle de cada sesión</td>
+    </tr>
+    <tr>
+      <td><strong>Clientes</strong></td>
+      <td>Base de datos de clientes</td>
+      <td>Lista con historial de reservas, tab de pagos por cliente, tab de regalos, actividad reciente</td>
+    </tr>
+    <tr>
+      <td><strong>Regalos</strong></td>
+      <td>Reservas de tipo regalo</td>
+      <td>Ver reservas donde book_for = regalo, generar invitación PDF</td>
+    </tr>
+    <tr>
+      <td><strong>Pilotos</strong></td>
+      <td>Perfil de clientes piloto (estudiantes)</td>
+      <td>Historial de sesiones de simulador Hold Short</td>
+    </tr>
+    <tr>
+      <td><strong>Confirmaciones e invitaciones</strong></td>
+      <td>Centro de documentos</td>
+      <td>Generar/imprimir Confirmación de reserva y Invitación de regalo en PDF, enviar por WhatsApp</td>
+    </tr>
+    <tr>
+      <td><strong>Certificados</strong></td>
+      <td>Certificados de participación</td>
+      <td>Lista de sesiones completadas, generar certificado personalizado en PDF</td>
+    </tr>
+    <tr>
+      <td><strong>Simuladores</strong></td>
+      <td>Estado de los simuladores</td>
+      <td>Registrar mantenimiento del simulador King Air B200 (bloques de fechas/horas fuera de servicio)</td>
+    </tr>
+    <tr>
+      <td><strong>Instructores</strong></td>
+      <td>Gestión del equipo</td>
+      <td>Crear/editar instructores, activar/desactivar, cambiar contraseña, ver áreas de expertise</td>
+    </tr>
+    <tr>
+      <td><strong>Pagos (Cobros)</strong></td>
+      <td>Gestión financiera</td>
+      <td>3 tabs: Sin pagar / Abono recibido / Pagado. KPIs de recaudado. Registrar abonos, generar comprobante PDF, enviar datos de pago por WhatsApp</td>
+    </tr>
+    <tr>
+      <td><strong>Configuración</strong></td>
+      <td>Ajustes del sistema</td>
+      <td>Datos del local, cuentas de cobro (Nequi/Bancolombia), precios de paquetes — todo editable y guardado en DB</td>
+    </tr>
+  </table>
+
+  <h3>Drawer de detalle de reserva</h3>
+  <p>Al hacer clic en cualquier reserva desde casi cualquier sección, se abre un panel lateral (drawer) con:</p>
+  <div class="cards" style="margin-top:10px">
+    <div class="card">
+      <div class="card-title">Datos de la sesión</div>
+      <div class="card-desc">Código, servicio, estado, cliente, teléfono, fecha, hora, paquete, simulador, duración, instructor asignado, origen de la reserva, segundo participante.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Panel de pagos</div>
+      <div class="card-desc">Total, abono registrado, saldo pendiente. Cambio de estado de pago (Pendiente / Abono / Pagado). Campo para registrar abono manual. Botón de WhatsApp de datos de pago.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Equipo instructor</div>
+      <div class="card-desc">Ver instructores asignados con su rol (Líder / Apoyo). Agregar nuevos instructores desde lista de activos. Eliminar asignaciones.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Acciones de estado</div>
+      <div class="card-desc">Cambiar estado de la reserva (Confirmada, Próxima, Check-in, En curso, Completada, Cancelada, No asistió, Reprogramada).</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Documentos</div>
+      <div class="card-desc">Acceso rápido a Confirmación de reserva, Invitación de regalo (si aplica) y Certificado (si está completada).</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Reprogramación</div>
+      <div class="card-desc">Cambiar fecha y/o hora de la sesión. El sistema valida disponibilidad en tiempo real antes de guardar.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ CREAR SESIÓN -->
+<div class="page page-break">
+  <div class="section-header">
+    <div class="section-kicker">// 07 · CREAR SESIÓN</div>
+    <h2 class="section-title">Crear una sesión desde el admin</h2>
+    <p class="section-sub">Para reservas manuales: por WhatsApp, teléfono, presencial o redes sociales</p>
+  </div>
+
+  <p>El formulario de creación manual se abre desde el botón <strong>"+ Nueva sesión"</strong> disponible en: Panel principal, Calendario, Sesiones, Piloto por un Día.</p>
+
+  <h3>Formulario en 4 pasos</h3>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">1</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Paso 1 — Tipo de servicio</div>
+        <div class="flow-desc">Elegir <strong>Piloto por un Día (PxD)</strong> o <strong>Hold Short Pilotos (HS)</strong>. Esta elección determina los paquetes disponibles y los horarios del paso 3.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">2</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Paso 2 — Modalidad</div>
+        <div class="flow-desc"><strong>Personal:</strong> el reservante es quien vive la experiencia.<br><strong>Regalo:</strong> el reservante regala la experiencia a otra persona. Se piden datos del destinatario y mensaje personalizado.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">3</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Paso 3 — Fecha, horario y detalles</div>
+        <div class="flow-desc">
+          <strong>Fecha:</strong> al seleccionarla, el sistema consulta en tiempo real los horarios ya ocupados en <code>v_availability</code>.<br>
+          <strong>Hora:</strong> los slots tomados aparecen como <em>"09:00 · Ocupado ✕"</em> y al intentar seleccionarlos se muestra un aviso.<br>
+          <strong>Paquete:</strong> determina la duración y el precio base.<br>
+          <strong>Hora final:</strong> se calcula automáticamente según el paquete.<br>
+          <strong>Simulador:</strong> King Air B200 o Airbus A320.<br>
+          <strong>Instructor:</strong> lista de instructores activos registrados en el sistema.<br>
+          <strong>Origen:</strong> Página PxD, WhatsApp, Instagram, Presencial, Llamada, Registro manual, etc.<br>
+          <strong>Segundo participante:</strong> opcional.
+        </div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">4</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Paso 4 — Pago inicial</div>
+        <div class="flow-desc">Estado de pago inicial (Pendiente / Abono / Pagado). Valor total (pre-llenado con el precio del paquete, editable). Monto de abono si ya se recibió.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">✓</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Resultado</div>
+        <div class="flow-desc">Se crea la reserva con código <code>HS-XXXX</code>, se envían correos de confirmación (al cliente y al admin) y aparece inmediatamente en el calendario y en todas las secciones del panel.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Validación de horario:</strong> El sistema bloquea la creación si el horario propuesto se solapa con una reserva existente en el mismo simulador. Esta validación ocurre tanto al seleccionar la hora como al enviar el formulario.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ INSTRUCTORES -->
+<div class="page page-break">
+  <div class="section-header">
+    <div class="section-kicker">// 08 · INSTRUCTORES</div>
+    <h2 class="section-title">Gestión de instructores</h2>
+    <p class="section-sub">Sección "Instructores" del panel admin</p>
+  </div>
+
+  <h3>Crear un nuevo instructor</h3>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">1</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Admin abre "Instructores" → botón "+ Nuevo instructor"</div>
+        <div class="flow-desc">Se abre el modal de creación.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">2</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Llena los datos del instructor</div>
+        <div class="flow-desc">
+          <strong>Nombre completo</strong> (obligatorio)<br>
+          <strong>Correo electrónico</strong> (obligatorio — será el login)<br>
+          <strong>Contraseña</strong> (mínimo 8 caracteres)<br>
+          <strong>Áreas de expertise:</strong> VFR, IFR, Emergencias, Navegación, Procedimientos, CRM, etc.<br>
+          <strong>Biografía</strong> (texto libre, opcional)<br>
+          <strong>Activo:</strong> toggle para habilitar/deshabilitar
+        </div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">3</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Sistema crea la cuenta</div>
+        <div class="flow-desc">Se crea una cuenta en Supabase Auth con rol <code>instructor</code> y se registra el perfil en la tabla <code>instructors</code>. El instructor puede ingresar inmediatamente a <code>/instructor/</code>.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Editar un instructor existente</h3>
+  <table>
+    <tr><th>Acción</th><th>Cómo</th></tr>
+    <tr><td>Editar nombre, áreas, bio</td><td>Clic en el instructor → editar campos → "Guardar". Los cambios se reflejan de inmediato.</td></tr>
+    <tr><td>Cambiar contraseña</td><td>En la sección "Restablecer contraseña" del modal → nueva contraseña (mín. 8 caracteres) → "Actualizar" <em>o</em> "Guardar" (si tiene contraseña escrita, se aplica también al guardar datos generales).</td></tr>
+    <tr><td>Activar / Desactivar</td><td>Botón toggle verde/gris en la tarjeta del instructor. Un instructor desactivado no aparece en la lista de asignaciones.</td></tr>
+  </table>
+
+  <div class="note note-blue">
+    <strong>Cambio de contraseña desde "Guardar":</strong> Si el admin escribe una nueva contraseña en el campo de restablecimiento y luego pulsa el botón general "Guardar", el sistema actualiza tanto los datos del perfil como la contraseña en un solo paso.
+  </div>
+
+  <h3>Asignar instructor a una reserva</h3>
+  <p>Desde el drawer de cualquier reserva, sección "Equipo instructor":</p>
+  <div class="flow" style="margin-top:10px">
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">1</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Clic en "+ Agregar" dentro del drawer</div>
+        <div class="flow-desc">Se despliega el picker con instructores activos no asignados aún a esta reserva.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">2</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Elegir rol: Líder o Apoyo</div>
+        <div class="flow-desc"><strong>Líder:</strong> instructor principal, aparece en documentos y certificado. Se sincroniza en <code>instructor_nombre</code> de la reserva.<br><strong>Apoyo:</strong> asistente, aparece en el panel pero no en documentos.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">3</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">El instructor ya ve la sesión en su portal</div>
+        <div class="flow-desc">Inmediatamente después de la asignación, la sesión aparece en el panel del instructor con todos los datos del cliente.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ PORTAL INSTRUCTOR -->
+<div class="page page-break">
+  <div class="section-header">
+    <div class="section-kicker">// 09 · INSTRUCTOR</div>
+    <h2 class="section-title">Portal del instructor</h2>
+    <p class="section-sub">Acceso en hangar1903.com/instructor/ · Login con correo y contraseña asignados por el admin</p>
+  </div>
+
+  <p>El portal del instructor es una vista simplificada enfocada en la operación diaria. <strong>Solo ve las sesiones que le fueron asignadas.</strong></p>
+
+  <h3>Lo que ve el instructor</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">📋</div>
+      <div class="card-title">Sus sesiones asignadas</div>
+      <div class="card-desc">Lista de reservas donde aparece como instructor (Líder o Apoyo), ordenadas por fecha y hora.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">👤</div>
+      <div class="card-title">Datos del cliente</div>
+      <div class="card-desc">Nombre, paquete, fecha, hora, simulador y segundo participante (si aplica).</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔄</div>
+      <div class="card-title">Control de estado</div>
+      <div class="card-desc">Botones para avanzar el estado de la sesión en el día de la operación.</div>
+    </div>
+  </div>
+
+  <h3>Avance de estado — operación del día</h3>
+  <div class="flow" style="margin-top:10px">
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">1</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Cliente llega al hangar → instructor toca "Check-in"</div>
+        <div class="flow-desc">Estado cambia a <span class="badge b-orange">Check-in</span>. El admin ve el cambio en tiempo real en su panel.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">2</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Sesión inicia → instructor toca "En curso"</div>
+        <div class="flow-desc">Estado cambia a <span class="badge b-blue">En curso</span>. El cliente está en el simulador.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-left"><div class="flow-num">3</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-title">Sesión termina → instructor toca "Completada"</div>
+        <div class="flow-desc">Estado cambia a <span class="badge b-green">Completada</span>. La reserva queda disponible para generar el certificado desde el panel admin.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Restricción de seguridad:</strong> El instructor solo puede cambiar el estado de reservas que le fueron asignadas explícitamente. No puede ver ni modificar otras reservas del sistema.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ DOCUMENTOS -->
+<div class="page page-break">
+  <div class="section-header">
+    <div class="section-kicker">// 10 · DOCUMENTOS</div>
+    <h2 class="section-title">Documentos y certificados</h2>
+  </div>
+
+  <table>
+    <tr><th>Documento</th><th>Cuándo se genera</th><th>Contenido</th><th>Dónde</th></tr>
+    <tr>
+      <td><strong>Confirmación de reserva</strong></td>
+      <td>Cualquier reserva activa</td>
+      <td>Nombre del cliente, fecha, hora, paquete, simulador, instructor, código HS-XXXX, QR de consulta</td>
+      <td>Sección Documentos / Drawer de reserva</td>
+    </tr>
+    <tr>
+      <td><strong>Invitación de regalo</strong></td>
+      <td>Reservas de tipo "Regalo"</td>
+      <td>Nombre del destinatario, mensaje personalizado, fecha, datos de la experiencia, diseño especial</td>
+      <td>Sección Documentos / Drawer de reserva</td>
+    </tr>
+    <tr>
+      <td><strong>Certificado de participación</strong></td>
+      <td>Estado = Completada</td>
+      <td>Nombre del piloto, fecha, paquete, simulador, firma del jefe de operaciones, número de certificado</td>
+      <td>Sección Certificados / Drawer de reserva</td>
+    </tr>
+    <tr>
+      <td><strong>Comprobante de pago</strong></td>
+      <td>Reservas en estado "Abonado"</td>
+      <td>Datos cliente, código reserva, total, abono recibido, saldo, método de pago. <em>Aclaración: no es factura comercial</em></td>
+      <td>Sección Pagos → tab Abono recibido</td>
+    </tr>
+  </table>
+
+  <div class="note">
+    Todos los documentos se generan como HTML optimizado para impresión y se abren en el navegador con la opción de guardar como PDF usando el diálogo de impresión del sistema.
+  </div>
+
+  <!-- ═══════ BLOQUEO DE FECHAS ═══════ -->
+  <div class="section-header" style="margin-top:28px">
+    <div class="section-kicker">// 11 · DISPONIBILIDAD</div>
+    <h2 class="section-title">Bloqueo de fechas y mantenimiento</h2>
+  </div>
+
+  <h3>Bloquear fechas desde el admin</h3>
+  <p>Desde el botón <strong>"Bloquear horario"</strong> en el calendario o panel principal:</p>
+  <table>
+    <tr><th>Tipo de bloqueo</th><th>Uso</th><th>Efecto en el sitio web</th></tr>
+    <tr>
+      <td><strong>Día completo</strong></td>
+      <td>Feriados, eventos especiales, días sin operación</td>
+      <td>El día aparece deshabilitado en el calendario del cliente. No puede seleccionar esa fecha.</td>
+    </tr>
+    <tr>
+      <td><strong>Rango de horas</strong></td>
+      <td>Bloquear franjas específicas (reuniones, mantenimiento breve)</td>
+      <td>Los slots que caen dentro del rango aparecen deshabilitados para ese día.</td>
+    </tr>
+  </table>
+
+  <h3>Mantenimiento del simulador</h3>
+  <p>Desde la sección <strong>"Simuladores"</strong> del panel, el admin puede registrar períodos de mantenimiento del King Air B200 con fecha de inicio y fin. Durante ese período el simulador no aparece disponible en el sitio público.</p>
+
+  <div class="note note-blue">
+    <strong>Los bloqueos se guardan en la tabla <code>settings</code></strong> de Supabase con la clave <code>blocked_dates</code>. El sitio público los carga en cada visita. Se pueden eliminar desde el mismo modal de bloqueo en el panel admin.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ CONFIGURACIÓN -->
+<div class="page page-break">
+  <div class="section-header">
+    <div class="section-kicker">// 12 · CONFIGURACIÓN</div>
+    <h2 class="section-title">Configuración del sistema</h2>
+    <p class="section-sub">Sección "Configuración" del panel admin · Todo se guarda en Supabase y se aplica de inmediato</p>
+  </div>
+
+  <div class="cards cards-2">
+    <div class="card">
+      <div class="card-title">📍 Datos del local</div>
+      <div class="card-desc" style="margin-top:8px">
+        <strong>Nombre:</strong> nombre del negocio que aparece en comunicaciones<br>
+        <strong>Ubicación:</strong> dirección completa<br>
+        <strong>Teléfono WhatsApp:</strong> número de contacto principal<br>
+        <strong>Instagram:</strong> @handle<br>
+        <strong>Horario de atención:</strong> texto descriptivo<br><br>
+        <em>Guardado en settings.local_config</em>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">💳 Cuentas de cobro</div>
+      <div class="card-desc" style="margin-top:8px">
+        <strong>Número Nequi:</strong> el que aparece en WhatsApp de pago<br>
+        <strong>Cuenta Bancolombia:</strong> cuenta de ahorros<br>
+        <strong>Titular:</strong> nombre para las instrucciones de transferencia<br>
+        <strong>% mínimo de abono:</strong> porcentaje requerido (default 50%)<br><br>
+        <em>Guardado en settings.pago_config · Afecta el botón "Datos de pago" de WhatsApp en tiempo real</em>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:10px">
+    <div class="card-title">📦 Precios de paquetes</div>
+    <div class="card-desc" style="margin-top:8px">
+      Permite editar el precio de cada paquete (PxD Express, PxD Completo, y los 4 paquetes de Hold Short) directamente desde el panel. Al guardar, el nuevo precio aplica a todas las reservas futuras creadas desde el formulario del admin y se refleja en el sitio público.<br><br>
+      <em>Guardado en settings.paquetes_config</em>
+    </div>
+  </div>
+
+  <!-- ═══════ PAQUETES ═══════ -->
+  <div class="section-header" style="margin-top:28px">
+    <div class="section-kicker">// 13 · PAQUETES</div>
+    <h2 class="section-title">Paquetes disponibles</h2>
+  </div>
+
+  <table>
+    <tr><th>Servicio</th><th>Paquete</th><th>Duración</th><th>Precio base</th><th>Horarios disponibles</th></tr>
+    <tr><td><span class="badge b-orange">Piloto por un Día</span></td><td>Aviador Express</td><td>1h 20m</td><td>$285.000 COP</td><td>09:00 / 10:30 / 12:00 / 14:00 / 16:00</td></tr>
+    <tr><td><span class="badge b-orange">Piloto por un Día</span></td><td>Aviador Completo</td><td>2h 30m</td><td>$375.000 COP</td><td>09:00 / 12:00 / 16:00</td></tr>
+    <tr><td><span class="badge b-blue">Hold Short Pilotos</span></td><td>Sesión IFR · 1h30</td><td>1h 30m</td><td>$270.000 COP</td><td>Horario libre (08:00–17:00)</td></tr>
+    <tr><td><span class="badge b-blue">Hold Short Pilotos</span></td><td>Navegación · 1h</td><td>1h 00m</td><td>$180.000 COP</td><td>Horario libre (08:00–17:00)</td></tr>
+    <tr><td><span class="badge b-blue">Hold Short Pilotos</span></td><td>Aproximaciones · 1h</td><td>1h 00m</td><td>$180.000 COP</td><td>Horario libre (08:00–17:00)</td></tr>
+    <tr><td><span class="badge b-blue">Hold Short Pilotos</span></td><td>Procedimientos · 1h30</td><td>1h 30m</td><td>$270.000 COP</td><td>Horario libre (08:00–17:00)</td></tr>
+  </table>
+
+  <div class="note">
+    Los precios base son configurables desde el panel → Configuración → Precios de paquetes. Los horarios de PxD son fijos por paquete; los de Hold Short son libres en el rango del día.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ CORREOS -->
+<div class="page page-break">
+  <div class="section-header">
+    <div class="section-kicker">// 14 · COMUNICACIONES</div>
+    <h2 class="section-title">Correos automáticos</h2>
+    <p class="section-sub">Enviados desde reservas@hangar1903.com vía Resend (proveedor de email)</p>
+  </div>
+
+  <table>
+    <tr><th>Correo</th><th>Destinatario</th><th>Cuándo</th><th>Contenido</th></tr>
+    <tr>
+      <td><strong>Alerta interna de nueva reserva</strong></td>
+      <td>Admin / Equipo operativo</td>
+      <td>Al crear cualquier reserva (web o admin)</td>
+      <td>Nombre del cliente, paquete, fecha, hora, teléfono, correo, código HS-XXXX, origen, botón "Ver en panel"</td>
+    </tr>
+    <tr>
+      <td><strong>Confirmación al cliente</strong></td>
+      <td>Cliente (si proporcionó correo)</td>
+      <td>Al crear cualquier reserva (web o admin)</td>
+      <td>Saludo personalizado, fecha/hora, paquete, código HS-XXXX, enlace al video de seguridad preflight (con QR), botón "Manejar mi reserva", información del hangar</td>
+    </tr>
+  </table>
+
+  <h3>Video de seguridad preflight</h3>
+  <p>El correo de confirmación incluye un enlace a <code>hangar1903.com/preflight/</code> donde el cliente ve un video de seguridad obligatorio antes de su sesión. La página incluye:</p>
+  <ul style="padding-left:20px; margin:8px 0; font-size:11px; color:#3a3d42; line-height:1.7">
+    <li>Video embebido de YouTube con instrucciones de seguridad</li>
+    <li>3 puntos clave: ajuste del asiento, uso de controles, manejo del mareo de simulador</li>
+    <li>Información de contacto del hangar</li>
+  </ul>
+
+  <h3>Comunicación por WhatsApp</h3>
+  <p>Además de los correos automáticos, el admin usa WhatsApp directamente desde el panel para:</p>
+  <table>
+    <tr><th>Acción</th><th>Desde dónde</th><th>Contenido del mensaje</th></tr>
+    <tr><td><strong>Enviar datos de pago</strong></td>
+      <td>Panel Pagos (tab Sin pagar y Abono recibido) / Drawer de reserva</td>
+      <td>Plantilla con: código reserva, total, monto del abono requerido (%), saldo, números Nequi y Bancolombia, titular, instrucción de envío de comprobante</td>
+    </tr>
+  </table>
+
+  <div class="note note-green">
+    <strong>Datos de WhatsApp actualizables:</strong> Los números de Nequi, Bancolombia, titular y porcentaje de abono se pueden actualizar desde Configuración → Cuentas de cobro. El mensaje de WhatsApp usa siempre los valores más recientes.
+  </div>
+
+  <!-- Resumen final -->
+  <div style="margin-top:36px; background: var(--dark); border-radius: 12px; padding: 22px 24px;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.16em; color:var(--orange); margin-bottom:10px;">// RESUMEN EJECUTIVO</div>
+    <p style="color:#d4d6da; font-size:11.5px; line-height:1.7; margin:0">
+      <strong style="color:#fff">Hangar 1903</strong> opera con un sistema integrado en tres capas: el cliente reserva en la web con disponibilidad en tiempo real, el admin gestiona todo desde un panel central (reservas, instructores, cobros, documentos y configuración), y los instructores operan el día de la sesión desde su portal propio. Los pagos se gestionan por Nequi/Bancolombia con WhatsApp como canal de comunicación. Todo queda registrado con código único <code style="color:var(--orange)">HS-XXXX</code> que sirve como referencia universal. La base de datos es Supabase (PostgreSQL) y el backend corre en Cloudflare Workers — sin servidor propio que mantener.
+    </p>
+    <div style="margin-top:16px; display:flex; gap:24px; flex-wrap:wrap;">
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:#52555b;margin-bottom:3px">TECH STACK</div><div style="font-size:11px;color:#9a9ea5">Cloudflare Workers · Supabase · Resend</div></div>
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:#52555b;margin-bottom:3px">SIMULADORES</div><div style="font-size:11px;color:#9a9ea5">King Air B200 · Airbus A320</div></div>
+      <div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:#52555b;margin-bottom:3px">UBICACIÓN</div><div style="font-size:11px;color:#9a9ea5">Cra. 12b #8-96 · Pereira, Risaralda</div></div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:32px; padding-top:20px; border-top:1px solid var(--border);">
+    <div style="font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:15px;color:var(--orange);letter-spacing:.06em">HANGAR 1903</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.14em;margin-top:3px">POWERED BY HOLD SHORT AVIATION · CLEARED FOR TAKEOFF ✈</div>
+  </div>
+</div>
+
+</body>
+</html>
