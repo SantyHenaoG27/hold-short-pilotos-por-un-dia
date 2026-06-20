@@ -326,7 +326,7 @@ async function sendClientAcknowledgement(r, env) {
   <tr><td style="padding:0 28px 20px">
     <table cellpadding="0" cellspacing="0"><tr>
       <td style="padding-right:10px">
-        <a href="https://hangar-1903.holdshortweb.workers.dev/reserva?code=${r.code||''}" style="display:inline-block;background:#16181c;color:#ffffff;text-decoration:none;padding:12px 18px;border-radius:9px;font-size:13px;font-weight:600;font-family:Arial,sans-serif">Ver estado de mi reserva →</a>
+        <a href="https://hangar1903.com/?reserva=${r.code||''}" style="display:inline-block;background:#16181c;color:#ffffff;text-decoration:none;padding:12px 18px;border-radius:9px;font-size:13px;font-weight:600;font-family:Arial,sans-serif">Maneja tu reserva →</a>
       </td>
     </tr></table>
   </td></tr>

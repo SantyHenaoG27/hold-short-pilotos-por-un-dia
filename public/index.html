@@ -1370,7 +1370,8 @@ const I18N = {
         i3:{ name:'Coordinador de Viraje', code:'TC · VIRAJE', fn:'Confirma que el viraje sea coordinado, sin derrapar.', fact:'La bolita centrada: el secreto de un viraje cómodo y limpio.' },
         i4:{ name:'Girodireccional', code:'HDG · RUMBO', fn:'Hacia qué punto cardinal apunta la nariz del avión.', fact:'Más estable que la brújula durante los virajes.' },
         i5:{ name:'Velocidad Vertical', code:'VSI · ASCENSO', fn:'Cuántos pies por minuto subes o bajas.', fact:'Un buen piloto desciende suave: el pasajero ni lo siente.' } },
-      f4:{ tag:'FASE 04 · PREGUNTAS ABIERTAS', quote:'“No hay preguntas estúpidas en cabina.”',
+      f4:{ tag:'FASE 04 · PREGUNTAS ABIERTAS', quote:'”No hay preguntas estúpidas en cabina.”',
+        briefing:'BRIEFING · PREGUNTAS DEL ESTUDIANTE',
         chat:[ {who:'q',text:'¿Cómo sabe el piloto dónde está si hay nubes?'}, {who:'q',text:'¿Qué pasa si se apaga un motor?'}, {who:'q',text:'¿Es difícil aprender a volar?'}, {who:'a',text:'Hoy lo vas a descubrir.'} ] },
       f5:{ tag:'FASE 05 · LA PRÁCTICA EN SIMULADOR', quote:'“Ahora sí. Tu turno de volar.”',
         destinoLibre:'DESTINO LIBRE', eligesTitulo:'Tú eliges a dónde volar.',
@@ -1778,13 +1779,14 @@ class Component extends DCLogic {
   isValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
   isValidPhone(v){ const digits=v.replace(/\D/g,''); return digits.length>=7 && digits.length<=15; }
   async submitBooking(){
+    if(this._bookingInFlight) return;
     if(!(this.state.bName.trim()&&this.state.bPhone.trim()&&this.state.bEmail.trim()&&this.state.selDate&&this.state.selSlot)) return;
     if(!this.isValidEmail(this.state.bEmail)){ this.setState({bookError:'Ingresa un correo electrónico válido.'}); return; }
     if(!this.isValidPhone(this.state.bPhone)){ this.setState({bookError:'Ingresa un número de WhatsApp válido.'}); return; }
     const sd=this.state.selDate;
     const fecha=sd.y+'-'+String(sd.m+1).padStart(2,'0')+'-'+String(sd.d).padStart(2,'0');
     if(this.isDateBlocked(fecha)){ this.setState({bookError:'Esa fecha ya no está disponible (mantenimiento del simulador). Elige otro día.', selSlot:null, availSlots:[]}); return; }
-    if(this.state.bookLoading) return;
+    this._bookingInFlight = true;
     this.setState({bookLoading:true, bookError:null});
     const p=this.PKGS[this.state.bPkg];
     const seed=this.hashCode(this.state.bName+this.selDateStr()+p.key);
@@ -1812,9 +1814,11 @@ class Component extends DCLogic {
     }).catch(()=>null);
     const _bookData = _bookRes ? await _bookRes.json().catch(()=>({})) : {};
     if(!_bookRes||!_bookRes.ok){
+      this._bookingInFlight = false;
       this.setState({bookLoading:false, bookError:_bookData.error||'Error al guardar. Intenta de nuevo.'});
       return;
     }
+    this._bookingInFlight = false;
     const flight=_bookData.code;
     const qrToken=_bookData.qr_token;
     const seat=(1+seed%30)+['A','B','C','D'][seed%4];
