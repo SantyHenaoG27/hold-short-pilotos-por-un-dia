@@ -1516,7 +1516,7 @@ function hsOpenPrint(body,label,code){
 }
 class Component extends DCLogic {
   state = { menu:false, openPhase:1, route:'express', openFaq:0, flip:{}, compass:0, cSel:'N', chatLines:[],
-            calY:0, calM:0, selDate:null, bName:'', bPhone:'', bEmail:'', bGiftFor:'', bGiftName:'', bGiftMsg:'', bPkg:'aventurero', booked:false, ticket:null, bookFor:null, bookLoading:false, bookError:null, selSlot:null, availSlots:[], slotsLoading:false, bParticipant2:'', simMaintenance:null,
+            calY:0, calM:0, selDate:null, bName:'', bPhone:'', bEmail:'', bGiftFor:'', bGiftName:'', bGiftMsg:'', bPkg:'aventurero', booked:false, ticket:null, bookFor:null, bookLoading:false, bookError:null, selSlot:null, availSlots:[], slotsLoading:false, bParticipant2:'', simMaintenance:null, blockedDates:[],
             lang:(typeof localStorage!=='undefined' && localStorage.getItem('hs_lang')==='en')?'en':'es',
             authOpen:false, authMode:'login', authEmail:'', authPassword:'', authName:'', authPhone:'', authError:'', authLoading:false, portalOpen:false, portalEmail:'', portalLoading:false, portalError:'', portalReservas:[], portalFound:false, portalSelectedId:null,
             docPreviewOpen:false, docPreviewLoading:false, docPreviewImg:null, docPreviewTitle:'', docPreviewFilename:'', docPreviewAllowPdf:false, docPreviewImgW:0, docPreviewImgH:0 };
@@ -1700,14 +1700,19 @@ class Component extends DCLogic {
   // ---- Booking ----
   async loadSimMaintenance(){
     try{
-      const {data}=await supabaseClient.from('settings').select('value').eq('key','simulator_maintenance_SIM-01').maybeSingle();
-      if(data && data.value && data.value.activo) this.setState({simMaintenance:data.value});
+      const [{data:mant},{data:blk}]=await Promise.all([
+        supabaseClient.from('settings').select('value').eq('key','simulator_maintenance_SIM-01').maybeSingle(),
+        supabaseClient.from('settings').select('value').eq('key','blocked_dates').maybeSingle(),
+      ]);
+      if(mant && mant.value && mant.value.activo) this.setState({simMaintenance:mant.value});
+      if(blk && blk.value && blk.value.dates) this.setState({blockedDates:blk.value.dates.map(b=>b.date)});
     }catch(e){ console.warn('loadSimMaintenance failed', e); }
   }
   // fecha en formato YYYY-MM-DD
   isDateBlocked(fecha){
     const m=this.state.simMaintenance;
-    return !!(m && m.activo && fecha>=m.desde && fecha<=m.hasta);
+    if(m && m.activo && fecha>=m.desde && fecha<=m.hasta) return true;
+    return !!(this.state.blockedDates && this.state.blockedDates.includes(fecha));
   }
   todayMid(){ const t=new Date(); t.setHours(0,0,0,0); return t; }
   canPrev(){ const n=this.todayMid(); return (this.state.calY>n.getFullYear())||(this.state.calY===n.getFullYear()&&this.state.calM>n.getMonth()); }
