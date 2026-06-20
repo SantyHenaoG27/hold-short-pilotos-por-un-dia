@@ -575,6 +575,16 @@ export default {
       if (url.pathname === '/api/reset-instructor-password' && request.method === 'POST') {
         return await handleResetInstructorPassword(request, env);
       }
+      // DC runtime image-slot state file — devuelve JSON vacío para evitar 404 en consola
+      if (url.pathname === '/.image-slots.state.json') {
+        return new Response('{}', { headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=86400' } });
+      }
+      // Src de imagen con template literal sin procesar ({{ expr }}) — gif transparente 1px para suprimir 404
+      if (url.pathname.includes('%7B%7B')) {
+        const gif = 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+        const buf = Uint8Array.from(atob(gif), c => c.charCodeAt(0));
+        return new Response(buf, { headers: { 'content-type': 'image/gif', 'cache-control': 'public, max-age=86400' } });
+      }
       return env.ASSETS.fetch(request);
     } catch (e) {
       console.error('worker fetch crashed', e && e.stack || e);
