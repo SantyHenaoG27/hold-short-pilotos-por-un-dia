@@ -1009,44 +1009,73 @@
       <!-- ===== BLOQUEAR HORARIO MODAL ===== -->
       <sc-if value="{{ blockModal }}" hint-placeholder-val="{{ false }}">
         <div style="position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9000;display:flex;align-items:center;justify-content:center">
-          <div onClick="{{ blockStop }}" style="position:absolute;inset:0"></div>
-          <div style="position:relative;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:28px;width:440px;max-width:94vw;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+          <div onClick="{{ blockClose }}" style="position:absolute;inset:0"></div>
+          <div style="position:relative;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:28px;width:460px;max-width:94vw;box-shadow:0 24px 60px rgba(0,0,0,.35);max-height:90vh;overflow-y:auto">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
               <div>
                 <div class="mono" style="font-size:10px;letter-spacing:.12em;color:#C2410C;font-weight:600;margin-bottom:3px">AGENDA · DISPONIBILIDAD</div>
-                <div class="disp" style="font-size:17px;font-weight:700">Bloquear fecha</div>
+                <div class="disp" style="font-size:17px;font-weight:700">Bloquear horario</div>
               </div>
               <button onClick="{{ blockClose }}" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--chip);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center"><span class="ms" style="font-size:17px">close</span></button>
             </div>
-            <div style="background:rgba(194,65,12,.07);border:1px solid rgba(194,65,12,.2);border-radius:10px;padding:11px 14px;font-size:12px;color:#7a3010;margin-bottom:20px;display:flex;gap:9px;align-items:flex-start">
-              <span class="ms" style="font-size:16px;flex-shrink:0;margin-top:1px">info</span>
-              <span>Las fechas bloqueadas no aparecen disponibles en el calendario público. Los clientes no pueden hacer reservas en esos días.</span>
+
+            <!-- tipo de bloqueo -->
+            <div style="display:flex;gap:8px;margin-bottom:18px">
+              <button onClick="{{ blockSetTypeDia }}" style="{{ blockTypeDiaStyle }}"><span class="ms" style="font-size:16px">event_busy</span>Día completo</button>
+              <button onClick="{{ blockSetTypeRango }}" style="{{ blockTypeRangoStyle }}"><span class="ms" style="font-size:16px">schedule</span>Rango de horas</button>
             </div>
-            <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px">
-              <div>
-                <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">Fecha a bloquear</label>
-                <input type="date" value="{{ blockFormDate }}" onChange="{{ blockSetDate }}" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13.5px;color:var(--text);background:var(--surface)">
-              </div>
-              <div>
-                <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">Motivo <span style="color:var(--faint);font-weight:400">(opcional)</span></label>
-                <input type="text" value="{{ blockFormReason }}" onChange="{{ blockSetReason }}" placeholder="Ej: Festivo, evento interno, descanso…" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--text);background:var(--surface)">
-              </div>
+
+            <!-- fecha -->
+            <div style="margin-bottom:14px">
+              <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">Fecha</label>
+              <input type="date" value="{{ blockFormDate }}" onChange="{{ blockSetDate }}" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13.5px;color:var(--text);background:var(--surface)">
             </div>
+
+            <!-- horas (solo si tipo=rango) -->
+            <sc-if value="{{ blockIsRango }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;gap:12px;margin-bottom:14px">
+                <div style="flex:1">
+                  <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">Desde</label>
+                  <select value="{{ blockFormDesde }}" onChange="{{ blockSetDesde }}" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--text);background:var(--surface)">
+                    <sc-for list="{{ blockHoraOpts }}" as="h" hint-placeholder-count="8">
+                      <option value="{{ h }}">{{ h }}</option>
+                    </sc-for>
+                  </select>
+                </div>
+                <div style="flex:1">
+                  <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">Hasta</label>
+                  <select value="{{ blockFormHasta }}" onChange="{{ blockSetHasta }}" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--text);background:var(--surface)">
+                    <sc-for list="{{ blockHoraOpts }}" as="h" hint-placeholder-count="8">
+                      <option value="{{ h }}">{{ h }}</option>
+                    </sc-for>
+                  </select>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- motivo -->
+            <div style="margin-bottom:20px">
+              <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">Motivo <span style="color:var(--faint);font-weight:400">(opcional)</span></label>
+              <input type="text" value="{{ blockFormReason }}" onChange="{{ blockSetReason }}" placeholder="Ej: Festivo, evento interno, descanso…" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--text);background:var(--surface)">
+            </div>
+
             <button onClick="{{ blockSave }}" disabled="{{ blockSaving }}" style="width:100%;height:40px;background:#C2410C;border:none;border-radius:9px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:20px">
-              <span class="ms" style="font-size:17px">block</span>{{ blockSaving ? 'Guardando…' : 'Bloquear fecha' }}
+              <span class="ms" style="font-size:17px">block</span>{{ blockSaving ? 'Guardando…' : 'Aplicar bloqueo' }}
             </button>
+
+            <!-- lista actual -->
             <sc-if value="{{ blockHasDates }}" hint-placeholder-val="{{ false }}">
-              <div>
-                <div style="font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:10px">Fechas bloqueadas actualmente</div>
-                <div style="display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto">
+              <div style="border-top:1px solid var(--divider);padding-top:16px">
+                <div style="font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:10px">Bloqueos activos</div>
+                <div style="display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto">
                   <sc-for list="{{ blockDatesList }}" as="b" hint-placeholder-count="3">
                     <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--alt);border:1px solid var(--border);border-radius:9px">
-                      <span class="ms" style="font-size:16px;color:#C2410C;flex-shrink:0">event_busy</span>
+                      <span class="ms" style="font-size:16px;color:#C2410C;flex-shrink:0">{{ b.icon }}</span>
                       <div style="flex:1;min-width:0">
                         <div class="mono" style="font-size:12px;font-weight:700;color:var(--text)">{{ b.label }}</div>
-                        <div style="font-size:11px;color:var(--faint);margin-top:1px">{{ b.reason }}</div>
+                        <div style="font-size:11px;color:var(--faint);margin-top:1px">{{ b.sublabel }}</div>
                       </div>
-                      <button onClick="{{ b.onRemove }}" style="width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:var(--chip);color:#b13838;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0" title="Desbloquear">
+                      <button onClick="{{ b.onRemove }}" style="width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:var(--chip);color:#b13838;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">
                         <span class="ms" style="font-size:15px">delete</span>
                       </button>
                     </div>
@@ -1055,9 +1084,8 @@
               </div>
             </sc-if>
             <sc-if value="{{ blockNoDates }}" hint-placeholder-val="{{ false }}">
-              <div style="text-align:center;padding:16px;color:var(--faint);font-size:12px">
-                <span class="ms" style="font-size:24px;display:block;margin-bottom:6px">event_available</span>
-                No hay fechas bloqueadas
+              <div style="border-top:1px solid var(--divider);padding-top:16px;text-align:center;color:var(--faint);font-size:12px">
+                <span class="ms" style="font-size:24px;display:block;margin-bottom:6px">event_available</span>Sin bloqueos activos
               </div>
             </sc-if>
           </div>
@@ -2020,6 +2048,9 @@ class Component extends DCLogic {
     blockDates: [],
     blockFormDate: '',
     blockFormReason: '',
+    blockFormType: 'dia',
+    blockFormDesde: '09:00',
+    blockFormHasta: '16:00',
     blockSaving: false,
     instList: [],
     instLoading: false,
@@ -2126,15 +2157,23 @@ class Component extends DCLogic {
     }catch(e){}
   }
   async saveBlock(){
-    const{blockFormDate,blockFormReason,blockDates}=this.state;
+    const{blockFormDate,blockFormReason,blockFormType,blockFormDesde,blockFormHasta,blockDates}=this.state;
     if(!blockFormDate){this.toast('Selecciona una fecha');return;}
-    if(blockDates.some(b=>b.date===blockFormDate)){this.toast('Esa fecha ya está bloqueada');return;}
+    if(blockFormType==='rango'&&blockFormDesde>=blockFormHasta){this.toast('La hora de inicio debe ser anterior a la de fin');return;}
     this.setState({blockSaving:true});
-    const newDates=[...blockDates,{date:blockFormDate,reason:(blockFormReason.trim()||'No disponible'),id:Date.now().toString()}].sort((a,b)=>a.date.localeCompare(b.date));
+    const entry={
+      date:blockFormDate,
+      type:blockFormType,
+      reason:blockFormReason.trim()||'No disponible',
+      id:Date.now().toString(),
+      ...(blockFormType==='rango'?{desde:blockFormDesde,hasta:blockFormHasta}:{}),
+    };
+    const newDates=[...blockDates,entry].sort((a,b)=>a.date!==b.date?a.date.localeCompare(b.date):(a.desde||'00:00').localeCompare(b.desde||'00:00'));
     const{error}=await supabaseClient.from('settings').upsert({key:'blocked_dates',value:{dates:newDates},updated_at:new Date().toISOString()});
     if(!error){
+      const msg=blockFormType==='dia'?'Día bloqueado — los clientes no podrán reservar ese día':`Horario bloqueado ${blockFormDesde}–${blockFormHasta}`;
       this.setState({blockDates:newDates,blockFormDate:'',blockFormReason:'',blockSaving:false});
-      this.toast('Fecha bloqueada — los clientes no podrán reservar ese día');
+      this.toast(msg);
     }else{
       this.setState({blockSaving:false});
       this.toast('Error al guardar');
@@ -2143,8 +2182,8 @@ class Component extends DCLogic {
   async removeBlock(id){
     const newDates=this.state.blockDates.filter(b=>b.id!==id);
     const{error}=await supabaseClient.from('settings').upsert({key:'blocked_dates',value:{dates:newDates},updated_at:new Date().toISOString()});
-    if(!error){ this.setState({blockDates:newDates}); this.toast('Fecha desbloqueada'); }
-    else this.toast('Error al desbloquear');
+    if(!error){ this.setState({blockDates:newDates}); this.toast('Bloqueo eliminado'); }
+    else this.toast('Error al eliminar');
   }
 
   // ---- INSTRUCTORES ----
@@ -3831,20 +3870,32 @@ class Component extends DCLogic {
       pilRows, pilKpis, comList, certRows, certLoading, certEmpty, certHasRows,
       blockModal: this.state.blockModal,
       blockClose: ()=>this.setState({blockModal:false}),
-      blockStop: (e)=>e?.stopPropagation?.(),
       blockFormDate: this.state.blockFormDate,
       blockFormReason: this.state.blockFormReason,
+      blockFormType: this.state.blockFormType,
+      blockFormDesde: this.state.blockFormDesde,
+      blockFormHasta: this.state.blockFormHasta,
+      blockIsRango: this.state.blockFormType==='rango',
+      blockSetTypeDia: ()=>this.setState({blockFormType:'dia'}),
+      blockSetTypeRango: ()=>this.setState({blockFormType:'rango'}),
       blockSetDate: (e)=>this.setState({blockFormDate:e.target.value}),
       blockSetReason: (e)=>this.setState({blockFormReason:e.target.value}),
+      blockSetDesde: (e)=>this.setState({blockFormDesde:e.target.value}),
+      blockSetHasta: (e)=>this.setState({blockFormHasta:e.target.value}),
       blockSave: ()=>this.saveBlock(),
       blockSaving: this.state.blockSaving,
       blockHasDates: this.state.blockDates.length>0,
       blockNoDates: this.state.blockDates.length===0,
-      blockDatesList: this.state.blockDates.map(b=>({
-        label:(()=>{const[y,m,d]=b.date.split('-');return `${d}/${m}/${y}`;})(),
-        reason:b.reason,
-        onRemove:()=>this.removeBlock(b.id),
-      })),
+      blockTypeDiaStyle: `flex:1;height:36px;border-radius:8px;border:1px solid ${this.state.blockFormType==='dia'?'#C2410C':'var(--border)'};background:${this.state.blockFormType==='dia'?'rgba(194,65,12,.12)':'var(--chip)'};color:${this.state.blockFormType==='dia'?'#C2410C':'var(--text2)'};font-weight:600;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px`,
+      blockTypeRangoStyle: `flex:1;height:36px;border-radius:8px;border:1px solid ${this.state.blockFormType==='rango'?'#C2410C':'var(--border)'};background:${this.state.blockFormType==='rango'?'rgba(194,65,12,.12)':'var(--chip)'};color:${this.state.blockFormType==='rango'?'#C2410C':'var(--text2)'};font-weight:600;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px`,
+      blockHoraOpts: (()=>{ const h=[]; for(let i=6;i<=22;i++) h.push(`${String(i).padStart(2,'0')}:00`); return h; })(),
+      blockDatesList: this.state.blockDates.map(b=>{
+        const[y,mo,d]=b.date.split('-');
+        const label=`${d}/${mo}/${y}`;
+        const sublabel=b.type==='rango'?`${b.desde}–${b.hasta} · ${b.reason}`:b.reason;
+        const icon=b.type==='rango'?'schedule':'event_busy';
+        return{label,sublabel,icon,onRemove:()=>this.removeBlock(b.id)};
+      }),
       simMantModal: this.state.simMantModal,
       simMantDesde: this.state.simMantDesde,
       simMantHasta: this.state.simMantHasta,

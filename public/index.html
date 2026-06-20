@@ -1705,14 +1705,20 @@ class Component extends DCLogic {
         supabaseClient.from('settings').select('value').eq('key','blocked_dates').maybeSingle(),
       ]);
       if(mant && mant.value && mant.value.activo) this.setState({simMaintenance:mant.value});
-      if(blk && blk.value && blk.value.dates) this.setState({blockedDates:blk.value.dates.map(b=>b.date)});
+      if(blk && blk.value && blk.value.dates) this.setState({blockedDates:blk.value.dates});
     }catch(e){ console.warn('loadSimMaintenance failed', e); }
   }
-  // fecha en formato YYYY-MM-DD
+  // fecha en formato YYYY-MM-DD — true si todo el día está bloqueado
   isDateBlocked(fecha){
     const m=this.state.simMaintenance;
     if(m && m.activo && fecha>=m.desde && fecha<=m.hasta) return true;
-    return !!(this.state.blockedDates && this.state.blockedDates.includes(fecha));
+    return !!(this.state.blockedDates && this.state.blockedDates.some(b=>(b.type==='dia'||!b.type)&&b.date===fecha));
+  }
+  // filtra slots que caen dentro de rangos bloqueados para esa fecha
+  filterBlockedSlots(fecha, slots){
+    const rangos=(this.state.blockedDates||[]).filter(b=>b.type==='rango'&&b.date===fecha);
+    if(!rangos.length) return slots;
+    return slots.filter(sl=>!rangos.some(r=>sl.start>=r.desde&&sl.start<r.hasta));
   }
   todayMid(){ const t=new Date(); t.setHours(0,0,0,0); return t; }
   canPrev(){ const n=this.todayMid(); return (this.state.calY>n.getFullYear())||(this.state.calY===n.getFullYear()&&this.state.calM>n.getMonth()); }
@@ -1727,14 +1733,14 @@ class Component extends DCLogic {
       const {data}=await supabaseClient.from('v_availability').select('hora_inicio,hora_fin').eq('fecha',fecha).eq('simulador','King Air B200');
       const booked=data||[];
       const toMin=t=>{const[h,m]=(t||'00:00').slice(0,5).split(':').map(Number);return h*60+m;};
-      const all=this.SLOTS[p]||[];
+      const all=this.filterBlockedSlots(fecha, this.SLOTS[p]||[]);
       this.setState({availSlots:all.map(sl=>{
         const ss=toMin(sl.start),se=toMin(sl.end);
         const occupied=booked.some(r=>toMin(r.hora_inicio)<se && toMin(r.hora_fin)>ss);
         return {...sl,occupied};
       }),slotsLoading:false});
     }catch(e){
-      const all=this.SLOTS[p]||[];
+      const all=this.filterBlockedSlots(fecha, this.SLOTS[p]||[]);
       this.setState({availSlots:all.map(sl=>({...sl,occupied:false})),slotsLoading:false});
     }
   }
