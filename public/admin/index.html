@@ -1094,8 +1094,8 @@
                 </div>
                 <div style="font-size:11.5px;color:var(--text2);background:var(--alt);border-radius:8px;padding:8px 11px;margin-bottom:13px;min-height:28px">{{ i.bio || '—' }}</div>
                 <div style="display:flex;gap:8px">
-                  <button onClick="{{ i.onEdit }}" style="flex:1;height:36px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px" style-hover="background:var(--alt)"><span class="ms" style="font-size:16px;color:var(--muted)">edit</span>Editar</button>
-                  <button onClick="{{ i.onToggle }}" style="flex:1;height:36px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px" style-hover="background:var(--alt)"><span class="ms" style="font-size:16px;color:var(--muted)">{{ i.toggleIcon }}</span>{{ i.toggleLabel }}</button>
+                  <button onClick="{{ i.onEdit }}" style="flex:1;height:36px;background:#FEF6E7;border:1px solid #f5c542;border-radius:8px;font-size:12px;font-weight:600;color:#92600a;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px" style-hover="background:#fdedc4"><span class="ms" style="font-size:16px;color:#b5830a">edit</span>Editar</button>
+                  <button onClick="{{ i.onToggle }}" style="{{ i.toggleStyle }}" style-hover="filter:brightness(.95)"><span class="ms" style="font-size:16px">{{ i.toggleIcon }}</span>{{ i.toggleLabel }}</button>
                 </div>
               </div>
             </sc-for>
@@ -3324,6 +3324,9 @@ class Component extends DCLogic {
         onToggle:()=>this.toggleInstActivo(i),
         toggleLabel: i.activo ? 'Desactivar' : 'Activar',
         toggleIcon: i.activo ? 'block' : 'check_circle',
+        toggleStyle: i.activo
+          ? 'flex:1;height:36px;background:#FEF1F1;border:1px solid #f5c6c6;border-radius:8px;font-size:12px;font-weight:600;color:#b91c1c;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px'
+          : 'flex:1;height:36px;background:#EDFAF3;border:1px solid #a7f3d0;border-radius:8px;font-size:12px;font-weight:600;color:#166534;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px',
       };
     });
     // variables para modal de instructor
