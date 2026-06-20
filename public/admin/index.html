@@ -156,7 +156,9 @@
 
       <button onClick="{{ openNotif }}" style="position:relative;width:38px;height:38px;background:var(--surface);border:1px solid var(--border);border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2)" style-hover="border-color:#cfcfc8;background:#fafaf8">
         <span class="ms" style="font-size:20px">notifications</span>
-        <span style="position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;background:#F5841F;border:1.5px solid #fff"></span>
+        <sc-if value="{{ alertCount }}" hint-placeholder-val="">
+          <span style="position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;border-radius:9px;background:#F5841F;border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:#fff;padding:0 3px">{{ alertCount }}</span>
+        </sc-if>
       </button>
 
       <button onClick="{{ newSesion }}" style="display:flex;align-items:center;gap:7px;height:38px;padding:0 15px;background:#F5841F;border:none;border-radius:9px;cursor:pointer;font-family:'Space Grotesk';font-size:13px;font-weight:600;color:#15171b;box-shadow:0 1px 2px rgba(245,132,31,.35)" style-hover="background:#e8780f">
@@ -1889,7 +1891,7 @@
   <sc-if value="{{ showNotif }}" hint-placeholder-val="">
     <div onClick="{{ closeNotif }}" style="position:fixed;inset:0;z-index:100;background:rgba(10,11,13,.18)">
       <div onClick="{{ stop }}" style="position:absolute;top:60px;right:22px;width:340px;max-width:92vw;background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.2);animation:hs-pop .18s;overflow:hidden">
-        <div style="padding:14px 16px;border-bottom:1px solid var(--divider);display:flex;align-items:center;justify-content:between;gap:8px"><span class="ms" style="font-size:19px;color:#F5841F">notifications</span><span class="disp" style="font-weight:600;font-size:14px;flex:1">Notificaciones</span><span class="mono" style="font-size:10px;color:var(--faint)">4 nuevas</span></div>
+        <div style="padding:14px 16px;border-bottom:1px solid var(--divider);display:flex;align-items:center;justify-content:between;gap:8px"><span class="ms" style="font-size:19px;color:#F5841F">notifications</span><span class="disp" style="font-weight:600;font-size:14px;flex:1">Notificaciones</span><span class="mono" style="font-size:10px;color:var(--faint)">{{ alertCount }} activas</span></div>
         <sc-for list="{{ alerts }}" as="al" hint-placeholder-count="4">
           <div style="display:flex;gap:10px;padding:11px 16px;border-bottom:1px solid var(--divider)">
             <div style="{{ al.iconWrap }}"><span class="ms" style="font-size:15px">{{ al.icon }}</span></div>
