@@ -85,14 +85,14 @@ html,body{margin:0;padding:0;background:#080f1e;overflow-x:hidden}
 @keyframes hs-ils-glow{0%,100%{opacity:.12}50%{opacity:.22}}
 @keyframes hs-wp-ring{0%{transform:scale(0);opacity:.6}75%{opacity:.08}100%{transform:scale(1);opacity:0}}
 @keyframes hs-fly{0%{offset-distance:0%}100%{offset-distance:100%}}
-.hs-avchart{animation:hs-chart-drift 60s ease-in-out infinite}
-.hs-vor-g{opacity:.19;animation:hs-vor-spin 100s linear infinite;transform-box:fill-box;transform-origin:center}
+.hs-avchart{animation:hs-chart-drift 60s ease-in-out infinite;will-change:transform;backface-visibility:hidden}
+.hs-vor-g{opacity:.19;animation:hs-vor-spin 100s linear infinite;transform-box:fill-box;transform-origin:center;will-change:transform;backface-visibility:hidden}
 .hs-ils-g{opacity:.14;animation:hs-ils-glow 8s ease-in-out 1.5s infinite}
-.hs-radar-g{transform-box:fill-box;transform-origin:center;animation:hs-radar-spin 7s linear infinite}
-.hs-wp-ring-a{transform-box:fill-box;transform-origin:center;animation:hs-wp-ring 3.4s ease-out infinite}
-.hs-wp-ring-b{transform-box:fill-box;transform-origin:center;animation:hs-wp-ring 3.4s ease-out 1.1s infinite}
-.hs-wp-ring-c{transform-box:fill-box;transform-origin:center;animation:hs-wp-ring 3.4s ease-out 2.25s infinite}
-.hs-aircraft-fly{offset-path:path('M30,685 L1410,300');offset-rotate:auto;animation:hs-fly 20s linear infinite}
+.hs-radar-g{transform-box:fill-box;transform-origin:center;animation:hs-radar-spin 7s linear infinite;will-change:transform;backface-visibility:hidden}
+.hs-wp-ring-a{transform-box:fill-box;transform-origin:center;animation:hs-wp-ring 3.4s ease-out infinite;will-change:transform,opacity}
+.hs-wp-ring-b{transform-box:fill-box;transform-origin:center;animation:hs-wp-ring 3.4s ease-out 1.1s infinite;will-change:transform,opacity}
+.hs-wp-ring-c{transform-box:fill-box;transform-origin:center;animation:hs-wp-ring 3.4s ease-out 2.25s infinite;will-change:transform,opacity}
+.hs-aircraft-fly{offset-path:path('M30,685 L1410,300');offset-rotate:auto;animation:hs-fly 20s linear infinite;will-change:offset-distance}
 @keyframes h1903-scroll{0%{transform:translateY(0);opacity:.9}60%{opacity:.2}100%{transform:translateY(13px);opacity:0}}
 
 [data-rev]{opacity:0;transform:translateY(34px);transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1)}
@@ -171,6 +171,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
 .hs-pkg-card::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.07) 50%,transparent 65%);transform:translateX(-110%) skewX(-10deg);transition:transform .75s ease;pointer-events:none;z-index:0}
 .hs-pkg-card:hover::after{transform:translateX(220%) skewX(-10deg)}
 @media(prefers-reduced-motion:reduce){.hs-shine::after,.hs-pkg-card::after,.hs-hist-img::after,.hs-avchart,.hs-vor-g,.hs-ils-g,.hs-radar-g,.hs-wp-ring-a,.hs-wp-ring-b,.hs-wp-ring-c,.hs-aircraft-fly{animation:none!important;transition:none!important}.hs-hist-card{transition:none!important}.hs-wp-ring-a,.hs-wp-ring-b,.hs-wp-ring-c,.hs-aircraft-fly{display:none}}
+@media(max-width:767px){.hs-avchart{animation:none!important}.hs-aircraft-fly{display:none}}
 @media(max-width:560px){.hero-stats>div:nth-child(4),.hero-stats>div:nth-child(5){display:none!important}}
 
 .hs-6pack{display:grid;gap:14px}
@@ -432,7 +433,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
   <main id="top">
 
     <section id="hero" style="position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:clamp(100px,16vh,160px) clamp(20px,5vw,40px) clamp(30px,4vh,50px);text-align:center;overflow:hidden;background:#080f1e">
-      <div style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none">
+      <div style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;isolation:isolate;will-change:transform;transform:translateZ(0)">
         <svg class="hs-avchart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block">
           <defs>
             <line id="vt-maj" x1="0" y1="-158" x2="0" y2="-140" stroke-width="1.2"/>
