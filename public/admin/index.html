@@ -2379,22 +2379,27 @@ class Component extends DCLogic {
     const phone=(s.formModalidad==='personal'?s.formPhone:s.formGiftPhone).trim()||null;
     this.setState({formSubmitting:true});
     try{
-      const{error}=await supabaseClient.from('reservations').insert({
-        cliente_nombre:nombre, cliente_phone:phone, cliente_email:s.formEmail.trim()||null,
-        paquete:paq.name||'', simulador:s.formSim, fecha:s.formFecha,
-        hora_inicio:s.formHoraInicio?(s.formHoraInicio+':00'):null,
-        hora_fin:horaFin?(horaFin+':00'):null,
-        estado:'confirmada', pago:s.formPago, total, abono,
-        book_for:s.formModalidad,
-        gift_for:s.formModalidad==='regalo'?(s.formGiftDest.trim()||null):null,
-        regalo_nombre:s.formModalidad==='regalo'?(s.formGiftDest.trim()||null):null,
-        notas:s.formGiftMsg.trim()||null,
-        servicio:s.formTipo==='pxd'?'simulador':'hs_simulador',
+      const res=await fetch('/api/reservations',{
+        method:'POST',
+        headers:{'content-type':'application/json'},
+        body:JSON.stringify({
+          cliente_nombre:nombre, cliente_phone:phone, cliente_email:s.formEmail.trim()||null,
+          paquete:paq.name||'', simulador:s.formSim, fecha:s.formFecha,
+          hora_inicio:s.formHoraInicio?(s.formHoraInicio+':00'):null,
+          hora_fin:horaFin?(horaFin+':00'):null,
+          estado:'confirmada', pago:s.formPago, total, abono,
+          book_for:s.formModalidad,
+          gift_for:s.formModalidad==='regalo'?(s.formGiftDest.trim()||null):null,
+          regalo_nombre:s.formModalidad==='regalo'?(s.formGiftDest.trim()||null):null,
+          notas:s.formGiftMsg.trim()||null,
+          servicio:s.formTipo==='pxd'?'simulador':'hs_simulador',
+        }),
       });
-      if(error) throw error;
+      const data=await res.json().catch(()=>({}));
+      if(!res.ok) throw new Error(data.error||'Error al registrar');
       this.closeModal();
       this.fetchCalSessions(this.state.calAnchor||new Date(),this.state.calView);
-      this.toast('Sesión registrada exitosamente');
+      this.toast('Sesión registrada · correo enviado al cliente');
     }catch(e){
       this.toast('Error al registrar: '+(e.message||'intenta de nuevo'));
       this.setState({formSubmitting:false});
