@@ -1105,6 +1105,28 @@
         </div>
       </sc-if>
 
+      <!-- ===== MODAL ABONO PERSONALIZADO ===== -->
+      <sc-if value="{{ abonoModal }}" hint-placeholder-val="{{ false }}">
+        <div style="position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9100;display:flex;align-items:center;justify-content:center;padding:20px">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:26px;width:400px;max-width:96vw;box-shadow:0 24px 60px rgba(0,0,0,.35)">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <div class="mono" style="font-size:10px;letter-spacing:.12em;color:#2563B0;font-weight:600">COBROS · ABONO</div>
+              <button onClick="{{ abonoModalClose }}" style="width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:var(--chip);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center"><span class="ms" style="font-size:16px">close</span></button>
+            </div>
+            <div class="disp" style="font-size:18px;font-weight:700;margin-bottom:4px">Registrar abono</div>
+            <div style="font-size:12.5px;color:var(--muted);margin-bottom:18px">{{ abonoModalCliente }} · Total: {{ abonoModalTotal }}</div>
+
+            <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">¿Cuánto recibiste?</label>
+            <input type="number" value="{{ abonoModalInput }}" onChange="{{ abonoModalSetInput }}" placeholder="{{ abonoModalPlaceholder }}" min="1" style="width:100%;border:1px solid var(--border);border-radius:9px;padding:10px 13px;font-size:15px;color:var(--text);background:var(--chip);margin-bottom:8px">
+            <div style="font-size:11px;color:var(--faint);margin-bottom:18px">Sugerido 50%: {{ abonoModalSugerido }} · El saldo restante se calcula automáticamente.</div>
+
+            <button onClick="{{ abonoModalConfirm }}" disabled="{{ abonoModalSaving }}" style="width:100%;height:42px;background:#2563B0;border:none;border-radius:10px;color:#fff;font-weight:700;font-size:14px;cursor:pointer">
+              {{ abonoModalSaving ? 'Guardando…' : 'Guardar abono' }}
+            </button>
+          </div>
+        </div>
+      </sc-if>
+
       <!-- ===== BLOQUEAR HORARIO MODAL ===== -->
       <sc-if value="{{ blockModal }}" hint-placeholder-val="{{ false }}">
         <div style="position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9000;display:flex;align-items:center;justify-content:center">
@@ -2164,6 +2186,10 @@ class Component extends DCLogic {
     // pago drawer
     drawerAbonoInput: '',
     drawerAbonoSaving: false,
+    // modal abono personalizado
+    abonoModal: null,
+    abonoModalInput: '',
+    abonoModalSaving: false,
     // cobros
     cobrosTab: 'pendiente',
     // bloqueo de fechas
@@ -2270,6 +2296,28 @@ class Component extends DCLogic {
     const newMant={...(this.state.simMant||{}),[simMantId]:value};
     this.setState({simMant:newMant,simMantModal:false});
     this.toast('Mantenimiento cancelado');
+  }
+
+  // ---- MODAL ABONO PERSONALIZADO ----
+  openAbonoModal(s){
+    this.setState({abonoModal:{code:s.code,total:s.total,cliente:s.cliente,suggested:Math.ceil(s.total*.5)},abonoModalInput:''});
+  }
+  async confirmarAbono(){
+    const{abonoModal,abonoModalInput}=this.state;
+    if(!abonoModal) return;
+    const monto=parseInt(abonoModalInput,10);
+    if(isNaN(monto)||monto<=0){this.toast('Ingresa un monto válido');return;}
+    if(monto>=abonoModal.total){this.toast('El abono no puede ser igual o mayor al total — usa "Pagado"');return;}
+    this.setState({abonoModalSaving:true});
+    const{error}=await supabaseClient.from('reservations').update({pago:'abono',abono:monto}).eq('code',abonoModal.code);
+    if(!error){
+      this.updateSession(abonoModal.code,{pago:'abono',abono:monto});
+      this.setState({abonoModal:null,abonoModalInput:'',abonoModalSaving:false});
+      this.toast(`Abono registrado: ${this.cop(monto)} · restante: ${this.cop(abonoModal.total-monto)}`);
+    }else{
+      this.setState({abonoModalSaving:false});
+      this.toast('Error al guardar');
+    }
   }
 
   // ---- PAGO ----
@@ -3251,9 +3299,11 @@ class Component extends DCLogic {
           return { label, onClick:()=>this.setEstado(s.code,est),
             style:`padding:5px 13px;border-radius:20px;font-size:11.5px;font-weight:600;cursor:pointer;border:${isA?'none':'1px solid var(--border)'};${isA?`color:${em2.c};background:${em2.bg}`:'color:var(--muted);background:var(--chip)'}` };
         });
+        const _drawerPagoLabels={pendiente:'Pendiente abono',abono:'Abonado · restante pendiente',pagado:'Pagado'};
         const drawerPagoEstadosList = ['pendiente','abono','pagado'].map(p=>{
           const pm2=this.pagoMeta(p); const isA=s.pago===p;
-          return { label:pm2.label, onClick:()=>this.setPago(s.code,p),
+          const onClick2 = p==='abono' ? ()=>this.openAbonoModal(s) : ()=>this.setPago(s.code,p);
+          return { label:_drawerPagoLabels[p]||pm2.label, onClick:onClick2,
             style:`padding:4px 12px;border-radius:20px;font-size:11.5px;font-weight:600;cursor:pointer;border:${isA?'none':'1px solid var(--border)'};${isA?`color:${pm2.c};background:${pm2.bg}`:'color:var(--muted);background:var(--chip)'}` };
         });
         drawerPagoEstados = drawerPagoEstadosList;
@@ -3654,12 +3704,15 @@ class Component extends DCLogic {
       {icon:'check_circle', label:'Total recaudado', value:this.cop(_totalRecaud), sub:`${_cobrosPag.length} pagada${_cobrosPag.length!==1?'s':''}`, color:'#2E9E5B'},
     ];
     const _pagoLabels={pendiente:'Pendiente abono',abono:'Abonado · restante pendiente',pagado:'Pagado'};
-    const _pagoBtn=(code,p,active)=>{
+    const _pagoBtn=(s,p,active)=>{
       const pm=this.pagoMeta(p);
+      const onClick = p==='abono'
+        ? ()=>this.openAbonoModal(s)
+        : ()=>this.setPago(s.code,p);
       return {
         label:_pagoLabels[p]||pm.label, active,
         style:`display:flex;align-items:center;gap:5px;height:30px;padding:0 11px;border-radius:20px;font-size:11.5px;font-weight:600;cursor:pointer;border:${active?'none':'1px solid var(--border)'};background:${active?pm.bg:'var(--chip)'};color:${active?pm.c:'var(--muted)'}`,
-        onClick:()=>this.setPago(code,p),
+        onClick,
       };
     };
     const _mkCard = s=>({
@@ -3672,9 +3725,9 @@ class Component extends DCLogic {
       onDrawer:()=>this.openDrawer(s.code),
       onClick:()=>this.openDrawer(s.code),
       pagoEstados:[
-        _pagoBtn(s.code,'pendiente',s.pago==='pendiente'),
-        _pagoBtn(s.code,'abono',s.pago==='abono'),
-        _pagoBtn(s.code,'pagado',s.pago==='pagado'),
+        _pagoBtn(s,'pendiente',s.pago==='pendiente'),
+        _pagoBtn(s,'abono',s.pago==='abono'),
+        _pagoBtn(s,'pagado',s.pago==='pagado'),
       ],
     });
     const cobrosPendientesList = _cobrosPend.map(_mkCard);
@@ -4078,6 +4131,16 @@ class Component extends DCLogic {
       drawerOpenPicker:()=>this.setState({drawerInstPicker:true}),
       drawerClosePicker:()=>this.setState({drawerInstPicker:false}),
       pilRows, pilKpis, comList, certRows, certLoading, certEmpty, certHasRows,
+      abonoModal: !!this.state.abonoModal,
+      abonoModalClose: ()=>this.setState({abonoModal:null}),
+      abonoModalCliente: (this.state.abonoModal||{}).cliente||'',
+      abonoModalTotal: this.cop((this.state.abonoModal||{}).total||0),
+      abonoModalSugerido: this.cop((this.state.abonoModal||{}).suggested||0),
+      abonoModalPlaceholder: `Ej: ${this.cop((this.state.abonoModal||{}).suggested||0)}`,
+      abonoModalInput: this.state.abonoModalInput,
+      abonoModalSetInput: (e)=>this.setState({abonoModalInput:e.target.value}),
+      abonoModalSaving: this.state.abonoModalSaving,
+      abonoModalConfirm: ()=>this.confirmarAbono(),
       blockModal: this.state.blockModal,
       blockClose: ()=>this.setState({blockModal:false}),
       blockFormDate: this.state.blockFormDate,
