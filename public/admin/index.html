@@ -2840,6 +2840,7 @@ class Component extends DCLogic {
           hora_inicio:s.formHoraInicio?(s.formHoraInicio+':00'):null,
           hora_fin:horaFin?(horaFin+':00'):null,
           estado:'confirmada', pago:s.formPago, total, abono,
+          instructor_nombre:(s.formInstructor&&s.formInstructor!=='— Sin asignar —')?s.formInstructor:null,
           book_for:s.formModalidad,
           gift_for:s.formModalidad==='regalo'?(s.formGiftDest.trim()||null):null,
           regalo_nombre:s.formModalidad==='regalo'?(s.formGiftDest.trim()||null):null,
