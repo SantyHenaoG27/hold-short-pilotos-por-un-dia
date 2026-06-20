@@ -877,11 +877,13 @@
                       <div style="font-size:11px;color:var(--faint)">total a cobrar</div>
                     </div>
                   </div>
-                  <div style="display:flex;gap:7px;flex-wrap:wrap">
-                    <button onClick="{{ c.onWa }}" style="display:flex;align-items:center;gap:6px;height:34px;padding:0 13px;background:#25D366;border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer"><span class="ms" style="font-size:16px">chat</span>Enviar datos de pago</button>
-                    <button onClick="{{ c.onAbono }}" style="display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;background:rgba(37,99,176,.1);border:1px solid rgba(37,99,176,.3);border-radius:8px;color:#2563B0;font-size:12px;font-weight:600;cursor:pointer"><span class="ms" style="font-size:15px">payments</span>Marcar abono</button>
-                    <button onClick="{{ c.onPagado }}" style="display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;background:rgba(46,158,91,.1);border:1px solid rgba(46,158,91,.3);border-radius:8px;color:#2E9E5B;font-size:12px;font-weight:600;cursor:pointer"><span class="ms" style="font-size:15px">check_circle</span>Pagado</button>
-                    <button onClick="{{ c.onDrawer }}" style="display:flex;align-items:center;gap:5px;height:34px;padding:0 10px;background:var(--chip);border:1px solid var(--border);border-radius:8px;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer" style-hover="background:var(--alt)"><span class="ms" style="font-size:15px">open_in_new</span>Ver reserva</button>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+                    <sc-for list="{{ c.pagoEstados }}" as="pe" hint-placeholder-count="3">
+                      <button onClick="{{ pe.onClick }}" style="{{ pe.style }}">{{ pe.label }}</button>
+                    </sc-for>
+                    <div style="flex:1"></div>
+                    <button onClick="{{ c.onWa }}" style="display:flex;align-items:center;gap:6px;height:32px;padding:0 12px;background:#25D366;border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer"><span class="ms" style="font-size:15px">chat</span>Datos de pago</button>
+                    <button onClick="{{ c.onDrawer }}" style="display:flex;align-items:center;gap:5px;height:32px;padding:0 10px;background:var(--chip);border:1px solid var(--border);border-radius:8px;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer" style-hover="background:var(--alt)"><span class="ms" style="font-size:15px">open_in_new</span>Ver</button>
                   </div>
                 </div>
               </sc-for>
@@ -922,10 +924,13 @@
                       <div style="height:100%;background:#2563B0;border-radius:4px;width:{{ c.pct }}%"></div>
                     </div>
                   </div>
-                  <div style="display:flex;gap:7px;flex-wrap:wrap">
-                    <button onClick="{{ c.onWa }}" style="display:flex;align-items:center;gap:6px;height:34px;padding:0 13px;background:#25D366;border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer"><span class="ms" style="font-size:16px">chat</span>Cobrar restante</button>
-                    <button onClick="{{ c.onPagado }}" style="display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;background:rgba(46,158,91,.1);border:1px solid rgba(46,158,91,.3);border-radius:8px;color:#2E9E5B;font-size:12px;font-weight:600;cursor:pointer"><span class="ms" style="font-size:15px">check_circle</span>Marcar pagado</button>
-                    <button onClick="{{ c.onDrawer }}" style="display:flex;align-items:center;gap:5px;height:34px;padding:0 10px;background:var(--chip);border:1px solid var(--border);border-radius:8px;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer" style-hover="background:var(--alt)"><span class="ms" style="font-size:15px">open_in_new</span>Ver reserva</button>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+                    <sc-for list="{{ c.pagoEstados }}" as="pe" hint-placeholder-count="3">
+                      <button onClick="{{ pe.onClick }}" style="{{ pe.style }}">{{ pe.label }}</button>
+                    </sc-for>
+                    <div style="flex:1"></div>
+                    <button onClick="{{ c.onWa }}" style="display:flex;align-items:center;gap:6px;height:32px;padding:0 12px;background:#25D366;border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer"><span class="ms" style="font-size:15px">chat</span>Cobrar restante</button>
+                    <button onClick="{{ c.onDrawer }}" style="display:flex;align-items:center;gap:5px;height:32px;padding:0 10px;background:var(--chip);border:1px solid var(--border);border-radius:8px;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer" style-hover="background:var(--alt)"><span class="ms" style="font-size:15px">open_in_new</span>Ver</button>
                   </div>
                 </div>
               </sc-for>
@@ -2729,6 +2734,7 @@ class Component extends DCLogic {
   }
   getSession(code){
     return (this.state.pxdData||[]).find(s=>s.code===code)
+      || (this.state.dashData||[]).find(s=>s.code===code)
       || (this.state.certData||[]).find(s=>s.code===code)
       || (this.state.docsData||[]).find(s=>s.code===code)
       || (this.state.regalosData||[]).find(s=>s.code===code)
@@ -3647,6 +3653,14 @@ class Component extends DCLogic {
       {icon:'payments', label:'Restante por cobrar', value:this.cop(_totalRest), sub:`${_cobrosAbon.length} con abono recibido`, color:'#2563B0'},
       {icon:'check_circle', label:'Total recaudado', value:this.cop(_totalRecaud), sub:`${_cobrosPag.length} pagada${_cobrosPag.length!==1?'s':''}`, color:'#2E9E5B'},
     ];
+    const _pagoBtn=(code,p,active)=>{
+      const pm=this.pagoMeta(p);
+      return {
+        label:pm.label, active,
+        style:`display:flex;align-items:center;gap:5px;height:30px;padding:0 11px;border-radius:20px;font-size:11.5px;font-weight:600;cursor:pointer;border:${active?'none':'1px solid var(--border)'};background:${active?pm.bg:'var(--chip)'};color:${active?pm.c:'var(--muted)'}`,
+        onClick:()=>this.setPago(code,p),
+      };
+    };
     const _mkCard = s=>({
       code:s.code, cliente:s.cliente, tel:s.tel||'—', fecha:s.fecha,
       paquete:s.paquete, total:this.cop(s.total), abono:this.cop(s.abono),
@@ -3654,10 +3668,13 @@ class Component extends DCLogic {
       pct:s.total>0?Math.round(s.abono/s.total*100):0,
       initials:(s.cliente||'?').split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase(),
       onWa:()=>this.sendDatosPago(s),
-      onAbono:()=>this.setPago(s.code,'abono'),
-      onPagado:()=>this.setPago(s.code,'pagado'),
       onDrawer:()=>this.openDrawer(s.code),
       onClick:()=>this.openDrawer(s.code),
+      pagoEstados:[
+        _pagoBtn(s.code,'pendiente',s.pago==='pendiente'),
+        _pagoBtn(s.code,'abono',s.pago==='abono'),
+        _pagoBtn(s.code,'pagado',s.pago==='pagado'),
+      ],
     });
     const cobrosPendientesList = _cobrosPend.map(_mkCard);
     const cobrosAbonoList      = _cobrosAbon.map(_mkCard);
