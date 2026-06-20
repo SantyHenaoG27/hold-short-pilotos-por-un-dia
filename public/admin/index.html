@@ -4147,7 +4147,7 @@ class Component extends DCLogic {
       repBars, repKpis, repInstr,
       toastNuevoCliente:()=>this.toast('Nuevo cliente (formulario · próxima fase)'),
       toastNuevoPago:()=>{},
-      ingresoMesF:this.cop(ingresoMes),
+      ingresoMesF:this.cop(_totalRecaud),
       // calendario
       calTabs, calView:cv,
       calIsSemana:cv==='semana', calIsDia:cv==='dia', calIsMes:cv==='mes', calIsAgenda:cv==='agenda', calIsSim:cv==='sim', calIsInst:cv==='inst',
