@@ -929,6 +929,7 @@
                       <button onClick="{{ pe.onClick }}" style="{{ pe.style }}">{{ pe.label }}</button>
                     </sc-for>
                     <div style="flex:1"></div>
+                    <button onClick="{{ c.onComprobante }}" style="display:flex;align-items:center;gap:6px;height:32px;padding:0 12px;background:#1a2a3a;border:1px solid #2563B0;border-radius:8px;color:#4a8fd8;font-size:12px;font-weight:700;cursor:pointer" style-hover="background:#1e3350"><span class="ms" style="font-size:15px">receipt_long</span>Comprobante</button>
                     <button onClick="{{ c.onWa }}" style="display:flex;align-items:center;gap:6px;height:32px;padding:0 12px;background:#25D366;border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer"><span class="ms" style="font-size:15px">chat</span>Cobrar restante</button>
                     <button onClick="{{ c.onDrawer }}" style="display:flex;align-items:center;gap:5px;height:32px;padding:0 10px;background:var(--chip);border:1px solid var(--border);border-radius:8px;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer" style-hover="background:var(--alt)"><span class="ms" style="font-size:15px">open_in_new</span>Ver</button>
                   </div>
@@ -1119,6 +1120,14 @@
             <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:6px">¿Cuánto recibiste?</label>
             <input type="number" value="{{ abonoModalInput }}" onChange="{{ abonoModalSetInput }}" placeholder="{{ abonoModalPlaceholder }}" min="1" style="width:100%;border:1px solid var(--border);border-radius:9px;padding:10px 13px;font-size:15px;color:var(--text);background:var(--chip);margin-bottom:8px">
             <div style="font-size:11px;color:var(--faint);margin-bottom:18px">Sugerido 50%: {{ abonoModalSugerido }} · El saldo restante se calcula automáticamente.</div>
+
+            <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:8px">Método de pago utilizado</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
+              <button onClick="{{ abonoMetodoNequi }}" style="{{ abonoMetodoStyleNequi }}">Nequi</button>
+              <button onClick="{{ abonoMetodoBancol }}" style="{{ abonoMetodoStyleBancol }}">Bancolombia</button>
+              <button onClick="{{ abonoMetodoEfect }}" style="{{ abonoMetodoStyleEfect }}">Efectivo</button>
+              <button onClick="{{ abonoMetodoTarj }}" style="{{ abonoMetodoStyleTarj }}">Tarjeta</button>
+            </div>
 
             <button onClick="{{ abonoModalConfirm }}" disabled="{{ abonoModalSaving }}" style="width:100%;height:42px;background:#2563B0;border:none;border-radius:10px;color:#fff;font-weight:700;font-size:14px;cursor:pointer">{{ abonoModalBtnLabel }}</button>
           </div>
@@ -2054,6 +2063,87 @@
                 </div>
               </sc-if>
 
+              <!-- ===== COMPROBANTE DE PAGO ===== -->
+              <sc-if value="{{ doc.isComp }}" hint-placeholder-val="">
+                <div id="hs-comp" style="width:600px;max-width:100%;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 16px 44px rgba(0,0,0,.28);font-family:'Space Grotesk',sans-serif">
+                  <!-- cabecera naranja -->
+                  <div style="background:linear-gradient(135deg,#1a1c20 0%,#0c0d10 100%);padding:28px 32px 22px">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px">
+                      <div style="display:flex;align-items:center;gap:12px">
+                        <img src="/assets/hangar-emblem-nobg.png" alt="Hangar 1903" style="height:42px;width:auto" onerror="this.style.display='none'">
+                        <div>
+                          <div style="font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:17px;letter-spacing:.06em;color:#F5841F">HANGAR 1903</div>
+                          <div style="font-size:9px;font-weight:600;letter-spacing:.18em;color:#73777e;margin-top:1px">POWERED BY HOLD SHORT AVIATION</div>
+                        </div>
+                      </div>
+                      <div style="text-align:right">
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:#F5841F;font-weight:600">COMPROBANTE DE PAGO</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700;color:#ffffff;letter-spacing:.04em">{{ doc.code }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#73777e;margin-top:2px">{{ doc.compFechaDoc }}</div>
+                      </div>
+                    </div>
+                    <div style="background:rgba(245,132,31,.08);border:1px solid rgba(245,132,31,.18);border-radius:8px;padding:8px 14px;display:flex;align-items:center;gap:8px">
+                      <span style="font-size:14px">⚠️</span>
+                      <span style="font-size:10.5px;color:#9a9ea5;line-height:1.5">Este documento es un <strong style="color:#d4d6da">comprobante interno de pago</strong> y no tiene validez como factura comercial electrónica. No cuenta con NIT ni firma digital habilitante.</span>
+                    </div>
+                  </div>
+
+                  <!-- datos cliente -->
+                  <div style="padding:24px 32px 0">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#F5841F;font-weight:600;margin-bottom:10px">DATOS DEL CLIENTE</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;margin-bottom:22px">
+                      <div><div style="font-size:9px;font-weight:600;color:#9a9ea5;letter-spacing:.06em;margin-bottom:3px">NOMBRE</div><div style="font-size:13.5px;font-weight:700;color:#16181c">{{ doc.compCliente }}</div></div>
+                      <div><div style="font-size:9px;font-weight:600;color:#9a9ea5;letter-spacing:.06em;margin-bottom:3px">TELÉFONO / WHATSAPP</div><div style="font-size:13.5px;font-weight:600;color:#16181c">{{ doc.compTel }}</div></div>
+                    </div>
+                  </div>
+
+                  <!-- datos reserva -->
+                  <div style="padding:0 32px">
+                    <div style="height:1px;background:#F2F2ED;margin-bottom:22px"></div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#F5841F;font-weight:600;margin-bottom:10px">DETALLE DE LA RESERVA</div>
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px 16px;margin-bottom:22px">
+                      <div><div style="font-size:9px;font-weight:600;color:#9a9ea5;letter-spacing:.06em;margin-bottom:3px">EXPERIENCIA</div><div style="font-size:12.5px;font-weight:700;color:#16181c">{{ doc.paquete }}</div></div>
+                      <div><div style="font-size:9px;font-weight:600;color:#9a9ea5;letter-spacing:.06em;margin-bottom:3px">FECHA</div><div style="font-size:12.5px;font-weight:700;color:#16181c">{{ doc.fecha }}</div></div>
+                      <div><div style="font-size:9px;font-weight:600;color:#9a9ea5;letter-spacing:.06em;margin-bottom:3px">HORARIO</div><div style="font-size:12.5px;font-weight:700;color:#16181c">{{ doc.hora }} – {{ doc.horaFin }}</div></div>
+                      <div><div style="font-size:9px;font-weight:600;color:#9a9ea5;letter-spacing:.06em;margin-bottom:3px">SIMULADOR</div><div style="font-size:12.5px;font-weight:600;color:#3a3d42">{{ doc.sim }}</div></div>
+                      <div><div style="font-size:9px;font-weight:600;color:#9a9ea5;letter-spacing:.06em;margin-bottom:3px">REFERENCIA</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#F5841F">{{ doc.code }}</div></div>
+                    </div>
+                  </div>
+
+                  <!-- resumen de pago -->
+                  <div style="padding:0 32px 28px">
+                    <div style="height:1px;background:#F2F2ED;margin-bottom:22px"></div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#F5841F;font-weight:600;margin-bottom:14px">RESUMEN DE PAGO</div>
+                    <div style="background:#FAFAF8;border:1px solid #E7E7E2;border-radius:10px;overflow:hidden">
+                      <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 18px;border-bottom:1px solid #E7E7E2">
+                        <span style="font-size:12.5px;color:#73777e">Valor total de la experiencia</span>
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#16181c">{{ doc.compTotal }}</span>
+                      </div>
+                      <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 18px;border-bottom:1px solid #E7E7E2;background:#EEF4FF">
+                        <div>
+                          <span style="font-size:12.5px;color:#2563B0;font-weight:600">✓ Abono recibido</span>
+                          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#73777e;margin-left:10px">vía {{ doc.compMetodo }}</span>
+                        </div>
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:800;color:#2563B0">{{ doc.compAbono }}</span>
+                      </div>
+                      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#FFF8F0">
+                        <span style="font-size:13px;font-weight:700;color:#D9920A">Saldo pendiente</span>
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:800;color:#D9920A">{{ doc.compSaldo }}</span>
+                      </div>
+                    </div>
+                    <div style="margin-top:14px;padding:10px 16px;background:#F4F4F1;border-radius:8px;font-size:10.5px;color:#73777e;line-height:1.6">
+                      El saldo restante debe cancelarse al momento de la experiencia. Para más información escríbenos por WhatsApp al <strong style="color:#16181c">+57 316 724 9139</strong> o vía Instagram <strong style="color:#16181c">@hangar1903pereira</strong>.
+                    </div>
+                  </div>
+
+                  <!-- pie -->
+                  <div style="background:#0C0D10;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#52555b;letter-spacing:.06em">hangar1903.com · Cra. 12b #8-96, Pereira, Risaralda</span>
+                    <span style="font-size:10px;font-weight:700;color:#F5841F;font-style:italic;font-family:'Space Grotesk',sans-serif">CLEARED FOR TAKEOFF ✈</span>
+                  </div>
+                </div>
+              </sc-if>
+
             </div>
             <div style="display:flex;align-items:center;justify-content:center;gap:18px;margin-top:18px;flex-wrap:wrap">
               <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">Tamaño</span><div style="display:flex;gap:3px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:3px"><button class="mono" style="font-size:11px;padding:4px 9px;border:none;border-radius:6px;background:var(--btnsolid);color:#fff;cursor:pointer">Horizontal A5</button><button class="mono" style="font-size:11px;padding:4px 9px;border:none;border-radius:6px;background:transparent;color:var(--muted);cursor:pointer">Story</button></div></div>
@@ -2187,6 +2277,7 @@ class Component extends DCLogic {
     // modal abono personalizado
     abonoModal: null,
     abonoModalInput: '',
+    abonoModalMetodo: 'Nequi',
     abonoModalSaving: false,
     // cobros
     cobrosTab: 'pendiente',
@@ -2298,10 +2389,10 @@ class Component extends DCLogic {
 
   // ---- MODAL ABONO PERSONALIZADO ----
   openAbonoModal(s){
-    this.setState({abonoModal:{code:s.code,total:s.total,cliente:s.cliente,suggested:Math.ceil(s.total*.5)},abonoModalInput:''});
+    this.setState({abonoModal:{code:s.code,total:s.total,cliente:s.cliente,suggested:Math.ceil(s.total*.5)},abonoModalInput:'',abonoModalMetodo:'Nequi'});
   }
   async confirmarAbono(){
-    const{abonoModal,abonoModalInput}=this.state;
+    const{abonoModal,abonoModalInput,abonoModalMetodo}=this.state;
     if(!abonoModal) return;
     const monto=parseInt(abonoModalInput,10);
     if(isNaN(monto)||monto<=0){this.toast('Ingresa un monto válido');return;}
@@ -2309,7 +2400,7 @@ class Component extends DCLogic {
     this.setState({abonoModalSaving:true});
     const{error}=await supabaseClient.from('reservations').update({pago:'abono',abono:monto}).eq('code',abonoModal.code);
     if(!error){
-      this.updateSession(abonoModal.code,{pago:'abono',abono:monto});
+      this.updateSession(abonoModal.code,{pago:'abono',abono:monto,metodoPago:abonoModalMetodo});
       this.setState({abonoModal:null,abonoModalInput:'',abonoModalSaving:false});
       this.toast(`Abono registrado: ${this.cop(monto)} · restante: ${this.cop(abonoModal.total-monto)}`);
     }else{
@@ -2697,15 +2788,16 @@ class Component extends DCLogic {
   openDoc(kind, code){ this.setState({ modal: { type:'doc', kind, code } }); }
   printDoc(){
     const kind = this.state.modal?.kind;
-    const elId = kind==='invitacion'?'hs-inv':kind==='confirmacion'?'hs-conf':'hs-cert';
+    const elId = kind==='invitacion'?'hs-inv':kind==='confirmacion'?'hs-conf':kind==='comprobante'?'hs-comp':'hs-cert';
     const el = document.getElementById(elId);
     if(!el){ this.toast('El documento aún no está visible'); return; }
     const clone = el.cloneNode(true);
     clone.style.cssText += ';width:100%!important;max-width:100%!important;border-radius:0!important;box-shadow:none!important;margin:0!important;';
     const isConf = kind==='confirmacion';
-    const pageW = '297mm';
-    const pageH = '210mm';
-    const docBg = isConf?'#0C0D10':'#F3EFE7';
+    const isComp = kind==='comprobante';
+    const pageW = isComp?'210mm':'297mm';
+    const pageH = isComp?'297mm':'210mm';
+    const docBg = isConf?'#0C0D10':isComp?'#ffffff':'#F3EFE7';
     const iframe = document.createElement('iframe');
     iframe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:0;border:none;visibility:hidden';
     document.body.appendChild(iframe);
@@ -3588,18 +3680,25 @@ class Component extends DCLogic {
       const _confSubtitle = s.participante2
         ? 'Acompañante registrado: ' + s.participante2
         : 'Tu lugar está reservado y confirmado';
+      const _now=new Date();
+      const _compFecha=`${String(_now.getDate()).padStart(2,'0')}/${String(_now.getMonth()+1).padStart(2,'0')}/${_now.getFullYear()}`;
       doc = {
-        kind:m.kind, isInv: m.kind==='invitacion', isConf: m.kind==='confirmacion', isCert,
+        kind:m.kind, isInv: m.kind==='invitacion', isConf: m.kind==='confirmacion', isCert, isComp:m.kind==='comprobante',
         nombre: _isGift ? _recipient : s.cliente,
         deParteDe: s.cliente,
         acompanante: _acompanante,
         segundo: s.participante2 || null,
         confSubtitle: _confSubtitle,
-        fecha: s.fecha, hora:s.hi, dur:this.duracion(s.hi,s.hf),
+        fecha: s.fecha, hora:s.hi, horaFin:s.hf, dur:this.duracion(s.hi,s.hf),
         paquete: s.paquete, sim: s.sim||'King Air B200',
         instructor: s.instructor || 'Pendiente de asignación', code: s.code,
         certNo: s.code ? s.code.replace('HS-','HS-PXD-2026-') : 'HS-PXD-2026-001',
         mensaje: s.notas || '¡Feliz cumpleaños! Sé que siempre soñaste con volar. Hoy te toca.',
+        // comprobante de pago
+        compCliente:s.cliente, compTel:s.tel||'—',
+        compTotal:this.cop(s.total), compAbono:this.cop(s.abono), compSaldo:this.cop(s.total-s.abono),
+        compMetodo:s.metodoPago||'No especificado', compFechaDoc:_compFecha,
+        compPct:s.total>0?Math.round(s.abono/s.total*100):0,
         qrUrl: s.qrToken
           ? `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent('https://hangar1903.com/reserva?t='+s.qrToken)}&bgcolor=ffffff&color=0C0D10&margin=4`
           : `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent('https://hangar1903.com/reserva?code='+(s.code||''))}&bgcolor=ffffff&color=0C0D10&margin=4`,
@@ -3723,6 +3822,8 @@ class Component extends DCLogic {
       onWa:()=>this.sendDatosPago(s),
       onDrawer:()=>this.openDrawer(s.code),
       onClick:()=>this.openDrawer(s.code),
+      showComprobante: s.pago==='abono',
+      onComprobante:()=>this.openDoc('comprobante',s.code),
       pagoEstados:[
         _pagoBtn(s,'pendiente',s.pago==='pendiente'),
         _pagoBtn(s,'abono',s.pago==='abono'),
@@ -4141,6 +4242,14 @@ class Component extends DCLogic {
       abonoModalSaving: this.state.abonoModalSaving,
       abonoModalConfirm: ()=>this.confirmarAbono(),
       abonoModalBtnLabel: this.state.abonoModalSaving ? 'Guardando…' : 'Guardar abono',
+      abonoMetodoNequi: ()=>this.setState({abonoModalMetodo:'Nequi'}),
+      abonoMetodoBancol: ()=>this.setState({abonoModalMetodo:'Bancolombia'}),
+      abonoMetodoEfect: ()=>this.setState({abonoModalMetodo:'Efectivo'}),
+      abonoMetodoTarj: ()=>this.setState({abonoModalMetodo:'Tarjeta'}),
+      abonoMetodoStyleNequi: (()=>{const a=this.state.abonoModalMetodo==='Nequi'; return `height:32px;padding:0 13px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:${a?'none':'1px solid var(--border)'};background:${a?'rgba(37,99,176,.18)':'var(--chip)'};color:${a?'#4a8fd8':'var(--muted)'}`})(),
+      abonoMetodoStyleBancol: (()=>{const a=this.state.abonoModalMetodo==='Bancolombia'; return `height:32px;padding:0 13px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:${a?'none':'1px solid var(--border)'};background:${a?'rgba(37,99,176,.18)':'var(--chip)'};color:${a?'#4a8fd8':'var(--muted)'}`})(),
+      abonoMetodoStyleEfect: (()=>{const a=this.state.abonoModalMetodo==='Efectivo'; return `height:32px;padding:0 13px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:${a?'none':'1px solid var(--border)'};background:${a?'rgba(37,99,176,.18)':'var(--chip)'};color:${a?'#4a8fd8':'var(--muted)'}`})(),
+      abonoMetodoStyleTarj: (()=>{const a=this.state.abonoModalMetodo==='Tarjeta'; return `height:32px;padding:0 13px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:${a?'none':'1px solid var(--border)'};background:${a?'rgba(37,99,176,.18)':'var(--chip)'};color:${a?'#4a8fd8':'var(--muted)'}`})(),
       blockModal: this.state.blockModal,
       blockClose: ()=>this.setState({blockModal:false}),
       blockFormDate: this.state.blockFormDate,
@@ -4274,8 +4383,8 @@ class Component extends DCLogic {
       reprSubmit: ()=>this.submitRepr(),
       hasModal: !!this.state.modal,
       modalIsForm, modalIsDoc, modalIsConfirm, form, doc, confirm,
-      docHeadIcon: doc ? (doc.isInv?'redeem':doc.isCert?'workspace_premium':'confirmation_number') : 'description',
-      docHeadTitle: doc ? (doc.isInv?'Invitación de regalo · Piloto por un Día':doc.isCert?'Certificado de participación':'Confirmación de reserva') : 'Documento',
+      docHeadIcon: doc ? (doc.isInv?'redeem':doc.isCert?'workspace_premium':doc.isComp?'receipt_long':'confirmation_number') : 'description',
+      docHeadTitle: doc ? (doc.isInv?'Invitación de regalo · Piloto por un Día':doc.isCert?'Certificado de participación':doc.isComp?'Comprobante de pago · '+doc.code:'Confirmación de reserva') : 'Documento',
       docPrint:()=>this.printDoc(),
       docWa:()=>this.toast('Envío por WhatsApp (simulado)'),
       docDownload:()=>this.printDoc(),
