@@ -436,19 +436,14 @@
           <!-- CHARTS -->
           <div data-r="charts" style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:16px">
 
-            <!-- bars: sesiones por día -->
+            <!-- bars: sesiones por mes (REAL) -->
             <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-                <h3 class="disp" style="margin:0;font-size:14.5px;font-weight:600">Sesiones por día</h3>
-                <div style="display:flex;gap:4px">
-                  <sc-for list="{{ rangeTabs }}" as="rt" hint-placeholder-count="3">
-                    <button onClick="{{ rt.onClick }}" style="{{ rt.style }}">{{ rt.label }}</button>
-                  </sc-for>
-                </div>
+                <h3 class="disp" style="margin:0;font-size:14.5px;font-weight:600">Sesiones últimos 6 meses</h3>
               </div>
               <div style="display:flex;align-items:center;gap:14px;margin:4px 0 16px">
                 <div style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:3px;background:#F5841F"></span><span style="font-size:11px;color:var(--muted)">Piloto por un Día</span></div>
-                <div style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:3px;background:#355C7D"></span><span style="font-size:11px;color:var(--muted)">Hold Short Pilotos</span></div>
+                <div style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:3px;background:#e5e7eb"></span><span style="font-size:11px;color:var(--faint)">Hold Short · Próximamente</span></div>
               </div>
               <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:9px;height:138px;padding-top:6px">
                 <sc-for list="{{ barDays }}" as="d" hint-placeholder-count="6">
@@ -463,9 +458,9 @@
               </div>
             </div>
 
-            <!-- donut: distribución servicio -->
+            <!-- donut: estado de reservas este mes (REAL) -->
             <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px">
-              <h3 class="disp" style="margin:0 0 14px;font-size:14.5px;font-weight:600">Distribución de servicio</h3>
+              <h3 class="disp" style="margin:0 0 14px;font-size:14.5px;font-weight:600">Estado · mes actual</h3>
               <div style="display:flex;align-items:center;gap:16px">
                 <div style="{{ donutServ }}">
                   <div style="position:absolute;inset:13px;background:var(--surface);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center">
@@ -484,23 +479,20 @@
               </div>
             </div>
 
-            <!-- ocupación simuladores -->
-            <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px">
-              <h3 class="disp" style="margin:0 0 16px;font-size:14.5px;font-weight:600">Ocupación de simuladores</h3>
-              <div style="display:flex;flex-direction:column;gap:16px">
-                <sc-for list="{{ ocupacion }}" as="o" hint-placeholder-count="2">
-                  <div>
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
-                      <div style="display:flex;align-items:center;gap:7px"><span class="ms" style="font-size:17px;color:var(--muted)">flight</span><span style="font-size:12.5px;font-weight:600;color:var(--text2)">{{ o.name }}</span></div>
-                      <span class="disp" style="font-size:14px;font-weight:700;color:{{ o.color }}">{{ o.pct }}</span>
-                    </div>
-                    <div style="height:9px;background:var(--track);border-radius:6px;overflow:hidden"><div style="{{ o.barStyle }}"></div></div>
-                    <div class="mono" style="font-size:10px;color:var(--faint);margin-top:5px">{{ o.detail }}</div>
-                  </div>
-                </sc-for>
-                <div style="border-top:1px dashed var(--border);padding-top:12px;display:flex;align-items:center;gap:8px">
-                  <span class="ms" style="font-size:16px;color:#C2410C">build</span>
-                  <span style="font-size:11.5px;color:var(--muted)">A320 · mantenimiento programado <span class="mono" style="color:#C2410C">18/06</span></span>
+            <!-- ocupación simuladores → próximamente Hold Short -->
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column">
+              <h3 class="disp" style="margin:0 0 8px;font-size:14.5px;font-weight:600">Ocupación de simuladores</h3>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px 0">
+                <div style="width:54px;height:54px;border-radius:14px;background:#EEEBFB;display:flex;align-items:center;justify-content:center">
+                  <span class="ms" style="font-size:28px;color:#5848c0">link</span>
+                </div>
+                <div style="text-align:center">
+                  <div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:5px">Próximamente</div>
+                  <div style="font-size:11.5px;color:var(--faint);line-height:1.5">Disponible con la<br>conexión a <span style="color:#5848c0;font-weight:600">Hold Short</span></div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;width:100%;margin-top:4px">
+                  <div style="height:9px;background:var(--track);border-radius:6px;overflow:hidden"><div style="height:100%;width:0%;background:linear-gradient(90deg,#5848c0,#7c6fdb);border-radius:6px"></div></div>
+                  <div style="height:9px;background:var(--track);border-radius:6px;overflow:hidden"><div style="height:100%;width:0%;background:linear-gradient(90deg,#355C7D,#2c5070);border-radius:6px"></div></div>
                 </div>
               </div>
             </div>
@@ -1950,6 +1942,9 @@ class Component extends DCLogic {
     docsLoading: false,
     docDateFilter: 'todos',
     docCustomDate: '',
+    // dashboard
+    dashData: null,
+    dashLoading: false,
     // clientes
     clientesData: null,
     clientesLoading: false,
@@ -2008,6 +2003,7 @@ class Component extends DCLogic {
       this.fetchCalSessions(anchor, 'semana');
       this.loadSimMant();
       this.loadInstructores();
+      this.fetchDashboardData();
     });
   }
   componentWillUnmount(){ clearInterval(this._t); }
@@ -2285,6 +2281,14 @@ class Component extends DCLogic {
       else{ this.setState({pxdLoading:false}); }
     }catch(e){ this.setState({pxdLoading:false}); }
   }
+  async fetchDashboardData(){
+    this.setState({dashLoading:true});
+    try{
+      const{data,error}=await supabaseClient.from('reservations').select('*').eq('servicio','simulador').order('fecha',{ascending:false}).order('hora_inicio');
+      if(!error&&data){ this.setState({dashData:data.map(r=>this.mapRsvToSession(hsMapReservation(r))),dashLoading:false}); }
+      else{ this.setState({dashLoading:false}); }
+    }catch(e){ this.setState({dashLoading:false}); }
+  }
 
   logout(){
     hsLogout();
@@ -2306,6 +2310,7 @@ class Component extends DCLogic {
     this.setState({ route, mobileNav: false, showNotif: false, drawer: null, modal: null, profile: null, loading: true });
     clearTimeout(this._loadT);
     this._loadT = setTimeout(()=>this.setState({ loading: false }), 480);
+    if(route==='panel') this.fetchDashboardData();
     if(route==='calendario') this.fetchCalSessions(this.state.calAnchor||new Date(), this.state.calView);
     if(route==='pxd') this.fetchPxdData();
     if(route==='certificados') this.fetchCertData();
@@ -2733,23 +2738,40 @@ class Component extends DCLogic {
       })
     }));
 
-    // ----- panel data -----
-    const k = (icon,iconWrap,value,label,delta,up,tip) => ({
+    // ----- panel data (REAL) -----
+    const dd = this.state.dashData || [];
+    const now2 = this.state.now || new Date();
+    const thisYM = `${now2.getFullYear()}-${String(now2.getMonth()+1).padStart(2,'0')}`;
+    const prevYM = (()=>{ const d=new Date(now2.getFullYear(),now2.getMonth()-1,1); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; })();
+    const mesData = dd.filter(s=>(s.fechaISO||'').startsWith(thisYM));
+    const prevMesData = dd.filter(s=>(s.fechaISO||'').startsWith(prevYM));
+    const sesCount = mesData.length;
+    const prevSesCount = prevMesData.length;
+    const ingresosMes = mesData.filter(s=>s.pago==='pagado').reduce((a,s)=>a+s.total,0);
+    const prevIngresosMes = prevMesData.filter(s=>s.pago==='pagado').reduce((a,s)=>a+s.total,0);
+    const saldoPend = dd.filter(s=>!['cancelada','noasistio'].includes(s.estado)&&s.pago!=='pagado').reduce((a,s)=>a+(s.total-s.abono),0);
+    const clientesMes = new Set(mesData.map(s=>s.email).filter(Boolean)).size;
+    const completadas = dd.filter(s=>s.estado==='completada').length;
+    const regalosCount = mesData.filter(s=>s.regalo).length;
+    const pctDelta = (a,b) => b===0?(a>0?'+'+a:'0'):((a-b)/b*100).toFixed(0);
+    const k = (icon,iconWrap,value,label,delta,up,tip,prox) => ({
       icon, iconWrap:`width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;${iconWrap}`,
-      value, label, delta, tip,
-      deltaIcon: up?'trending_up':'trending_down',
-      deltaStyle:`display:flex;align-items:center;gap:2px;font-size:11px;font-weight:600;font-family:'JetBrains Mono';padding:2px 7px;border-radius:20px;${up?'color:#227a45;background:#E6F4EC':'color:#b13838;background:#FBEAEA'}`,
-      onClick: () => this.toast('Abrir detalle: '+label),
+      value, label, tip, prox:!!prox,
+      delta: prox ? 'Próximamente' : delta,
+      deltaIcon: prox ? 'link' : (up?'trending_up':'trending_down'),
+      deltaStyle:`display:flex;align-items:center;gap:2px;font-size:11px;font-weight:600;font-family:'JetBrains Mono';padding:2px 7px;border-radius:20px;${prox?'color:#5848c0;background:#EEEBFB':up?'color:#227a45;background:#E6F4EC':'color:#b13838;background:#FBEAEA'}`,
+      onClick: () => this.toast(prox?'Próximamente en conexión con Hold Short':'Detalle: '+label),
     });
+    const deltaUpStr = (cur,prev) => { const d=cur-prev; return (d>=0?'+':'')+d; };
     const kpis = [
-      k('event','color:#b5630a;background:#FEF1E2','7','Sesiones hoy','+2',true,'Sesiones programadas para hoy'),
-      k('task_alt','color:#227a45;background:#E6F4EC','1','Completadas hoy','+1',true,'Sesiones finalizadas hoy'),
-      k('pending_actions','color:#9a6f0a;background:#FBF0D5','3','Pend. de confirmación','-1',false,'Reservas sin confirmar'),
-      k('flight','color:#1d5fb0;background:#E3EEFB','1','En curso ahora','0',true,'Sesiones en simulador en este momento'),
-      k('donut_large','color:#2c5070;background:#E9F0F6','68%','Ocupación simuladores','+9%',true,'Ocupación promedio del día'),
-      k('workspace_premium','color:#5848c0;background:#EEEBFB','4','Certificados pendientes','+4',true,'Listos para generar'),
-      k('forward_to_inbox','color:#b5630a;background:#FEF1E2','5','Invitaciones por enviar','+2',true,'Regalos con invitación pendiente'),
-      k('account_balance_wallet','color:#b13838;background:#FBEAEA',this.cop(480000),'Saldos pendientes','-1',false,'Saldos por cobrar (registro manual)'),
+      k('event_available','color:#b5630a;background:#FEF1E2', sesCount, 'Sesiones este mes', deltaUpStr(sesCount,prevSesCount), sesCount>=prevSesCount, 'Reservas PxD registradas en '+['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][now2.getMonth()]),
+      k('payments','color:#227a45;background:#E6F4EC', this.cop(ingresosMes), 'Ingresos cobrados', deltaUpStr(ingresosMes,prevIngresosMes)>=0?'+'+deltaUpStr(ingresosMes,prevIngresosMes):deltaUpStr(ingresosMes,prevIngresosMes), ingresosMes>=prevIngresosMes, 'Total cobrado este mes (pago = pagado)'),
+      k('account_balance_wallet','color:#b13838;background:#FBEAEA', this.cop(saldoPend), 'Saldo por cobrar', saldoPend>0?'Pendiente':'Al día', saldoPend===0, 'Suma de saldos sin pagar en reservas activas'),
+      k('group','color:#1d5fb0;background:#E3EEFB', clientesMes, 'Clientes únicos (mes)', clientesMes>0?'+'+clientesMes:'0', true, 'Correos distintos registrados este mes'),
+      k('workspace_premium','color:#227a45;background:#E6F4EC', completadas, 'Sesiones completadas', completadas>0?'+'+completadas:'0', true, 'Total histórico de sesiones completadas'),
+      k('redeem','color:#9a6f0a;background:#FBF0D5', regalosCount, 'Regalos este mes', regalosCount>0?'+'+regalosCount:'0', true, 'Reservas de regalo en el mes actual'),
+      k('flight','color:#5848c0;background:#EEEBFB', '—', 'Hold Short · Sesiones', '', true, 'Próximamente en conexión con Hold Short', true),
+      k('schedule','color:#2c5070;background:#E9F0F6', '—', 'Hold Short · Horas sim.', '', true, 'Próximamente en conexión con Hold Short', true),
     ];
 
     // agenda (today)
@@ -2769,46 +2791,69 @@ class Component extends DCLogic {
       };
     });
 
-    // alerts
+    // alerts (REAL)
     const av = (icon,col,bg,text,meta) => ({icon,text,meta, iconWrap:`width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:${col};background:${bg}`, onClick:()=>this.toast(text)});
-    const alerts = [
-      av('warning','#b13838','#FBEAEA','Conflicto: King Air B200 con dos reservas a las 14:00','Sesiones HS-2264 · HS-2270 · hace 4 min'),
-      av('person_off','#9a6f0a','#FBF0D5','Sesión HS-2267 (17:00) sin instructor asignado','Aviador Express · hoy'),
-      av('schedule','#1d5fb0','#E3EEFB','Sesión próxima a iniciar en 25 min — Familia Gómez','HS-2263 · 10:45'),
-      av('build','#C2410C','#FBE9DF','Airbus A320 entra a mantenimiento el 18/06','3 sesiones a reubicar'),
-      av('redeem','#9a6f12','#F5EEDD','2 regalos sin fecha programada','Fecha abierta · pendiente de canje'),
-      av('account_balance_wallet','#b13838','#FBEAEA','Saldo pendiente: Daniela Ospina · '+this.cop(370000),'HS-2264 · pago manual'),
-      av('forward_to_inbox','#b5630a','#FEF1E2','5 invitaciones de regalo listas para enviar','Centro de documentos'),
-    ];
-
-    // charts
-    const range = this.state.chartRange;
-    const rangeTabs = [['hoy','Hoy'],['semana','Semana'],['mes','Mes']].map(([id,label])=>({
-      label, onClick:()=>this.setState({chartRange:id}),
-      style:`font-family:'JetBrains Mono';font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px;cursor:pointer;border:none;${range===id?'background:var(--btnsolid);color:#fff':'background:var(--chip);color:var(--muted)'}`
-    }));
-    const days = [['Lun',3,1],['Mar',2,2],['Mié',4,1],['Jue',3,2],['Vie',5,2],['Sáb',5,2]];
-    const maxV = 8;
-    const barDays = days.map(([label,pxd,hs])=>{
-      const total=pxd+hs;
-      return { label, total,
-        pxdStyle:`height:${(pxd/maxV)*100}%;background:#F5841F;border-radius:4px 4px 0 0;min-height:4px`,
-        hsStyle:`height:${(hs/maxV)*100}%;background:#355C7D;border-radius:4px 4px 0 0;min-height:4px`,
-      };
+    const todayISO = this.isoDate(now2);
+    const proximas = dd.filter(s=>s.fechaISO&&s.fechaISO>=todayISO&&!['cancelada','noasistio','completada'].includes(s.estado)).sort((a,b)=>(a.fechaISO+a.hi).localeCompare(b.fechaISO+b.hi));
+    const sinPago = proximas.filter(s=>s.pago==='pendiente');
+    const sinInst = proximas.filter(s=>!s.instructor);
+    const regalosAbiertos = dd.filter(s=>s.regalo&&!s.fechaISO);
+    const alerts = [];
+    sinPago.slice(0,3).forEach(s=>{
+      alerts.push(av('account_balance_wallet','#b13838','#FBEAEA','Pago pendiente · '+s.cliente,s.code+' · '+s.fecha+' · '+this.cop(s.total-s.abono)));
     });
+    if(sinPago.length>3) alerts.push(av('account_balance_wallet','#b13838','#FBEAEA',`+${sinPago.length-3} sesiones más con pago pendiente','Ver sección de reservas`));
+    sinInst.slice(0,2).forEach(s=>{
+      alerts.push(av('person_off','#9a6f0a','#FBF0D5','Sin instructor · '+s.cliente,s.code+' · '+s.fecha+' '+s.hi+' · '+s.paquete));
+    });
+    if(regalosAbiertos.length>0) alerts.push(av('redeem','#9a6f12','#F5EEDD',regalosAbiertos.length+' regalo'+(regalosAbiertos.length>1?'s':'')+' sin fecha programada','Fecha abierta · pendiente de canje'));
+    if(alerts.length===0) alerts.push(av('check_circle','#227a45','#E6F4EC','Sin alertas operativas · todo en orden','Todas las sesiones próximas tienen pago e instructor'));
 
-    const pxdN=22, hsN=11, totalN=pxdN+hsN;
-    const pxdPct=Math.round(pxdN/totalN*100);
-    const donutServ = `position:relative;width:118px;height:118px;border-radius:50%;flex-shrink:0;background:conic-gradient(#F5841F 0% ${pxdPct}%, #355C7D ${pxdPct}% 100%)`;
-    const servLegend = [
-      { label:'Piloto por un Día', pct:pxdPct+'%', n:pxdN, dot:'width:9px;height:9px;border-radius:3px;background:#F5841F;display:inline-block' },
-      { label:'Hold Short Pilotos', pct:(100-pxdPct)+'%', n:hsN, dot:'width:9px;height:9px;border-radius:3px;background:#355C7D;display:inline-block' },
-    ];
+    // charts (REAL)
+    // Bar chart: sesiones por mes (últimos 6 meses)
+    const rangeTabs = [];
+    const mLabels=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const barMonths=[];
+    for(let i=5;i>=0;i--){
+      const d=new Date(now2.getFullYear(),now2.getMonth()-i,1);
+      const ym=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+      const label=mLabels[d.getMonth()]+(i===0?' ·Actual':'');
+      const n=dd.filter(s=>(s.fechaISO||'').startsWith(ym)).length;
+      barMonths.push({ym,label,n});
+    }
+    const maxV=Math.max(...barMonths.map(b=>b.n),1);
+    const barDays=barMonths.map(b=>({
+      label:b.label, total:b.n,
+      pxdStyle:`height:${Math.max(b.n/maxV*100,b.n>0?6:0)}%;background:#F5841F;border-radius:4px 4px 0 0;transition:height .3s`,
+      hsStyle:`height:0%;background:#355C7D;border-radius:4px 4px 0 0`,
+    }));
 
-    const ocupacion = [
-      { name:'King Air B200', pct:'82%', color:'#227a45', barStyle:'height:100%;width:82%;background:linear-gradient(90deg,#F5841F,#e8780f);border-radius:6px', detail:'6 sesiones · 6h 40m en uso' },
-      { name:'Airbus A320', pct:'41%', color:'#9a6f0a', barStyle:'height:100%;width:41%;background:linear-gradient(90deg,#355C7D,#2c5070);border-radius:6px', detail:'3 sesiones · 3h 30m en uso' },
-    ];
+    // Donut: estado de reservas este mes
+    const ESTADO_COLORS={completada:'#22c55e',confirmada:'#3b82f6',pendiente:'#f59e0b',cancelada:'#ef4444',solicitud:'#8b5cf6',proxima:'#14b8a6',checkin:'#f97316',curso:'#f97316',reprogramada:'#6b7280',noasistio:'#7f1d1d'};
+    const ESTADO_LABELS={completada:'Completada',confirmada:'Confirmada',pendiente:'Pendiente',cancelada:'Cancelada',solicitud:'Solicitud',proxima:'Próxima',checkin:'Check-in',curso:'En curso',reprogramada:'Reprogramada',noasistio:'No asistió'};
+    const eCounts={};
+    mesData.forEach(s=>{ const e=s.estado||'pendiente'; eCounts[e]=(eCounts[e]||0)+1; });
+    const eOrder=['completada','confirmada','pendiente','cancelada','solicitud','proxima','reprogramada','noasistio'];
+    const eKeys=[...eOrder,...Object.keys(eCounts).filter(e=>!eOrder.includes(e))].filter(e=>eCounts[e]);
+    const totalE=mesData.length||1;
+    let ang=0;
+    const donutSegs=eKeys.map(e=>{
+      const pct=eCounts[e]/totalE*100;
+      const seg={e,n:eCounts[e],pct:Math.round(pct),start:ang};
+      ang+=pct/100*360; return seg;
+    });
+    const conicStr=donutSegs.length
+      ? donutSegs.map(s=>`${ESTADO_COLORS[s.e]||'#888'} ${(s.start/360*100).toFixed(1)}% ${((s.start+s.pct/100*360)/360*100).toFixed(1)}%`).join(',')
+      : '#e5e7eb 0% 100%';
+    const donutServ=`position:relative;width:118px;height:118px;border-radius:50%;flex-shrink:0;background:conic-gradient(${conicStr})`;
+    const donutServTotal=mesData.length;
+    const servLegend=donutSegs.slice(0,4).map(s=>({
+      label:ESTADO_LABELS[s.e]||s.e, pct:s.pct+'%', n:s.n,
+      dot:`width:9px;height:9px;border-radius:3px;background:${ESTADO_COLORS[s.e]||'#888'};display:inline-block`
+    }));
+
+    // Ocupación simuladores → Próximamente con Hold Short
+    const ocupacion = [];
 
     // ---------- SESIONES (tabla) ----------
     const q = this.state.sesQuery.trim().toLowerCase();
@@ -3774,9 +3819,9 @@ class Component extends DCLogic {
       // panel
       kpis,
       agenda, agendaCount:agenda.length,
-      alerts, alertCount:alerts.length,
+      alerts, alertCount:alerts.filter(a=>a.icon!=='check_circle').length||0,
       rangeTabs, barDays,
-      donutServ, donutServTotal:totalN, servLegend,
+      donutServ, donutServTotal, servLegend,
       ocupacion,
     };
   }
