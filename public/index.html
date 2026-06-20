@@ -630,7 +630,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
           <div style="position:absolute;right:18px;bottom:16px;width:26px;height:26px;border-right:2px solid rgba(245,197,66,.7);border-bottom:2px solid rgba(245,197,66,.7)"></div>
           <div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:flex-end;padding:18px 22px;background:linear-gradient(transparent,rgba(0,0,0,.7));pointer-events:none">
             <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#fbfcff"><span style="color:#f5c542">●</span> BEECHCRAFT KING AIR B200</div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#a8b5c7">SKPE · PEI</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#a8b5c7">Cra. 12b #8-96 · Pereira</div>
           </div>
         </div>
 
@@ -1253,7 +1253,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
                     <div style="width:1px;height:30px;background:rgba(245,197,66,.25)"></div>
                     <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#7f8fa3;margin-bottom:2px">{{ t.pkgs.ticket.asiento }}</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;color:#f5c542">{{ ticket.seat }}</div></div>
                     <div style="width:1px;height:30px;background:rgba(245,197,66,.25)"></div>
-                    <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#7f8fa3;margin-bottom:2px">AEROP.</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;color:#f5c542">SKPE</div></div>
+                    <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#7f8fa3;margin-bottom:2px">SEDE</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:#f5c542;line-height:1.2">Cra. 12b<br>#8-96</div></div>
                   </div>
                   <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.14em;color:#7f8fa3">{{ ticket.flight }} · HANGAR 1903</div>
                 </div>
@@ -2016,7 +2016,7 @@ portalDownloadTicket(r){
 <div style="position:relative;z-index:1;padding:18px 22px 22px;display:flex;flex-direction:column;align-items:center;gap:14px">
   <img src="${qr}" width="160" height="160" style="display:block;border-radius:8px;background:#fbfcff;padding:8px;box-sizing:border-box;"/>
   <div style="display:flex;align-items:center;gap:16px">
-    <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#7f8fa3;margin-bottom:2px;text-transform:uppercase">Aeropuerto</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;color:#f5c542">SKPE</div></div>
+    <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#7f8fa3;margin-bottom:2px;text-transform:uppercase">SEDE</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:#f5c542;line-height:1.2">Cra. 12b<br>#8-96</div></div>
     <div style="width:1px;height:30px;background:rgba(245,197,66,.25)"></div>
     <div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#7f8fa3;margin-bottom:2px;text-transform:uppercase">Simulador</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;color:#f5c542">B200</div></div>
     <div style="width:1px;height:30px;background:rgba(245,197,66,.25)"></div>
@@ -2071,7 +2071,7 @@ portalDownloadConfirm(r){
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#ddd4c4;margin:0 22px;border-radius:9px;overflow:hidden;border:1px solid #ddd4c4">
     <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">event</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">FECHA PROGRAMADA</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">${fecha}</div></div>
     <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">schedule</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">HORA</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">${hora}</div></div>
-    <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">location_on</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">UBICACIÓN</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">Pereira · SKPE</div></div>
+    <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">location_on</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">UBICACIÓN</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">Cra. 12b #8-96, Pereira</div></div>
     <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">confirmation_number</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">RESERVA</div><div class="mono" style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">${r.code}</div></div>
   </div>
   <div style="margin:13px 22px 0;border:1px solid #ddd4c4;border-radius:9px;padding:10px 14px;display:flex;gap:10px;align-items:center">
@@ -2113,7 +2113,7 @@ portalDownloadConfirm(r){
         <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">DURACIÓN</div><div style="font-size:12.5px;font-weight:600;color:#fff;margin-top:3px">2h aprox.</div></div>
         <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">SIMULADOR</div><div style="font-size:12.5px;font-weight:600;color:#fff;margin-top:3px">${sim}</div></div>
         <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">INSTRUCTOR</div><div style="font-size:12.5px;font-weight:600;color:#fff;margin-top:3px">${instructor}</div></div>
-        <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">UBICACIÓN</div><div style="font-size:12.5px;font-weight:600;color:#fff;margin-top:3px">Pereira · SKPE</div></div>
+        <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">UBICACIÓN</div><div style="font-size:12.5px;font-weight:600;color:#fff;margin-top:3px">Cra. 12b #8-96, Pereira</div></div>
         <div><div class="mono" style="font-size:8px;letter-spacing:.1em;color:#62666d">RESERVA</div><div class="mono" style="font-size:12.5px;font-weight:700;color:#F5841F;margin-top:3px">${r.code}</div></div>
       </div>
       <div style="margin-top:18px;border-top:1px solid #1d1f24;padding-top:13px;display:flex;gap:18px;flex-wrap:wrap">
@@ -2124,7 +2124,7 @@ portalDownloadConfirm(r){
     </div>
     <div style="width:200px;flex-shrink:0;border-left:2px dashed #2a2c31;background:#0a0b0d;padding:20px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
       <img src="${qr}" width="104" height="104" style="border-radius:9px">
-      <span class="mono" style="font-size:9px;color:#62666d;margin-top:9px">${r.code} · SKPE</span>
+      <span class="mono" style="font-size:9px;color:#62666d;margin-top:9px">${r.code} · Cra. 12b #8-96</span>
       <div style="display:flex;gap:1.5px;margin-top:12px;height:34px;align-items:stretch">
         <span style="width:2px;background:#fff"></span><span style="width:1px;background:#fff"></span><span style="width:3px;background:#fff"></span><span style="width:1px;background:#fff"></span><span style="width:2px;background:#fff"></span><span style="width:4px;background:#fff"></span><span style="width:1px;background:#fff"></span><span style="width:2px;background:#fff"></span><span style="width:3px;background:#fff"></span><span style="width:1px;background:#fff"></span><span style="width:2px;background:#fff"></span><span style="width:1px;background:#fff"></span><span style="width:3px;background:#fff"></span>
       </div>
@@ -2173,7 +2173,7 @@ portalDownloadInvitacion(r){
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#ddd4c4;margin:0 22px;border-radius:9px;overflow:hidden;border:1px solid #ddd4c4">
     <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">event</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">FECHA PROGRAMADA</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">${fecha}</div></div>
     <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">schedule</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">HORA</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">${hora}</div></div>
-    <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">location_on</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">UBICACIÓN</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">Pereira · SKPE</div></div>
+    <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">location_on</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">UBICACIÓN</div><div style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">Cra. 12b #8-96, Pereira</div></div>
     <div style="background:#F3EFE7;padding:10px;text-align:center"><span class="ms" style="font-size:17px;color:#F5841F">confirmation_number</span><div class="mono" style="font-size:8px;letter-spacing:.06em;color:#9a917f;margin-top:3px">RESERVA</div><div class="mono" style="font-size:12px;font-weight:700;color:#15171b;margin-top:2px">${r.code}</div></div>
   </div>
   <div style="margin:13px 22px 0;border:1px solid #ddd4c4;border-radius:9px;padding:10px 14px;display:flex;gap:10px;align-items:center">
@@ -2215,7 +2215,7 @@ portalDownloadCert(r){
         <span class="ms" style="font-size:26px;color:#F5841F">verified</span>
       </div>
       <div class="mono" style="font-size:7px;letter-spacing:.13em;color:#C99A2E">HOLD SHORT</div>
-      <div class="mono" style="font-size:7px;letter-spacing:.13em;color:#9a9ea5;margin-top:2px">AVIATION · SKPE</div>
+      <div class="mono" style="font-size:7px;letter-spacing:.13em;color:#9a9ea5;margin-top:2px">Cra. 12b #8-96, Pereira</div>
     </div>
     <div style="position:relative;text-align:center;width:100%">
       <div style="height:1px;background:linear-gradient(90deg,transparent,#F5841F,transparent);margin-bottom:10px"></div>
