@@ -2384,7 +2384,6 @@ class Component extends DCLogic {
         paquete:paq.name||'', simulador:s.formSim, fecha:s.formFecha,
         hora_inicio:s.formHoraInicio?(s.formHoraInicio+':00'):null,
         hora_fin:horaFin?(horaFin+':00'):null,
-        instructor:(s.formInstructor&&s.formInstructor!=='— Sin asignar —')?s.formInstructor:null,
         estado:'confirmada', pago:s.formPago, total, abono,
         book_for:s.formModalidad,
         gift_for:s.formModalidad==='regalo'?(s.formGiftDest.trim()||null):null,
