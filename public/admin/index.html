@@ -373,6 +373,12 @@
                 <button onClick="{{ goCalendario }}" style="display:flex;align-items:center;gap:5px;background:transparent;border:none;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;font-family:Inter" style-hover="color:#F5841F">Ver calendario<span class="ms" style="font-size:16px">arrow_forward</span></button>
               </div>
               <div>
+                <sc-if value="{{ agendaEmpty }}" hint-placeholder-val="">
+                  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:32px 20px">
+                    <span class="ms" style="font-size:32px;color:var(--faint)">event_available</span>
+                    <span style="font-size:13px;color:var(--faint)">Sin sesiones para hoy</span>
+                  </div>
+                </sc-if>
                 <sc-for list="{{ agenda }}" as="a" hint-placeholder-count="6">
                   <div onClick="{{ a.onOpen }}" style="display:flex;align-items:stretch;gap:0;padding:0;border-bottom:1px solid var(--divider);cursor:pointer;transition:background .14s" style-hover="background:var(--alt)">
                     <div style="{{ a.railStyle }}"></div>
@@ -2775,7 +2781,8 @@ class Component extends DCLogic {
     ];
 
     // agenda (today)
-    const agenda = this.sessions.filter(s=>s.hoy).map(s => {
+    const agendaSrc = (this.state.dashData || []).filter(s=>s.hoy).sort((a,b)=>a.hi.localeCompare(b.hi));
+    const agenda = agendaSrc.map(s => {
       const sm = this.servMeta(s.serv), em = this.estadoMeta(s.estado), pm = this.pagoMeta(s.pago);
       return {
         hi:s.hi, hf:s.hf, cliente:s.cliente, segundo:s.segundo, regalo:s.regalo,
@@ -3818,7 +3825,7 @@ class Component extends DCLogic {
       stopE:(e)=>e.stopPropagation(),
       // panel
       kpis,
-      agenda, agendaCount:agenda.length,
+      agenda, agendaCount:agenda.length, agendaEmpty:agenda.length===0,
       alerts, alertCount:alerts.filter(a=>a.icon!=='check_circle').length||0,
       rangeTabs, barDays,
       donutServ, donutServTotal, servLegend,
