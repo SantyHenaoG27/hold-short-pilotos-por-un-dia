@@ -1526,8 +1526,8 @@ class Component extends DCLogic {
     comandante:{ key:'comandante', tag:'COMPLETO', cop:'370.000', dur:'2 h 30 min' }
   };
   SLOTS={
-    aventurero:[{start:'08:00',end:'09:20'},{start:'09:30',end:'10:50'},{start:'11:00',end:'12:20'},{start:'14:00',end:'15:20'},{start:'15:30',end:'16:50'}],
-    comandante:[{start:'08:00',end:'10:30'},{start:'11:00',end:'13:30'},{start:'14:00',end:'16:30'}]
+    aventurero:[{start:'09:00',end:'10:20'},{start:'10:30',end:'11:50'},{start:'12:00',end:'13:20'},{start:'14:00',end:'15:20'},{start:'16:00',end:'17:20'}],
+    comandante:[{start:'09:00',end:'11:30'},{start:'12:00',end:'14:30'},{start:'16:00',end:'18:30'}]
   };
   MES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   MES3=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
@@ -1716,7 +1716,7 @@ class Component extends DCLogic {
   async selectDate(y,m,d,pkg){
     const p=pkg||this.state.bPkg;
     const fecha=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-    if(this.isDateBlocked(fecha)){ this.setState({selDate:{y,m,d},selSlot:null,availSlots:[],slotsLoading:false}); return; }
+    if(this.isDateBlocked(fecha)||new Date(y,m,d).getDay()===0){ this.setState({selDate:{y,m,d},selSlot:null,availSlots:[],slotsLoading:false}); return; }
     this.setState({selDate:{y,m,d},selSlot:null,availSlots:[],slotsLoading:true});
     try{
       const {data}=await supabaseClient.from('v_availability').select('hora_inicio,hora_fin').eq('fecha',fecha).eq('simulador','King Air B200');
@@ -1746,18 +1746,19 @@ class Component extends DCLogic {
       const dt=new Date(y,m,d); dt.setHours(0,0,0,0);
       const fecha=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
       const blocked=this.isDateBlocked(fecha);
-      const past=dt<today||blocked;
+      const isSunday=dt.getDay()===0;
+      const past=dt<today||blocked||isSunday;
       const isSel=sel&&sel.y===y&&sel.m===m&&sel.d===d;
       const isToday=dt.getTime()===today.getTime();
       cells.push({ key:'d'+d, empty:false, day:d, past, isSel, isToday,
         onClick: past?null:()=>this.selectDate(y,m,d),
-        title: blocked?'No disponible · simulador en mantenimiento':'',
+        title: blocked?'No disponible · simulador en mantenimiento': isSunday?'Domingos no disponibles':'',
         style:{ aspectRatio:'1', minHeight:'40px', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'7px',
           fontFamily:"'JetBrains Mono',monospace", fontSize:'13px', fontWeight:isSel?700:500,
           cursor:past?'not-allowed':'pointer',
-          color: isSel?'#160f05': blocked?'#7a3a3a': dt<today?'#394657':'#f2f5f9',
-          background: isSel?'#f5c542': blocked?'rgba(220,38,38,.08)':'transparent',
-          textDecoration: blocked?'line-through':'none',
+          color: isSel?'#160f05': (blocked||isSunday)?'#7a3a3a': dt<today?'#394657':'#f2f5f9',
+          background: isSel?'#f5c542': (blocked||isSunday)?'rgba(220,38,38,.08)':'transparent',
+          textDecoration: (blocked||isSunday)?'line-through':'none',
           border:'1px solid '+(isSel?'#f5c542': isToday?'rgba(245,197,66,.5)':'transparent'),
           transition:'all .15s' } });
     }
@@ -1786,6 +1787,7 @@ class Component extends DCLogic {
     const sd=this.state.selDate;
     const fecha=sd.y+'-'+String(sd.m+1).padStart(2,'0')+'-'+String(sd.d).padStart(2,'0');
     if(this.isDateBlocked(fecha)){ this.setState({bookError:'Esa fecha ya no está disponible (mantenimiento del simulador). Elige otro día.', selSlot:null, availSlots:[]}); return; }
+    if(new Date(sd.y,sd.m,sd.d).getDay()===0){ this.setState({bookError:'No operamos los domingos. Por favor elige otro día.', selSlot:null, availSlots:[]}); return; }
     this._bookingInFlight = true;
     this.setState({bookLoading:true, bookError:null});
     const p=this.PKGS[this.state.bPkg];
