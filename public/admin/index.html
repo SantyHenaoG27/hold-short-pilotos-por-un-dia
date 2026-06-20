@@ -1417,13 +1417,32 @@
 
           <!-- pago -->
           <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px 16px;margin-bottom:14px">
-            <div style="display:flex;align-items:center;gap:7px;margin-bottom:12px"><span class="ms" style="font-size:18px;color:var(--muted)">account_balance_wallet</span><span class="disp" style="font-size:13px;font-weight:600">Pago manual</span><span style="font-size:11px;font-weight:600;color:{{ drawer.pagoColor }};margin-left:auto">{{ drawer.pagoLabel }}</span></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:12px">
+              <span class="ms" style="font-size:18px;color:var(--muted)">account_balance_wallet</span>
+              <span class="disp" style="font-size:13px;font-weight:600">Pago</span>
+              <span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:{{ drawer.pagoBg }};color:{{ drawer.pagoColor }};margin-left:auto">{{ drawer.pagoLabel }}</span>
+            </div>
+            <!-- totales -->
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;margin-bottom:12px">
               <div style="background:var(--chip);border-radius:9px;padding:9px"><div class="mono" style="font-size:9px;color:var(--faint);letter-spacing:.05em">TOTAL</div><div class="disp" style="font-size:14px;font-weight:700;margin-top:3px">{{ drawer.total }}</div></div>
               <div style="background:var(--chip);border-radius:9px;padding:9px"><div class="mono" style="font-size:9px;color:var(--faint);letter-spacing:.05em">ABONO</div><div class="disp" style="font-size:14px;font-weight:700;margin-top:3px">{{ drawer.abono }}</div></div>
               <div style="background:var(--chip);border-radius:9px;padding:9px"><div class="mono" style="font-size:9px;color:var(--faint);letter-spacing:.05em">SALDO</div><div class="disp" style="font-size:14px;font-weight:700;margin-top:3px;color:{{ drawer.saldoColor }}">{{ drawer.saldo }}</div></div>
             </div>
-            <div style="margin-top:10px;font-size:10.5px;color:var(--faint);display:flex;align-items:center;gap:6px"><span class="ms" style="font-size:14px">info</span>Registro manual · sin pasarela de pagos</div>
+            <!-- estado de pago -->
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+              <sc-for list="{{ drawerPagoEstados }}" as="pe" hint-placeholder-count="3">
+                <button onClick="{{ pe.onClick }}" style="{{ pe.style }}" style-hover="opacity:.8">{{ pe.label }}</button>
+              </sc-for>
+            </div>
+            <!-- registrar abono -->
+            <div style="display:flex;gap:8px;margin-bottom:11px;align-items:center">
+              <input type="number" value="{{ drawerAbonoInput }}" onChange="{{ drawerSetAbonoInput }}" placeholder="{{ drawer.abonoPlaceholder }}" min="0" style="flex:1;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--text);background:var(--chip)">
+              <button onClick="{{ drawerSaveAbono }}" disabled="{{ drawerAbonoSaving }}" style="height:36px;padding:0 13px;background:#0C0D10;border:none;border-radius:8px;color:#f0f0ec;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">{{ drawerAbonoSaving ? '…' : 'Registrar' }}</button>
+            </div>
+            <!-- WhatsApp -->
+            <button onClick="{{ drawerWaPago }}" style="width:100%;height:38px;background:#25D366;border:none;border-radius:9px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
+              <span class="ms" style="font-size:18px">chat</span>Enviar datos de pago
+            </button>
           </div>
 
           <!-- equipo instructor -->
@@ -2043,6 +2062,9 @@ class Component extends DCLogic {
     // reprogramar modal
     reprModal: null,
     // instructores
+    // pago drawer
+    drawerAbonoInput: '',
+    drawerAbonoSaving: false,
     // bloqueo de fechas
     blockModal: false,
     blockDates: [],
@@ -2147,6 +2169,61 @@ class Component extends DCLogic {
     const newMant={...(this.state.simMant||{}),[simMantId]:value};
     this.setState({simMant:newMant,simMantModal:false});
     this.toast('Mantenimiento cancelado');
+  }
+
+  // ---- PAGO ----
+  updateSession(code, patch){
+    const upd = s=>s.code===code?{...s,...patch}:s;
+    ['pxdData','dbSessions','dashData','certData','docsData','regalosData'].forEach(k=>{
+      if(this.state[k]) this.setState({[k]:this.state[k].map(upd)});
+    });
+  }
+  async setPago(code, newPago){
+    const{error}=await supabaseClient.from('reservations').update({pago:newPago}).eq('code',code);
+    if(!error){ this.updateSession(code,{pago:newPago}); this.toast('Pago: '+this.pagoMeta(newPago).label); }
+    else this.toast('Error al actualizar pago');
+  }
+  async registrarAbono(code){
+    const monto=parseInt(this.state.drawerAbonoInput,10);
+    if(isNaN(monto)||monto<0){this.toast('Monto inválido');return;}
+    this.setState({drawerAbonoSaving:true});
+    const{error}=await supabaseClient.from('reservations').update({abono:monto}).eq('code',code);
+    if(!error){
+      this.updateSession(code,{abono:monto});
+      this.setState({drawerAbonoInput:'',drawerAbonoSaving:false});
+      this.toast('Abono registrado: '+this.cop(monto));
+    }else{
+      this.setState({drawerAbonoSaving:false});
+      this.toast('Error al guardar abono');
+    }
+  }
+  sendDatosPago(s){
+    const phone=(s.tel||'').replace(/\D/g,'').replace(/^0+/,'');
+    const wa=phone.startsWith('57')?phone:'57'+phone;
+    const abonoReq=Math.ceil(s.total*0.5);
+    const saldoRest=s.total-abonoReq;
+    const nombre=s.cliente.split(' ')[0];
+    const lines=[
+      `✈️ *Confirmación de reserva · Hangar 1903*`,``,
+      `Hola ${nombre} 👋`,``,
+      `Tu experiencia *${s.paquete}* quedó registrada:`,
+      `📅 *Fecha:* ${s.fecha}`,
+      `⏰ *Horario:* ${s.hi} – ${s.hf}`,
+      `📋 *Código:* ${s.code}`,``,
+      `💰 *Total:* $${s.total.toLocaleString('es-CO')} COP`,
+      `💵 *Abono para confirmar (50%):* $${abonoReq.toLocaleString('es-CO')} COP`,
+      `🏧 *Saldo al llegar:* $${saldoRest.toLocaleString('es-CO')} COP`,``,
+      `*¿Cómo pagar el abono?*`,``,
+      `💚 *Nequi:* 3113726298`,
+      `    Titular: Juan Camilo Carvajal`,``,
+      `🏦 *Bancolombia Ahorros:* 70621509739`,
+      `    Titular: Juan Camilo Carvajal`,``,
+      `💵 *Efectivo:* Puedes pagar el saldo restante al llegar al hangar.`,``,
+      `Por favor envíanos el comprobante de pago por este mismo chat una vez realices el abono 📩`,``,
+      `¡Nos vemos en el hangar! ✈️`,
+      `_Hangar 1903 · Cra. 12b #8-96, Pereira_`,
+    ];
+    window.open(`https://wa.me/${wa}?text=${encodeURIComponent(lines.join('\n'))}`,'_blank');
   }
 
   // ---- BLOQUEO DE FECHAS ----
@@ -2700,11 +2777,11 @@ class Component extends DCLogic {
   }
   pagoMeta(p){
     const m = {
-      pendiente: {label:'Pendiente', c:'#D9920A'},
-      abono:     {label:'Abono', c:'#2563B0'},
-      pagado:    {label:'Pagado', c:'#2E9E5B'},
-      vencido:   {label:'Vencido', c:'#D64545'},
-      reembolso: {label:'Reembolso', c:'#6D5AE0'},
+      pendiente: {label:'Pendiente', c:'#D9920A', bg:'rgba(217,146,10,.12)'},
+      abono:     {label:'Abono',     c:'#2563B0', bg:'rgba(37,99,176,.12)'},
+      pagado:    {label:'Pagado',    c:'#2E9E5B', bg:'rgba(46,158,91,.12)'},
+      vencido:   {label:'Vencido',   c:'#D64545', bg:'rgba(214,69,69,.12)'},
+      reembolso: {label:'Reembolso', c:'#6D5AE0', bg:'rgba(109,90,224,.12)'},
     };
     return m[p] || m.pendiente;
   }
@@ -3029,6 +3106,7 @@ class Component extends DCLogic {
 
     // ---------- DRAWER (detalle sesión) ----------
     let drawer = null, drawerRows=[], drawerFlow=[], drawerActions=[], drawerEstados=[];
+    let drawerPagoEstados=[], drawerWaPago=()=>{}, drawerSaveAbono=()=>{};
     if (this.state.drawer) {
       const s = this.getSession(this.state.drawer.code);
       if (s) {
@@ -3070,6 +3148,14 @@ class Component extends DCLogic {
           return { label, onClick:()=>this.setEstado(s.code,est),
             style:`padding:5px 13px;border-radius:20px;font-size:11.5px;font-weight:600;cursor:pointer;border:${isA?'none':'1px solid var(--border)'};${isA?`color:${em2.c};background:${em2.bg}`:'color:var(--muted);background:var(--chip)'}` };
         });
+        const drawerPagoEstadosList = ['pendiente','abono','pagado'].map(p=>{
+          const pm2=this.pagoMeta(p); const isA=s.pago===p;
+          return { label:pm2.label, onClick:()=>this.setPago(s.code,p),
+            style:`padding:4px 12px;border-radius:20px;font-size:11.5px;font-weight:600;cursor:pointer;border:${isA?'none':'1px solid var(--border)'};${isA?`color:${pm2.c};background:${pm2.bg}`:'color:var(--muted);background:var(--chip)'}` };
+        });
+        drawerPagoEstados = drawerPagoEstadosList;
+        drawerWaPago = ()=>this.sendDatosPago(s);
+        drawerSaveAbono = ()=>this.registrarAbono(s.code);
         drawer = {
           docBtn: s.regalo ? 'Generar invitación de regalo' : 'Generar confirmación',
           dbId:s.dbId, code:s.code, cliente:s.cliente, segundo:s.segundo, tel:s.tel, regalo:s.regalo,
@@ -3080,7 +3166,8 @@ class Component extends DCLogic {
           statLabel:em.label, statStyle:`font-size:11px;font-weight:700;color:${em.c};background:${em.bg};padding:4px 12px;border-radius:20px`,
           total:this.cop(s.total), abono:this.cop(s.abono), saldo:this.cop(saldo),
           saldoColor: saldo>0 ? '#b13838' : '#227a45',
-          pagoLabel:pm.label, pagoColor:pm.c,
+          pagoLabel:pm.label, pagoColor:pm.c, pagoBg:pm.bg,
+          abonoPlaceholder:`Abono (50% = ${this.cop(Math.ceil(s.total*.5))})`,
           actDoc: ()=>this.openDoc(s.regalo?'invitacion':'confirmacion', s.code),
         };
       }
@@ -3968,6 +4055,12 @@ class Component extends DCLogic {
       massExport:()=>this.toast('Exportadas '+sel.length+' sesiones (visual)'),
       // drawer / modal
       drawer, drawerRows, drawerFlow, drawerActions, drawerEstados,
+      drawerPagoEstados,
+      drawerWaPago,
+      drawerSaveAbono,
+      drawerAbonoInput: this.state.drawerAbonoInput,
+      drawerSetAbonoInput: (e)=>this.setState({drawerAbonoInput:e.target.value}),
+      drawerAbonoSaving: this.state.drawerAbonoSaving,
       closeDrawer:()=>this.closeDrawer(),
       drawerCancel:()=>{ const c=this.state.drawer?.code; if(c) this.setEstado(c,'cancelada'); },
       reprModal: this.state.reprModal,
