@@ -968,61 +968,6 @@
       </sc-if>
 
       <!-- ===== REPORTES ===== -->
-      <sc-if value="{{ isReportes }}" hint-placeholder-val="">
-        <div>
-          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px">
-            <div>
-              <div class="mono" style="font-size:11px;letter-spacing:.1em;color:#F5841F;font-weight:600;margin-bottom:5px">// ANÁLISIS</div>
-              <h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Reportes</h1>
-            </div>
-            <div style="display:flex;gap:9px">
-              <button onClick="{{ exportCsv }}" style="display:flex;align-items:center;gap:7px;height:38px;padding:0 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--text2)" style-hover="border-color:#2E9E5B;color:#227a45"><span class="ms" style="font-size:18px;color:#227a45">table_view</span>Excel</button>
-              <button onClick="{{ exportPdf }}" style="display:flex;align-items:center;gap:7px;height:38px;padding:0 13px;background:var(--btnsolid);border:none;border-radius:9px;cursor:pointer;font-size:12.5px;font-weight:600;color:#fff" style-hover="background:#26282d"><span class="ms" style="font-size:18px;color:#F5841F">picture_as_pdf</span>Exportar PDF</button>
-            </div>
-          </div>
-          <div data-r="kpi" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px">
-            <sc-for list="{{ repKpis }}" as="k" hint-placeholder-count="4">
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:15px 16px">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px"><div style="{{ k.iconWrap }}"><span class="ms" style="font-size:20px">{{ k.icon }}</span></div><div style="{{ k.deltaStyle }}"><span class="ms" style="font-size:13px">{{ k.up }}</span>{{ k.delta }}</div></div>
-                <div class="disp" style="font-size:23px;font-weight:700;letter-spacing:-.02em">{{ k.value }}</div>
-                <div style="font-size:12px;color:var(--muted);margin-top:5px;font-weight:500">{{ k.label }}</div>
-              </div>
-            </sc-for>
-          </div>
-          <div data-r="charts" style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px">
-            <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px">
-              <h3 class="disp" style="margin:0 0 4px;font-size:15px;font-weight:600">Sesiones por mes</h3>
-              <p style="margin:0 0 18px;font-size:11.5px;color:var(--faint)">Enero – junio 2026</p>
-              <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:14px;height:170px">
-                <sc-for list="{{ repBars }}" as="b" hint-placeholder-count="6">
-                  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%">
-                    <div class="mono" style="font-size:11px;color:var(--muted);font-weight:600">{{ b.valueLabel }}</div>
-                    <div style="flex:1;width:100%;display:flex;align-items:flex-end"><div style="{{ b.barStyle }}"></div></div>
-                    <span class="mono" style="font-size:10px;color:var(--faint)">{{ b.label }}</span>
-                  </div>
-                </sc-for>
-              </div>
-            </div>
-            <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px">
-              <h3 class="disp" style="margin:0 0 18px;font-size:15px;font-weight:600">Rendimiento por instructor</h3>
-              <div style="display:flex;flex-direction:column;gap:17px">
-                <sc-for list="{{ repInstr }}" as="i" hint-placeholder-count="3">
-                  <div>
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px"><span style="font-size:12.5px;font-weight:600;color:var(--text2)">{{ i.name }}</span><span class="mono" style="font-size:11px;color:var(--muted)">{{ i.sesiones }} ses · {{ i.horas }}</span></div>
-                    <div style="height:6px;background:var(--track);border-radius:4px;overflow:hidden"><div style="{{ i.barStyle }}"></div></div>
-                  </div>
-                </sc-for>
-              </div>
-              <div style="border-top:1px dashed var(--border);margin-top:18px;padding-top:14px;display:flex;gap:10px">
-                <div style="flex:1;text-align:center"><div class="disp" style="font-size:19px;font-weight:700;color:#F5841F">71%</div><div style="font-size:10.5px;color:var(--faint);margin-top:2px">Piloto por un Día</div></div>
-                <div style="width:1px;background:var(--divider)"></div>
-                <div style="flex:1;text-align:center"><div class="disp" style="font-size:19px;font-weight:700;color:#355C7D">29%</div><div style="font-size:10.5px;color:var(--faint);margin-top:2px">Hold Short Pilotos</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </sc-if>
-
       <!-- ===== PILOTO POR UN DÍA ===== -->
       <sc-if value="{{ isPxd }}" hint-placeholder-val="">
         <div>
@@ -3024,7 +2969,6 @@ class Component extends DCLogic {
       ['instructores','co_present','Instructores',null] ]},
     { label:'ADMINISTRACIÓN', items:[
       ['pagos','payments','Pagos',null],
-      ['reportes','monitoring','Reportes',null],
       ['config','settings','Configuración',null] ]},
   ];
 
@@ -3868,23 +3812,6 @@ class Component extends DCLogic {
     const _cobrosTab = this.state.cobrosTab;
     const _tabBtn = (active)=>`display:flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:none;background:transparent;font-size:13px;font-weight:${active?700:500};color:${active?'var(--text)':'var(--muted)'};cursor:pointer;border-bottom:2px solid ${active?'#F5841F':'transparent'};margin-bottom:-1px`;
 
-    // ---------- REPORTES ----------
-    const repMonths=[['Ene',18],['Feb',22],['Mar',26],['Abr',24],['May',31],['Jun',28]];
-    const repMax=34;
-    const repBars=repMonths.map(([l,v])=>({label:l, valueLabel:v, barStyle:`width:100%;height:${v/repMax*100}%;background:linear-gradient(180deg,#F5841F,#e8780f);border-radius:5px 5px 0 0;min-height:6px`}));
-    const repKpis=[
-      {label:'Sesiones · junio', value:'28', delta:'+12%', up:true, icon:'flight'},
-      {label:'Ocupación media', value:'68%', delta:'+9%', up:true, icon:'donut_large'},
-      {label:'No asistencias', value:'3', delta:'−1', up:true, icon:'event_busy'},
-      {label:'Ingreso total', value:this.cop(8950000), delta:'+18%', up:true, icon:'payments'},
-    ].map(k=>({...k, iconWrap:`width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--text2);background:var(--chip)`,
-      deltaStyle:`display:flex;align-items:center;gap:2px;font-size:11px;font-weight:600;font-family:'JetBrains Mono';padding:2px 7px;border-radius:20px;${k.up?'color:#227a45;background:#E6F4EC':'color:#b13838;background:#FBEAEA'}`}));
-    const repInstr=[
-      {name:'Cap. Andrés Villa', sesiones:11, horas:'14h 40m', pct:38},
-      {name:'Cap. Julián Mejía', sesiones:9, horas:'13h 10m', pct:31},
-      {name:'Cap. Laura Restrepo', sesiones:8, horas:'9h 30m', pct:28},
-    ].map(i=>({...i, barStyle:`height:6px;border-radius:4px;background:#F5841F;width:${i.pct}%`}));
-
     // ---------- SIMULADORES ----------
     const _simMantMap = this.state.simMant||{};
     const _simToday = this.isoDate(new Date());
@@ -4225,7 +4152,6 @@ class Component extends DCLogic {
       isClientes: !L && !profile && r==='clientes',
       isRegalos: !L && !profile && r==='regalos',
       isPagos: !L && !profile && r==='pagos',
-      isReportes: !L && !profile && r==='reportes',
       isSimuladores: !L && !profile && r==='simuladores',
       isInstructores: !L && !profile && r==='instructores',
       isPilotos: !L && !profile && r==='pilotos',
@@ -4235,7 +4161,7 @@ class Component extends DCLogic {
       isPxd: !L && !profile && r==='pxd',
       isDocumentos: !L && !profile && r==='documentos',
       hasProfileView: !L && !!profile,
-      showPlaceholder: !L && !profile && !['panel','sesiones','calendario','clientes','regalos','pagos','reportes','simuladores','instructores','pilotos','comunicaciones','certificados','config','pxd','documentos'].includes(r),
+      showPlaceholder: !L && !profile && !['panel','sesiones','calendario','clientes','regalos','pagos','simuladores','instructores','pilotos','comunicaciones','certificados','config','pxd','documentos'].includes(r),
       skeletonRows: [1,2,3,4,5],
       ph,
       // nuevos módulos
@@ -4365,8 +4291,6 @@ class Component extends DCLogic {
       cobrosPendientesList,
       cobrosAbonoList,
       cobrosHistorialList,
-      // reportes
-      repBars, repKpis, repInstr,
       toastNuevoCliente:()=>this.toast('Nuevo cliente (formulario · próxima fase)'),
       toastNuevoPago:()=>{},
       ingresoMesF:this.cop(_totalRecaud),
