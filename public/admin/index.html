@@ -1384,46 +1384,49 @@
       <sc-if value="{{ isConfig }}" hint-placeholder-val="">
         <div>
           <div style="margin-bottom:18px"><div class="mono" style="font-size:11px;letter-spacing:.1em;color:#F5841F;font-weight:600;margin-bottom:5px">// AJUSTES</div><h1 class="disp" style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em">Configuración</h1></div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" data-r="panelcols">
-            <!-- datos local -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px" data-r="panelcols">
+
+            <!-- DATOS DEL LOCAL -->
             <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px 20px">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px"><span class="ms" style="font-size:19px;color:#F5841F">business</span><h2 class="disp" style="margin:0;font-size:15px;font-weight:600">Datos del local</h2></div>
-              <div style="display:flex;flex-direction:column;gap:12px">
-                <div style="display:flex;align-items:center;gap:11px"><span class="ms" style="font-size:18px;color:var(--faint);width:20px">storefront</span><div><div style="font-size:9.5px;color:var(--faint);font-family:JetBrains Mono;letter-spacing:.05em">NOMBRE</div><div style="font-size:13px;font-weight:600">{{ cfgLocal.nombre }}</div></div></div>
-                <div style="display:flex;align-items:center;gap:11px"><span class="ms" style="font-size:18px;color:var(--faint);width:20px">location_on</span><div><div style="font-size:9.5px;color:var(--faint);font-family:JetBrains Mono;letter-spacing:.05em">UBICACIÓN</div><div style="font-size:13px;font-weight:600">{{ cfgLocal.ciudad }}</div></div></div>
-                <div style="display:flex;align-items:center;gap:11px"><span class="ms" style="font-size:18px;color:var(--faint);width:20px">call</span><div><div style="font-size:9.5px;color:var(--faint);font-family:JetBrains Mono;letter-spacing:.05em">TELÉFONO</div><div style="font-size:13px;font-weight:600">{{ cfgLocal.tel }}</div></div></div>
-                <div style="display:flex;align-items:center;gap:11px"><span class="ms" style="font-size:18px;color:var(--faint);width:20px">photo_camera</span><div><div style="font-size:9.5px;color:var(--faint);font-family:JetBrains Mono;letter-spacing:.05em">INSTAGRAM</div><div style="font-size:13px;font-weight:600">{{ cfgLocal.ig }}</div></div></div>
-                <div style="display:flex;align-items:center;gap:11px"><span class="ms" style="font-size:18px;color:var(--faint);width:20px">schedule</span><div><div style="font-size:9.5px;color:var(--faint);font-family:JetBrains Mono;letter-spacing:.05em">HORARIOS</div><div style="font-size:13px;font-weight:600">{{ cfgLocal.horario }}</div></div></div>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+                <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:9.5px;color:var(--faint);font-family:'JetBrains Mono';letter-spacing:.06em">NOMBRE</span><input value="{{ cfg.localNombre }}" onChange="{{ cfg.setLocalNombre }}" style="{{ cfg.inp }}"></label>
+                <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:9.5px;color:var(--faint);font-family:'JetBrains Mono';letter-spacing:.06em">UBICACIÓN</span><input value="{{ cfg.localCiudad }}" onChange="{{ cfg.setLocalCiudad }}" style="{{ cfg.inp }}"></label>
+                <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:9.5px;color:var(--faint);font-family:'JetBrains Mono';letter-spacing:.06em">TELÉFONO WHATSAPP</span><input value="{{ cfg.localTel }}" onChange="{{ cfg.setLocalTel }}" style="{{ cfg.inp }}"></label>
+                <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:9.5px;color:var(--faint);font-family:'JetBrains Mono';letter-spacing:.06em">INSTAGRAM</span><input value="{{ cfg.localIg }}" onChange="{{ cfg.setLocalIg }}" style="{{ cfg.inp }}"></label>
+                <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:9.5px;color:var(--faint);font-family:'JetBrains Mono';letter-spacing:.06em">HORARIO DE ATENCIÓN</span><input value="{{ cfg.localHorario }}" onChange="{{ cfg.setLocalHorario }}" style="{{ cfg.inp }}"></label>
               </div>
+              <button onClick="{{ cfg.saveLocal }}" disabled="{{ cfg.localSaving }}" style="{{ cfg.saveBtn }}">{{ cfg.localSaveLabel }}</button>
             </div>
-            <!-- métodos pago + roles -->
-            <div style="display:flex;flex-direction:column;gap:16px">
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px 20px">
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><span class="ms" style="font-size:19px;color:#F5841F">payments</span><h2 class="disp" style="margin:0;font-size:15px;font-weight:600">Métodos de pago manual</h2></div>
-                <div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ cfgMetodos }}" as="m" hint-placeholder-count="7"><span style="font-size:12px;font-weight:500;color:var(--text2);background:var(--chip);padding:6px 13px;border-radius:8px;display:flex;align-items:center;gap:6px"><span class="ms" style="font-size:15px;color:var(--muted)">check</span>{{ m.label }}</span></sc-for></div>
+
+            <!-- CUENTAS DE COBRO -->
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px 20px">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span class="ms" style="font-size:19px;color:#F5841F">account_balance</span><h2 class="disp" style="margin:0;font-size:15px;font-weight:600">Cuentas de cobro</h2></div>
+              <p style="font-size:11.5px;color:var(--muted);margin:0 0 14px;line-height:1.5">Estos datos se usan en el mensaje de WhatsApp de pago que se envía al cliente.</p>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+                <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:9.5px;color:var(--faint);font-family:'JetBrains Mono';letter-spacing:.06em">NÚMERO NEQUI</span><input value="{{ cfg.pagoNequi }}" onChange="{{ cfg.setPagoNequi }}" style="{{ cfg.inp }}" placeholder="Ej: 3113726298"></label>
+                <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:9.5px;color:var(--faint);font-family:'JetBrains Mono';letter-spacing:.06em">CUENTA BANCOLOMBIA AHORROS</span><input value="{{ cfg.pagoBancolombia }}" onChange="{{ cfg.setPagoBancolombia }}" style="{{ cfg.inp }}" placeholder="Ej: 70621509739"></label>
+                <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:9.5px;color:var(--faint);font-family:'JetBrains Mono';letter-spacing:.06em">TITULAR</span><input value="{{ cfg.pagoTitular }}" onChange="{{ cfg.setPagoTitular }}" style="{{ cfg.inp }}" placeholder="Nombre completo"></label>
+                <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:9.5px;color:var(--faint);font-family:'JetBrains Mono';letter-spacing:.06em">% MÍNIMO DE ABONO</span><div style="display:flex;align-items:center;gap:8px"><input type="number" min="10" max="100" value="{{ cfg.pagoDeposito }}" onChange="{{ cfg.setPagoDeposito }}" style="{{ cfg.inpSm }}"><span style="font-size:13px;font-weight:600;color:var(--muted)">% del total</span></div></label>
               </div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px 20px;flex:1">
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><span class="ms" style="font-size:19px;color:#F5841F">admin_panel_settings</span><h2 class="disp" style="margin:0;font-size:15px;font-weight:600">Roles y permisos</h2></div>
-                <div style="display:flex;flex-direction:column;gap:10px">
-                  <sc-for list="{{ cfgRoles }}" as="r" hint-placeholder-count="4">
-                    <div style="display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid #F4F4F1"><span style="width:8px;height:8px;border-radius:50%;background:{{ r.c }};flex-shrink:0"></span><div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600">{{ r.rol }}</div><div style="font-size:10.5px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.desc }}</div></div><span class="mono" style="font-size:10px;color:var(--muted)">{{ r.miembros }}</span></div>
-                  </sc-for>
-                </div>
-              </div>
+              <button onClick="{{ cfg.savePago }}" disabled="{{ cfg.pagoSaving }}" style="{{ cfg.saveBtn }}">{{ cfg.pagoSaveLabel }}</button>
             </div>
           </div>
-          <!-- paquetes -->
-          <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px 20px;margin-top:16px">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px"><span class="ms" style="font-size:19px;color:#F5841F">inventory_2</span><h2 class="disp" style="margin:0;font-size:15px;font-weight:600">Paquetes y duraciones</h2></div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
-              <sc-for list="{{ cfgPaquetes }}" as="p" hint-placeholder-count="6">
+
+          <!-- PRECIOS DE PAQUETES -->
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px 20px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span class="ms" style="font-size:19px;color:#F5841F">inventory_2</span><h2 class="disp" style="margin:0;font-size:15px;font-weight:600">Paquetes y precios</h2></div>
+            <p style="font-size:11.5px;color:var(--muted);margin:0 0 16px;line-height:1.5">Los cambios de precio se aplican a nuevas reservas. Los nombres y duraciones son fijos en el código.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:16px">
+              <sc-for list="{{ cfg.paquetesEdit }}" as="p" hint-placeholder-count="6">
                 <div style="border:1px solid var(--divider);border-radius:11px;padding:14px 15px">
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><span style="font-size:10px;font-weight:600;color:{{ p.c }};background:{{ p.bg }};padding:2px 8px;border-radius:5px">{{ p.serv }}</span><span class="mono" style="font-size:10px;color:var(--faint)">{{ p.dur }}</span></div>
-                  <div style="font-size:13px;font-weight:600;margin-bottom:4px">{{ p.name }}</div>
-                  <div class="disp" style="font-size:17px;font-weight:700;color:#F5841F">{{ p.price }}</div>
+                  <div style="font-size:12.5px;font-weight:600;margin-bottom:10px">{{ p.name }}</div>
+                  <label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:9.5px;color:var(--faint);font-family:'JetBrains Mono';letter-spacing:.06em">PRECIO (COP)</span><input type="number" value="{{ p.price }}" onChange="{{ p.setPrice }}" min="0" step="1000" style="{{ cfg.inp }}"></label>
                 </div>
               </sc-for>
             </div>
+            <button onClick="{{ cfg.savePrecios }}" disabled="{{ cfg.preciosSaving }}" style="{{ cfg.saveBtn }}">{{ cfg.preciosSaveLabel }}</button>
           </div>
         </div>
       </sc-if>
@@ -2187,6 +2190,13 @@ class Component extends DCLogic {
     formGiftNombre: '', formGiftPhone: '', formGiftDest: '', formGiftDestPhone: '', formGiftMsg: '',
     formTotal: '', formAbono: '0', formMetodo: 'Transferencia', formRef: '', formFechaPago: '', formSubmitting: false,
     formSlotsOcupados: [], formSlotsLoading: false,
+    // configuracion
+    cfgLocal: {nombre:'Hold Short Aviation',ciudad:'Cra. 12b #8-96, Pereira, Risaralda',tel:'316 724 91 39',ig:'@hangar1903pereira',horario:'Lun – Sáb · 9:00 a. m. – 4:00 p. m.'},
+    cfgLocalSaving: false,
+    cfgPago: {nequi:'3113726298',bancolombia:'70621509739',titular:'Juan Camilo Carvajal',deposito:50},
+    cfgPagoSaving: false,
+    cfgPrecios: null,
+    cfgPreciosSaving: false,
     // documentos
     docTab: 'confirmaciones',
     globalSearch: '',
@@ -2286,6 +2296,7 @@ class Component extends DCLogic {
       this.loadInstructores();
       this.fetchDashboardData();
       this.loadBlockedDates();
+      this.loadConfig();
     });
   }
   componentWillUnmount(){ clearInterval(this._t); }
@@ -2384,9 +2395,15 @@ class Component extends DCLogic {
   sendDatosPago(s){
     const phone=(s.tel||'').replace(/\D/g,'').replace(/^0+/,'');
     const wa=phone.startsWith('57')?phone:'57'+phone;
-    const abonoReq=Math.ceil(s.total*0.5);
+    const cfg=this.state.cfgPago||{};
+    const pct=(cfg.deposito||50)/100;
+    const abonoReq=Math.ceil(s.total*pct);
     const saldoRest=s.total-abonoReq;
     const nombre=s.cliente.split(' ')[0];
+    const nequi=cfg.nequi||'3113726298';
+    const bancolombia=cfg.bancolombia||'70621509739';
+    const titular=cfg.titular||'Juan Camilo Carvajal';
+    const pctLabel=cfg.deposito||50;
     const lines=[
       `✈️ *Confirmación de reserva · Hangar 1903*`,``,
       `Hola ${nombre} 👋`,``,
@@ -2395,13 +2412,13 @@ class Component extends DCLogic {
       `⏰ *Horario:* ${s.hi} – ${s.hf}`,
       `📋 *Código:* ${s.code}`,``,
       `💰 *Total:* $${s.total.toLocaleString('es-CO')} COP`,
-      `💵 *Abono para confirmar (50%):* $${abonoReq.toLocaleString('es-CO')} COP`,
+      `💵 *Abono para confirmar (${pctLabel}%):* $${abonoReq.toLocaleString('es-CO')} COP`,
       `🏧 *Saldo al llegar:* $${saldoRest.toLocaleString('es-CO')} COP`,``,
       `*¿Cómo pagar el abono?*`,``,
-      `💚 *Nequi:* 3113726298`,
-      `    Titular: Juan Camilo Carvajal`,``,
-      `🏦 *Bancolombia Ahorros:* 70621509739`,
-      `    Titular: Juan Camilo Carvajal`,``,
+      `💚 *Nequi:* ${nequi}`,
+      `    Titular: ${titular}`,``,
+      `🏦 *Bancolombia Ahorros:* ${bancolombia}`,
+      `    Titular: ${titular}`,``,
       `💵 *Efectivo:* Puedes pagar el saldo restante al llegar al hangar.`,``,
       `Por favor envíanos el comprobante de pago por este mismo chat una vez realices el abono 📩`,``,
       `¡Nos vemos en el hangar! ✈️`,
@@ -2410,6 +2427,45 @@ class Component extends DCLogic {
     window.open(`https://wa.me/${wa}?text=${encodeURIComponent(lines.join('\n'))}`,'_blank');
   }
 
+  // ---- CONFIGURACIÓN ----
+  async loadConfig(){
+    try{
+      const{data}=await supabaseClient.from('settings').select('key,value').in('key',['local_config','pago_config','paquetes_config']);
+      if(!data) return;
+      for(const row of data){
+        if(row.key==='local_config') this.setState({cfgLocal:row.value});
+        if(row.key==='pago_config') this.setState({cfgPago:row.value});
+        if(row.key==='paquetes_config'){
+          if(row.value.pxd) this.paquetes.pxd=[...row.value.pxd];
+          if(row.value.hs)  this.paquetes.hs=[...row.value.hs];
+          this.setState({cfgPrecios:row.value});
+        }
+      }
+    }catch(e){}
+  }
+  async saveLocalConfig(){
+    this.setState({cfgLocalSaving:true});
+    const{error}=await supabaseClient.from('settings').upsert({key:'local_config',value:this.state.cfgLocal},{onConflict:'key'});
+    this.setState({cfgLocalSaving:false});
+    this.toast(error?'Error al guardar':'Datos del local guardados ✓');
+  }
+  async savePagoConfig(){
+    this.setState({cfgPagoSaving:true});
+    const{error}=await supabaseClient.from('settings').upsert({key:'pago_config',value:this.state.cfgPago},{onConflict:'key'});
+    this.setState({cfgPagoSaving:false});
+    this.toast(error?'Error al guardar':'Cuentas de cobro guardadas ✓');
+  }
+  async savePreciosConfig(){
+    this.setState({cfgPreciosSaving:true});
+    const precios=this.state.cfgPrecios||{pxd:this.paquetes.pxd,hs:this.paquetes.hs};
+    const{error}=await supabaseClient.from('settings').upsert({key:'paquetes_config',value:precios},{onConflict:'key'});
+    if(!error){
+      this.paquetes.pxd=precios.pxd.map(p=>({...p,price:Number(p.price)}));
+      this.paquetes.hs=precios.hs.map(p=>({...p,price:Number(p.price)}));
+      this.toast('Precios guardados ✓');
+    }else this.toast('Error al guardar');
+    this.setState({cfgPreciosSaving:false});
+  }
   // ---- BLOQUEO DE FECHAS ----
   async loadBlockedDates(){
     try{
@@ -3965,17 +4021,39 @@ class Component extends DCLogic {
     const certHasRows = certRows.length>0;
 
     // ---------- CONFIGURACIÓN ----------
-    const cfgPaquetes=[
-      ...this.paquetes.pxd.map(p=>({name:p.name, serv:'Piloto por un Día', dur:p.dur, price:this.cop(p.price), c:'#b5630a', bg:'#FEF1E2'})),
-      ...this.paquetes.hs.map(p=>({name:p.name, serv:'Hold Short Pilotos', dur:p.dur, price:this.cop(p.price), c:'#2c5070', bg:'#E9F0F6'})),
-    ];
-    const cfgMetodos=this.metodoList.map(m=>({label:m}));
-    const cfgRoles=[
-      {rol:'Administrador', desc:'Acceso total al sistema', miembros:'Cap. Mateo Ríos', c:'#b5630a', bg:'#FEF1E2'},
-      {rol:'Operaciones', desc:'Sesiones, calendario, clientes y documentos', miembros:'2 miembros', c:'#2c5070', bg:'#E9F0F6'},
-      {rol:'Instructor', desc:'Sus sesiones y bitácoras de piloto', miembros:'3 instructores', c:'#227a45', bg:'#E6F4EC'},
-      {rol:'Recepción', desc:'Reservas y registro de pagos', miembros:'1 miembro', c:'#5848c0', bg:'#EEEBFB'},
-    ];
+    // ---------- CONFIGURACIÓN ----------
+    const _cfgL=this.state.cfgLocal||{};
+    const _cfgP=this.state.cfgPago||{};
+    const _cfgPre=this.state.cfgPrecios||{pxd:this.paquetes.pxd,hs:this.paquetes.hs};
+    const _cfgInp='width:100%;height:36px;border:1px solid var(--border);border-radius:8px;background:var(--chip);color:var(--text);font-size:13px;padding:0 10px;outline:none;box-sizing:border-box';
+    const _cfgSaveBtn='width:100%;height:38px;background:#0C0D10;border:none;border-radius:9px;color:#f0f0ec;font-size:13px;font-weight:700;cursor:pointer';
+    const cfg={
+      inp:_cfgInp, inpSm:_cfgInp.replace('width:100%','width:100px'), saveBtn:_cfgSaveBtn,
+      // local
+      localNombre:_cfgL.nombre||'', setLocalNombre:(e)=>this.setState({cfgLocal:{...this.state.cfgLocal,nombre:e.target.value}}),
+      localCiudad:_cfgL.ciudad||'', setLocalCiudad:(e)=>this.setState({cfgLocal:{...this.state.cfgLocal,ciudad:e.target.value}}),
+      localTel:_cfgL.tel||'',       setLocalTel:(e)=>this.setState({cfgLocal:{...this.state.cfgLocal,tel:e.target.value}}),
+      localIg:_cfgL.ig||'',         setLocalIg:(e)=>this.setState({cfgLocal:{...this.state.cfgLocal,ig:e.target.value}}),
+      localHorario:_cfgL.horario||'',setLocalHorario:(e)=>this.setState({cfgLocal:{...this.state.cfgLocal,horario:e.target.value}}),
+      saveLocal:()=>this.saveLocalConfig(), localSaving:this.state.cfgLocalSaving,
+      localSaveLabel:this.state.cfgLocalSaving?'Guardando…':'Guardar datos del local',
+      // pago
+      pagoNequi:_cfgP.nequi||'',         setPagoNequi:(e)=>this.setState({cfgPago:{...this.state.cfgPago,nequi:e.target.value}}),
+      pagoBancolombia:_cfgP.bancolombia||'',setPagoBancolombia:(e)=>this.setState({cfgPago:{...this.state.cfgPago,bancolombia:e.target.value}}),
+      pagoTitular:_cfgP.titular||'',      setPagoTitular:(e)=>this.setState({cfgPago:{...this.state.cfgPago,titular:e.target.value}}),
+      pagoDeposito:_cfgP.deposito??50,    setPagoDeposito:(e)=>this.setState({cfgPago:{...this.state.cfgPago,deposito:Number(e.target.value)||50}}),
+      savePago:()=>this.savePagoConfig(), pagoSaving:this.state.cfgPagoSaving,
+      pagoSaveLabel:this.state.cfgPagoSaving?'Guardando…':'Guardar cuentas de cobro',
+      // precios
+      paquetesEdit:[
+        ..._cfgPre.pxd.map((p,i)=>({name:p.name,serv:'PxD',dur:p.dur,price:p.price,c:'#b5630a',bg:'#FEF1E2',
+          setPrice:(e)=>{const f={...(this.state.cfgPrecios||{pxd:[...this.paquetes.pxd],hs:[...this.paquetes.hs]})};f.pxd=[...f.pxd];f.pxd[i]={...f.pxd[i],price:Number(e.target.value)||0};this.setState({cfgPrecios:f});}})),
+        ..._cfgPre.hs.map((p,i)=>({name:p.name,serv:'Hold Short',dur:p.dur,price:p.price,c:'#2c5070',bg:'#E9F0F6',
+          setPrice:(e)=>{const f={...(this.state.cfgPrecios||{pxd:[...this.paquetes.pxd],hs:[...this.paquetes.hs]})};f.hs=[...f.hs];f.hs[i]={...f.hs[i],price:Number(e.target.value)||0};this.setState({cfgPrecios:f});}})),
+      ],
+      savePrecios:()=>this.savePreciosConfig(), preciosSaving:this.state.cfgPreciosSaving,
+      preciosSaveLabel:this.state.cfgPreciosSaving?'Guardando…':'Guardar precios',
+    };
 
     // ---------- PILOTO POR UN DÍA (servicio) ----------
     const allPxd = this.state.pxdData !== null ? this.state.pxdData : this.sessions.filter(s=>s.serv==='pxd');
@@ -4289,14 +4367,13 @@ class Component extends DCLogic {
       simMantSave:()=>this.saveSimMant(),
       simMantClear:()=>this.clearSimMant(),
       simMantClose:()=>this.setState({simMantModal:false}),
-      cfgPaquetes, cfgMetodos, cfgRoles,
+      cfg,
       pxdRows, pxdPaquetes, pxdKpis, pxdDateBtns, pxdSetCustom, pxdCustomDate:_pxdCd,
       pxdLoading: this.state.pxdLoading,
       pxdEmpty: !this.state.pxdLoading && pxdRows.length===0,
       pxdHasRows: pxdRows.length>0,
       docItems, docFilterBtns, docSetCustom, docCustomDate:_docCustom,
       docEmpty, docHasItems, docShowCount, docLoading, docCount, docDateLabel,
-      cfgLocal:{ nombre:'Hold Short Aviation', ciudad:'Cra. 12b #8-96, Pereira, Risaralda', tel:'316 724 91 39', ig:'@hangar1903pereira', horario:'Lun – Sáb · 9:00 a. m. – 4:00 p. m.' },
       // perfiles
       profile,
       hasProfile: !!profile,
