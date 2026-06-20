@@ -2793,8 +2793,8 @@ class Component extends DCLogic {
 
     // alerts (REAL)
     const av = (icon,col,bg,text,meta) => ({icon,text,meta, iconWrap:`width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:${col};background:${bg}`, onClick:()=>this.toast(text)});
-    const todayISO = this.isoDate(now2);
-    const proximas = dd.filter(s=>s.fechaISO&&s.fechaISO>=todayISO&&!['cancelada','noasistio','completada'].includes(s.estado)).sort((a,b)=>(a.fechaISO+a.hi).localeCompare(b.fechaISO+b.hi));
+    const dashTodayISO = this.isoDate(now2);
+    const proximas = dd.filter(s=>s.fechaISO&&s.fechaISO>=dashTodayISO&&!['cancelada','noasistio','completada'].includes(s.estado)).sort((a,b)=>(a.fechaISO+a.hi).localeCompare(b.fechaISO+b.hi));
     const sinPago = proximas.filter(s=>s.pago==='pendiente');
     const sinInst = proximas.filter(s=>!s.instructor);
     const regalosAbiertos = dd.filter(s=>s.regalo&&!s.fechaISO);
