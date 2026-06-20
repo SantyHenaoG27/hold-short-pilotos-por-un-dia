@@ -1120,9 +1120,7 @@
             <input type="number" value="{{ abonoModalInput }}" onChange="{{ abonoModalSetInput }}" placeholder="{{ abonoModalPlaceholder }}" min="1" style="width:100%;border:1px solid var(--border);border-radius:9px;padding:10px 13px;font-size:15px;color:var(--text);background:var(--chip);margin-bottom:8px">
             <div style="font-size:11px;color:var(--faint);margin-bottom:18px">Sugerido 50%: {{ abonoModalSugerido }} · El saldo restante se calcula automáticamente.</div>
 
-            <button onClick="{{ abonoModalConfirm }}" disabled="{{ abonoModalSaving }}" style="width:100%;height:42px;background:#2563B0;border:none;border-radius:10px;color:#fff;font-weight:700;font-size:14px;cursor:pointer">
-              {{ abonoModalSaving ? 'Guardando…' : 'Guardar abono' }}
-            </button>
+            <button onClick="{{ abonoModalConfirm }}" disabled="{{ abonoModalSaving }}" style="width:100%;height:42px;background:#2563B0;border:none;border-radius:10px;color:#fff;font-weight:700;font-size:14px;cursor:pointer">{{ abonoModalBtnLabel }}</button>
           </div>
         </div>
       </sc-if>
@@ -3693,15 +3691,16 @@ class Component extends DCLogic {
     // ---------- COBROS / PAGOS (datos reales) ----------
     const _cobrosAll = (this.state.dashData || []).filter(s=>!['cancelada','noasistio'].includes(s.estado)&&s.total>0);
     const _cobrosPend  = _cobrosAll.filter(s=>s.pago==='pendiente');
-    const _cobrosAbon  = _cobrosAll.filter(s=>s.pago==='abono'&&(s.total-s.abono)>0);
+    const _cobrosAbon  = _cobrosAll.filter(s=>s.pago==='abono');
     const _cobrosPag   = (this.state.dashData||[]).filter(s=>s.pago==='pagado');
     const _totalPend   = _cobrosPend.reduce((a,s)=>a+s.total,0);
     const _totalRest   = _cobrosAbon.reduce((a,s)=>a+(s.total-s.abono),0);
-    const _totalRecaud = _cobrosPag.reduce((a,s)=>a+s.total,0);
+    // recaudado = abonos ya recibidos (parciales) + totales pagados
+    const _totalRecaud = _cobrosAbon.reduce((a,s)=>a+s.abono,0) + _cobrosPag.reduce((a,s)=>a+s.total,0);
     const cobrosKpis=[
       {icon:'pending_actions', label:'Sin pagar', value:this.cop(_totalPend), sub:`${_cobrosPend.length} reserva${_cobrosPend.length!==1?'s':''}`, color:'#D9920A'},
-      {icon:'payments', label:'Restante por cobrar', value:this.cop(_totalRest), sub:`${_cobrosAbon.length} con abono recibido`, color:'#2563B0'},
-      {icon:'check_circle', label:'Total recaudado', value:this.cop(_totalRecaud), sub:`${_cobrosPag.length} pagada${_cobrosPag.length!==1?'s':''}`, color:'#2E9E5B'},
+      {icon:'payments', label:'Restante por cobrar', value:this.cop(_totalRest), sub:`${_cobrosAbon.length} con abono parcial`, color:'#2563B0'},
+      {icon:'savings', label:'Recaudado', value:this.cop(_totalRecaud), sub:`${_cobrosAbon.length} abono${_cobrosAbon.length!==1?'s':''} + ${_cobrosPag.length} pago${_cobrosPag.length!==1?'s':''} completos`, color:'#2E9E5B'},
     ];
     const _pagoLabels={pendiente:'Pendiente abono',abono:'Abonado · restante pendiente',pagado:'Pagado'};
     const _pagoBtn=(s,p,active)=>{
@@ -4141,6 +4140,7 @@ class Component extends DCLogic {
       abonoModalSetInput: (e)=>this.setState({abonoModalInput:e.target.value}),
       abonoModalSaving: this.state.abonoModalSaving,
       abonoModalConfirm: ()=>this.confirmarAbono(),
+      abonoModalBtnLabel: this.state.abonoModalSaving ? 'Guardando…' : 'Guardar abono',
       blockModal: this.state.blockModal,
       blockClose: ()=>this.setState({blockModal:false}),
       blockFormDate: this.state.blockFormDate,
