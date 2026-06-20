@@ -1095,7 +1095,7 @@
                 <div style="font-size:11.5px;color:var(--text2);background:var(--alt);border-radius:8px;padding:8px 11px;margin-bottom:13px;min-height:28px">{{ i.bio || '—' }}</div>
                 <div style="display:flex;gap:8px">
                   <button onClick="{{ i.onEdit }}" style="flex:1;height:36px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px" style-hover="background:var(--alt)"><span class="ms" style="font-size:16px;color:var(--muted)">edit</span>Editar</button>
-                  <button onClick="{{ i.onToggle }}" style="height:36px;padding:0 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:11.5px;font-weight:600;color:var(--muted);cursor:pointer" style-hover="background:var(--alt)">{{ i.activo ? 'Desactivar' : 'Activar' }}</button>
+                  <button onClick="{{ i.onToggle }}" style="flex:1;height:36px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px" style-hover="background:var(--alt)"><span class="ms" style="font-size:16px;color:var(--muted)">{{ i.toggleIcon }}</span>{{ i.toggleLabel }}</button>
                 </div>
               </div>
             </sc-for>
@@ -3322,6 +3322,8 @@ class Component extends DCLogic {
         activoBadge: i.activo?'display:none':'font-size:10px;font-weight:600;color:#b13838;background:#FBEAEA;padding:2px 8px;border-radius:5px',
         onEdit:()=>this.openInstModal(i),
         onToggle:()=>this.toggleInstActivo(i),
+        toggleLabel: i.activo ? 'Desactivar' : 'Activar',
+        toggleIcon: i.activo ? 'block' : 'check_circle',
       };
     });
     // variables para modal de instructor
