@@ -56,6 +56,7 @@ html,body{margin:0;padding:0;background:#080f1e;overflow-x:hidden}
 @keyframes hs-cta{0%,100%{box-shadow:0 0 0 0 rgba(245,197,66,.45)}50%{box-shadow:0 0 0 16px rgba(245,197,66,0)}}
 @keyframes hs-draw{to{stroke-dashoffset:0}}
 @keyframes hs-vibrate{0%,100%{transform:translate(0,0)}25%{transform:translate(-.6px,.6px)}50%{transform:translate(.6px,-.5px)}75%{transform:translate(-.5px,-.4px)}}
+@keyframes bounce-down{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 @keyframes hs-flow{to{stroke-dashoffset:-40}}
 @keyframes hs-stream{to{stroke-dashoffset:-240}}
 @keyframes hs-ticket{0%{opacity:0;transform:translateY(26px) scale(.97)}100%{opacity:1;transform:none}}
@@ -1077,6 +1078,11 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
           </div>
         </div>
 
+        <div style="text-align:center;margin:28px 0 0;padding:14px 20px;background:rgba(245,197,66,.05);border:1px dashed rgba(245,197,66,.25);border-radius:10px">
+          <span style="display:inline-block;font-size:22px;animation:bounce-down 1.4s infinite">👇</span>
+          <p style="margin:6px 0 0;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:600;letter-spacing:.06em;color:#d8e0ea;text-transform:uppercase">{{ t.pkgsHint.selectHint }}</p>
+        </div>
+
         <div style="display:flex;align-items:center;gap:14px;margin:48px 0 20px">
           <span style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(245,197,66,.45))"></span>
           <div style="text-align:center">
@@ -1383,6 +1389,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
 const I18N = {
   es: {
     nav: { experiencia:'Historia', queAprenderas:'Qué aprenderás', tuVuelo:'Paquetes', paquetes:'Reserva ahora', reservar:'Reservar', quieroVolar:'Quiero volar →', faqNav:'Preguntas frecuentes' },
+    pkgsHint:{ selectHint:'Selecciona un paquete y elige tu fecha abajo' },
     hero: { titlePre:'¿Y si hoy fuera el día en que descubres', titleMid:'que ', titleHighlight:'naciste para volar', titleEnd:'?',
       subtitle:'No necesitas experiencia. No necesitas licencia. Solo necesitas atreverte a sentarte en la cabina.',
       cta:'Quiero ser piloto hoy →', conocer:'conocer la experiencia ↓', clickToBook:'Haz clic en el botón para realizar tu reserva' },
@@ -1481,7 +1488,8 @@ const I18N = {
       c1l:'El primer vuelo', c1h3:'Doce segundos que cambiaron el mundo', c1p:'En Kitty Hawk, el Wright Flyer dejó por primera vez el suelo. La aviación acababa de nacer.', c1sl:'primer vuelo',
       c2l:'Los pioneros', c2h3:'El vuelo se vuelve oficio', c2p:'Monoplanos como el Fairchild FC-2 abren rutas de correo y pasaje. La aviación se profesionaliza.', c2sl:'Fairchild · monomotor',
       c3l:'La era del jet', c3h3:'El cielo se vuelve más pequeño', c3p:'El Boeing 707 inaugura los vuelos comerciales a reacción y acerca el mundo entero.',
-      c4tag:'Hoy', c4tl:'Hoy · Hangar 1903', c4h3:'La historia se vuelve experiencia', c4p:'El King Air 200 condensa un siglo de progreso. En HANGAR 1903 te sientas a los mandos y escribes tu capítulo.', c4sl:'tu turno' }
+      c4tag:'Hoy', c4tl:'Hoy · Hangar 1903', c4h3:'La historia se vuelve experiencia', c4p:'El King Air 200 condensa un siglo de progreso. En HANGAR 1903 te sientas a los mandos y escribes tu capítulo.', c4sl:'tu turno' },
+    pkgsHint:{ selectHint:'Selecciona un paquete y elige tu fecha abajo' }
   },
   en: {
     nav: { experiencia:'History', queAprenderas:"What you'll learn", tuVuelo:'Packages', paquetes:'Book now', reservar:'Book now', quieroVolar:'I want to fly →', faqNav:'FAQ' },
@@ -1586,7 +1594,8 @@ const I18N = {
       c1l:'The first flight', c1h3:'Twelve seconds that changed the world', c1p:'At Kitty Hawk, the Wright Flyer left the ground for the first time. Aviation had just been born.', c1sl:'first flight',
       c2l:'The pioneers', c2h3:'Flight becomes a profession', c2p:'Monoplanes like the Fairchild FC-2 opened mail and passenger routes. Aviation was professionalizing.', c2sl:'Fairchild · single-engine',
       c3l:'The jet age', c3h3:'The sky gets smaller', c3p:'The Boeing 707 launched commercial jet travel and brought the whole world closer together.',
-      c4tag:'Today', c4tl:'Today · Hangar 1903', c4h3:'History becomes experience', c4p:'The King Air 200 condenses a century of progress. At HANGAR 1903 you sit at the controls and write your own chapter.', c4sl:'your turn' }
+      c4tag:'Today', c4tl:'Today · Hangar 1903', c4h3:'History becomes experience', c4p:'The King Air 200 condenses a century of progress. At HANGAR 1903 you sit at the controls and write your own chapter.', c4sl:'your turn' },
+    pkgsHint:{ selectHint:'Select a package and choose your date below' }
   }
 };
 function hsOpenPrint(body,label,code){
@@ -2453,8 +2462,8 @@ portalDownloadCert(r){
       bPkg:s.bPkg,
       calPkgExpress:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'6px',padding:'7px 8px',borderRadius:'7px',fontFamily:'Inter,sans-serif',transition:'all .2s',outline:'none',textAlign:'left',boxSizing:'border-box',border:s.bPkg==='aventurero'?'1.5px solid #f5c542':'1.5px solid rgba(139,151,166,.22)',background:s.bPkg==='aventurero'?'rgba(245,197,66,.1)':'rgba(255,255,255,.03)',color:s.bPkg==='aventurero'?'#f5c542':'#7f8fa3'},
       calPkgCompleto:{cursor:'pointer',width:'100%',display:'flex',flexDirection:'row',alignItems:'center',gap:'6px',padding:'7px 8px',borderRadius:'7px',fontFamily:'Inter,sans-serif',transition:'all .2s',outline:'none',textAlign:'left',boxSizing:'border-box',border:s.bPkg==='comandante'?'1.5px solid #f5c542':'1.5px solid rgba(139,151,166,.22)',background:s.bPkg==='comandante'?'rgba(245,197,66,.1)':'rgba(255,255,255,.03)',color:s.bPkg==='comandante'?'#f5c542':'#7f8fa3'},
-      selAventurero:()=>{ this.setState({bPkg:'aventurero',selSlot:null}); if(this.state.selDate){const _sd=this.state.selDate;this.selectDate(_sd.y,_sd.m,_sd.d,'aventurero');} },
-      selComandante:()=>{ this.setState({bPkg:'comandante',selSlot:null}); if(this.state.selDate){const _sd=this.state.selDate;this.selectDate(_sd.y,_sd.m,_sd.d,'comandante');} },
+      selAventurero:()=>{ this.setState({bPkg:'aventurero',selSlot:null}); if(this.state.selDate){const _sd=this.state.selDate;this.selectDate(_sd.y,_sd.m,_sd.d,'aventurero');} setTimeout(()=>{const el=document.getElementById('formulario');if(el){const r=el.getBoundingClientRect();if(r.top>window.innerHeight*0.5)el.scrollIntoView({behavior:'smooth',block:'start'});}},80); },
+      selComandante:()=>{ this.setState({bPkg:'comandante',selSlot:null}); if(this.state.selDate){const _sd=this.state.selDate;this.selectDate(_sd.y,_sd.m,_sd.d,'comandante');} setTimeout(()=>{const el=document.getElementById('formulario');if(el){const r=el.getBoundingClientRect();if(r.top>window.innerHeight*0.5)el.scrollIntoView({behavior:'smooth',block:'start'});}},80); },
       pkgAStyle:{position:'relative',cursor:'pointer',background:s.bPkg==='aventurero'?'linear-gradient(155deg,#162e50,#080f1e)':'linear-gradient(155deg,#0d1830,#080f1e)',border:'1.5px solid '+(s.bPkg==='aventurero'?'#f5c542':'rgba(139,151,166,.22)'),borderRadius:'14px',overflow:'hidden',transition:'all .25s',boxShadow:s.bPkg==='aventurero'?'0 20px 60px rgba(245,197,66,.13)':'none'},
       pkgCStyle:{position:'relative',cursor:'pointer',background:s.bPkg==='comandante'?'linear-gradient(155deg,#1a3a62,#080f1e)':'linear-gradient(155deg,#0d1830,#080f1e)',border:'1.5px solid '+(s.bPkg==='comandante'?'#f5c542':'rgba(139,151,166,.22)'),borderRadius:'14px',overflow:'hidden',transition:'all .25s',boxShadow:s.bPkg==='comandante'?'0 20px 60px rgba(245,197,66,.13)':'none'},
       pkgADot:{width:'18px',height:'18px',borderRadius:'50%',border:'2px solid '+(s.bPkg==='aventurero'?'#f5c542':'#7f8fa3'),background:s.bPkg==='aventurero'?'#f5c542':'transparent',flexShrink:0,boxShadow:s.bPkg==='aventurero'?'0 0 12px rgba(245,197,66,.6)':'none'},
