@@ -1076,6 +1076,14 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
           </div>
         </div>
 
+        <div style="display:flex;align-items:center;gap:14px;margin:48px 0 20px">
+          <span style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(245,197,66,.45))"></span>
+          <div style="text-align:center">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.24em;color:#8998aa;text-transform:uppercase;margin-bottom:6px">CLEARED FOR TAKEOFF</div>
+            <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:clamp(22px,3vw,34px);letter-spacing:.02em;color:#fbfcff;text-transform:uppercase;white-space:nowrap">&#128197; Selecciona la fecha de tu vuelo</span>
+          </div>
+          <span style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(245,197,66,.45))"></span>
+        </div>
         <div id="formulario" data-rev="y" style="background:linear-gradient(160deg,#0d1a30,#080f1e);border:1px solid rgba(245,197,66,.2);border-radius:16px;overflow:hidden">
           <sc-if value="{{ notBooked }}" hint-placeholder-val="{{ true }}">
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
