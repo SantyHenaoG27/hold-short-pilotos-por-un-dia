@@ -207,11 +207,11 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
     </a>
     <div style="display:flex;align-items:center;gap:28px">
       <div style="display:none;align-items:center;gap:26px" data-desk="1">
-        <a href="#simuladores" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.experiencia }}</a>
+        <a href="#evolucion" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.experiencia }}</a>
         <a href="#fases" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.queAprenderas }}</a>
-        <a href="#vuelo" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.tuVuelo }}</a>
-        <a href="#paquetes" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.paquetes }}</a>
-        <a href="#reservar" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.reservar }}</a>
+        <a href="#paquetes" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.tuVuelo }}</a>
+        <a href="#formulario" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.paquetes }}</a>
+        <a href="#faq" style="color:#d8e0ea;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.02em">{{ t.nav.faqNav }}</a>
       </div>
       <div style="display:flex;align-items:center" aria-label="Language toggle">
         <button onClick="{{ setLangEs }}" aria-label="Español" style="{{ langEsStyle }}">ES</button>
@@ -231,10 +231,11 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
     <button onClick="{{ closeMenu }}" aria-label="Cerrar menú" style="position:absolute;top:18px;right:18px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(248,81,73,.12);border:1.5px solid rgba(248,81,73,.45);border-radius:50%;color:#f85149;font-size:24px;line-height:1;cursor:pointer">×</button>
     <div style="display:flex;flex-direction:column;gap:4px;padding:90px 28px 28px">
       <div style="font-family:'JetBrains Mono',monospace;color:#a8b5c7;font-size:10px;letter-spacing:.18em;margin-bottom:14px">// INSTRUMENT PANEL</div>
-      <a href="#simuladores" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.experiencia }}</a>
+      <a href="#evolucion" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.experiencia }}</a>
       <a href="#fases" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.queAprenderas }}</a>
-      <a href="#vuelo" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.tuVuelo }}</a>
-      <a href="#paquetes" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.paquetes }}</a>
+      <a href="#paquetes" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.tuVuelo }}</a>
+      <a href="#formulario" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.paquetes }}</a>
+      <a href="#faq" onClick="{{ closeMenu }}" style="color:#fbfcff;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:26px;padding:12px 0;border-bottom:1px solid rgba(245,197,66,.14);text-transform:uppercase;letter-spacing:.02em">{{ t.nav.faqNav }}</a>
       <a href="#paquetes" onClick="{{ closeMenu }}" style="margin-top:18px;text-align:center;background:#f5c542;color:#160f05;text-decoration:none;font-weight:700;font-size:16px;padding:15px;border-radius:3px">{{ t.nav.quieroVolar }}</a>
       <button onClick="{{ openPortal }}" style="margin-top:10px;text-align:center;background:none;border:1.5px solid rgba(245,197,66,.5);color:#f5c542;font-weight:700;font-size:18px;padding:14px;border-radius:3px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;letter-spacing:.08em">MANEJA TU RESERVA</button>
     </div>
@@ -1381,7 +1382,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;o
 <script type="text/x-dc" data-dc-script>
 const I18N = {
   es: {
-    nav: { experiencia:'Experiencia', queAprenderas:'Qué aprenderás', tuVuelo:'Tu vuelo', paquetes:'Paquetes', reservar:'Reservar', quieroVolar:'Quiero volar →' },
+    nav: { experiencia:'Historia', queAprenderas:'Qué aprenderás', tuVuelo:'Paquetes', paquetes:'Reserva ahora', reservar:'Reservar', quieroVolar:'Quiero volar →', faqNav:'Preguntas frecuentes' },
     hero: { titlePre:'¿Y si hoy fuera el día en que descubres', titleMid:'que ', titleHighlight:'naciste para volar', titleEnd:'?',
       subtitle:'No necesitas experiencia. No necesitas licencia. Solo necesitas atreverte a sentarte en la cabina.',
       cta:'Quiero ser piloto hoy →', conocer:'conocer la experiencia ↓', clickToBook:'Haz clic en el botón para realizar tu reserva' },
@@ -1483,7 +1484,7 @@ const I18N = {
       c4tag:'Hoy', c4tl:'Hoy · Hangar 1903', c4h3:'La historia se vuelve experiencia', c4p:'El King Air 200 condensa un siglo de progreso. En HANGAR 1903 te sientas a los mandos y escribes tu capítulo.', c4sl:'tu turno' }
   },
   en: {
-    nav: { experiencia:'Experience', queAprenderas:'What you’ll learn', tuVuelo:'Your flight', paquetes:'Packages', reservar:'Book now', quieroVolar:'I want to fly →' },
+    nav: { experiencia:’History’, queAprenderas:’What you’ll learn’, tuVuelo:’Packages’, paquetes:’Book now’, reservar:’Book now’, quieroVolar:’I want to fly →’, faqNav:’FAQ’ },
     hero: { titlePre:'What if today is the day you discover', titleMid:'you ', titleHighlight:'were born to fly', titleEnd:'?',
       subtitle:'No experience needed. No license needed. You just need the courage to sit in the cockpit.',
       cta:'I want to be a pilot today →', conocer:'discover the experience ↓', clickToBook:'Click the button to make your booking' },
