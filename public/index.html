@@ -1544,7 +1544,7 @@ function hsOpenPrint(body,label,code){
 }
 class Component extends DCLogic {
   state = { menu:false, openPhase:1, route:'express', openFaq:0, flip:{}, compass:0, cSel:'N', chatLines:[],
-            calY:0, calM:0, selDate:null, bName:'', bPhone:'', bEmail:'', bGiftFor:'', bGiftName:'', bGiftMsg:'', bPkg:'aventurero', booked:false, ticket:null, bookFor:null, bookLoading:false, bookError:null, selSlot:null, availSlots:[], slotsLoading:false, bParticipant2:'', simMaintenance:null, blockedDates:[],
+            calY:0, calM:0, selDate:null, bName:'', bPhone:'', bEmail:'', bGiftFor:'', bGiftName:'', bGiftMsg:'', bPkg:'aventurero', booked:false, ticket:null, bookFor:'me', bookLoading:false, bookError:null, selSlot:null, availSlots:[], slotsLoading:false, bParticipant2:'', simMaintenance:null, blockedDates:[],
             lang:(typeof localStorage!=='undefined' && localStorage.getItem('hs_lang')==='en')?'en':'es',
             authOpen:false, authMode:'login', authEmail:'', authPassword:'', authName:'', authPhone:'', authError:'', authLoading:false, portalOpen:false, portalEmail:'', portalLoading:false, portalError:'', portalReservas:[], portalFound:false, portalSelectedId:null,
             docPreviewOpen:false, docPreviewLoading:false, docPreviewImg:null, docPreviewTitle:'', docPreviewFilename:'', docPreviewAllowPdf:false, docPreviewImgW:0, docPreviewImgH:0 };
@@ -1881,7 +1881,7 @@ class Component extends DCLogic {
     }
     requestAnimationFrame(tick);
   }
-  resetBooking(){ this.setState({booked:false, bookFor:null, bookError:null, selSlot:null, availSlots:[], bParticipant2:'', bGiftMsg:''}); this._scrollToWhenReady('#reservar'); }
+  resetBooking(){ this.setState({booked:false, bookFor:'me', bookError:null, selSlot:null, availSlots:[], bParticipant2:'', bGiftMsg:'', bGiftName:'', bGiftFor:''}); this._scrollToWhenReady('#reservar'); }
   openPortal(){ this.setState({portalOpen:true, portalEmail:'', portalError:'', portalReservas:[], portalFound:false}); }
   closePortal(){ this.setState({portalOpen:false}); }
   resetPortal(){ this.setState({portalEmail:'', portalError:'', portalReservas:[], portalFound:false, portalSelectedId:null}); }
