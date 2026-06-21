@@ -2680,11 +2680,11 @@ class Component extends DCLogic {
     else if(fStr.match(/^\d{2}\/\d{2}\/\d{4}$/)){ const[d,m,y]=fStr.split('/'); fechaISO=`${y}-${m}-${d}`; }
     return { dbId:r.id, code:r.code, fecha:fechaDisplay, fechaISO, hoy:fechaISO===this.isoDate(new Date()),
       hi:(r.horaInicio||'').slice(0,5), hf:(r.horaFin||'').slice(0,5),
-      cliente:r.clienteNombre||'', email:r.clienteEmail||'', segundo:r.giftFor||null, tel:r.clientePhone||'',
+      cliente:r.clienteNombre||'', email:r.clienteEmail||'', segundo:r.participante2Nombre||null, tel:r.clientePhone||'',
       serv:r.servicio==='simulador'?'pxd':r.servicio==='hs_simulador'?'hs':(r.servicio||'pxd'), paquete:r.paquete||'', sim:r.simulador||'',
       instructor:r.instructorNombre||'', origen:'', estado:r.estado||'pendiente',
       pago:r.pago||'pendiente', regalo:r.bookFor==='regalo',
-      participante2:r.participante2Nombre||null, notas:r.notas||'',
+      enfoque:r.giftFor||null, participante2:r.participante2Nombre||null, notas:r.notas||'',
       qrToken:r.qrToken||null,
       total:r.total||0, abono:r.abono||0,
       creada:r.createdAt?(r.createdAt.slice(0,10).split('-').reverse().join('/')):'', };
@@ -3414,6 +3414,7 @@ class Component extends DCLogic {
           {icon:'history', label:'Creada', value:s.creada},
         ];
         if (s.segundo) drawerRows.splice(1,0,{icon:'group', label:'2º participante', value:s.segundo});
+        if (s.enfoque) { const _enfoqueMap={graduado:'🎓 Próximo graduado',apasionado:'✈️ Apasionado por la aviación',joven:'🚀 Joven aventurero',profesional:'💼 Profesional en pausa',viajero:'🌍 Viajero frecuente',tecnologia:'🛠️ Fanático de la tecnología',familiar:'👨‍👩‍👧 Experiencia en familia'}; drawerRows.push({icon:'psychology', label:'Enfoque personalizado', value:_enfoqueMap[s.enfoque]||s.enfoque}); }
         const flowSteps = ['solicitud','confirmada','checkin','curso','completada'];
         const flowLabels = {solicitud:'Reserva recibida',confirmada:'Confirmada',checkin:'Check-in / asistencia',curso:'En simulador',completada:'Experiencia completada'};
         const order = ['solicitud','pendiente','confirmada','proxima','checkin','curso','completada'];
