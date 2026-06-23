@@ -193,6 +193,31 @@ async function sendReservationEmail(r, env) {
   if (!emailRes.ok) console.log('resend failed', emailRes.status, await emailRes.text());
 }
 
+async function sendTelegramNotification(r, env) {
+  if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) return;
+  const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const [y, m, d] = (r.fecha || '').split('-');
+  const fechaFmt = y && m && d ? `${parseInt(d)} de ${MESES[parseInt(m)-1]} de ${y}` : r.fecha || '—';
+  const horario = r.hora_inicio && r.hora_fin ? `${r.hora_inicio} – ${r.hora_fin}` : r.hora_inicio || '—';
+  const text = [
+    '🛩 *Nueva reserva recibida*',
+    '',
+    `*Cliente:* ${r.cliente_nombre || '—'}`,
+    `*WhatsApp:* ${r.cliente_phone || '—'}`,
+    `*Email:* ${r.cliente_email || '—'}`,
+    `*Paquete:* ${r.paquete || '—'}`,
+    `*Fecha:* ${fechaFmt}`,
+    `*Horario:* ${horario}`,
+    `*Código:* ${r.code || '—'}`,
+  ].join('\n');
+  const tgRes = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text, parse_mode: 'Markdown' }),
+  });
+  if (!tgRes.ok) console.log('telegram notify failed', tgRes.status, await tgRes.text());
+}
+
 async function handleNewReservationWebhook(request, env) {
   const secret = request.headers.get('X-Webhook-Secret');
   if (!secret || secret !== env.WEBHOOK_SECRET) return json({ error: 'No autorizado' }, 403);
@@ -201,7 +226,10 @@ async function handleNewReservationWebhook(request, env) {
   if (body.type !== 'INSERT' || body.table !== 'reservations') return json({ ok: true, skipped: true });
   const r = body.record;
   if (!r) return json({ error: 'Sin datos' }, 400);
-  await sendReservationEmail(r, env);
+  await Promise.all([
+    sendReservationEmail(r, env),
+    sendTelegramNotification(r, env),
+  ]);
   return json({ ok: true });
 }
 
@@ -403,6 +431,7 @@ async function handleCreateReservation(request, env) {
   await Promise.all([
     sendReservationEmail(r, env),
     sendClientAcknowledgement(r, env),
+    sendTelegramNotification(r, env),
   ]);
   return json({ code: r.code, qr_token: r.qr_token });
 }
