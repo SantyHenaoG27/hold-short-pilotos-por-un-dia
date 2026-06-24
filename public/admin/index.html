@@ -2102,6 +2102,39 @@
         </div>
       </sc-if>
 
+      <!-- EDIT MODAL -->
+      <sc-if value="{{ modalIsEdit }}" hint-placeholder-val="">
+        <div onClick="{{ stopE }}" style="width:480px;max-width:96vw;background:var(--surface);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.3);animation:hs-pop .2s;overflow:hidden">
+          <div style="padding:20px 24px;border-bottom:1px solid var(--divider);display:flex;align-items:center;gap:10px">
+            <span class="ms" style="font-size:22px;color:#1e40af">edit</span>
+            <h2 class="disp" style="margin:0;font-size:17px;font-weight:700;flex:1">Editar datos de la reserva</h2>
+            <span class="ms" onClick="{{ closeModal }}" style="font-size:22px;color:var(--faint);cursor:pointer;padding:4px;border-radius:7px" style-hover="background:var(--chip);color:var(--text)">close</span>
+          </div>
+          <div style="padding:20px 24px;display:flex;flex-direction:column;gap:14px">
+            <div>
+              <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">NOMBRE DEL CLIENTE *</label>
+              <input type="text" value="{{ editNombre }}" onInput="{{ editSetNombre }}" placeholder="Nombre completo" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13.5px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#1e40af"/>
+            </div>
+            <div>
+              <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">SEGUNDO PARTICIPANTE</label>
+              <input type="text" value="{{ editSegundo }}" onInput="{{ editSetSegundo }}" placeholder="Nombre del acompañante (opcional)" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13.5px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#1e40af"/>
+            </div>
+            <div>
+              <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">TELÉFONO</label>
+              <input type="tel" value="{{ editTel }}" onInput="{{ editSetTel }}" placeholder="+57 300 000 0000" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13.5px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#1e40af"/>
+            </div>
+            <div>
+              <label style="display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.04em">CORREO ELECTRÓNICO</label>
+              <input type="email" value="{{ editEmail }}" onInput="{{ editSetEmail }}" placeholder="correo@ejemplo.com" style="width:100%;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--chip);color:var(--text);font-size:13.5px;padding:0 12px;outline:none;box-sizing:border-box" style-focus="border-color:#1e40af"/>
+            </div>
+          </div>
+          <div style="padding:0 24px 22px;display:flex;gap:10px">
+            <button onClick="{{ closeModal }}" style="flex:1;height:42px;background:var(--surface);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer" style-hover="background:var(--alt)">Cancelar</button>
+            <button onClick="{{ editSave }}" disabled="{{ editLoading }}" style="flex:1.4;height:42px;background:#1e40af;border:none;border-radius:10px;font-family:'Space Grotesk';font-size:13px;font-weight:600;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;opacity:{{ editLoading ? .6 : 1 }}" style-hover="filter:brightness(.94)"><span class="ms" style="font-size:18px">save</span>{{ editLoading ? 'Guardando…' : 'Guardar cambios' }}</button>
+          </div>
+        </div>
+      </sc-if>
+
       <!-- CONFIRM MODAL (cancelar / reprogramar) -->
       <sc-if value="{{ modalIsConfirm }}" hint-placeholder-val="">
         <div onClick="{{ stopE }}" style="width:440px;max-width:95vw;background:var(--surface);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.3);animation:hs-pop .2s;overflow:hidden">
@@ -2190,6 +2223,8 @@ class Component extends DCLogic {
     formGiftNombre: '', formGiftPhone: '', formGiftDest: '', formGiftDestPhone: '', formGiftMsg: '',
     formTotal: '', formAbono: '0', formMetodo: 'Transferencia', formRef: '', formFechaPago: '', formSubmitting: false,
     formSlotsOcupados: [], formSlotsLoading: false,
+    // edición de reserva
+    editCode: null, editNombre: '', editEmail: '', editTel: '', editSegundo: '', editLoading: false,
     // configuracion
     cfgLocal: {nombre:'Hold Short Aviation',ciudad:'Cra. 12b #8-96, Pereira, Risaralda',tel:'316 724 91 39',ig:'@hangar1903pereira',horario:'Lun – Sáb · 9:00 a. m. – 4:00 p. m.'},
     cfgLocalSaving: false,
@@ -2930,6 +2965,68 @@ class Component extends DCLogic {
       || (this.state.dbSessions||[]).find(s=>s.code===code)
       || this.sessions.find(s=>s.code===code);
   }
+  async deleteReserva(code){
+    try{
+      const{error}=await supabaseClient.from('reservations').delete().eq('code',code);
+      if(error){ this.toast('Error al eliminar la reserva'); return; }
+      const rem=arr=>arr?arr.filter(s=>s.code!==code):arr;
+      this.setState({
+        dbSessions:rem(this.state.dbSessions),
+        pxdData:rem(this.state.pxdData),
+        dashData:rem(this.state.dashData),
+        certData:rem(this.state.certData),
+        docsData:rem(this.state.docsData),
+        regalosData:rem(this.state.regalosData),
+        clientesData:rem(this.state.clientesData),
+        drawer:null,
+      });
+      this.closeModal();
+      this.toast('Reserva '+code+' eliminada definitivamente');
+    }catch(e){ this.toast('Error al eliminar la reserva'); }
+  }
+  openEditModal(s){
+    this.setState({
+      modal:{type:'edit'},
+      editCode:s.code,
+      editNombre:s.cliente||'',
+      editEmail:s.email||'',
+      editTel:s.tel||'',
+      editSegundo:s.segundo||'',
+      editLoading:false,
+    });
+  }
+  async saveEdit(){
+    const{editCode,editNombre,editEmail,editTel,editSegundo}=this.state;
+    if(!editNombre.trim()){ this.toast('El nombre del cliente es obligatorio'); return; }
+    this.setState({editLoading:true});
+    try{
+      const upd={
+        cliente_nombre:editNombre.trim(),
+        cliente_email:editEmail.trim()||null,
+        cliente_phone:editTel.trim()||null,
+        participante_2_nombre:editSegundo.trim()||null,
+      };
+      const{error}=await supabaseClient.from('reservations').update(upd).eq('code',editCode);
+      if(error){ this.toast('Error al guardar los cambios'); this.setState({editLoading:false}); return; }
+      const patch=s=>s.code===editCode?{...s,cliente:editNombre.trim(),email:editEmail.trim(),tel:editTel.trim(),segundo:editSegundo.trim()||null}:s;
+      const upArr=arr=>arr?arr.map(patch):arr;
+      this.setState({
+        dbSessions:upArr(this.state.dbSessions),
+        pxdData:upArr(this.state.pxdData),
+        dashData:upArr(this.state.dashData),
+        certData:upArr(this.state.certData),
+        docsData:upArr(this.state.docsData),
+        regalosData:upArr(this.state.regalosData),
+        clientesData:upArr(this.state.clientesData),
+        editLoading:false,
+      });
+      if(this.state.drawer?.code===editCode){
+        this.setState({drawer:{...this.state.drawer,cliente:editNombre.trim(),email:editEmail.trim(),tel:editTel.trim(),segundo:editSegundo.trim()||null}});
+      }
+      this.closeModal();
+      this.toast('Reserva '+editCode+' actualizada');
+    }catch(e){ this.toast('Error al guardar los cambios'); this.setState({editLoading:false}); }
+  }
   async setEstado(code, newEstado){
     const em = this.estadoMeta(newEstado);
     try{
@@ -3433,6 +3530,8 @@ class Component extends DCLogic {
           ab('event_repeat','Reprogramar','#6D5AE0',                                    ()=>this.openReprModal(s)),
           ab(s.regalo?'redeem':'confirmation_number', s.regalo?'Invitación de regalo':'Confirmación', s.regalo?'#C99A2E':'#355C7D', ()=>this.openDoc(s.regalo?'invitacion':'confirmacion',s.code)),
           ab('cancel','Cancelar sesión','#b13838',                                      ()=>this.setEstado(s.code,'cancelada')),
+          ab('delete_forever','Eliminar reserva','#7f1d1d',                             ()=>this.setState({modal:{type:'confirm',kind:'eliminar',code:s.code}})),
+          ab('edit','Editar datos','#1e40af',                                           ()=>this.openEditModal(s)),
         ];
         const flowEstados=[['solicitud','Reserva recibida'],['confirmada','Confirmada'],['checkin','Check-in / asistencia'],['curso','En simulador'],['completada','Experiencia completada']];
         drawerEstados = flowEstados.map(([est,label])=>{
@@ -3598,25 +3697,31 @@ class Component extends DCLogic {
 
     // ---------- MODAL: form / doc / confirm ----------
     const m = this.state.modal;
-    let modalIsForm=false, modalIsDoc=false, modalIsConfirm=false, doc=null, form=null, confirm=null;
+    let modalIsForm=false, modalIsDoc=false, modalIsConfirm=false, modalIsEdit=false, doc=null, form=null, confirm=null;
     if (m && m.type==='confirm') {
       modalIsConfirm = true;
       const s = this.getSession(m.code) || this.sessions[0];
       const isCancel = m.kind==='cancelar';
+      const isDelete = m.kind==='eliminar';
       // política de reembolso por anticipación (simulada)
       const horasAnticip = 48;
       const pct = isCancel ? (horasAnticip>=48?100:horasAnticip>=24?50:0) : 100;
       const reembolso = Math.round(s.abono * pct/100);
       confirm = {
-        isCancel, isReprogramar: !isCancel,
+        isCancel, isReprogramar: !isCancel && !isDelete, isDelete,
         code:s.code, cliente:s.cliente, fecha:s.fecha, hi:s.hi, paquete:s.paquete, abono:this.cop(s.abono),
-        titulo: isCancel?'Cancelar sesión':'Reprogramar sesión',
-        icon: isCancel?'cancel':'event_repeat',
-        accent: isCancel?'#D64545':'#6D5AE0', accentBg: isCancel?'#FBEAEA':'#EEEBFB',
+        titulo: isDelete?'Eliminar reserva': isCancel?'Cancelar sesión':'Reprogramar sesión',
+        icon: isDelete?'delete_forever': isCancel?'cancel':'event_repeat',
+        accent: isDelete?'#7f1d1d': isCancel?'#D64545':'#6D5AE0',
+        accentBg: isDelete?'#FEE2E2': isCancel?'#FBEAEA':'#EEEBFB',
         pct, reembolso:this.cop(reembolso),
-        politicaTitulo: isCancel?'POLÍTICA DE REEMBOLSO':'CONDICIONES DE REPROGRAMACIÓN',
-        btnLabel: isCancel?'Confirmar cancelación':'Continuar',
-        politica: (isCancel
+        politicaTitulo: isDelete?'ADVERTENCIA': isCancel?'POLÍTICA DE REEMBOLSO':'CONDICIONES DE REPROGRAMACIÓN',
+        btnLabel: isDelete?'Sí, eliminar definitivamente': isCancel?'Confirmar cancelación':'Continuar',
+        politica: (isDelete
+          ? [ {t:'Se borrará permanentemente de la base de datos', v:'', on:true},
+              {t:'No se puede deshacer esta acción', v:'Irreversible', on:true},
+              {t:'El cliente no recibirá notificación automática', v:'Manual', on:false} ]
+          : isCancel
           ? [ {t:'Más de 48h de anticipación', v:'100%', on:horasAnticip>=48},
               {t:'Entre 24h y 48h', v:'50%', on:horasAnticip>=24&&horasAnticip<48},
               {t:'Menos de 24h', v:'Sin reembolso', on:horasAnticip<24} ]
@@ -3624,12 +3729,17 @@ class Component extends DCLogic {
               {t:'El abono se conserva', v:'Se traslada', on:true},
               {t:'Se notifica al cliente', v:'WhatsApp', on:true} ]
         ).map(p=>({...p,
-          dotIcon: p.on?(isCancel?'check_circle':'check_circle'):'radio_button_unchecked',
-          dotColor: p.on?(isCancel?'#2E9E5B':'#6D5AE0'):'#cdcdc6',
+          dotIcon: p.on?(isDelete?'warning':'check_circle'):'radio_button_unchecked',
+          dotColor: p.on?(isDelete?'#b91c1c': isCancel?'#2E9E5B':'#6D5AE0'):'#cdcdc6',
           weight: p.on?'700':'500',
           vColor: p.on?'#16181c':'#a4a8ae' })),
-        confirmar: ()=>{ this.closeModal(); this.setState({drawer:null}); this.toast(isCancel?('Sesión '+s.code+' cancelada · reembolso '+this.cop(reembolso)):('Sesión '+s.code+' lista para reprogramar')); },
+        confirmar: isDelete
+          ? ()=>this.deleteReserva(s.code)
+          : ()=>{ this.closeModal(); this.setState({drawer:null}); this.toast(isCancel?('Sesión '+s.code+' cancelada · reembolso '+this.cop(reembolso)):('Sesión '+s.code+' lista para reprogramar')); },
       };
+    }
+    if (m && m.type==='edit') {
+      modalIsEdit = true;
     }
     if (m && m.type==='form') {
       modalIsForm = true;
@@ -4456,7 +4566,17 @@ class Component extends DCLogic {
       reprSetHi: (e)=>this.setState({reprModal:{...this.state.reprModal,hi:e.target.value}}),
       reprSubmit: ()=>this.submitRepr(),
       hasModal: !!this.state.modal,
-      modalIsForm, modalIsDoc, modalIsConfirm, form, doc, confirm,
+      modalIsForm, modalIsDoc, modalIsConfirm, modalIsEdit, form, doc, confirm,
+      editNombre: this.state.editNombre,
+      editEmail: this.state.editEmail,
+      editTel: this.state.editTel,
+      editSegundo: this.state.editSegundo,
+      editLoading: this.state.editLoading,
+      editSetNombre: (e)=>this.setState({editNombre:e.target.value}),
+      editSetEmail: (e)=>this.setState({editEmail:e.target.value}),
+      editSetTel: (e)=>this.setState({editTel:e.target.value}),
+      editSetSegundo: (e)=>this.setState({editSegundo:e.target.value}),
+      editSave: ()=>this.saveEdit(),
       docHeadIcon: doc ? (doc.isInv?'redeem':doc.isCert?'workspace_premium':doc.isComp?'receipt_long':'confirmation_number') : 'description',
       docHeadTitle: doc ? (doc.isInv?'Invitación de regalo · Piloto por un Día':doc.isCert?'Certificado de participación':doc.isComp?'Comprobante de pago · '+doc.code:'Confirmación de reserva') : 'Documento',
       docPrint:()=>this.printDoc(),
